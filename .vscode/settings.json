@@ -1,0 +1,5 @@
+{
+    "terminal.integrated.scrollback": 1000,
+    "terminal.integrated.drawBoldTextInBrightColors": false,
+    "terminal.integrated.fontSize": 10
+}

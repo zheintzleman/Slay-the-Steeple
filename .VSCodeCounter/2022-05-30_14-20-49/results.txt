@@ -1,0 +1,54 @@
+Date : 2022-05-30 14:20:49
+Directory : h:\Code\ZJH Programming Files\STS - Test1
+Total : 30 files,  2962 codes, 522 comments, 411 blanks, all 3895 lines
+
+Languages
++----------+------------+------------+------------+------------+------------+
+| language | files      | code       | comment    | blank      | total      |
++----------+------------+------------+------------+------------+------------+
+| Java     |         30 |      2,962 |        522 |        411 |      3,895 |
++----------+------------+------------+------------+------------+------------+
+
+Directories
++----------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                           | files      | code       | comment    | blank      | total      |
++----------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                              |         30 |      2,962 |        522 |        411 |      3,895 |
++----------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++----------------------------------------------------------------+----------+------------+------------+------------+------------+
+| filename                                                       | language | code       | comment    | blank      | total      |
++----------------------------------------------------------------+----------+------------+------------+------------+------------+
+| h:\Code\ZJH Programming Files\STS - Test1\AcidSlimeLarge.java  | Java     |         74 |          1 |         10 |         85 |
+| h:\Code\ZJH Programming Files\STS - Test1\AcidSlimeMed.java    | Java     |         60 |          1 |          8 |         69 |
+| h:\Code\ZJH Programming Files\STS - Test1\AcidSlimeSmall.java  | Java     |         30 |          2 |          7 |         39 |
+| h:\Code\ZJH Programming Files\STS - Test1\BlueSlaver.java      | Java     |         44 |          1 |          7 |         52 |
+| h:\Code\ZJH Programming Files\STS - Test1\Card.java            | Java     |         90 |         22 |         19 |        131 |
+| h:\Code\ZJH Programming Files\STS - Test1\Colors.java          | Java     |         88 |         17 |          8 |        113 |
+| h:\Code\ZJH Programming Files\STS - Test1\Combat.java          | Java     |        691 |        115 |         78 |        884 |
+| h:\Code\ZJH Programming Files\STS - Test1\Cultist.java         | Java     |         24 |          5 |          8 |         37 |
+| h:\Code\ZJH Programming Files\STS - Test1\Enemy.java           | Java     |         89 |         12 |         13 |        114 |
+| h:\Code\ZJH Programming Files\STS - Test1\Entity.java          | Java     |        393 |        100 |         29 |        522 |
+| h:\Code\ZJH Programming Files\STS - Test1\FatGremlin.java      | Java     |         20 |          1 |          7 |         28 |
+| h:\Code\ZJH Programming Files\STS - Test1\FungiBeast.java      | Java     |         42 |          5 |          8 |         55 |
+| h:\Code\ZJH Programming Files\STS - Test1\GreenLouse.java      | Java     |         50 |          5 |          8 |         63 |
+| h:\Code\ZJH Programming Files\STS - Test1\GremlinWizard.java   | Java     |         28 |          3 |          7 |         38 |
+| h:\Code\ZJH Programming Files\STS - Test1\Intent.java          | Java     |        154 |         13 |          7 |        174 |
+| h:\Code\ZJH Programming Files\STS - Test1\IntentType.java      | Java     |         11 |          1 |          0 |         12 |
+| h:\Code\ZJH Programming Files\STS - Test1\JawWorm.java         | Java     |         54 |          6 |          8 |         68 |
+| h:\Code\ZJH Programming Files\STS - Test1\Looter.java          | Java     |         73 |          1 |         12 |         86 |
+| h:\Code\ZJH Programming Files\STS - Test1\MadGremlin.java      | Java     |         20 |          1 |          7 |         28 |
+| h:\Code\ZJH Programming Files\STS - Test1\Main.java            | Java     |         62 |         25 |         29 |        116 |
+| h:\Code\ZJH Programming Files\STS - Test1\RedLouse.java        | Java     |         50 |          5 |          8 |         63 |
+| h:\Code\ZJH Programming Files\STS - Test1\RedSlaver.java       | Java     |         70 |          5 |         11 |         86 |
+| h:\Code\ZJH Programming Files\STS - Test1\Run.java             | Java     |        425 |        136 |         58 |        619 |
+| h:\Code\ZJH Programming Files\STS - Test1\ShieldGremlin.java   | Java     |         44 |         22 |         11 |         77 |
+| h:\Code\ZJH Programming Files\STS - Test1\SneakyGremlin.java   | Java     |         19 |          1 |          7 |         27 |
+| h:\Code\ZJH Programming Files\STS - Test1\SpikeSlimeLarge.java | Java     |         67 |          1 |          9 |         77 |
+| h:\Code\ZJH Programming Files\STS - Test1\SpikeSlimeMed.java   | Java     |         53 |          1 |          8 |         62 |
+| h:\Code\ZJH Programming Files\STS - Test1\SpikeSlimeSmall.java | Java     |         19 |          1 |          7 |         27 |
+| h:\Code\ZJH Programming Files\STS - Test1\Status.java          | Java     |         79 |          4 |          7 |         90 |
+| h:\Code\ZJH Programming Files\STS - Test1\Statuses.java        | Java     |         39 |          9 |          5 |         53 |
+| Total                                                          |          |      2,962 |        522 |        411 |      3,895 |
++----------------------------------------------------------------+----------+------------+------------+------------+------------+
