@@ -1,0 +1,151 @@
+package app;
+
+import java.util.*;
+import java.io.*;
+
+public class App {
+  public static final String SETTINGS_PATH = "app\\settings.dat"; // Changed STS 2.0+\\ to app\\
+  public static final String CARD_LIST_PATH = "app\\cardList1.dat";// Changed STS 2.0+\\ to app\\
+  public static final String INSTRUCTIONS = "Instructions:\n\n"
+                                          + "Interact with the game by typing commands in the terminal. "
+                                          + "You can look at these instructions again mid-game by typing \"help\" or \"instructions\". "
+                                          + "Specific actions have their respective commands written near them in " + Colors.magenta + "magenta" + Colors.reset + ". "
+                                          + "Along with the commands shown on screen, you can type the following:\n\n\"E\", \"end\", or \"end turn\" to end your turn,\n"
+                                          + "\"Stat\" or \"status\" to see all entities' status effects, and\n"
+                                          + "For convenience, you can refer to draw, discard, and exhaust piles as \"draw\", \"disc\", and \"exh\" respectively.\n\n"
+                                          + "Some screens have additional information written below the screen, so check there if you're confused.\n\n"
+                                          + "Each combat drops 10-20 " + Colors.gold + "gold" + Colors.reset + ". Try to get as much as possible before dying!\n\n";
+
+  public static SettingsManager settingsManager = new SettingsManager(SETTINGS_PATH);
+  public static ArrayList<Card> CARD_LIST = loadAvailableCards(CARD_LIST_PATH);
+  
+  public App(){
+
+  }
+
+  public void run(){
+    // //Load the available cards list:
+    updateAvailableCardsFile(CARD_LIST_PATH); //TODO: Remove these 3 lines (<, ^, v) <-???
+    ASSERT(CARD_LIST != null);
+    System.out.println("LIST: " + CARD_LIST); //Remove
+    // // ArrayList<Card> REMOVE = loadAvailableCards(CARD_LIST_PATH);
+    // // System.out.println(REMOVE);
+    Statuses.loadStatuses();
+    //TODO: Add more assertions (just like in general)
+
+    //Title
+    if(!settingsManager.debug)
+      Str.println(Colors.clearScreen);
+    Str.println(Colors.headerBrown + "\n   ▄▄▄▄▄   █    ██  ▀▄    ▄        ▄▄▄▄▀ ▄  █ ▄███▄          ▄▄▄▄▄   █ ▄▄  ▄█ █▄▄▄▄ ▄███▄   \n"
+                                     + "  █     ▀▄ █    █ █   █  █      ▀▀▀ █   █   █ █▀   ▀        █     ▀▄ █   █ ██ █  ▄▀ █▀   ▀  \n"
+                                     + "▄  ▀▀▀▀▄   █    █▄▄█   ▀█           █   ██▀▀█ ██▄▄        ▄  ▀▀▀▀▄   █▀▀▀  ██ █▀▀▌  ██▄▄    \n"
+                                     + " ▀▄▄▄▄▀    ███▄ █  █   █           █    █   █ █▄   ▄▀      ▀▄▄▄▄▀    █     ▐█ █  █  █▄   ▄▀ \n"
+                                     + "               ▀   █ ▄▀           ▀        █  ▀███▀                   █     ▐   █   ▀███▀   \n"
+                                     + "                  █                       ▀                            ▀       ▀            \n"
+                                     + "                 ▀                                                                          \n" + Colors.reset);
+       
+    Str.println("\n" + INSTRUCTIONS + "Press " + Colors.magenta + "Enter" + Colors.reset + " to continue\n");
+    
+    Main.scan.nextLine();
+    
+    Run g = new Run();
+    g.play();
+    //Probably bring back when/if making a home screen or smth:
+    /*
+    scan.nextLine();
+    scan.close();
+    Str.println(Colors.clearScreen);
+    */
+  }
+
+  
+  /**Loads the available cards list from the entered file name
+  */
+  public static ArrayList<Card> loadAvailableCards(String pathname){
+    try {
+  		FileInputStream fi = new FileInputStream(new File(pathname));
+      ObjectInputStream oi = new ObjectInputStream(fi);
+
+      Object r = oi.readObject();
+      ArrayList<Card> res = (ArrayList<Card>) r;
+    
+      oi.close();
+      fi.close();
+      return res;
+      
+		} catch (IOException | ClassNotFoundException e) {
+			e.printStackTrace();
+      settingsManager.debug = true; //TODO: Is this meant to be long-term? (ie save() or smth?)
+      return new ArrayList<Card>();
+		}
+  }
+
+  /**Updates the available cards list in the entered file name
+   * UNCOMMENT IN main(); IF UPDATED (>= ONCE)
+  */
+  private static void updateAvailableCardsFile(String pathname){
+    try{
+      FileOutputStream f = new FileOutputStream(new File(pathname));
+      ObjectOutputStream o = new ObjectOutputStream(f);
+
+      ArrayList<Card> cardList = new ArrayList<Card>();
+
+      //Name, desc, energy cost, isTargeted, effects
+      // Write objects to file
+      cardList.add(new Card("Strike", "Attack", 1, true, new ArrayList<String>(Arrays.asList("Attack 6")), //TODO: Should these arraylists really just be arrays?
+                        new ArrayList<String>(Arrays.asList("Attack 9")), Rarity.BASIC));
+      cardList.add(new Card("Defend", "Skill", 1, false, new ArrayList<String>(Arrays.asList("Block 5")),
+                        new ArrayList<String>(Arrays.asList("Block 8")), Rarity.BASIC)); 
+      cardList.add(new Card("Bash", "Attack", 2, true, new ArrayList<String>(Arrays.asList("Attack 8", "Apply Vulnerable 2")),
+                        new ArrayList<String>(Arrays.asList("Attack 10", "Apply Vulnerable 3")), Rarity.BASIC));
+      cardList.add(new Card("Slimed", "Status", 1, false, new ArrayList<String>(Arrays.asList("Exhaust")), new ArrayList<String>(), Rarity.NULL));
+      cardList.add(new Card("Anger", "Attack", 0, true, new ArrayList<String>(Arrays.asList("Attack 6", "Anger")),
+                        new ArrayList<String>(Arrays.asList("Attack 8", "Anger")), Rarity.COMMON));
+      cardList.add(new Card("Armaments", "Skill", 1, false, new ArrayList<String>(Arrays.asList("Block 5", "Upgrade Choose1FromHand")),
+                        new ArrayList<String>(Arrays.asList("Block 5", "Upgrade Hand")), Rarity.COMMON));
+      cardList.add(new Card("Searing Blow", "Attack", 2, true, new ArrayList<String>(Arrays.asList("SearingBlow")),
+                        new ArrayList<String>(Arrays.asList("SearingBlow")), Rarity.COMMON));
+      cardList.add(new Card("Clash", "Attack", 0, true, new ArrayList<String>(Arrays.asList("Clash", "Attack 14")),
+                        new ArrayList<String>(Arrays.asList("Clash", "Attack 18")), Rarity.COMMON));
+      cardList.add(new Card("Body Slam", "Attack", 1, true, new ArrayList<String>(Arrays.asList("BodySlam")),
+                        0, true, new ArrayList<String>(Arrays.asList("BodySlam")), Rarity.COMMON));
+      cardList.add(new Card("Cleave", "Attack", 1, false, new ArrayList<String>(Arrays.asList("AtkAll 8")),
+                        new ArrayList<String>(Arrays.asList("AtkAll 11")), Rarity.COMMON));
+      //10
+      cardList.add(new Card("Clothesline", "Attack", 2, true, new ArrayList<String>(Arrays.asList("Attack 12", "Apply Weak 2")),
+                        new ArrayList<String>(Arrays.asList("Attack 14", "Apply Weak 3")), Rarity.COMMON));
+      cardList.add(new Card("Flex", "Gain 2 Strength.\nAt the end of this turn, lose 2 Strength.\n", "Skill", 0, false, new ArrayList<String>(Arrays.asList("AppPlayer Strength 2", "AppPlayer Strength Down 2 UseStatDesc")),
+                                        "Gain 4 Strength.\nAt the end of this turn, lose 4 Strength.\n", 0, false, new ArrayList<String>(Arrays.asList("AppPlayer Strength 4", "AppPlayer Strength Down 4 UsesStatusDesc")), Rarity.COMMON));
+      cardList.add(new Card("Havoc", "Skill", 1, false, new ArrayList<String>(Arrays.asList("Havoc")),
+                        0, false, new ArrayList<String>(Arrays.asList("Havoc")), Rarity.COMMON));
+      cardList.add(new Card("Headbutt", "Attack", 1, true, new ArrayList<String>(Arrays.asList("Attack 9", "PutOnDrawPile Choose1FromDisc")),
+                        new ArrayList<String>(Arrays.asList("Attack 12", "PutOnDrawPile Choose1FromDisc")), Rarity.COMMON));
+      cardList.add(new Card("Heavy Blade", "Attack", 2, true, new ArrayList<String>(Arrays.asList("Heavy 3", "Attack 14")),
+                        new ArrayList<String>(Arrays.asList("Heavy 5", "Attack 14")), Rarity.COMMON));
+      cardList.add(new Card("Iron Wave", "Attack", 1, true, new ArrayList<String>(Arrays.asList("Block 5", "Attack 5")),
+                        new ArrayList<String>(Arrays.asList("Block 7", "Attack 7")), Rarity.COMMON));
+      cardList.add(new Card("Pommel Strike", "Attack", 1, true, new ArrayList<String>(Arrays.asList("Attack 9", "Draw 1")), //TODO: rn in Card, energy cost displays right next to the name (adj. chars)
+                        new ArrayList<String>(Arrays.asList("Attack 10", "Draw 2")), Rarity.COMMON));
+      cardList.add(new Card("Shrug It Off", "Skill", 1, false, new ArrayList<String>(Arrays.asList("Block 8", "Draw 1")),
+                        new ArrayList<String>(Arrays.asList("Block 11", "Draw 1")), Rarity.COMMON));
+      cardList.add(new Card("Sword Boomerang", "Deal 3 damage to a random enemy 3 times.", "Attack", 1, false, new ArrayList<String>(Arrays.asList("AtkRandom 3", "AtkRandom 3", "AtkRandom 3")),
+                        "Deal 3 damage to a random enemy 4 times.\n", 1, false, new ArrayList<String>(Arrays.asList("AtkRandom 3", "AtkRandom 3", "AtkRandom 3", "AtkRandom 3")), Rarity.COMMON));
+      //Remember to update NUMCARDS in loadAvailableCards, for each addition here.
+    
+      o.writeObject(cardList);
+
+      o.close();
+      f.close();
+    } catch (IOException e) {
+			e.printStackTrace();
+      settingsManager.debug = true;
+		}
+  }
+
+
+  public static void ASSERT(boolean condition){
+    if(/*settingsManager.debug == true && */!condition){ //TODO: Optimize if having performace issues.
+      throw new AssertionError();
+    }
+  }
+}
