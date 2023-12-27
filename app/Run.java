@@ -15,18 +15,19 @@ public class Run{
     gold = 99;
     deck = new ArrayList<Card>();
     App.ASSERT(new Card("Strike") != null);
-    deck.add(new Card("Sword Boomerang"));
-    deck.add(new Card("Sword Boomerang"));
-    deck.add(new Card("Sword Boomerang"));
-    deck.add(new Card("Sword Boomerang"));
-    deck.add(new Card("Sword Boomerang"));
+    deck.add(new Card("Headbutt"));
+    deck.add(new Card("Headbutt"));
+    deck.add(new Card("Warcry"));
+    deck.add(new Card("Warcry"));
+    deck.add(new Card("Flex"));
+    deck.add(new Card("Flex"));
     Str.println((new Card("Headbutt")).toString());
     Str.println((new Card("Headbutt")).getDescription());
     Str.println((new Card("Flex")).toString());
-    deck.add(new Card("Shrug It Off"));
-    deck.add(new Card("Shrug It Off"));
-    deck.add(new Card("Shrug It Off"));
-    deck.add(new Card("Shrug It Off"));
+    deck.add(new Card("Armaments"));
+    deck.add(new Card("Armaments"));
+    deck.add(new Card("Armaments"));
+    deck.add(new Card("Armaments"));
     deck.add(new Card("Bash"));
     if(App.settingsManager.debug){
       System.out.println("W: " + SCREENWIDTH);

@@ -1,8 +1,9 @@
 package app;
-//Slay the Spire in the Console - in Java
+//Slay the Spire in the Console - Java
 //Zachary Heintzleman (solo)
 //5/10/22 - 5/25/22
 //2/13/23 - 8/28/23
+//12/22/23 - (...)
 
 import java.util.*;
 

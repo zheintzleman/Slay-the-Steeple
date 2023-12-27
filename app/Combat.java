@@ -568,9 +568,15 @@ public class Combat{
       case "TopFromDeck":
         return new Card[] {drawPile.get(0)};
       case "Hand":
-        return (Card[]) hand.toArray();
-      case "Choose1FromHand": //todo: finish
+        return (Card[]) hand.toArray(new Card[0]);
+      case "RandHand":
         if(hand.isEmpty()) return new Card[]{}; //Empty selection if hand empty
+        if(hand.size() == 1) return new Card[]{hand.get(0)}; //If only 1 option, select that option
+        int rng = (int) (Math.random() * hand.size());
+        return new Card[]{hand.get(rng)};
+      case "Choose1FromHand": //todo: finish // it's finished already, right?
+        if(hand.isEmpty()) return new Card[]{}; //Empty selection if hand empty
+        if(hand.size() == 1) return new Card[]{hand.get(0)}; //If only 1 option, select that option
         display(); //TODO: necessary?
         while(true){
           try{

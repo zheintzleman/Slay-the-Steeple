@@ -9,6 +9,13 @@
             "name": "Main",
             "request": "launch",
             "mainClass": "app.Main",
+            "projectName": "Slay-the-Steeple_374eee4e"
+        },
+        {
+            "type": "java",
+            "name": "Main",
+            "request": "launch",
+            "mainClass": "app.Main",
             "projectName": "Still-the-Steeple_c8b60d69"
         },
         {

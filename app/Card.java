@@ -75,7 +75,7 @@ public class Card implements Serializable {
             codedDescription += "Exhaust.\n";
             break;
           case "Draw":
-            codedDescription += "Draw " + effectPower + (effectPower.equals("1") ? " card." : " cards.");
+            codedDescription += "Draw " + effectPower + (effectPower.equals("1") ? " card.\n" : " cards.\n");
             break;
           case "Upgrade":
             if(secondary.equals("Choose1FromHand")){
@@ -89,13 +89,25 @@ public class Card implements Serializable {
               break;
             }
           case "PutOnDrawPile":
-            if(secondary.equals("Choose1FromDisc")){
-              codedDescription += "Put a card from your discard pile on top of your draw pile.\n";
-              break;
-            }else{
-              codedDescription += "[PutOnDrawPile; Enter text in Card.java]\n";
-              break;
+            switch(secondary){
+              case "Choose1FromDisc":
+                codedDescription += "Put a card from your discard pile on top of your draw pile.\n";
+                break;
+              case "Choose1FromHand":
+                codedDescription += "Put a card from your hand onto the top of your draw pile.\n";
+                break;
+              default:
+                codedDescription += "[PutOnDrawPile; Enter text in Card.java]\n";
+                break;
             }
+            break;
+            // if(secondary.equals("Choose1FromDisc")){
+            //   codedDescription += "Put a card from your discard pile on top of your draw pile.\n";
+            //   break;
+            // }else{
+            //   codedDescription += "[PutOnDrawPile; Enter text in Card.java]\n";
+            //   break;
+            // }
           case "Anger":
             codedDescription += "Add a copy of this card into your discard pile.\n";
             break;
@@ -230,8 +242,11 @@ public class Card implements Serializable {
     this(name, type, energyCost, targeted, effects, rarity);
     data.description = new Description(description);
 
-    for(CardEffect eff : data.effects){
-      App.ASSERT(!eff.isAttack() && !eff.isDefense());
+    if(!name.equals("Twin Strike")){ //<-Whitelist
+      // To get your attention. Read the above comment^.
+      for(CardEffect eff : data.effects){
+        App.ASSERT(!eff.isAttack() && !eff.isDefense());
+      }
     }
 
     upData.energyCost = upCost;
