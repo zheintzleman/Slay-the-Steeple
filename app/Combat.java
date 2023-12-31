@@ -599,7 +599,7 @@ public class Combat{
             while(c == null){ //Until they enter the name of a card in their discard pile
               String input = thisRun.popupInput(str, "Select the name of a card in your discard pile"); //todo: make all of these kinds of text popups into on-screen things like the card rewards screen?
               for(Card discardCard : discardPile){
-                if(input.equalsIgnoreCase(discardCard.getName())){ //Checks if input is a card in the discard pile //TODO: make work w/ coloring the name; also just now I typed "flex" when (a green) "flex+" was available and it kinda broke
+                if(Str.equalsIgnoreCaseSkipEscSeqs(input, discardCard.getName())){ //Checks if input is a card in the discard pile //TODO: make work w/ coloring the name; also just now I typed "flex" when (a green) "flex+" was available and it kinda broke
                   c = discardCard;
                 }
               }
