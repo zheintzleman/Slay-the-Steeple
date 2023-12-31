@@ -17,6 +17,8 @@ public class Run{
     App.ASSERT(new Card("Strike") != null);
     deck.add(new Card("Headbutt"));
     deck.add(new Card("Headbutt"));
+    deck.add(new Card("Twin Strike"));
+    deck.add(new Card("Twin Strike"));
     deck.add(new Card("Warcry"));
     deck.add(new Card("Warcry"));
     deck.add(new Card("Flex"));

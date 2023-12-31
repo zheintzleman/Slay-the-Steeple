@@ -220,9 +220,11 @@ public class App {
                       "Deal ØatkÁ7ØendatkÁ damage twice.", 1, true, new ArrayList<String>(Arrays.asList("Attack 7", "Attack 7")), Rarity.COMMON));
     cardList.add(new Card("Warcry", "Skill", 0, false, new ArrayList<String>(Arrays.asList("Draw 1", "PutOnDrawPile Choose1FromHand", "Exhaust")),
                       new ArrayList<String>(Arrays.asList("Draw 2", "PutOnDrawPile Choose1FromHand", "Exhaust")), Rarity.COMMON));
-    //TODO: Fix Flex
-    // TODO: Make Headbutt work w/ upgraded card selections, too.
-    
+    //TODO: Twin Strike text fills (e.g. discard) popup row & doesn't leave space for new line(?)
+    //TODO: Ending combat w/ headbutt glitchy
+    // ^Wait it froze again even when I hadn't just ended the combat. Both times I was going p fast so idk what I did
+    // Looked @ prev frames tho & I didn't see anything.
+
     return cardList;
   }
 

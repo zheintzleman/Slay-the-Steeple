@@ -9,6 +9,7 @@ public class Combat{
   private ArrayList<Enemy> enemiesToUpdate;
   private ArrayList<Card> drawPile, discardPile, exhaustPile, hand;
   private int energy, baseEnergy;
+  // Combat stops running when set to true:
   boolean combatOver;
   int topRowOfCards;
   private Run thisRun; //To access data about this specific run
@@ -436,6 +437,9 @@ public class Combat{
     
     ArrayList<CardEffect> cardEffects = card.getEffects();
     for(CardEffect eff : cardEffects){
+      if(combatOver && !eff.affectsRunState()){
+        break;
+      }
       String firstWord = eff.getPrimary();
       String otherWords = eff.getSecondary();
       int power = eff.getPower();
