@@ -141,6 +141,10 @@ public class Str {
   }
 
 
+  public static String removeEscSeqs(String input){
+    return input.replaceAll("\u00D8([^\u00D8\u00C1]*)\u00C1", "");
+  }
+
   /**Adds one String over the other at the specified index. Skips escape sequences that are marked with the O and A characters.
   *@Precondition Escape sequences in mainStr are preceded by 'Ø' and succeeded by 'Á'. The characters 'Ø' and 'Á' are not used in mainStr outside of escape sequences.
   */
