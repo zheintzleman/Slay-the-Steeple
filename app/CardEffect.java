@@ -10,7 +10,13 @@ public class CardEffect implements Serializable {
   private String secondary;
   private int power; //Remove basepower?
 
+  //Primary: First word of input data.
+  //Secondary: Rest of input data, apart from terminal integer
+  //Power: Terminal integer, or 0 if last word not an integer
+  //e.g. Stores "Lorem Ipsum Dolor 4" as: P = "Lorem", S = "Ipsum Dolor", p = 4,
+  // or "Lorem Ipsum 4 Dolor" as: P = "Lorem", S = "Ipsum 4 Dolor", p = 0.
   public CardEffect(String data){
+    power = 0;
     String str = data;
     int lastSpaceIndex = str.lastIndexOf(" ");
 

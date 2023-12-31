@@ -491,7 +491,7 @@ public class Combat{
           }
           break;
         case "Upgrade":
-          for (Card c : cardTargets(otherWords, card)) {
+          for (Card c : cardTargets(otherWords, card)){
             c.upgrade();
           }
           break;
@@ -644,7 +644,7 @@ public class Combat{
           str += c.toString() + "\n";
         }
         thisRun.popup(str);
-      }else if(input.equalsIgnoreCase("status") || input.equalsIgnoreCase("stat")){
+      }else if(input.equalsIgnoreCase("status") || input.equalsIgnoreCase("stat") || input.equalsIgnoreCase("stats")){
         String statuses = "Player Statuses:\n"; //TODO: Add some color to these headers
         for(Status s : player.getStatuses()){
           if(s.getStrength() != 0){

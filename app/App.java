@@ -95,6 +95,13 @@ public class App {
 
   //     //Name, desc, energy cost, isTargeted, effects
   //     // Write objects to file
+  
+  //     //For encoding card effects (copied from CardEffect.java:)
+  //     //Primary: First word of input data.
+  //     //Secondary: Rest of input data, apart from terminal integer
+  //     //Power: Terminal integer, or 0 if last word not an integer
+  //     //e.g. Stores "Lorem Ipsum Dolor 4" as: P = "Lorem", S = "Ipsum Dolor", p = 4,
+  //     // or "Lorem Ipsum 4 Dolor" as: P = "Lorem", S = "Ipsum 4 Dolor", p = 0.
   //     cardList.add(new Card("Strike", "Attack", 1, true, new ArrayList<String>(Arrays.asList("Attack 6")), //TODO: Should these arraylists really just be arrays?
   //                       new ArrayList<String>(Arrays.asList("Attack 9")), Rarity.BASIC));
   //     cardList.add(new Card("Defend", "Skill", 1, false, new ArrayList<String>(Arrays.asList("Block 5")),
@@ -159,6 +166,13 @@ public class App {
     ArrayList<Card> cardList = new ArrayList<Card>();
 
     // From Above:
+
+    //For encoding card effects (copied from CardEffect.java:)
+    //Primary: First word of input data.
+    //Secondary: Rest of input data, apart from terminal integer
+    //Power: Terminal integer, or 0 if last word not an integer
+    //e.g. Stores "Lorem Ipsum Dolor 4" as: P = "Lorem", S = "Ipsum Dolor", p = 4,
+    // or "Lorem Ipsum 4 Dolor" as: P = "Lorem", S = "Ipsum 4 Dolor", p = 0.
     cardList.add(new Card("Strike", "Attack", 1, true, new ArrayList<String>(Arrays.asList("Attack 6")), //TODO: Should these arraylists really just be arrays?
                       new ArrayList<String>(Arrays.asList("Attack 9")), Rarity.BASIC));
     cardList.add(new Card("Defend", "Skill", 1, false, new ArrayList<String>(Arrays.asList("Block 5")),
@@ -180,8 +194,8 @@ public class App {
                       new ArrayList<String>(Arrays.asList("AtkAll 11")), Rarity.COMMON));
     cardList.add(new Card("Clothesline", "Attack", 2, true, new ArrayList<String>(Arrays.asList("Attack 12", "Apply Weak 2")),
                       new ArrayList<String>(Arrays.asList("Attack 14", "Apply Weak 3")), Rarity.COMMON));
-    cardList.add(new Card("Flex", "Gain 2 Strength.\nAt the end of this turn, lose 2 Strength.\n", "Skill", 0, false, new ArrayList<String>(Arrays.asList("AppPlayer Strength 2", "AppPlayer Strength Down 2 UseStatDesc")),
-                                      "Gain 4 Strength.\nAt the end of this turn, lose 4 Strength.\n", 0, false, new ArrayList<String>(Arrays.asList("AppPlayer Strength 4", "AppPlayer Strength Down 4 UsesStatusDesc")), Rarity.COMMON));
+    cardList.add(new Card("Flex", "Gain 2 Strength.\nAt the end of this turn, lose 2 Strength.\n", "Skill", 0, false, new ArrayList<String>(Arrays.asList("AppPlayer Strength 2", "AppPlayer Strength Down 2")),
+                                      "Gain 4 Strength.\nAt the end of this turn, lose 4 Strength.\n", 0, false, new ArrayList<String>(Arrays.asList("AppPlayer Strength 4", "AppPlayer Strength Down 4")), Rarity.COMMON));
     cardList.add(new Card("Havoc", "Skill", 1, false, new ArrayList<String>(Arrays.asList("Havoc")),
                       0, false, new ArrayList<String>(Arrays.asList("Havoc")), Rarity.COMMON));
     cardList.add(new Card("Headbutt", "Attack", 1, true, new ArrayList<String>(Arrays.asList("Attack 9", "PutOnDrawPile Choose1FromDisc")),

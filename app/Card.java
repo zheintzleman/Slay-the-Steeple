@@ -60,12 +60,6 @@ public class Card implements Serializable {
             codedDescription += "Gain ØblkÁ" + effectPower + "ØendblkÁ block.\n";
             break;
           case "Apply":
-            // if(usesStatusDesc){ //Remove usesStatusDesc stuff alltogether probably
-            //   codedDescription += Statuses.getStatus(secondary).getDescription().replace("<str>", effectPower); //todo: if there's multiple <str>s, this won't work
-            //   break;
-            //   //todo: fuck this isn't going to work is it? Really the desc. just needs to be separate I think. Maybe include a sort of <str> thing in general descriptions (or even another escape code w/ O/A ooh) to signify that something needs additions or smth ig.
-            //   //->Probably resolved (don't feel like rereading it but yeah)
-            // }
             codedDescription += "Apply " + effectPower + " " + secondary + ".\n";
             break;
           case "AppAll":
