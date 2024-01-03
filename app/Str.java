@@ -351,7 +351,6 @@ public class Str {
     int actualStartIndex = 0;
     int actualEndIndex;
 
-    System.out.println("Hi");
     for(int i=0; i<str.length(); i++){
       if(str.charAt(i) == 'Ø'){ //Start of esc sequence
         inEscSequence = true;

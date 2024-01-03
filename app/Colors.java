@@ -1,6 +1,5 @@
 package app;
 public class Colors {
-  //"Escape Codes" (using Ø and Á) signal to the system that this part of the code should count as "length 0"
   public static final String reset = "Ø\u001B[0mÁ";
   public static final String deckBrown = "Ø\033[38;2;81;54;26mÁ";
   //public static final String blackOnDeckBrown = "Ø\033[48;2;81;54;26mÁØ\033[30mÁ";
