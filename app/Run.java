@@ -19,18 +19,21 @@ public class Run{
     deck.add(new Card("Headbutt"));
     deck.add(new Card("Twin Strike"));
     deck.add(new Card("Twin Strike"));
-    deck.add(new Card("Warcry"));
-    deck.add(new Card("Warcry"));
+    deck.add(new Card("Sword Boomerang"));
+    deck.add(new Card("Sword Boomerang"));
     deck.add(new Card("Flex"));
     deck.add(new Card("Flex"));
     Str.println((new Card("Headbutt")).toString());
     Str.println((new Card("Headbutt")).getDescription());
     Str.println((new Card("Flex")).toString());
     deck.add(new Card("Armaments"));
+    deck.add(new Card("Twin Strike"));
     deck.add(new Card("Armaments"));
     deck.add(new Card("Armaments"));
     deck.add(new Card("Armaments"));
     deck.add(new Card("Bash"));
+    // TODO: Display deck in alphabetical order or smth?
+    // Although this does show it in order obtained, actually.
     if(App.settingsManager.debug){
       System.out.println("W: " + SCREENWIDTH);
       System.out.println("H: " + SCREENHEIGHT);

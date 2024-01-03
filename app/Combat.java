@@ -595,7 +595,7 @@ public class Combat{
         display(); //TODO: necessary?
         while(true){
           try{
-            String str = "Your discard pile:\n";
+            String str = "Your discard pile:\n"; //Text to popup
             for(Card discardCard : discardPile){
               str += discardCard.toString() + "\n"; //Constructing the discard pile text
             }
@@ -666,6 +666,17 @@ public class Combat{
         }
         thisRun.popup(statuses);
       }else{
+        if (input.equalsIgnoreCase("test")){ //TODO: REMOVE
+          // Test Cases:
+          thisRun.popup("Sus");
+          thisRun.popup("Sus2", thisRun.getScreen());
+          thisRun.popup("Sus3", 20);
+          thisRun.popup("Sus4", 12, 20);
+          thisRun.popup("Sus5", 12, 20, 10, 30);
+          thisRun.popup("Sus6", 12, 20, 10, 30, thisRun.getScreen());
+          thisRun.popupInput("Sussi 7", "Enter a letter");
+          thisRun.popupInput("sussi8", "Be Sus:", 12, 20, 10, 30, thisRun.getScreen());
+        }
         return input;
       }
     }

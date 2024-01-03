@@ -1,0 +1,376 @@
+{
+    "extension": "linecounter",
+    "version": "0.2.7",
+    "workspace": "c:\\Programming\\GitHub\\Slay-the-Steeple",
+    "linecount": [
+        {
+            "version": "0.2.7",
+            "counttime": "2024-01-02 22:12:13",
+            "filesum": 55,
+            "codesum": 4493,
+            "commentsum": 925,
+            "blanksum": 574,
+            "statistics": {
+                ".java": {
+                    "code": 4068,
+                    "comment": 925,
+                    "blank": 510
+                },
+                ".txt": {
+                    "code": 163,
+                    "comment": 0,
+                    "blank": 12
+                },
+                ".md": {
+                    "code": 171,
+                    "comment": 0,
+                    "blank": 52
+                },
+                ".csv": {
+                    "code": 89,
+                    "comment": 0,
+                    "blank": 0
+                },
+                ".json": {
+                    "code": 2,
+                    "comment": 0,
+                    "blank": 0
+                }
+            },
+            "filelist": [
+                {
+                    "blank": 6,
+                    "code": 39,
+                    "comment": 0,
+                    "filename": ".VSCodeCounter\\2022-05-30_14-20-49\\details.md"
+                },
+                {
+                    "blank": 6,
+                    "code": 9,
+                    "comment": 0,
+                    "filename": ".VSCodeCounter\\2022-05-30_14-20-49\\diff-details.md"
+                },
+                {
+                    "blank": 0,
+                    "code": 2,
+                    "comment": 0,
+                    "filename": ".VSCodeCounter\\2022-05-30_14-20-49\\diff.csv"
+                },
+                {
+                    "blank": 7,
+                    "code": 12,
+                    "comment": 0,
+                    "filename": ".VSCodeCounter\\2022-05-30_14-20-49\\diff.md"
+                },
+                {
+                    "blank": 3,
+                    "code": 19,
+                    "comment": 0,
+                    "filename": ".VSCodeCounter\\2022-05-30_14-20-49\\diff.txt"
+                },
+                {
+                    "blank": 0,
+                    "code": 32,
+                    "comment": 0,
+                    "filename": ".VSCodeCounter\\2022-05-30_14-20-49\\results.csv"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".VSCodeCounter\\2022-05-30_14-20-49\\results.json"
+                },
+                {
+                    "blank": 7,
+                    "code": 14,
+                    "comment": 0,
+                    "filename": ".VSCodeCounter\\2022-05-30_14-20-49\\results.md"
+                },
+                {
+                    "blank": 3,
+                    "code": 51,
+                    "comment": 0,
+                    "filename": ".VSCodeCounter\\2022-05-30_14-20-49\\results.txt"
+                },
+                {
+                    "blank": 6,
+                    "code": 39,
+                    "comment": 0,
+                    "filename": ".VSCodeCounter\\2022-05-30_14-31-28\\details.md"
+                },
+                {
+                    "blank": 6,
+                    "code": 30,
+                    "comment": 0,
+                    "filename": ".VSCodeCounter\\2022-05-30_14-31-28\\diff-details.md"
+                },
+                {
+                    "blank": 0,
+                    "code": 23,
+                    "comment": 0,
+                    "filename": ".VSCodeCounter\\2022-05-30_14-31-28\\diff.csv"
+                },
+                {
+                    "blank": 7,
+                    "code": 14,
+                    "comment": 0,
+                    "filename": ".VSCodeCounter\\2022-05-30_14-31-28\\diff.md"
+                },
+                {
+                    "blank": 3,
+                    "code": 42,
+                    "comment": 0,
+                    "filename": ".VSCodeCounter\\2022-05-30_14-31-28\\diff.txt"
+                },
+                {
+                    "blank": 0,
+                    "code": 32,
+                    "comment": 0,
+                    "filename": ".VSCodeCounter\\2022-05-30_14-31-28\\results.csv"
+                },
+                {
+                    "blank": 0,
+                    "code": 1,
+                    "comment": 0,
+                    "filename": ".VSCodeCounter\\2022-05-30_14-31-28\\results.json"
+                },
+                {
+                    "blank": 7,
+                    "code": 14,
+                    "comment": 0,
+                    "filename": ".VSCodeCounter\\2022-05-30_14-31-28\\results.md"
+                },
+                {
+                    "blank": 3,
+                    "code": 51,
+                    "comment": 0,
+                    "filename": ".VSCodeCounter\\2022-05-30_14-31-28\\results.txt"
+                },
+                {
+                    "blank": 28,
+                    "code": 91,
+                    "comment": 124,
+                    "filename": "app\\App.java"
+                },
+                {
+                    "blank": 42,
+                    "code": 339,
+                    "comment": 102,
+                    "filename": "app\\Card.java"
+                },
+                {
+                    "blank": 10,
+                    "code": 75,
+                    "comment": 10,
+                    "filename": "app\\CardEffect.java"
+                },
+                {
+                    "filename": "app\\cardList1.dat",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "blank": 7,
+                    "code": 98,
+                    "comment": 8,
+                    "filename": "app\\Colors.java"
+                },
+                {
+                    "blank": 82,
+                    "code": 798,
+                    "comment": 165,
+                    "filename": "app\\Combat.java"
+                },
+                {
+                    "blank": 30,
+                    "code": 394,
+                    "comment": 74,
+                    "filename": "app\\Entity.java"
+                },
+                {
+                    "blank": 5,
+                    "code": 155,
+                    "comment": 8,
+                    "filename": "app\\Intent.java"
+                },
+                {
+                    "blank": 0,
+                    "code": 12,
+                    "comment": 0,
+                    "filename": "app\\IntentType.java"
+                },
+                {
+                    "blank": 5,
+                    "code": 13,
+                    "comment": 5,
+                    "filename": "app\\Main.java"
+                },
+                {
+                    "blank": 1,
+                    "code": 8,
+                    "comment": 0,
+                    "filename": "app\\Rarity.java"
+                },
+                {
+                    "blank": 58,
+                    "code": 501,
+                    "comment": 159,
+                    "filename": "app\\Run.java"
+                },
+                {
+                    "filename": "app\\settings.dat",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "blank": 10,
+                    "code": 59,
+                    "comment": 11,
+                    "filename": "app\\SettingsManager.java"
+                },
+                {
+                    "blank": 5,
+                    "code": 82,
+                    "comment": 10,
+                    "filename": "app\\Status.java"
+                },
+                {
+                    "blank": 5,
+                    "code": 44,
+                    "comment": 3,
+                    "filename": "app\\Statuses.java"
+                },
+                {
+                    "blank": 39,
+                    "code": 359,
+                    "comment": 203,
+                    "filename": "app\\Str.java"
+                },
+                {
+                    "blank": 9,
+                    "code": 78,
+                    "comment": 1,
+                    "filename": "enemyfiles\\AcidSlimeLarge.java"
+                },
+                {
+                    "blank": 9,
+                    "code": 69,
+                    "comment": 1,
+                    "filename": "enemyfiles\\AcidSlimeMed.java"
+                },
+                {
+                    "blank": 8,
+                    "code": 38,
+                    "comment": 2,
+                    "filename": "enemyfiles\\AcidSlimeSmall.java"
+                },
+                {
+                    "blank": 8,
+                    "code": 50,
+                    "comment": 1,
+                    "filename": "enemyfiles\\BlueSlaver.java"
+                },
+                {
+                    "blank": 8,
+                    "code": 29,
+                    "comment": 2,
+                    "filename": "enemyfiles\\Cultist.java"
+                },
+                {
+                    "blank": 14,
+                    "code": 91,
+                    "comment": 10,
+                    "filename": "enemyfiles\\Enemy.java"
+                },
+                {
+                    "blank": 8,
+                    "code": 26,
+                    "comment": 1,
+                    "filename": "enemyfiles\\FatGremlin.java"
+                },
+                {
+                    "blank": 8,
+                    "code": 47,
+                    "comment": 2,
+                    "filename": "enemyfiles\\FungiBeast.java"
+                },
+                {
+                    "blank": 8,
+                    "code": 55,
+                    "comment": 2,
+                    "filename": "enemyfiles\\GreenLouse.java"
+                },
+                {
+                    "blank": 8,
+                    "code": 34,
+                    "comment": 3,
+                    "filename": "enemyfiles\\GremlinWizard.java"
+                },
+                {
+                    "blank": 8,
+                    "code": 58,
+                    "comment": 3,
+                    "filename": "enemyfiles\\JawWorm.java"
+                },
+                {
+                    "blank": 13,
+                    "code": 79,
+                    "comment": 1,
+                    "filename": "enemyfiles\\Looter.java"
+                },
+                {
+                    "blank": 8,
+                    "code": 25,
+                    "comment": 1,
+                    "filename": "enemyfiles\\MadGremlin.java"
+                },
+                {
+                    "blank": 8,
+                    "code": 55,
+                    "comment": 2,
+                    "filename": "enemyfiles\\RedLouse.java"
+                },
+                {
+                    "blank": 11,
+                    "code": 75,
+                    "comment": 5,
+                    "filename": "enemyfiles\\RedSlaver.java"
+                },
+                {
+                    "blank": 12,
+                    "code": 49,
+                    "comment": 2,
+                    "filename": "enemyfiles\\ShieldGremlin.java"
+                },
+                {
+                    "blank": 8,
+                    "code": 24,
+                    "comment": 1,
+                    "filename": "enemyfiles\\SneakyGremlin.java"
+                },
+                {
+                    "blank": 10,
+                    "code": 74,
+                    "comment": 1,
+                    "filename": "enemyfiles\\SpikeSlimeLarge.java"
+                },
+                {
+                    "blank": 9,
+                    "code": 60,
+                    "comment": 1,
+                    "filename": "enemyfiles\\SpikeSlimeMed.java"
+                },
+                {
+                    "blank": 8,
+                    "code": 24,
+                    "comment": 1,
+                    "filename": "enemyfiles\\SpikeSlimeSmall.java"
+                }
+            ]
+        }
+    ]
+}

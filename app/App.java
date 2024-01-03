@@ -208,19 +208,18 @@ public class App {
                       new ArrayList<String>(Arrays.asList("Attack 10", "Draw 2")), Rarity.COMMON));
     cardList.add(new Card("Shrug It Off", "Skill", 1, false, new ArrayList<String>(Arrays.asList("Block 8", "Draw 1")),
                       new ArrayList<String>(Arrays.asList("Block 11", "Draw 1")), Rarity.COMMON));
-    cardList.add(new Card("Sword Boomerang", "Deal 3 damage to a random enemy 3 times.", "Attack", 1, false, new ArrayList<String>(Arrays.asList("AtkRandom 3", "AtkRandom 3", "AtkRandom 3")),
-                      "Deal 3 damage to a random enemy 4 times.\n", 1, false, new ArrayList<String>(Arrays.asList("AtkRandom 3", "AtkRandom 3", "AtkRandom 3", "AtkRandom 3")), Rarity.COMMON));
+    cardList.add(new Card("Sword Boomerang", "Deal ØatkÁ3ØendatkÁ damage to a random enemy 3 times.\n", "Attack", 1, false, new ArrayList<String>(Arrays.asList("AtkRandom 3", "AtkRandom 3", "AtkRandom 3")),
+                      "Deal ØatkÁ3ØendatkÁ damage to a random enemy 4 times.\n", 1, false, new ArrayList<String>(Arrays.asList("AtkRandom 3", "AtkRandom 3", "AtkRandom 3", "AtkRandom 3")), Rarity.COMMON));
     cardList.add(new Card("Thunderclap", "Attack", 1, false, new ArrayList<String>(Arrays.asList("AtkAll 4", "AppAll Vulnerable 1")),
                       new ArrayList<String>(Arrays.asList("AtkAll 7", "AppAll Vulnerable 1")), Rarity.COMMON));
-    cardList.add(new Card("True Grit", "Exhaust a random card in your hand.", "Skill", 1, false, new ArrayList<String>(Arrays.asList("Block 7", "Exhaust RandHand")),
-                "Exhaust a card in your hand.", 1, false, new ArrayList<String>(Arrays.asList("Block 9", "Exhaust Choose1FromHand")), Rarity.COMMON));
+    cardList.add(new Card("True Grit", "Exhaust a random card in your hand.\n", "Skill", 1, false, new ArrayList<String>(Arrays.asList("Block 7", "Exhaust RandHand")),
+                      "Exhaust a card in your hand.\n", 1, false, new ArrayList<String>(Arrays.asList("Block 9", "Exhaust Choose1FromHand")), Rarity.COMMON));
     // cardList.add(new Card("Twin Strike", "Attack", 1, true, new ArrayList<String>(Arrays.asList("Attack 5", "Attack 5")),
                       // new ArrayList<String>(Arrays.asList("Attack 7", "Attack 7")), Rarity.COMMON));
-    cardList.add(new Card("Twin Strike", "Deal ØatkÁ5ØendatkÁ damage twice.", "Attack", 1, true, new ArrayList<String>(Arrays.asList("Attack 5", "Attack 5")),
-                      "Deal ØatkÁ7ØendatkÁ damage twice.", 1, true, new ArrayList<String>(Arrays.asList("Attack 7", "Attack 7")), Rarity.COMMON));
+    cardList.add(new Card("Twin Strike", "Deal ØatkÁ5ØendatkÁ damage twice.\n", "Attack", 1, true, new ArrayList<String>(Arrays.asList("Attack 5", "Attack 5")),
+                      "Deal ØatkÁ7ØendatkÁ damage twice.\n", 1, true, new ArrayList<String>(Arrays.asList("Attack 7", "Attack 7")), Rarity.COMMON));
     cardList.add(new Card("Warcry", "Skill", 0, false, new ArrayList<String>(Arrays.asList("Draw 1", "PutOnDrawPile Choose1FromHand", "Exhaust")),
                       new ArrayList<String>(Arrays.asList("Draw 2", "PutOnDrawPile Choose1FromHand", "Exhaust")), Rarity.COMMON));
-    //TODO: Twin Strike text fills (e.g. discard) popup row & doesn't leave space for new line(?)
     //TODO: Ending combat w/ headbutt glitchy
     // ^Wait it froze again even when I hadn't just ended the combat. Both times I was going p fast so idk what I did
     // Looked @ prev frames tho & I didn't see anything.

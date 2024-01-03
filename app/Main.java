@@ -13,6 +13,11 @@ class Main {
   public static void main(String[] args) {
     System.out.println("\033[H\033[2JLoading...");
 
+    // Testing:
+    String A = "(1) Deal ØatkÁ5ØendatkÁ dama" + Colors.ICRed + "ge twice.";
+    System.out.println(Str.lengthIgnoringEscSeqs(A));
+    Str.println("-" + Str.substringIgnoringEscSequences(A, 0, Str.lengthIgnoringEscSeqs(A)) + "-");
+
     App game = new App();
     game.run();
 

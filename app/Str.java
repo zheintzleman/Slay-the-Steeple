@@ -113,7 +113,7 @@ public class Str {
         wrappedText.add(text);                                                    //If text fits in one line & there's no "\n"s, add it to the last line and return
         return wrappedText;
       }
-      //4 possibilities of: text short/long(ie. need to wrap), "\n" present in next width+1 chars/not
+      //4 possibilities of text: short/long(ie. need to wrap), "\n" present in next width+1 chars/not
       //^shortNot (above)
       String line;
       boolean wordBreak = false;
@@ -342,11 +342,16 @@ public class Str {
     if(end < start){
       System.out.println("sIES: End < Start");
     }
+    if(end == lengthIgnoringEscSeqs(str)){
+      return substringIgnoringEscSequences(str, start);
+    }
+    
     int col = 0;
     boolean inEscSequence = false;
     int actualStartIndex = 0;
     int actualEndIndex;
 
+    System.out.println("Hi");
     for(int i=0; i<str.length(); i++){
       if(str.charAt(i) == 'Ø'){ //Start of esc sequence
         inEscSequence = true;
@@ -375,6 +380,8 @@ public class Str {
         col++;                                                                //Increment col
       }
     }
+    //TODO: Remove the part of that (v) comment about it being recently added (eventually)
+    App.ASSERT(false); //<Recently added condition; shouldn't be returning in this failure case I believe.
     return "";
   }
   

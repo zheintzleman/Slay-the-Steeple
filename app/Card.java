@@ -359,6 +359,7 @@ public class Card implements Serializable {
   public String[] getImageWStatuses(Combat combat){ //TODO: Enemy images are displaying weirdly; louses have 3 spaces on the left & 5 on the right, while blue slaver is 1 & 0 respectively.
     String text = "";
     // text += name + "\n";
+    Str.println(Str.concatArrayListWNL(Str.wrapText(name, CARDWIDTH-8))); // TODO: REMOVE
     text += Str.concatArrayListWNL(Str.wrapText(name, CARDWIDTH-8));
     text += "\n " + (combat == null ? getDescription() : getDescriptionWStatuses(combat)) + "\n";
     

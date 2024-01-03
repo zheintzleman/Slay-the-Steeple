@@ -1,0 +1,76 @@
+===============================================================================
+EXTENSION NAME : linecounter
+EXTENSION VERSION : 0.2.7
+-------------------------------------------------------------------------------
+count time : 2024-01-02 22:12:13
+count workspace : c:\Programming\GitHub\Slay-the-Steeple
+total files : 55
+total code lines : 4493
+total comment lines : 925
+total blank lines : 574
+
+    statistics
+   |      extension|     total code|  total comment|    total blank|percent|
+   -------------------------------------------------------------------------
+   |          .java|           4068|            925|            510|     91|
+   |           .txt|            163|              0|             12|    3.6|
+   |            .md|            171|              0|             52|    3.8|
+   |           .csv|             89|              0|              0|    2.0|
+   |          .json|              2|              0|              0|  0.045|
+   -------------------------------------------------------------------------
+.VSCodeCounter\2022-05-30_14-20-49\details.md, code is 39, comment is 0, blank is 6.
+.VSCodeCounter\2022-05-30_14-20-49\diff-details.md, code is 9, comment is 0, blank is 6.
+.VSCodeCounter\2022-05-30_14-20-49\diff.csv, code is 2, comment is 0, blank is 0.
+.VSCodeCounter\2022-05-30_14-20-49\diff.md, code is 12, comment is 0, blank is 7.
+.VSCodeCounter\2022-05-30_14-20-49\diff.txt, code is 19, comment is 0, blank is 3.
+.VSCodeCounter\2022-05-30_14-20-49\results.csv, code is 32, comment is 0, blank is 0.
+.VSCodeCounter\2022-05-30_14-20-49\results.json, code is 1, comment is 0, blank is 0.
+.VSCodeCounter\2022-05-30_14-20-49\results.md, code is 14, comment is 0, blank is 7.
+.VSCodeCounter\2022-05-30_14-20-49\results.txt, code is 51, comment is 0, blank is 3.
+.VSCodeCounter\2022-05-30_14-31-28\details.md, code is 39, comment is 0, blank is 6.
+.VSCodeCounter\2022-05-30_14-31-28\diff-details.md, code is 30, comment is 0, blank is 6.
+.VSCodeCounter\2022-05-30_14-31-28\diff.csv, code is 23, comment is 0, blank is 0.
+.VSCodeCounter\2022-05-30_14-31-28\diff.md, code is 14, comment is 0, blank is 7.
+.VSCodeCounter\2022-05-30_14-31-28\diff.txt, code is 42, comment is 0, blank is 3.
+.VSCodeCounter\2022-05-30_14-31-28\results.csv, code is 32, comment is 0, blank is 0.
+.VSCodeCounter\2022-05-30_14-31-28\results.json, code is 1, comment is 0, blank is 0.
+.VSCodeCounter\2022-05-30_14-31-28\results.md, code is 14, comment is 0, blank is 7.
+.VSCodeCounter\2022-05-30_14-31-28\results.txt, code is 51, comment is 0, blank is 3.
+app\App.java, code is 91, comment is 124, blank is 28.
+app\Card.java, code is 339, comment is 102, blank is 42.
+app\CardEffect.java, code is 75, comment is 10, blank is 10.
+app\cardList1.dat, it is a binary file.
+app\Colors.java, code is 98, comment is 8, blank is 7.
+app\Combat.java, code is 798, comment is 165, blank is 82.
+app\Entity.java, code is 394, comment is 74, blank is 30.
+app\Intent.java, code is 155, comment is 8, blank is 5.
+app\IntentType.java, code is 12, comment is 0, blank is 0.
+app\Main.java, code is 13, comment is 5, blank is 5.
+app\Rarity.java, code is 8, comment is 0, blank is 1.
+app\Run.java, code is 501, comment is 159, blank is 58.
+app\settings.dat, it is a binary file.
+app\SettingsManager.java, code is 59, comment is 11, blank is 10.
+app\Status.java, code is 82, comment is 10, blank is 5.
+app\Statuses.java, code is 44, comment is 3, blank is 5.
+app\Str.java, code is 359, comment is 203, blank is 39.
+enemyfiles\AcidSlimeLarge.java, code is 78, comment is 1, blank is 9.
+enemyfiles\AcidSlimeMed.java, code is 69, comment is 1, blank is 9.
+enemyfiles\AcidSlimeSmall.java, code is 38, comment is 2, blank is 8.
+enemyfiles\BlueSlaver.java, code is 50, comment is 1, blank is 8.
+enemyfiles\Cultist.java, code is 29, comment is 2, blank is 8.
+enemyfiles\Enemy.java, code is 91, comment is 10, blank is 14.
+enemyfiles\FatGremlin.java, code is 26, comment is 1, blank is 8.
+enemyfiles\FungiBeast.java, code is 47, comment is 2, blank is 8.
+enemyfiles\GreenLouse.java, code is 55, comment is 2, blank is 8.
+enemyfiles\GremlinWizard.java, code is 34, comment is 3, blank is 8.
+enemyfiles\JawWorm.java, code is 58, comment is 3, blank is 8.
+enemyfiles\Looter.java, code is 79, comment is 1, blank is 13.
+enemyfiles\MadGremlin.java, code is 25, comment is 1, blank is 8.
+enemyfiles\RedLouse.java, code is 55, comment is 2, blank is 8.
+enemyfiles\RedSlaver.java, code is 75, comment is 5, blank is 11.
+enemyfiles\ShieldGremlin.java, code is 49, comment is 2, blank is 12.
+enemyfiles\SneakyGremlin.java, code is 24, comment is 1, blank is 8.
+enemyfiles\SpikeSlimeLarge.java, code is 74, comment is 1, blank is 10.
+enemyfiles\SpikeSlimeMed.java, code is 60, comment is 1, blank is 9.
+enemyfiles\SpikeSlimeSmall.java, code is 24, comment is 1, blank is 8.
+===============================================================================
