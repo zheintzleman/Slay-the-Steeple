@@ -8,18 +8,45 @@ public class CardEffect implements Serializable {
   // Primaries that affect game state outside of the current combat (i.e. that matter even after the combat ends.)
   public static final String[] RUN_STATE_PRIMARIES = new String[] {}; //TODO: Fill out as I add them.
 
+  public enum PlayEvent{
+    ONPLAY,
+    ONDISCARD, //TODO: Note that this should probably only be called(?) when a card's effect discards this card
+    ONEXHAUST,
+    ONTURNEND,
+    ONDRAW
+  }
+
   private String primary;
   private String secondary;
   private int power; //Remove basepower?
+  private PlayEvent whenPlayed;
 
   //Primary: First word of input data.
   //Secondary: Rest of input data, apart from terminal integer
   //Power: Terminal integer, or 0 if last word not an integer
+  //WhenPlayed: Defaults to ONPLAY; begin with "(OnDiscard) "/"(OnTurnEnd) "/etc. to change.
   //e.g. Stores "Lorem Ipsum Dolor 4" as: P = "Lorem", S = "Ipsum Dolor", p = 4,
-  // or "Lorem Ipsum 4 Dolor" as: P = "Lorem", S = "Ipsum 4 Dolor", p = 0.
+  // or "Lorem Ipsum 4 Dolor" as: P = "Lorem", S = "Ipsum 4 Dolor", p = 0
+  // or "(OnExhaust) Lorem Ipsum 4 Dolor" as: P = "Lorem", S = "Ipsum 4 Dolor", p = 0, WP = ONEXHAUST
   public CardEffect(String data){
     power = 0;
     String str = data;
+    whenPlayed = PlayEvent.ONPLAY;
+
+    if(data.startsWith("(OnExhaust) ")){
+      whenPlayed = PlayEvent.ONEXHAUST;
+      str = str.substring("(OnExhaust) ".length());
+    } else if(data.startsWith("(OnDiscard) ")){
+      whenPlayed = PlayEvent.ONDISCARD;
+      str = str.substring("(OnDiscard) ".length());
+    } else if(data.startsWith("(OnTurnEnd) ")){
+      whenPlayed = PlayEvent.ONTURNEND;
+      str = str.substring("(OnTurnEnd) ".length());
+    } else if(data.startsWith("(OnDraw) ")){
+      whenPlayed = PlayEvent.ONDRAW;
+      str = str.substring("(OnDraw) ".length());
+    }
+
     int lastSpaceIndex = str.lastIndexOf(" ");
 
     try{
@@ -49,6 +76,7 @@ public class CardEffect implements Serializable {
   public void setSecondary(String secondary){ this.secondary = secondary; }
   public int getPower(){ return power; }
   public void setPower(int power) { this.power = power; }
+  public PlayEvent whenPlayed(){ return whenPlayed; }
 
   public boolean isAttack(){
     for(String s : ATTACK_PRIMARIES){

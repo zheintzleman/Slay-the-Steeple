@@ -10,7 +10,7 @@ public class Statuses{
   public static final Status StrengthDown = new Status("Strength Down", Colors.lightYellow + "s", false, true, "At the end of your turn, lose <str> Strength.");
   public static final Status Dexterity = new Status("Dexterity", Colors.dexGreen + "D", false, true, "Increases block gained from cards by <str>.");
   public static final Status DexterityDown = new Status("Dexterity Down", Colors.lightYellow + "d", false, true, "At the end of your turn, lose <str> Dexterity.");
-  public static final Status CurlUp = new Status("Curl Up", Colors.lightBlue + "C", false, true, "Gains <str> block upon first receiving attack damage.");
+  public static final Status CurlUp = new Status("Curl Up", Colors.lightBlue + "C", false, true, "Gains <str> block upon first receiving attack damage."); //TODO: See how this interacts w/, eg, Twin Strike
   public static final Status Ritual = new Status("Ritual", Colors.lightBlue + "R", false, true, "Gains <str> Strength at the end of each turn.");
   public static final Status Angry = new Status("Angry", Colors.lightYellow + "A", false, true, "Gains <str> Strength when this receives attack damage.");
   public static final Status Split = new Status("Split", Colors.lightGreen + "S", false, false, "When at half HP or below, this splits into two smaller slimes with its current HP."); //TODO: Make display the amount of HP needed for splitting (or just add max HP to the HP bar)

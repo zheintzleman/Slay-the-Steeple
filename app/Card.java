@@ -365,7 +365,7 @@ public class Card implements Serializable {
     
     String[] image = Str.makeCenteredTextBox(text, CARDHEIGHT, CARDWIDTH); //Can make them up to 18 wide with width = 200; Up to 12 wide iirc with width = 150. 12 can work to fit long texts but the cards are really vertical.
 
-    String energyCostString = "" + data.energyCost;
+    String energyCostString = "" + (data.energyCost < 0 ? "" + data.energyCost : " ");
     Str.println("Before:" + image[1]); //debug
     image[1] = Str.addStringsSkipEscSequences(image[1], 2, energyCostString, Colors.energyCostRedBold, Colors.reset);
     //debug:

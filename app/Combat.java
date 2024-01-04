@@ -1,6 +1,7 @@
 package app;
 import java.util.*;
 
+import app.CardEffect.PlayEvent;
 import enemyfiles.*;
 
 public class Combat{
@@ -369,6 +370,12 @@ public class Combat{
   public void exhaust(Card card){
     removeFromAllPiles(card);
     exhaustPile.add(card);
+    for(CardEffect eff : card.getEffects()){
+      if(eff.whenPlayed() == PlayEvent.ONEXHAUST){
+        playEffect(eff, card);
+      }
+    }
+    // Relics.onExhaust(card, combat); // Or smth
   }
 
   public void removeFromAllPiles(Card card){
@@ -438,17 +445,23 @@ public class Combat{
     ArrayList<CardEffect> cardEffects = card.getEffects();
     for(CardEffect eff : cardEffects){
       if(combatOver && !eff.affectsRunState()){
-        break;
+        continue;
+      }
+      if(eff.whenPlayed() != PlayEvent.ONPLAY){
+        continue;
       }
       String firstWord = eff.getPrimary();
       String otherWords = eff.getSecondary();
       int power = eff.getPower();
       
+      // Could make this into an enum for speed, but this code is only run a few times
+      // each card play at most, so efficiency isn't crucial in exchange for legibility
       switch(firstWord){
         case "SearingBlow":
           power = card.searingBlowDamage();
           //Fallthrough
         case "Attack":
+          System.out.println("Amongoose " + power + ", " + target.toString());
           if(enemies.contains(target))
             player.attack(target, power);
           break;
@@ -467,71 +480,12 @@ public class Combat{
           target = enemies.get(rng);
           player.attack(target, power);
           break;
-        case "Block":
-          player.block(power);
-          break;
-        case "AppPlayer":
-          target = player;
-          //Fallthrough
         case "Apply":
           target.addStatusStrength(otherWords, power);
           break;
-        case "AppAll":
-          for(Enemy enemy : enemies){
-            enemy.addStatusStrength(otherWords, power);
-          }
-          break;
-        case "Exhaust":
-          for(Card c : cardTargets(otherWords, card)){
-            exhaust(c);
-            if(c == card){
-              shouldDiscard = false;
-            }
-          }
-          break;
-        case "Draw":
-          for(int i=0; i < power; i++){
-            drawCard();
-          }
-          break;
-        case "Upgrade":
-          for (Card c : cardTargets(otherWords, card)){
-            c.upgrade();
-          }
-          break;
-        case "PutOnDrawPile":
-          Str.println("Second Word:" + otherWords + ":");
-          for(Card c : cardTargets(otherWords, card)){
-            removeFromAllPiles(c);
-            drawPile.add(0, c);
-          }
-          break;
-        case "Heavy":
-          power += player.getStatusStrength("Strength") * (power - 1);
-        case "Anger":
-          discardPile.add(new Card(card));
-          break;
-        case "Clash":
-          break; //Relevant code is above; included to avoid error.
-        case "Havoc":
-          if(drawPile.size() == 0){
-            break;
-          }
-          Card c = drawPile.remove(0);
-          display();
-          
-          int startRow = App.settingsManager.screenHeight/2 - c.getImage().length/2;
-          int startCol = App.settingsManager.screenWidth/2 - c.getImage()[0].length()/2;
-          thisRun.displayScreenWithAddition(c.getImage(), startRow, startCol);
-          Str.print("Playing and Exhausting " + c.getName() + ". (Press enter)");
-          Main.scan.nextLine();
-          
-          energy += c.getEnergyCost();
-          playCard(c);
-          exhaust(c);
-          break;
         default:
-          System.out.println("(Error) Cannot compile card data: " + card + ", firstWord: " + firstWord);
+          // Other effects that are included in the playEffect function
+          playEffect(eff, card);
       }
     }
 
@@ -540,6 +494,88 @@ public class Combat{
     }
     
     return true;
+  }
+
+  /**Plays an effect that does not target a specific enemy.
+   * 
+   * @return Whether the card should still be discarded normally after play
+   * (e.g. if the effect puts the card on top of the deck, it should no longer
+   * be discarded, and so returns false instead of the default of true.)
+   * @precondition eff does not target an enemy.
+   */
+  public boolean playEffect(CardEffect eff, Card card){
+    // Can make one of these which takes in a target, too, but there's no need for one right now.
+    boolean shouldDiscard = true;
+    String firstWord = eff.getPrimary();
+    String otherWords = eff.getSecondary();
+    int power = eff.getPower();
+
+    switch (eff.getPrimary()) {
+      case "Block":
+        player.block(power);
+        break;
+      case "AppPlayer":
+        player.addStatusStrength(otherWords, power);
+        break;
+      case "AppAll":
+        for(Enemy enemy : enemies){
+          enemy.addStatusStrength(otherWords, power);
+        }
+        break;
+      case "Exhaust":
+        for(Card c : cardTargets(otherWords, card)){
+          exhaust(c);
+          if(c == card){
+            shouldDiscard = false;
+          }
+        }
+        break;
+      case "Draw":
+        for(int i=0; i < power; i++){
+          drawCard();
+        }
+        break;
+      case "Upgrade":
+        for (Card c : cardTargets(otherWords, card)){
+          c.upgrade();
+        }
+        break;
+      case "PutOnDrawPile":
+        Card[] cardTargets = cardTargets(otherWords, card);
+        for(Card c : cardTargets){
+          removeFromAllPiles(c);
+          drawPile.add(0, c);
+          if(c == card){ shouldDiscard = false; } //Don't discard if we moved card onto draw pile
+        }
+        break;
+      case "Heavy":
+        power += player.getStatusStrength("Strength") * (power - 1);
+      case "Anger":
+        discardPile.add(new Card(card));
+        break;
+      case "Clash":
+        break; //Relevant code is above; included to avoid error.
+      case "Havoc":
+        if(drawPile.size() == 0){
+          break;
+        }
+        Card c = drawPile.remove(0);
+        display();
+        
+        int startRow = App.settingsManager.screenHeight/2 - c.getImage().length/2;
+        int startCol = App.settingsManager.screenWidth/2 - c.getImage()[0].length()/2;
+        thisRun.displayScreenWithAddition(c.getImage(), startRow, startCol);
+        Str.print("Playing and Exhausting " + c.getName() + ". (Press enter)");
+        Main.scan.nextLine();
+        
+        energy += c.getEnergyCost();
+        playCard(c);
+        exhaust(c);
+        break;
+      default:
+        System.out.println("(Error) Cannot compile card data: " + card + ", firstWord: " + firstWord);
+    }
+    return shouldDiscard;
   }
 
   /**Prompts the user for the target and returns their response. Returns -1 if card play is cancelled (no possible target selected)
