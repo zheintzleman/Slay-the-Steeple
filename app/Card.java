@@ -12,7 +12,21 @@ public class Card implements Serializable {
   public static final int CARDWIDTH = 21; //Odd
   public static final int CARDHEIGHT = 14;
   // public static final String[] TARGETEDCARDEFFECTS = new String[] {"Attack", "Apply"}; //List of card effects that trigger the playCard() method to prompt the player for a target
-
+  
+  public enum Rarity {
+    BASIC,
+    COMMON,
+    UNCOMMON,
+    RARE,
+    NULL //TODO: Remove? Used to have for statuses but they're now switched to Common Rarity.
+  }
+  public enum Class {
+    IRONCLAD,
+    SILENT,
+    DEFECT,
+    WATCHER,
+    NEUTRAL
+  }
   //Anything that could change from being upgraded
   private class CardData implements Serializable {
     private Description description;

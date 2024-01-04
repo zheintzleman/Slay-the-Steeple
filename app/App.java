@@ -1,6 +1,9 @@
 package app;
 
 import java.util.*;
+
+import app.Card.Rarity;
+
 import java.io.*;
 
 public class App {
@@ -175,7 +178,7 @@ public class App {
     //e.g. Stores "Lorem Ipsum Dolor 4" as: P = "Lorem", S = "Ipsum Dolor", p = 4,
     // or "Lorem Ipsum 4 Dolor" as: P = "Lorem", S = "Ipsum 4 Dolor", p = 0.
     // or "(OnExhaust) Lorem Ipsum 4 Dolor" as: P = "Lorem", S = "Ipsum 4 Dolor", p = 0, WP = ONEXHAUST
-    // cardList.add(new Card("Burn", "Status", -1, false, new ArrayList<String>(Arrays.asList("Exhaust")), new ArrayList<String>(), Rarity.NULL))
+    cardList.add(new Card("Burn", "Status", -1, false, new ArrayList<String>(Arrays.asList("Exhaust")), new ArrayList<String>(), Rarity.NULL))
     cardList.add(new Card("Slimed", "Status", 1, false, new ArrayList<String>(Arrays.asList("Exhaust")), new ArrayList<String>(), Rarity.NULL));
     cardList.add(new Card("Strike", "Attack", 1, true, new ArrayList<String>(Arrays.asList("Attack 6")), //TODO: Should these arraylists really just be arrays?
                       new ArrayList<String>(Arrays.asList("Attack 9")), Rarity.BASIC));
