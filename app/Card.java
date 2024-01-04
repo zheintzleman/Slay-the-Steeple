@@ -13,14 +13,14 @@ public class Card implements Serializable {
   public static final int CARDHEIGHT = 14;
   // public static final String[] TARGETEDCARDEFFECTS = new String[] {"Attack", "Apply"}; //List of card effects that trigger the playCard() method to prompt the player for a target
   
-  public enum Rarity {
+  public enum Rarity{
     BASIC,
     COMMON,
     UNCOMMON,
     RARE,
     NULL //TODO: Remove? Used to have for statuses but they're now switched to Common Rarity.
   }
-  public enum Class {
+  public enum Class{ //(Card Color)
     IRONCLAD,
     SILENT,
     DEFECT,
@@ -128,6 +128,11 @@ public class Card implements Serializable {
           case "Havoc":
             codedDescription += "Play the top card of your draw pile and Exhaust it.\n";
             break;
+          case "Unplayable":
+            codedDescription += "Unplayable.\n";
+            break;
+          case "Ethereal":
+            codedDescription += "Ethereal.\n";
           default:
             break;
         }
@@ -289,7 +294,8 @@ public class Card implements Serializable {
   
   @Override
   public String toString(){
-    return Colors.gray + "(" + Colors.energyCostRed + data.energyCost + Colors.gray + ") " + Colors.reset + name + colorEveryWordBySpaces(" - " + getDescription(), Colors.gray) + Colors.reset;
+    return Colors.gray + (data.energyCost < 0 ? "" : "(" + Colors.energyCostRed + data.energyCost + Colors.gray + ") ")
+    + Colors.reset + name + colorEveryWordBySpaces(" - " + getDescription(), Colors.gray) + Colors.reset;
   }
 
   /**Returns whether or not this Card has the entered effect
@@ -379,7 +385,7 @@ public class Card implements Serializable {
     
     String[] image = Str.makeCenteredTextBox(text, CARDHEIGHT, CARDWIDTH); //Can make them up to 18 wide with width = 200; Up to 12 wide iirc with width = 150. 12 can work to fit long texts but the cards are really vertical.
 
-    String energyCostString = "" + (data.energyCost < 0 ? "" + data.energyCost : " ");
+    String energyCostString = data.energyCost < 0 ? "" : "" + data.energyCost;
     Str.println("Before:" + image[1]); //debug
     image[1] = Str.addStringsSkipEscSequences(image[1], 2, energyCostString, Colors.energyCostRedBold, Colors.reset);
     //debug:
@@ -390,7 +396,10 @@ public class Card implements Serializable {
   }
 
   public boolean isUpgradable(){
-    if(type.equals("Status") || type.equals("Curse")){ //Cancel for having >0 upgrades?
+    if(name.equals("Burn")){
+      return true;
+    }
+    if(type.equals("Status") || type.equals("Curse")){
       return false;
     }
     if(upgrades == 0){

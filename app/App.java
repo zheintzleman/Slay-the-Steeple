@@ -178,8 +178,15 @@ public class App {
     //e.g. Stores "Lorem Ipsum Dolor 4" as: P = "Lorem", S = "Ipsum Dolor", p = 4,
     // or "Lorem Ipsum 4 Dolor" as: P = "Lorem", S = "Ipsum 4 Dolor", p = 0.
     // or "(OnExhaust) Lorem Ipsum 4 Dolor" as: P = "Lorem", S = "Ipsum 4 Dolor", p = 0, WP = ONEXHAUST
-    cardList.add(new Card("Burn", "Status", -1, false, new ArrayList<String>(Arrays.asList("Exhaust")), new ArrayList<String>(), Rarity.NULL))
-    cardList.add(new Card("Slimed", "Status", 1, false, new ArrayList<String>(Arrays.asList("Exhaust")), new ArrayList<String>(), Rarity.NULL));
+    cardList.add(new Card("Burn", "Unplayable.\nAt the end of your turn, take 2 damage.\n", "Status", -1, false, new ArrayList<String>(Arrays.asList("Unplayable", "(OnTurnEnd) DmgPlayer 2")),
+                      "Unplayable.\nAt the end of your turn, take 4 damage.\n", -1, false, new ArrayList<String>(Arrays.asList("Unplayable", "(OnTurnEnd) DmgPlayer 4")), Rarity.COMMON)); //TODO: Something that makes burn discard even w/ retain? Or just hard-code that in?
+    // Statuses can't be upgraded by default;^ Burn is a hardcoded exception
+    cardList.add(new Card("Dazed", "Status", -1, false, new ArrayList<String>(Arrays.asList("Unplayable", "Ethereal")), new ArrayList<String>(), Rarity.COMMON));
+    cardList.add(new Card("Slimed", "Status", 1, false, new ArrayList<String>(Arrays.asList("Exhaust")), new ArrayList<String>(), Rarity.COMMON));
+    cardList.add(new Card("Void", "Unplayable.\nEthereal.\nWhenever this card is drawn, lose 1 Energy\n", "Status", -1, false, new ArrayList<String>(Arrays.asList("Unplayable", "Ethereal", "(OnDraw) ChangeEnergy -1")),
+                      "", -1, false, new ArrayList<String>(Arrays.asList()), Rarity.COMMON));
+    cardList.add(new Card("Wound", "Status", -1, false, new ArrayList<String>(Arrays.asList("Unplayable")), new ArrayList<String>(), Rarity.COMMON));
+
     cardList.add(new Card("Strike", "Attack", 1, true, new ArrayList<String>(Arrays.asList("Attack 6")), //TODO: Should these arraylists really just be arrays?
                       new ArrayList<String>(Arrays.asList("Attack 9")), Rarity.BASIC));
     cardList.add(new Card("Defend", "Skill", 1, false, new ArrayList<String>(Arrays.asList("Block 5")),
@@ -228,7 +235,10 @@ public class App {
                       new ArrayList<String>(Arrays.asList("Draw 2", "PutOnDrawPile Choose1FromHand", "Exhaust")), Rarity.COMMON));
     // cardList.add(new Card("Sentinel", "Skill", 1, false, new ArrayList<String>(Arrays.asList("(OnExhaust) Block 5")),
     //                   new ArrayList<String>(Arrays.asList("(OnExhaust) Block 8")), Rarity.UNCOMMON)); //TODO: Remove/update to be correct eventually (just for testing rn)
-    
+    // TODO: Slimed's text isn't centerend
+    // Make cards' getDescription() replace '\n's with ' 's or smth?
+    // Make these^ constructors take in the Class along w/ the rarity
+
     return cardList;
   }
 

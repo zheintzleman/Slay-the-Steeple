@@ -175,10 +175,14 @@ public class Combat{
         turnOver = doNextAction();
       }
       //endOfTurn
-      //discard hand
-      while(hand.size() != 0){
-        discardCardFromHand(0);
-      }
+
+      // Also calls OnTurnEnd card effects
+      discardHand(hand);
+      // callOnTurnEndEffs(hand);
+      // //discard hand
+      // while(hand.size() != 0){
+      //   // discardCardFromHand(0);
+      // }
 
       //Enemy turn ends
       enemiesToUpdate = new ArrayList<Enemy>(enemies);
@@ -233,6 +237,24 @@ public class Combat{
       }
     }
     return combatOver; //False if combat is not over, true if it is
+  }
+
+  public void discardHand(ArrayList<Card> hand){
+    while(hand.size() != 0){
+      Card card = hand.get(0);
+      boolean shouldDiscard = true;
+
+      for(CardEffect eff : card.getEffects()){
+        if(eff.whenPlayed() == PlayEvent.ONTURNEND){
+          //Plays any relevant card effects
+          //If the effect returns false (card should not discard), shouldDiscard set to false.
+          shouldDiscard = shouldDiscard && playEffect(eff, card);
+        }
+      }
+      if(shouldDiscard){
+        discardCardFromHand(card);
+      }
+    }
   }
 
   /**Sets the screen to accurate values/images
@@ -363,7 +385,16 @@ public class Combat{
     
     Card topCard = drawPile.remove(0);
     hand.add(topCard);
+    callOnDrawEffs(topCard);
     return topCard;
+  }
+  
+  public void callOnDrawEffs(Card card){
+    for(CardEffect eff : card.getEffects()){
+      if(eff.whenPlayed() == PlayEvent.ONDRAW){
+        playEffect(eff, card);
+      }
+    }
   }
 
   /**Removes card from all piles and adds it to the exhaust pile */
@@ -416,12 +447,17 @@ public class Combat{
 
     //Technical Things:
 
-    if(card.getEnergyCost() > this.energy){
+    if(card.getEnergyCost() > this.energy
+    || card.hasEffectWith("Unplayable")
+    || player.hasStatus("Entangled") && card.getType().equals("Attack")){
       return false;
     }
-    if(player.hasStatus("Entangled") && card.getType().equals("Attack")){
-      return false;
-    }
+    // if(){
+    //   return false;
+    // }
+    // if(player.hasStatus("Entangled") && card.getType().equals("Attack")){
+    //   return false;
+    // }
     if(card.hasEffect("Clash")){
       for(Card c : hand){
         if(!c.getType().equals("Attack")){
@@ -485,7 +521,7 @@ public class Combat{
           break;
         default:
           // Other effects that are included in the playEffect function
-          playEffect(eff, card);
+          shouldDiscard = shouldDiscard && playEffect(eff, card);
       }
     }
 
@@ -522,6 +558,10 @@ public class Combat{
           enemy.addStatusStrength(otherWords, power);
         }
         break;
+      case "DmgPlayer":
+        player.damage(power);
+        break;
+      case "Ethereal": // The only thing Ethereal changes is when it is activated (OnTurnEnd); the effect is the same.
       case "Exhaust":
         for(Card c : cardTargets(otherWords, card)){
           exhaust(c);
@@ -571,6 +611,9 @@ public class Combat{
         energy += c.getEnergyCost();
         playCard(c);
         exhaust(c);
+        break;
+      case "ChangeEnergy":
+        energy += power;
         break;
       default:
         System.out.println("(Error) Cannot compile card data: " + card + ", firstWord: " + firstWord);
@@ -904,8 +947,8 @@ public class Combat{
 
   /**Discards the card at the specified index from hand.
   */
-  public void discardCardFromHand(int index){
-    Card c = hand.remove(index);
+  public void discardCardFromHand(Card c){
+    hand.remove(c);
     discardPile.add(0, c);
   }
 

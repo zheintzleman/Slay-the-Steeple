@@ -33,18 +33,21 @@ public class CardEffect implements Serializable {
     String str = data;
     whenPlayed = PlayEvent.ONPLAY;
 
-    if(data.startsWith("(OnExhaust) ")){
+    if(str.startsWith("(OnExhaust) ")){
       whenPlayed = PlayEvent.ONEXHAUST;
       str = str.substring("(OnExhaust) ".length());
-    } else if(data.startsWith("(OnDiscard) ")){
+    } else if(str.startsWith("(OnDiscard) ")){
       whenPlayed = PlayEvent.ONDISCARD;
       str = str.substring("(OnDiscard) ".length());
-    } else if(data.startsWith("(OnTurnEnd) ")){
+    } else if(str.startsWith("(OnTurnEnd) ")){
       whenPlayed = PlayEvent.ONTURNEND;
       str = str.substring("(OnTurnEnd) ".length());
-    } else if(data.startsWith("(OnDraw) ")){
+    } else if(str.startsWith("(OnDraw) ")){
       whenPlayed = PlayEvent.ONDRAW;
       str = str.substring("(OnDraw) ".length());
+    }
+    if(str.equals("Ethereal")){
+      whenPlayed = PlayEvent.ONTURNEND;
     }
 
     int lastSpaceIndex = str.lastIndexOf(" ");
