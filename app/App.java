@@ -182,7 +182,7 @@ public class App {
                       "Unplayable.\nAt the end of your turn, take 4 damage.\n", -1, false, new ArrayList<String>(Arrays.asList("Unplayable", "(OnTurnEnd) DmgPlayer 4")), Rarity.COMMON)); //TODO: Something that makes burn discard even w/ retain? Or just hard-code that in?
     // Statuses can't be upgraded by default;^ Burn is a hardcoded exception
     cardList.add(new Card("Dazed", "Status", -1, false, new ArrayList<String>(Arrays.asList("Unplayable", "Ethereal")), new ArrayList<String>(), Rarity.COMMON));
-    cardList.add(new Card("Slimed", "Status", 1, false, new ArrayList<String>(Arrays.asList("Exhaust")), new ArrayList<String>(), Rarity.COMMON));
+    cardList.add(new Card("Slimzed", "Status", 1, false, new ArrayList<String>(Arrays.asList("Exhaust")), new ArrayList<String>(), Rarity.COMMON));
     cardList.add(new Card("Void", "Unplayable.\nEthereal.\nWhenever this card is drawn, lose 1 Energy\n", "Status", -1, false, new ArrayList<String>(Arrays.asList("Unplayable", "Ethereal", "(OnDraw) ChangeEnergy -1")),
                       "", -1, false, new ArrayList<String>(Arrays.asList()), Rarity.COMMON));
     cardList.add(new Card("Wound", "Status", -1, false, new ArrayList<String>(Arrays.asList("Unplayable")), new ArrayList<String>(), Rarity.COMMON));
@@ -237,6 +237,7 @@ public class App {
     //                   new ArrayList<String>(Arrays.asList("(OnExhaust) Block 8")), Rarity.UNCOMMON)); //TODO: Remove/update to be correct eventually (just for testing rn)
     // TODO: Slimed's text isn't centerend
     // Make cards' getDescription() replace '\n's with ' 's or smth?
+    // See test in Run.java (;alisdjflsdk;jafjffffffffffffffffff)
     // Make these^ constructors take in the Class along w/ the rarity
 
     return cardList;

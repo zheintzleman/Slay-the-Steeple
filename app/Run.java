@@ -15,14 +15,14 @@ public class Run{
     gold = 99;
     deck = new ArrayList<Card>();
     App.ASSERT(new Card("Strike") != null);
-    deck.add(new Card("Wound"));
-    deck.add(new Card("Wound"));
-    deck.add(new Card("Wound"));
-    deck.add(new Card("Slimed"));
     deck.add(new Card("Twin Strike"));
     deck.add(new Card("Twin Strike"));
     deck.add(new Card("Twin Strike"));
     deck.add(new Card("Twin Strike"));
+    deck.add(new Card("Slimzed"));
+    deck.add(new Card("Slimzed"));
+    deck.add(new Card("Slimzed"));
+    deck.add(new Card("Slimzed"));
     deck.add(new Card("True Grit"));
     deck.add(new Card("True Grit"));
     deck.add(new Card("Armaments"));

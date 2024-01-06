@@ -151,6 +151,10 @@ public class Card implements Serializable {
       res = res.replaceAll("ØendblkÁ", "");
       return res;
     }
+    public String getBaseDescriptionWONLs(){
+      String res = getBaseDescription().replace("\n", " ");
+      return res.substring(0, res.length()-1);
+    }
     //Takes into account the statuses of the player
     public String getDescriptionWStatuses(Combat combat){
       String res = codedDescription;
@@ -287,6 +291,8 @@ public class Card implements Serializable {
   public void setEffects(ArrayList<CardEffect> newEffects){ data.effects = newEffects; }
 
   public String getDescription(){ return data.description.getBaseDescription(); }
+  /**Description replacing \n characters with spaces (removes the terminal \n character w/o replacing it.) */
+  public String getDescriptionWONLs(){ return data.description.getBaseDescriptionWONLs(); }
   public Description getDescriptionObject(){ return data.description; }
   /**Takes into account the statuses of the player */
   public String getDescriptionWStatuses(Combat c){ return data.description.getDescriptionWStatuses(c); }
@@ -295,7 +301,7 @@ public class Card implements Serializable {
   @Override
   public String toString(){
     return Colors.gray + (data.energyCost < 0 ? "" : "(" + Colors.energyCostRed + data.energyCost + Colors.gray + ") ")
-    + Colors.reset + name + colorEveryWordBySpaces(" - " + getDescription(), Colors.gray) + Colors.reset;
+    + Colors.reset + name + colorEveryWordBySpaces(" - " + getDescriptionWONLs(), Colors.gray) + "\n" + Colors.reset;
   }
 
   /**Returns whether or not this Card has the entered effect
@@ -469,12 +475,11 @@ public class Card implements Serializable {
     }
 
     //Shouldn't get here
-    App.CARD_LIST.size(); //What? Remove probably
     for(Card c : App.CARD_LIST){
       Str.println("C: " + c.name);
     }
 
-    throw new RuntimeException("Card not in App.CARD_LIST list."); //Have you updated NUMCARDS?
+    throw new RuntimeException("Card \"" + name + "\" not in App.CARD_LIST list.");
   }
   
   

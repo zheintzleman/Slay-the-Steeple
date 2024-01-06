@@ -281,7 +281,7 @@ public class Str {
 
   /**Returns the length of the string ignoring esc sequences that have been marked with the O and A chars
   */
-  public static int lengthIgnoringEscSeqs(String str){ 
+  public static int lengthIgnoringEscSeqs(String str){ //TODO: Optimize w/ regex (removeAll & .length) if running slowly
     int length = 0;
     boolean inEscSequence = false;
 
@@ -304,6 +304,7 @@ public class Str {
   /**Returns the substring of the string starting at the entered index ignoring esc sequences that have been marked with the O and A chars
   */
   public static String substringIgnoringEscSequences(String str, int start){
+    App.ASSERT(start >= 0 && start <= lengthIgnoringEscSeqs(str));
     int col = 0;
     boolean inEscSequence = false;
 
@@ -337,15 +338,13 @@ public class Str {
   /**Returns the substring of the string from the start index to the end index, ignoring esc sequences that have been marked with the O and A chars
   */
   public static String substringIgnoringEscSequences(String str, int start, int end){
-    //Traverse ignoring esc sequences until col==start. Save that actual index (i), and then traverse ignoring esc sequences until col==end. Return substring between actual indexes
-    
-    if(end < start){
-      System.out.println("sIES: End < Start");
-    }
+    App.ASSERT(0 <= start && start <= end && end <= lengthIgnoringEscSeqs(str));
+
     if(end == lengthIgnoringEscSeqs(str)){
       return substringIgnoringEscSequences(str, start);
     }
     
+    //Traverse ignoring esc sequences until col==start. Save that actual index (i), and then traverse ignoring esc sequences until col==end. Return substring between actual indexes
     int col = 0;
     boolean inEscSequence = false;
     int actualStartIndex = 0;
@@ -360,7 +359,7 @@ public class Str {
         inEscSequence = false;
         continue;
       }
-      if(!inEscSequence){                                               //if not in escape sequence:
+      if(!inEscSequence){                                                     //if not in escape sequence:
         if(col == start){
           actualStartIndex = i;                                               //If col is equal to start, save i
         }else if(col == end){
@@ -379,8 +378,8 @@ public class Str {
         col++;                                                                //Increment col
       }
     }
-    //TODO: Remove the part of that (v) comment about it being recently added (eventually)
-    App.ASSERT(false); //<Recently added condition; shouldn't be returning in this failure case I believe.
+    System.out.println("-" + str + "-, " + start + ", " + end);
+    App.ASSERT(str.isEmpty()); //Shouldn't be returning in this failure case unless "", I think.
     return "";
   }
   
@@ -451,18 +450,18 @@ public class Str {
     String text = line.trim();
     int whiteSpace = line.length() - text.length();
     String centeredText = "";
-    for(int i=0; i<whiteSpace/2; i++){ //Half(rounded down) of the spaces go to start
+    for(int i=0; i<(whiteSpace+1)/2; i++){ //Half(rounded down) of the spaces go to start
       centeredText += " ";
     }
     centeredText += text;
-    for(int i=0; i<(whiteSpace+1)/2; i++){ //Half(rounded up) of the spaces go to end
+    for(int i=0; i<(whiteSpace)/2; i++){ //Half(rounded up) of the spaces go to end
       centeredText += " ";
     }
     // String lastChar = substringIgnoringEscSequences(text, lengthIgnoringEscSeqs(text) -1);
-    char lastChar = lastCharIgnoringEscSeqs(text);
-    if((lastChar == ',' || lastChar == '.') && whiteSpace%2 == 1){
-      centeredText = " " + centeredText.substring(0, centeredText.length()-1);
-    } //^If ends with a "," or a "." and whitespace is odd, moves the extra space to the start of the string
+    // char lastChar = lastCharIgnoringEscSeqs(text);
+    // if((lastChar == ',' || lastChar == '.') && whiteSpace%2 == 1){
+    //   centeredText = " " + centeredText.substring(0, centeredText.length()-1);
+    // } //^If ends with a "," or a "." and whitespace is odd, moves the extra space to the start of the string
     return centeredText;
   }
 
@@ -492,40 +491,42 @@ public class Str {
   /**Calls System.out.print() on the string, removing all special O and A characters
   */
   public static void print(String string){
-    String str = string;
-    //Remove Øs
-    int indexOfO = str.indexOf('Ø');
-    while (indexOfO != -1){
-      str = str.substring(0,indexOfO) + str.substring(indexOfO+1);
-      indexOfO = str.indexOf('Ø');
-    }
-    //Remove Ás
-    int indexOfA = str.indexOf('Á');
-    while (indexOfA != -1){
-      str = str.substring(0,indexOfA) + str.substring(indexOfA+1);
-      indexOfA = str.indexOf('Á');
-    }
+      // Old Code, kept for sentimental reasons:
+    // String str = string;
+    // //Remove Øs
+    // int indexOfO = str.indexOf('Ø');
+    // while (indexOfO != -1){
+    //   str = str.substring(0,indexOfO) + str.substring(indexOfO+1);
+    //   indexOfO = str.indexOf('Ø');
+    // }
+    // //Remove Ás
+    // int indexOfA = str.indexOf('Á');
+    // while (indexOfA != -1){
+    //   str = str.substring(0,indexOfA) + str.substring(indexOfA+1);
+    //   indexOfA = str.indexOf('Á');
+    // }
     //Print
-    System.out.print(str);
+    System.out.print(string.replace("Ø", "").replace("Á", ""));
   }
   /**Calls System.out.println() on the string, removing all special O and A characters
   */
   public static void println(String string){
-    String str = string;
-    //Remove Øs
-    int indexOfO = str.indexOf('Ø');
-    while (indexOfO != -1){
-      str = str.substring(0,indexOfO) + str.substring(indexOfO+1);
-      indexOfO = str.indexOf('Ø');
-    }
-    //Remove Ás
-    int indexOfA = str.indexOf('Á');
-    while (indexOfA != -1){
-      str = str.substring(0,indexOfA) + str.substring(indexOfA+1);
-      indexOfA = str.indexOf('Á');
-    }
+      // Old Code, kept for sentimental reasons:
+    // String str = string;
+    // //Remove Øs
+    // int indexOfO = str.indexOf('Ø');
+    // while (indexOfO != -1){
+    //   str = str.substring(0,indexOfO) + str.substring(indexOfO+1);
+    //   indexOfO = str.indexOf('Ø');
+    // }
+    // //Remove Ás
+    // int indexOfA = str.indexOf('Á');
+    // while (indexOfA != -1){
+    //   str = str.substring(0,indexOfA) + str.substring(indexOfA+1);
+    //   indexOfA = str.indexOf('Á');
+    // }
     //Print
-    System.out.println(str);
+    System.out.println(string.replace("Ø", "").replace("Á", ""));
   }
 
   /**Returns a string composed of toRepeat repeated numRepeats times
