@@ -443,25 +443,34 @@ public class Str {
   }
 
   
-  /**Evens spaces on either side of the text. If uneven, puts the extra space on the right side unless the string ends with a comma or period (then the space is added to the left)
+  /**Evens spaces on either side of the text. If uneven, puts the extra space on the right side iff the
+   * text is <=8 letters long & doesn't end with a comma, period or plus (then the space is added to the left)
   */
   public static String centerText(String string){
     String line = string;
     String text = line.trim();
     int whiteSpace = line.length() - text.length();
     String centeredText = "";
-    for(int i=0; i<(whiteSpace+1)/2; i++){ //Half(rounded down) of the spaces go to start
+    
+    //If ends with a "," "." or "+" and whitespace is odd, moves the extra space definitely to the start
+    char lastChar = lastCharIgnoringEscSeqs(text);
+    // if((lastChar == ',' || lastChar == '.') && whiteSpace%2 == 1){
+    //   centeredText = " " + centeredText.substring(0, centeredText.length()-1);
+    // }
+    // Defaults to extra space on left unless text is long or ends with ',' '.' or '+'
+    boolean rightAlign = lengthIgnoringEscSeqs(text) > 9 || lastChar == ',' || lastChar == '.' || lastChar == '+';
+    // Put extra space on the right if <=8 letters; on right if >=10:
+    int leftSpace = (whiteSpace + (rightAlign ? 1 : 0)) / 2;
+    int rightSpace = (whiteSpace + (rightAlign ? 0 : 1)) / 2;
+
+    for(int i=0; i<leftSpace; i++){ //Spaces go to start
       centeredText += " ";
     }
     centeredText += text;
-    for(int i=0; i<(whiteSpace)/2; i++){ //Half(rounded up) of the spaces go to end
+    for(int i=0; i<rightSpace; i++){ //Spaces go to end
       centeredText += " ";
     }
-    // String lastChar = substringIgnoringEscSequences(text, lengthIgnoringEscSeqs(text) -1);
-    // char lastChar = lastCharIgnoringEscSeqs(text);
-    // if((lastChar == ',' || lastChar == '.') && whiteSpace%2 == 1){
-    //   centeredText = " " + centeredText.substring(0, centeredText.length()-1);
-    // } //^If ends with a "," or a "." and whitespace is odd, moves the extra space to the start of the string
+
     return centeredText;
   }
 

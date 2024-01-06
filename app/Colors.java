@@ -1,6 +1,7 @@
 package app;
 public class Colors {
   public static final String reset = "Ø\u001B[0mÁ";
+  public static final String clearScreen = "\033[H\033[2J";
   public static final String deckBrown = "Ø\033[38;2;81;54;26mÁ";
   //public static final String blackOnDeckBrown = "Ø\033[48;2;81;54;26mÁØ\033[30mÁ";
   public static final String whiteOnDeckBrown = "Ø\033[48;2;81;54;26mÁØ\033[37mÁ";
@@ -18,7 +19,6 @@ public class Colors {
   public static final String backgroundGray = "Ø\033[1;100mÁ";
   public static final String energyCostRed = "Ø\u001B[38;5;124mÁ";
   public static final String energyCostRedBold = "Ø\u001B[38;5;124;1mÁ";
-  public static final String clearScreen = "\033[H\033[2J";
   public static final String blockBlue = "Ø\033[38;5;33mÁ";
   public static final String blockBlueOnHeaderBrown = "Ø\033[38;5;33m\033[48;2;152;118;84mÁ";
   public static final String backgroundBlockBlue = "Ø\033[48;5;33mÁ";
@@ -81,6 +81,7 @@ public class Colors {
   public static final String whiteOnExhGray  = "Ø\033[37m\033[48;5;236mÁ";
   public static final String looterBlue = "Ø\033[38;5;74mÁ";
   public static final String basicBlue = "Ø\033[38;2;38;66;77mÁ";
+  public static final String vigorOrange = "Ø\033[38;5;214mÁ";
 
 
 

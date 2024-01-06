@@ -497,9 +497,16 @@ public class Combat{
           power = card.searingBlowDamage();
           //Fallthrough
         case "Attack":
-          System.out.println("Amongoose " + power + ", " + target.toString());
           if(enemies.contains(target))
             player.attack(target, power);
+          break;
+        case "HeavyAttack": //Alternatively, could add code into the "gain pwr from strength" code to add more if card has some heavy property. Maybe even an (OnStrUse) or smth.
+          playEffect(new CardEffect("AppPlayer", "Vigor", 5), null);
+          if(enemies.contains(target)){
+            int strBuff = (power - 1) * player.getStrength();
+            int basePower = 14; //Base is 14 whether upgraded or not.
+            player.attack(target, basePower + strBuff);
+          }
           break;
         case "BodySlam":
           if(enemies.contains(target))
@@ -509,12 +516,6 @@ public class Combat{
           for(Object enemy : enemies.toArray()){
             player.attack((Enemy)enemy, power);
           }
-          break;
-        case "AtkRandom":
-          if(enemies.size() == 0) break; //Guard Clause
-          int rng = (int) (Math.random() * enemies.size());
-          target = enemies.get(rng);
-          player.attack(target, power);
           break;
         case "Apply":
           target.addStatusStrength(otherWords, power);
@@ -549,6 +550,12 @@ public class Combat{
     switch (eff.getPrimary()) {
       case "Block":
         player.block(power);
+        break;
+      case "AtkRandom":
+        if(enemies.size() == 0) break; //Guard Clause
+        int rng = (int) (Math.random() * enemies.size());
+        Enemy target = enemies.get(rng);
+        player.attack(target, power);
         break;
       case "AppPlayer":
         player.addStatusStrength(otherWords, power);
@@ -588,13 +595,9 @@ public class Combat{
           if(c == card){ shouldDiscard = false; } //Don't discard if we moved card onto draw pile
         }
         break;
-      case "Heavy":
-        power += player.getStatusStrength("Strength") * (power - 1);
       case "Anger":
         discardPile.add(new Card(card));
         break;
-      case "Clash":
-        break; //Relevant code is above; included to avoid error.
       case "Havoc":
         if(drawPile.size() == 0){
           break;
@@ -612,9 +615,16 @@ public class Combat{
         playCard(c);
         exhaust(c);
         break;
+      case "GainToDraw":
+        drawPile.add(new Card(otherWords));
+        Collections.shuffle(drawPile);
+        break;
       case "ChangeEnergy":
         energy += power;
         break;
+      case "Clash":
+      case "Unplayable":
+        break; //Relevant code is above; included to avoid error.
       default:
         System.out.println("(Error) Cannot compile card data: " + card + ", firstWord: " + firstWord);
     }

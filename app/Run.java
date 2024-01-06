@@ -15,19 +15,11 @@ public class Run{
     gold = 99;
     deck = new ArrayList<Card>();
     App.ASSERT(new Card("Strike") != null);
-    deck.add(new Card("Twin Strike"));
-    deck.add(new Card("Twin Strike"));
-    deck.add(new Card("Twin Strike"));
-    deck.add(new Card("Twin Strike"));
-    deck.add(new Card("Slimzed"));
-    deck.add(new Card("Slimzed"));
-    deck.add(new Card("Slimzed"));
-    deck.add(new Card("Slimzed"));
-    deck.add(new Card("True Grit"));
-    deck.add(new Card("True Grit"));
+    deck.add(new Card("Wild Strike"));
     deck.add(new Card("Armaments"));
-    deck.add(new Card("Armaments"));
-    deck.add(new Card("Bash"));
+    deck.add(new Card("Heavy Blade"));
+    deck.add(new Card("Flex"));
+    deck.add(new Card("Flex"));
     // TODO: Display deck in alphabetical order or smth?
     // Although this does show it in order obtained, actually.
     if(App.settingsManager.debug){

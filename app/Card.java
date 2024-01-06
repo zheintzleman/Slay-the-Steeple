@@ -18,9 +18,8 @@ public class Card implements Serializable {
     COMMON,
     UNCOMMON,
     RARE,
-    NULL //TODO: Remove? Used to have for statuses but they're now switched to Common Rarity.
   }
-  public enum Class{ //(Card Color)
+  public enum Color{ //(Card Color)
     IRONCLAD,
     SILENT,
     DEFECT,
@@ -68,7 +67,7 @@ public class Card implements Serializable {
           case "AtkRandom":
             codedDescription += "Deal ØatkÁ" + effectPower + "ØendatkÁ damage to a random enemy."; //TODO: If eg 3 atks in a row, causes error if second kills the last enemy.
           case "SearingBlow":
-            codedDescription += "Deal ØatkÁ" + searingBlowDamage() + "ØatkÁ damage.\nCan be upgraded any number of times.\n";
+            codedDescription += "Deal ØatkÁ" + searingBlowDamage() + "ØendatkÁ damage.\nCan be upgraded any number of times.\n";
             break;
           case "Block":
             codedDescription += "Gain ØblkÁ" + effectPower + "ØendblkÁ block.\n";
@@ -133,6 +132,13 @@ public class Card implements Serializable {
             break;
           case "Ethereal":
             codedDescription += "Ethereal.\n";
+            break;
+          case "HeavyAttack":
+            codedDescription += "Deal ØatkÁ14ØendatkÁ damage.\nStrength affects this card " + effectPower + " times.\n";
+            break;
+          case "GainToDraw":
+            codedDescription += "Shuffle a " + secondary + " into your draw pile.";
+            break;
           default:
             break;
         }
@@ -153,6 +159,7 @@ public class Card implements Serializable {
     }
     public String getBaseDescriptionWONLs(){
       String res = getBaseDescription().replace("\n", " ");
+      if(res.isEmpty()){ return res; }
       return res.substring(0, res.length()-1);
     }
     //Takes into account the statuses of the player
@@ -192,6 +199,7 @@ public class Card implements Serializable {
   private String name, type;
   private int upgrades;
   private Rarity rarity;
+  private Color color;
   private CardData data = new CardData();
   private CardData upData = new CardData(); //Data for the upgraded version of the card
   
@@ -203,7 +211,8 @@ public class Card implements Serializable {
     data.description = new Description("");
     data.energyCost = -1;
     data.isTargeted = false;
-    rarity = Rarity.NULL;
+    rarity = Rarity.COMMON;
+    color = Color.NEUTRAL;
     data.effects = new ArrayList<CardEffect>();
     upData = new CardData(data);
   }
@@ -212,17 +221,19 @@ public class Card implements Serializable {
     type = old.type;
     upgrades = 0;
     rarity = old.rarity;
+    color = old.color;
     data = new CardData(old.data);
     upData = new CardData(old.upData);
   }
   public Card(String name){
     this(getCard(name));
   }
-  private Card(String name, String type, int energyCost, boolean targeted, ArrayList<String> effects, Rarity rarity){
+  private Card(String name, String type, int energyCost, boolean targeted, ArrayList<String> effects, Rarity rarity, Color color){
     this.name = name;
     this.type = type;
     upgrades = 0;
     this.rarity = rarity;
+    this.color = color;
     data.energyCost = energyCost;
     data.isTargeted = targeted;
     data.effects = new ArrayList<CardEffect>();
@@ -231,8 +242,9 @@ public class Card implements Serializable {
     }
     data.description = new Description(data.effects);
   }
-  public Card(String name, String type, int energyCost, boolean targeted, ArrayList<String> effects, ArrayList<String> upEffects, Rarity rarity){
-    this(name, type, energyCost, targeted, effects, rarity);
+  public Card(String name, String type, int energyCost, boolean targeted, ArrayList<String> effects,
+              ArrayList<String> upEffects, Rarity rarity, Color color){
+    this(name, type, energyCost, targeted, effects, rarity, color);
     upData.energyCost = energyCost;
     upData.isTargeted = targeted;
     upData.effects = new ArrayList<CardEffect>();
@@ -242,8 +254,8 @@ public class Card implements Serializable {
     upData.description = new Description(upData.effects);
   }
   public Card(String name, String type, int energyCost, boolean targeted, ArrayList<String> effects,
-              int upCost, boolean upTargeted, ArrayList<String> upEffects, Rarity rarity){
-    this(name, type, energyCost, targeted, effects, rarity);
+              int upCost, boolean upTargeted, ArrayList<String> upEffects, Rarity rarity, Color color){
+    this(name, type, energyCost, targeted, effects, rarity, color);
     upData.energyCost = upCost;
     upData.isTargeted = upTargeted;
     upData.effects = new ArrayList<CardEffect>();
@@ -255,11 +267,11 @@ public class Card implements Serializable {
   /**If card's description can be affected by str/dex, include the ØatkÁ / ØendatkÁ / ØblkÁ / ØendblkÁ around the number(s)
    */
   public Card(String name, String description, String type, int energyCost, boolean targeted, ArrayList<String> effects,
-              String upDescription, int upCost, boolean upTargeted, ArrayList<String> upEffects, Rarity rarity){
-    this(name, type, energyCost, targeted, effects, rarity);
+              String upDescription, int upCost, boolean upTargeted, ArrayList<String> upEffects, Rarity rarity, Color color){
+    this(name, type, energyCost, targeted, effects, rarity, color);
     data.description = new Description(description);
 
-    if(!name.equals("Twin Strike")){ //<-Whitelist
+    if(!(name.equals("Twin Strike") || name.equals("Sword Boomerang"))){ //<-Whitelist
       // To get your attention. Read the above comment^.
       for(CardEffect eff : data.effects){
         App.ASSERT(!eff.isAttack() && !eff.isDefense());
@@ -384,19 +396,13 @@ public class Card implements Serializable {
   */
   public String[] getImageWStatuses(Combat combat){ //TODO: Enemy images are displaying weirdly; louses have 3 spaces on the left & 5 on the right, while blue slaver is 1 & 0 respectively.
     String text = "";
-    // text += name + "\n";
-    Str.println(Str.concatArrayListWNL(Str.wrapText(name, CARDWIDTH-8))); // TODO: REMOVE
-    text += Str.concatArrayListWNL(Str.wrapText(name, CARDWIDTH-8));
+    text += Str.concatArrayListWNL(Str.wrapText(name, CARDWIDTH-7));
     text += "\n " + (combat == null ? getDescription() : getDescriptionWStatuses(combat)) + "\n";
     
     String[] image = Str.makeCenteredTextBox(text, CARDHEIGHT, CARDWIDTH); //Can make them up to 18 wide with width = 200; Up to 12 wide iirc with width = 150. 12 can work to fit long texts but the cards are really vertical.
 
     String energyCostString = data.energyCost < 0 ? "" : "" + data.energyCost;
-    Str.println("Before:" + image[1]); //debug
     image[1] = Str.addStringsSkipEscSequences(image[1], 2, energyCostString, Colors.energyCostRedBold, Colors.reset);
-    //debug:
-    Str.println("After:" + image[1]);
-    Str.println("Substring:" + Str.substringIgnoringEscSequences(image[1], 0, 2) + "<");
     
     return image;
   }

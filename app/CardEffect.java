@@ -3,7 +3,7 @@ package app;
 import java.io.Serializable;
 
 public class CardEffect implements Serializable {
-  public static final String[] ATTACK_PRIMARIES = new String[] {"Attack", "AtkAll", "BodySlam", "SearingBlow"}; //Can remove
+  public static final String[] ATTACK_PRIMARIES = new String[] {"Attack", "AtkAll", "BodySlam", "SearingBlow", "HeavyAttack", "AtkRandom"}; //Can remove
   public static final String[] DEFENSE_PRIMARIES = new String[] {"Blk"};
   // Primaries that affect game state outside of the current combat (i.e. that matter even after the combat ends.)
   public static final String[] RUN_STATE_PRIMARIES = new String[] {}; //TODO: Fill out as I add them.
@@ -81,7 +81,7 @@ public class CardEffect implements Serializable {
   public void setPower(int power) { this.power = power; }
   public PlayEvent whenPlayed(){ return whenPlayed; }
 
-  public boolean isAttack(){
+  public boolean isAttack(){ //TODO: Why not just make this check if the card is an attack card?
     for(String s : ATTACK_PRIMARIES){
       if(primary.equals(s)){
         return true;

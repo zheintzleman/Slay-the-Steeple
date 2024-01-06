@@ -2,6 +2,7 @@ package app;
 
 import java.util.*;
 
+import app.Card.Color;
 import app.Card.Rarity;
 
 import java.io.*;
@@ -179,66 +180,66 @@ public class App {
     // or "Lorem Ipsum 4 Dolor" as: P = "Lorem", S = "Ipsum 4 Dolor", p = 0.
     // or "(OnExhaust) Lorem Ipsum 4 Dolor" as: P = "Lorem", S = "Ipsum 4 Dolor", p = 0, WP = ONEXHAUST
     cardList.add(new Card("Burn", "Unplayable.\nAt the end of your turn, take 2 damage.\n", "Status", -1, false, new ArrayList<String>(Arrays.asList("Unplayable", "(OnTurnEnd) DmgPlayer 2")),
-                      "Unplayable.\nAt the end of your turn, take 4 damage.\n", -1, false, new ArrayList<String>(Arrays.asList("Unplayable", "(OnTurnEnd) DmgPlayer 4")), Rarity.COMMON)); //TODO: Something that makes burn discard even w/ retain? Or just hard-code that in?
+                      "Unplayable.\nAt the end of your turn, take 4 damage.\n", -1, false, new ArrayList<String>(Arrays.asList("Unplayable", "(OnTurnEnd) DmgPlayer 4")), Rarity.COMMON, Color.NEUTRAL)); //TODO: Something that makes burn discard even w/ retain? Or just hard-code that in?
     // Statuses can't be upgraded by default;^ Burn is a hardcoded exception
-    cardList.add(new Card("Dazed", "Status", -1, false, new ArrayList<String>(Arrays.asList("Unplayable", "Ethereal")), new ArrayList<String>(), Rarity.COMMON));
-    cardList.add(new Card("Slimzed", "Status", 1, false, new ArrayList<String>(Arrays.asList("Exhaust")), new ArrayList<String>(), Rarity.COMMON));
+    cardList.add(new Card("Dazed", "Status", -1, false, new ArrayList<String>(Arrays.asList("Unplayable", "Ethereal")), new ArrayList<String>(), Rarity.COMMON, Color.NEUTRAL));
+    cardList.add(new Card("Slimed", "Status", 1, false, new ArrayList<String>(Arrays.asList("Exhaust")), new ArrayList<String>(), Rarity.COMMON, Color.NEUTRAL));
     cardList.add(new Card("Void", "Unplayable.\nEthereal.\nWhenever this card is drawn, lose 1 Energy\n", "Status", -1, false, new ArrayList<String>(Arrays.asList("Unplayable", "Ethereal", "(OnDraw) ChangeEnergy -1")),
-                      "", -1, false, new ArrayList<String>(Arrays.asList()), Rarity.COMMON));
-    cardList.add(new Card("Wound", "Status", -1, false, new ArrayList<String>(Arrays.asList("Unplayable")), new ArrayList<String>(), Rarity.COMMON));
+                      "", -1, false, new ArrayList<String>(Arrays.asList()), Rarity.COMMON, Color.NEUTRAL));
+    cardList.add(new Card("Wound", "Status", -1, false, new ArrayList<String>(Arrays.asList("Unplayable")), new ArrayList<String>(), Rarity.COMMON, Color.NEUTRAL));
 
     cardList.add(new Card("Strike", "Attack", 1, true, new ArrayList<String>(Arrays.asList("Attack 6")), //TODO: Should these arraylists really just be arrays?
-                      new ArrayList<String>(Arrays.asList("Attack 9")), Rarity.BASIC));
+                      new ArrayList<String>(Arrays.asList("Attack 9")), Rarity.BASIC, Color.IRONCLAD));
     cardList.add(new Card("Defend", "Skill", 1, false, new ArrayList<String>(Arrays.asList("Block 5")),
-                      new ArrayList<String>(Arrays.asList("Block 8")), Rarity.BASIC)); 
+                      new ArrayList<String>(Arrays.asList("Block 8")), Rarity.BASIC, Color.IRONCLAD)); 
     cardList.add(new Card("Bash", "Attack", 2, true, new ArrayList<String>(Arrays.asList("Attack 8", "Apply Vulnerable 2")),
-                      new ArrayList<String>(Arrays.asList("Attack 10", "Apply Vulnerable 3")), Rarity.BASIC));
+                      new ArrayList<String>(Arrays.asList("Attack 10", "Apply Vulnerable 3")), Rarity.BASIC, Color.IRONCLAD));
     cardList.add(new Card("Anger", "Attack", 0, true, new ArrayList<String>(Arrays.asList("Attack 6", "Anger")),
-                      new ArrayList<String>(Arrays.asList("Attack 8", "Anger")), Rarity.COMMON));
+                      new ArrayList<String>(Arrays.asList("Attack 8", "Anger")), Rarity.COMMON, Color.IRONCLAD));
     cardList.add(new Card("Armaments", "Skill", 1, false, new ArrayList<String>(Arrays.asList("Block 5", "Upgrade Choose1FromHand")),
-                      new ArrayList<String>(Arrays.asList("Block 5", "Upgrade Hand")), Rarity.COMMON));
+                      new ArrayList<String>(Arrays.asList("Block 5", "Upgrade Hand")), Rarity.COMMON, Color.IRONCLAD));
     cardList.add(new Card("Searing Blow", "Attack", 2, true, new ArrayList<String>(Arrays.asList("SearingBlow")),
-                      new ArrayList<String>(Arrays.asList("SearingBlow")), Rarity.COMMON));
+                      new ArrayList<String>(Arrays.asList("SearingBlow")), Rarity.COMMON, Color.IRONCLAD));
     cardList.add(new Card("Clash", "Attack", 0, true, new ArrayList<String>(Arrays.asList("Clash", "Attack 14")),
-                      new ArrayList<String>(Arrays.asList("Clash", "Attack 18")), Rarity.COMMON));
+                      new ArrayList<String>(Arrays.asList("Clash", "Attack 18")), Rarity.COMMON, Color.IRONCLAD));
     cardList.add(new Card("Body Slam", "Attack", 1, true, new ArrayList<String>(Arrays.asList("BodySlam")),
-                      0, true, new ArrayList<String>(Arrays.asList("BodySlam")), Rarity.COMMON));
+                      0, true, new ArrayList<String>(Arrays.asList("BodySlam")), Rarity.COMMON, Color.IRONCLAD));
     cardList.add(new Card("Cleave", "Attack", 1, false, new ArrayList<String>(Arrays.asList("AtkAll 8")),
-                      new ArrayList<String>(Arrays.asList("AtkAll 11")), Rarity.COMMON));
+                      new ArrayList<String>(Arrays.asList("AtkAll 11")), Rarity.COMMON, Color.IRONCLAD));
     cardList.add(new Card("Clothesline", "Attack", 2, true, new ArrayList<String>(Arrays.asList("Attack 12", "Apply Weak 2")),
-                      new ArrayList<String>(Arrays.asList("Attack 14", "Apply Weak 3")), Rarity.COMMON));
+                      new ArrayList<String>(Arrays.asList("Attack 14", "Apply Weak 3")), Rarity.COMMON, Color.IRONCLAD));
     cardList.add(new Card("Flex", "Gain 2 Strength.\nAt the end of this turn, lose 2 Strength.\n", "Skill", 0, false, new ArrayList<String>(Arrays.asList("AppPlayer Strength 2", "AppPlayer Strength Down 2")),
-                                      "Gain 4 Strength.\nAt the end of this turn, lose 4 Strength.\n", 0, false, new ArrayList<String>(Arrays.asList("AppPlayer Strength 4", "AppPlayer Strength Down 4")), Rarity.COMMON));
+                                      "Gain 4 Strength.\nAt the end of this turn, lose 4 Strength.\n", 0, false, new ArrayList<String>(Arrays.asList("AppPlayer Strength 4", "AppPlayer Strength Down 4")), Rarity.COMMON, Color.IRONCLAD));
     cardList.add(new Card("Havoc", "Skill", 1, false, new ArrayList<String>(Arrays.asList("Havoc")),
-                      0, false, new ArrayList<String>(Arrays.asList("Havoc")), Rarity.COMMON));
+                      0, false, new ArrayList<String>(Arrays.asList("Havoc")), Rarity.COMMON, Color.IRONCLAD));
     cardList.add(new Card("Headbutt", "Attack", 1, true, new ArrayList<String>(Arrays.asList("Attack 9", "PutOnDrawPile Choose1FromDisc")),
-                      new ArrayList<String>(Arrays.asList("Attack 12", "PutOnDrawPile Choose1FromDisc")), Rarity.COMMON));
-    cardList.add(new Card("Heavy Blade", "Attack", 2, true, new ArrayList<String>(Arrays.asList("Heavy 3", "Attack 14")),
-                      new ArrayList<String>(Arrays.asList("Heavy 5", "Attack 14")), Rarity.COMMON));
+                      new ArrayList<String>(Arrays.asList("Attack 12", "PutOnDrawPile Choose1FromDisc")), Rarity.COMMON, Color.IRONCLAD));
+    cardList.add(new Card("Heavy Blade", "Attack", 2, true, new ArrayList<String>(Arrays.asList("HeavyAttack 3")),
+                      new ArrayList<String>(Arrays.asList("HeavyAttack 5")), Rarity.COMMON, Color.IRONCLAD));
     cardList.add(new Card("Iron Wave", "Attack", 1, true, new ArrayList<String>(Arrays.asList("Block 5", "Attack 5")),
-                      new ArrayList<String>(Arrays.asList("Block 7", "Attack 7")), Rarity.COMMON));
+                      new ArrayList<String>(Arrays.asList("Block 7", "Attack 7")), Rarity.COMMON, Color.IRONCLAD));
     cardList.add(new Card("Pommel Strike", "Attack", 1, true, new ArrayList<String>(Arrays.asList("Attack 9", "Draw 1")), //TODO: rn in Card, energy cost displays right next to the name (adj. chars)
-                      new ArrayList<String>(Arrays.asList("Attack 10", "Draw 2")), Rarity.COMMON));
+                      new ArrayList<String>(Arrays.asList("Attack 10", "Draw 2")), Rarity.COMMON, Color.IRONCLAD));
     cardList.add(new Card("Shrug It Off", "Skill", 1, false, new ArrayList<String>(Arrays.asList("Block 8", "Draw 1")),
-                      new ArrayList<String>(Arrays.asList("Block 11", "Draw 1")), Rarity.COMMON));
+                      new ArrayList<String>(Arrays.asList("Block 11", "Draw 1")), Rarity.COMMON, Color.IRONCLAD));
     cardList.add(new Card("Sword Boomerang", "Deal ØatkÁ3ØendatkÁ damage to a random enemy 3 times.\n", "Attack", 1, false, new ArrayList<String>(Arrays.asList("AtkRandom 3", "AtkRandom 3", "AtkRandom 3")),
-                      "Deal ØatkÁ3ØendatkÁ damage to a random enemy 4 times.\n", 1, false, new ArrayList<String>(Arrays.asList("AtkRandom 3", "AtkRandom 3", "AtkRandom 3", "AtkRandom 3")), Rarity.COMMON));
+                      "Deal ØatkÁ3ØendatkÁ damage to a random enemy 4 times.\n", 1, false, new ArrayList<String>(Arrays.asList("AtkRandom 3", "AtkRandom 3", "AtkRandom 3", "AtkRandom 3")), Rarity.COMMON, Color.IRONCLAD));
     cardList.add(new Card("Thunderclap", "Attack", 1, false, new ArrayList<String>(Arrays.asList("AtkAll 4", "AppAll Vulnerable 1")),
-                      new ArrayList<String>(Arrays.asList("AtkAll 7", "AppAll Vulnerable 1")), Rarity.COMMON));
+                      new ArrayList<String>(Arrays.asList("AtkAll 7", "AppAll Vulnerable 1")), Rarity.COMMON, Color.IRONCLAD));
     cardList.add(new Card("True Grit", "Gain 7 block.\nExhaust a random card in your hand.\n", "Skill", 1, false, new ArrayList<String>(Arrays.asList("Block 7", "Exhaust RandHand")),
-                      "Gain 9 block.\nExhaust a card in your hand.\n", 1, false, new ArrayList<String>(Arrays.asList("Block 9", "Exhaust Choose1FromHand")), Rarity.COMMON));
+                      "Gain 9 block.\nExhaust a card in your hand.\n", 1, false, new ArrayList<String>(Arrays.asList("Block 9", "Exhaust Choose1FromHand")), Rarity.COMMON, Color.IRONCLAD));
     // cardList.add(new Card("Twin Strike", "Attack", 1, true, new ArrayList<String>(Arrays.asList("Attack 5", "Attack 5")),
-                      // new ArrayList<String>(Arrays.asList("Attack 7", "Attack 7")), Rarity.COMMON));
+                      // new ArrayList<String>(Arrays.asList("Attack 7", "Attack 7")), Rarity.COMMON, Color.IRONCLAD));
     cardList.add(new Card("Twin Strike", "Deal ØatkÁ5ØendatkÁ damage twice.\n", "Attack", 1, true, new ArrayList<String>(Arrays.asList("Attack 5", "Attack 5")),
-                      "Deal ØatkÁ7ØendatkÁ damage twice.\n", 1, true, new ArrayList<String>(Arrays.asList("Attack 7", "Attack 7")), Rarity.COMMON));
+                      "Deal ØatkÁ7ØendatkÁ damage twice.\n", 1, true, new ArrayList<String>(Arrays.asList("Attack 7", "Attack 7")), Rarity.COMMON, Color.IRONCLAD));
     cardList.add(new Card("Warcry", "Skill", 0, false, new ArrayList<String>(Arrays.asList("Draw 1", "PutOnDrawPile Choose1FromHand", "Exhaust")),
-                      new ArrayList<String>(Arrays.asList("Draw 2", "PutOnDrawPile Choose1FromHand", "Exhaust")), Rarity.COMMON));
+                      new ArrayList<String>(Arrays.asList("Draw 2", "PutOnDrawPile Choose1FromHand", "Exhaust")), Rarity.COMMON, Color.IRONCLAD));
     // cardList.add(new Card("Sentinel", "Skill", 1, false, new ArrayList<String>(Arrays.asList("(OnExhaust) Block 5")),
     //                   new ArrayList<String>(Arrays.asList("(OnExhaust) Block 8")), Rarity.UNCOMMON)); //TODO: Remove/update to be correct eventually (just for testing rn)
-    // TODO: Slimed's text isn't centerend
-    // Make cards' getDescription() replace '\n's with ' 's or smth?
-    // See test in Run.java (;alisdjflsdk;jafjffffffffffffffffff)
-    // Make these^ constructors take in the Class along w/ the rarity
+    cardList.add(new Card("Wild Strike", "Attack", 1, true, new ArrayList<String>(Arrays.asList("Attack 12", "GainToDraw Wound")),
+                      new ArrayList<String>(Arrays.asList("Attack 17", "GainToDraw Wound")), Rarity.COMMON, Color.IRONCLAD));
+    // Finish^
+    // Make an event system/class(calls relevant relic/status/we/ functions) (/smth)
 
     return cardList;
   }
