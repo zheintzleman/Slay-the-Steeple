@@ -12,6 +12,7 @@ public class EventManager {
     run = c.getRun();
     combat = c;
   }
+  public Combat getCombat(){ return combat; }
   public void setCombat(Combat c){ combat = c; }
 
   public void OnTurnEnd(){

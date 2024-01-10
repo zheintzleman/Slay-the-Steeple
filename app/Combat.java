@@ -14,11 +14,12 @@ public class Combat{
   boolean combatOver;
   int topRowOfCards;
   private Run thisRun; //To access data about this specific run
-  private EventManager eventManager = thisRun.getEventManager();
+  private EventManager eventManager;
   public static final String[] IRONCLADIMG = Colors.fillColor(new String[] {"        ▄▄▄   ", "       ▄███▄  ", "▀▀▀▀▀▀▀▀▀████  ", "       ▄███▄  ", "       ██▀ ▀██ ", "       █▀    ▀█"}, Colors.atkIntArtRed); 
   
   public Combat(Run run){
     thisRun = run;
+    eventManager = thisRun.getEventManager();
     player = new Entity("Ironclad", run.getHP(), run.getMaxHP(), IRONCLADIMG, this);
     enemies = new ArrayList<Enemy>();
     //Defaults to a Jaw Worm combat
@@ -37,6 +38,7 @@ public class Combat{
   }
   public Combat(Run run, String combatType){
     thisRun = run;
+    eventManager = thisRun.getEventManager();
     player = new Entity("Ironclad", run.getHP(), run.getMaxHP(), Colors.IRONCLADIMG2, this);
     enemies = new ArrayList<Enemy>();
     baseEnergy = 3;
@@ -121,6 +123,7 @@ public class Combat{
   public void setEnemiesToUpdate(ArrayList<Enemy> newETU){ enemiesToUpdate = newETU; }
   public Entity getPlayer(){ return player; }
   public Run getRun(){ return thisRun; }
+  public EventManager getEventManager(){ return eventManager; }
 
 
   /**Adds the enemy to the arraylist of enemies
@@ -177,25 +180,11 @@ public class Combat{
       }
       //endOfTurn
 
-      // Also calls OnTurnEnd card effects
+      //Discards Hand & OnTurnEnd Events
       endTurn();
-      // callOnTurnEndEffs(hand);
-      // //discard hand
-      // while(hand.size() != 0){
-      //   // discardCardFromHand(0);
-      // }
-
-      //Enemy turn ends
-      enemiesToUpdate = new ArrayList<Enemy>(enemies);
-      for(Enemy e : enemies){
-        e.endTurn(player);
-      }
-      for(Enemy e : enemies){
-        e.block(e.getStartOfTurnBlock());
-      }
-      enemies = enemiesToUpdate;
+      //Ends player & enemy turns
+      endEntityTurns();
       
-      player.endTurn();
       thisRun.setHP(player.getHP());
     }
     //TODO: Make gold stolen be updated here (both remove the gold from the player and add # to res)
@@ -242,11 +231,12 @@ public class Combat{
 
   /**Ends the turn, discarding the hand and calling OnTurnEnd events */
   public void endTurn(){
+    eventManager.OnTurnEnd();
+
     while(hand.size() != 0){
       Card card = hand.get(0);
       boolean shouldDiscard = true;
 
-      eventManager.OnTurnEnd();
       for(CardEffect eff : card.getEffects()){
         if(eff.whenPlayed() == PlayEvent.ONTURNEND){
           //Plays any relevant card effects
@@ -258,6 +248,19 @@ public class Combat{
         discardCardFromHand(card);
       }
     }
+  }
+
+  public void endEntityTurns(){
+    enemiesToUpdate = new ArrayList<Enemy>(enemies);
+    for(Enemy e : enemies){
+      e.endTurn(player);
+    }
+    for(Enemy e : enemies){
+      e.block(e.getStartOfTurnBlock());
+    }
+    enemies = enemiesToUpdate;
+
+    player.endTurn();
   }
 
   /**Sets the screen to accurate values/images
@@ -448,32 +451,13 @@ public class Combat{
     Entity target = null;
     boolean shouldDiscard = true;
 
-    //Technical Things:
-
-    if(card.getEnergyCost() > this.energy
-    || card.hasEffectWith("Unplayable")
-    || player.hasStatus("Entangled") && card.getType().equals("Attack")){
+    if(!cardPlayable(card)){
       return false;
-    }
-    // if(){
-    //   return false;
-    // }
-    // if(player.hasStatus("Entangled") && card.getType().equals("Attack")){
-    //   return false;
-    // }
-    if(card.hasEffect("Clash")){
-      for(Card c : hand){
-        if(!c.getType().equals("Attack")){
-          return false;
-        }
-      }
-    }
+    }    
 
     if(card.isTargeted()){
       int targetIndex = getTarget();
-      if(targetIndex == -1){
-        return false;
-      }
+      if(targetIndex == -1){ return false; }
       target = enemies.get(targetIndex-1);
     }
     
@@ -533,6 +517,23 @@ public class Combat{
       discardPile.add(card);
     }
     
+    return true;
+  }
+
+  public boolean cardPlayable(Card card){
+  if(card.getEnergyCost() > this.energy
+    || card.hasEffectWith("Unplayable")
+    || player.hasStatus("Entangled") && card.getType().equals("Attack")){
+      return false;
+    }
+    if(card.hasEffect("Clash")){
+      for(Card c : hand){
+        if(!c.getType().equals("Attack")){
+          return false;
+        }
+      }
+    }
+
     return true;
   }
 
@@ -627,7 +628,7 @@ public class Combat{
         break;
       case "Clash":
       case "Unplayable":
-        break; //Relevant code is above; included to avoid error.
+        break; //Relevant code is earlier; included to avoid error.
       default:
         System.out.println("(Error) Cannot compile card data: " + card + ", firstWord: " + firstWord);
     }

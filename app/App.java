@@ -19,6 +19,23 @@ public class App {
                                           + "For convenience, you can refer to draw, discard, and exhaust piles as \"draw\", \"disc\", and \"exh\" respectively.\n\n"
                                           + "Some screens have additional information written below the screen, so check there if you're confused.\n\n"
                                           + "Each combat drops 10-20 " + Colors.gold + "gold" + Colors.reset + ". Try to get as much as possible before dying!\n\n";
+  public static final String TITLE = Colors.headerBrown + "\n   ▄▄▄▄▄   █    ██  ▀▄    ▄        ▄▄▄▄▀ ▄  █ ▄███▄          ▄▄▄▄▄   █ ▄▄  ▄█ █▄▄▄▄ ▄███▄   \n"
+                                                          + "  █     ▀▄ █    █ █   █  █      ▀▀▀ █   █   █ █▀   ▀        █     ▀▄ █   █ ██ █  ▄▀ █▀   ▀  \n"
+                                                          + "▄  ▀▀▀▀▄   █    █▄▄█   ▀█           █   ██▀▀█ ██▄▄        ▄  ▀▀▀▀▄   █▀▀▀  ██ █▀▀▌  ██▄▄    \n"
+                                                          + " ▀▄▄▄▄▀    ███▄ █  █   █           █    █   █ █▄   ▄▀      ▀▄▄▄▄▀    █     ▐█ █  █  █▄   ▄▀ \n"
+                                                          + "               ▀   █ ▄▀           ▀        █  ▀███▀                   █     ▐   █   ▀███▀   \n"
+                                                          + "                  █                       ▀                            ▀       ▀            \n"
+                                                          + "                 ▀                                                                          \n" + Colors.reset;
+  public static final String GAME_OVER = "  ▄████  ▄▄▄       ███▄ ▄███▓▓█████     ▒█████   ██▒   █▓▓█████  ██▀███  \n" +
+                                        " ██▒ ▀█▒▒████▄    ▓██▒▀█▀ ██▒▓█   ▀    ▒██▒  ██▒▓██░   █▒▓█   ▀ ▓██ ▒ ██▒\n" +
+                                        "▒██░▄▄▄░▒██  ▀█▄  ▓██    ▓██░▒███      ▒██░  ██▒ ▓██  █▒░▒███   ▓██ ░▄█ ▒\n" +
+                                        "░▓█  ██▓░██▄▄▄▄██ ▒██    ▒██ ▒▓█  ▄    ▒██   ██░  ▒██ █░░▒▓█  ▄ ▒██▀▀█▄  \n" +
+                                        "░▒▓███▀▒ ▓█   ▓██▒▒██▒   ░██▒░▒████▒   ░ ████▓▒░   ▒▀█░  ░▒████▒░██▓ ▒██▒\n" +
+                                        " ░▒   ▒  ▒▒   ▓▒█░░ ▒░   ░  ░░░ ▒░ ░   ░ ▒░▒░▒░    ░ ▐░  ░░ ▒░ ░░ ▒▓ ░▒▓░\n" +
+                                        "  ░   ░   ▒   ▒▒ ░░  ░      ░ ░ ░  ░     ░ ▒ ▒░    ░ ░░   ░ ░  ░  ░▒ ░ ▒░\n" +
+                                        "░ ░   ░   ░   ▒   ░      ░      ░      ░ ░ ░ ▒       ░░     ░     ░░   ░ \n" +
+                                        "      ░       ░  ░       ░      ░  ░       ░ ░        ░     ░  ░   ░     \n" +
+                                        "                                                     ░                   \n";
 
   public static SettingsManager settingsManager = new SettingsManager(SETTINGS_PATH);
   // public static ArrayList<Card> CARD_LIST = loadAvailableCards(CARD_LIST_PATH);
@@ -32,7 +49,7 @@ public class App {
     // //Load the available cards list:
     // updateAvailableCardsFile(CARD_LIST_PATH); //TODO: Remove these 3 lines (<, ^, v) <-???
     // ASSERT(CARD_LIST != null);
-    System.out.println("LIST: " + CARD_LIST); //Remove
+    Str.println("LIST: " + CARD_LIST); //Remove
     // ArrayList<Card> REMOVE = loadAvailableCards(CARD_LIST_PATH);
     // System.out.println(REMOVE);
     Statuses.loadStatuses();
@@ -41,13 +58,7 @@ public class App {
     //Title
     if(!settingsManager.debug)
       Str.println(Colors.clearScreen);
-    Str.println(Colors.headerBrown + "\n   ▄▄▄▄▄   █    ██  ▀▄    ▄        ▄▄▄▄▀ ▄  █ ▄███▄          ▄▄▄▄▄   █ ▄▄  ▄█ █▄▄▄▄ ▄███▄   \n"
-                                     + "  █     ▀▄ █    █ █   █  █      ▀▀▀ █   █   █ █▀   ▀        █     ▀▄ █   █ ██ █  ▄▀ █▀   ▀  \n"
-                                     + "▄  ▀▀▀▀▄   █    █▄▄█   ▀█           █   ██▀▀█ ██▄▄        ▄  ▀▀▀▀▄   █▀▀▀  ██ █▀▀▌  ██▄▄    \n"
-                                     + " ▀▄▄▄▄▀    ███▄ █  █   █           █    █   █ █▄   ▄▀      ▀▄▄▄▄▀    █     ▐█ █  █  █▄   ▄▀ \n"
-                                     + "               ▀   █ ▄▀           ▀        █  ▀███▀                   █     ▐   █   ▀███▀   \n"
-                                     + "                  █                       ▀                            ▀       ▀            \n"
-                                     + "                 ▀                                                                          \n" + Colors.reset);
+    Str.println(TITLE);
        
     Str.println("\n" + INSTRUCTIONS + "Press " + Colors.magenta + "Enter" + Colors.reset + " to continue\n");
     
@@ -238,7 +249,7 @@ public class App {
     //                   new ArrayList<String>(Arrays.asList("(OnExhaust) Block 8")), Rarity.UNCOMMON)); //TODO: Remove/update to be correct eventually (just for testing rn)
     cardList.add(new Card("Wild Strike", "Attack", 1, true, new ArrayList<String>(Arrays.asList("Attack 12", "GainToDraw Wound")),
                       new ArrayList<String>(Arrays.asList("Attack 17", "GainToDraw Wound")), Rarity.COMMON, Color.IRONCLAD));
-    // Finish^
+    
     // Make an event system/class(calls relevant relic/status/we/ functions) (/smth)
     // TODO: Make the display of how much damage heavy blade will do accurate (probably using the events/(OnX)'s)
 

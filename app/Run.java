@@ -100,6 +100,8 @@ public class Run{
       c = new Combat(this, "Looter");
       }
       eventManager.setCombat(c);
+      EventManager E = c.getEventManager();
+      App.ASSERT(c.getEventManager() == eventManager);
       int goldStolen = c.runCombat();
       if(hp <= 0){
         break; //Death mechanic (temporary?) //global bool var for death?
@@ -109,16 +111,7 @@ public class Run{
       Main.scan.nextLine();
     }
     Str.println(Colors.clearScreen);
-    System.out.println("  ▄████  ▄▄▄       ███▄ ▄███▓▓█████     ▒█████   ██▒   █▓▓█████  ██▀███  \n" +
-                       " ██▒ ▀█▒▒████▄    ▓██▒▀█▀ ██▒▓█   ▀    ▒██▒  ██▒▓██░   █▒▓█   ▀ ▓██ ▒ ██▒\n" +
-                       "▒██░▄▄▄░▒██  ▀█▄  ▓██    ▓██░▒███      ▒██░  ██▒ ▓██  █▒░▒███   ▓██ ░▄█ ▒\n" +
-                       "░▓█  ██▓░██▄▄▄▄██ ▒██    ▒██ ▒▓█  ▄    ▒██   ██░  ▒██ █░░▒▓█  ▄ ▒██▀▀█▄  \n" +
-                       "░▒▓███▀▒ ▓█   ▓██▒▒██▒   ░██▒░▒████▒   ░ ████▓▒░   ▒▀█░  ░▒████▒░██▓ ▒██▒\n" +
-                       " ░▒   ▒  ▒▒   ▓▒█░░ ▒░   ░  ░░░ ▒░ ░   ░ ▒░▒░▒░    ░ ▐░  ░░ ▒░ ░░ ▒▓ ░▒▓░\n" +
-                       "  ░   ░   ▒   ▒▒ ░░  ░      ░ ░ ░  ░     ░ ▒ ▒░    ░ ░░   ░ ░  ░  ░▒ ░ ▒░\n" +
-                       "░ ░   ░   ░   ▒   ░      ░      ░      ░ ░ ░ ▒       ░░     ░     ░░   ░ \n" +
-                       "      ░       ░  ░       ░      ░  ░       ░ ░        ░     ░  ░   ░     \n" +
-                       "                                                     ░                   \n");
+    System.out.println(App.GAME_OVER);
     Str.println("You got " + Colors.gold + gold + Colors.reset + " gold");
   }
 
