@@ -240,6 +240,7 @@ public class App {
                       new ArrayList<String>(Arrays.asList("Attack 17", "GainToDraw Wound")), Rarity.COMMON, Color.IRONCLAD));
     // Finish^
     // Make an event system/class(calls relevant relic/status/we/ functions) (/smth)
+    // TODO: Make the display of how much damage heavy blade will do accurate (probably using the events/(OnX)'s)
 
     return cardList;
   }

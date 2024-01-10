@@ -14,6 +14,7 @@ public class Combat{
   boolean combatOver;
   int topRowOfCards;
   private Run thisRun; //To access data about this specific run
+  private EventManager eventManager = thisRun.getEventManager();
   public static final String[] IRONCLADIMG = Colors.fillColor(new String[] {"        ▄▄▄   ", "       ▄███▄  ", "▀▀▀▀▀▀▀▀▀████  ", "       ▄███▄  ", "       ██▀ ▀██ ", "       █▀    ▀█"}, Colors.atkIntArtRed); 
   
   public Combat(Run run){
@@ -177,7 +178,7 @@ public class Combat{
       //endOfTurn
 
       // Also calls OnTurnEnd card effects
-      discardHand(hand);
+      endTurn();
       // callOnTurnEndEffs(hand);
       // //discard hand
       // while(hand.size() != 0){
@@ -239,11 +240,13 @@ public class Combat{
     return combatOver; //False if combat is not over, true if it is
   }
 
-  public void discardHand(ArrayList<Card> hand){
+  /**Ends the turn, discarding the hand and calling OnTurnEnd events */
+  public void endTurn(){
     while(hand.size() != 0){
       Card card = hand.get(0);
       boolean shouldDiscard = true;
 
+      eventManager.OnTurnEnd();
       for(CardEffect eff : card.getEffects()){
         if(eff.whenPlayed() == PlayEvent.ONTURNEND){
           //Plays any relevant card effects

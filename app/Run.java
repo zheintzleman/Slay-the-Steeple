@@ -9,11 +9,13 @@ public class Run{
   private int hp, maxHP;
   private int gold;
   private ArrayList<Card> deck;
+  private EventManager eventManager;
   
   public Run(){
     hp = maxHP = 80;
     gold = 99;
     deck = new ArrayList<Card>();
+    eventManager = new EventManager(this);
     App.ASSERT(new Card("Strike") != null);
     deck.add(new Card("Wild Strike"));
     deck.add(new Card("Armaments"));
@@ -59,6 +61,7 @@ public class Run{
   public int getMaxHP(){ return maxHP; }
   public int getGold(){ return gold; }
   public ArrayList<Card> getDeck(){ return deck; }
+  public EventManager getEventManager(){ return eventManager; }
 
   /**Plays the run
   */
@@ -96,6 +99,7 @@ public class Run{
       }else{
       c = new Combat(this, "Looter");
       }
+      eventManager.setCombat(c);
       int goldStolen = c.runCombat();
       if(hp <= 0){
         break; //Death mechanic (temporary?) //global bool var for death?
