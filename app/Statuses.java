@@ -18,10 +18,10 @@ public class Statuses{
   public static final Status SporeCloud = new Status("Spore Cloud", Colors.lightYellow + "S", false, true, "On death, applies <str> Vulnerable to the player.");
   public static final Status Thievery = new Status("Thievery", Colors.lightYellow + "T", false, true, "<str> Gold is stolen with every attack. Total Gold stolen is returned if the enemy is killed.");
   public static final Status Vigor = new Status("Vigor", Colors.vigorOrange + "v", false, true, "Your next Attack deals <str> additional damage."); //TODO: Implement
-  //Add new statuses in list below, too
+  public static final Status NoDraw = new Status("No Draw", Colors.lightBlue + "N", true, false, "You may not draw any more cards this turn.");
+  //!!!Add new statuses in list below, too!!!
 
   public static ArrayList<Status> allStatuses;
-
 
   public static void loadStatuses(){
     allStatuses = new ArrayList<Status>();
@@ -40,6 +40,7 @@ public class Statuses{
     allStatuses.add(SporeCloud);
     allStatuses.add(Thievery);
     allStatuses.add(Vigor);
+    allStatuses.add(NoDraw);
   }
 
   public static Status getStatus(String statusName){
@@ -48,6 +49,6 @@ public class Statuses{
         return s;
       }
     }
-    return null;
+    return null; //TODO: Throw runtime exception
   }
 }

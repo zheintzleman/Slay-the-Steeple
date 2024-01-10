@@ -185,11 +185,11 @@ public class App {
     //For encoding card effects (copied from CardEffect.java:)
     //Primary: First word of input data.
     //Secondary: Rest of input data, apart from terminal integer
-    //Power: Terminal integer, or 0 if last word not an integer
+    //Power: Terminal integer, or 1 if last word not an integer
     //WhenPlayed: Defaults to ONPLAY; begin with "(OnDiscard) "/"(OnTurnEnd) "/etc. to change.
     //e.g. Stores "Lorem Ipsum Dolor 4" as: P = "Lorem", S = "Ipsum Dolor", p = 4,
-    // or "Lorem Ipsum 4 Dolor" as: P = "Lorem", S = "Ipsum 4 Dolor", p = 0.
-    // or "(OnExhaust) Lorem Ipsum 4 Dolor" as: P = "Lorem", S = "Ipsum 4 Dolor", p = 0, WP = ONEXHAUST
+    // or "Lorem Ipsum 4 Dolor" as: P = "Lorem", S = "Ipsum 4 Dolor", p = 1.
+    // or "(OnExhaust) Lorem Ipsum 4 Dolor" as: P = "Lorem", S = "Ipsum 4 Dolor", p = 1, WP = ONEXHAUST
     cardList.add(new Card("Burn", "Unplayable.\nAt the end of your turn, take 2 damage.\n", "Status", -1, false, new ArrayList<String>(Arrays.asList("Unplayable", "(OnTurnEnd) DmgPlayer 2")),
                       "Unplayable.\nAt the end of your turn, take 4 damage.\n", -1, false, new ArrayList<String>(Arrays.asList("Unplayable", "(OnTurnEnd) DmgPlayer 4")), Rarity.COMMON, Color.NEUTRAL)); //TODO: Something that makes burn discard even w/ retain? Or just hard-code that in?
     // Statuses can't be upgraded by default;^ Burn is a hardcoded exception
@@ -249,9 +249,20 @@ public class App {
     //                   new ArrayList<String>(Arrays.asList("(OnExhaust) Block 8")), Rarity.UNCOMMON)); //TODO: Remove/update to be correct eventually (just for testing rn)
     cardList.add(new Card("Wild Strike", "Attack", 1, true, new ArrayList<String>(Arrays.asList("Attack 12", "GainToDraw Wound")),
                       new ArrayList<String>(Arrays.asList("Attack 17", "GainToDraw Wound")), Rarity.COMMON, Color.IRONCLAD));
-    
+    cardList.add(new Card("Battle Trance", "Skill", 0, false, new ArrayList<String>(Arrays.asList("Draw 3", "AppPlayer No Draw")),
+                      new ArrayList<String>(Arrays.asList("Draw 4", "AppPlayer No Draw")), Rarity.UNCOMMON, Color.IRONCLAD));
+    cardList.add(new Card("Blood for Blood", "Attack", 4, true, new ArrayList<String>(Arrays.asList("(OnPlayerHurt) CostMore -1", "Attack 18")),
+    3, true, new ArrayList<String>(Arrays.asList("(OnPlayerHurt) CostMore -1", "Attack 22")), Rarity.UNCOMMON, Color.IRONCLAD));
     // Make an event system/class(calls relevant relic/status/we/ functions) (/smth)
     // TODO: Make the display of how much damage heavy blade will do accurate (probably using the events/(OnX)'s)
+    // Change the cards' (OnDiscard)/etc. into an EventManager enum?
+    // ^Could even then make cards' effects all go through one of these? (Like normally through (CardPlayed) or smth?)
+    //  ^Is that useful though?
+    // Deal w/ hand size issue
+    // Make sure all card draw in Combat.java uses the drawCard() method (if applicable)
+    // Unstackable statuses shouldn't gain multiple levels, right? (Playing two battle trances in one turn)
+    // ^Could change how "Apply" works, how addstatstrength works, how Status power works in general, idk
+    // Battle trance text; b4b's text & functionality
 
     return cardList;
   }

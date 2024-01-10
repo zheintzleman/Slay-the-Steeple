@@ -158,9 +158,10 @@ public class Entity{
       Status s = statuses.get(i);
       if(s.getName().equals(name)){
         s.addStrength(strength);
+        return;
       }
     }
-    return;
+    throw new RuntimeException("Cannot find status: \"" + name + "\"");
   }
   /**Subtracts strength from this entity's status with the specified name.
   */
@@ -168,14 +169,15 @@ public class Entity{
     for(int i=0; i<statuses.size(); i++){
       if(statuses.get(i).getName().equals(name)){
         statuses.get(i).subtractStrength(strength);
+        return;
       }
     }
-    return;
+    throw new RuntimeException("Cannot find status: \"" + name + "\"");
   }
   /**Returns whether or not this enemy has the status in any strength besides 0.
   */
   public boolean hasStatus(String name){
-    return getStatusStrength(name) != 0;
+    return getStatusStrength(name) > 0;
   }
   /**Adds strength to this entity's with the specified name. If the strength was 0 and the status will decrease at the end of the turn, adds 1 to its strength to counteract that.
   */
@@ -188,9 +190,10 @@ public class Entity{
           strength++;
         }
         s.addStrength(strength);
+        return;
       }
     }
-    return;
+    throw new RuntimeException("Cannot find status: \"" + name + "\"");
   }
 
 
@@ -217,6 +220,7 @@ public class Entity{
       hp = 0;
       this.die();
     }
+    combat.getEventManager().OnPlayerHurt(dmg);
     if(this.hasStatus("Split") && hp <= (maxHP/2)){
       this.setSplitIntent();
     }

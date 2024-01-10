@@ -13,23 +13,24 @@ public class CardEffect implements Serializable {
     ONDISCARD, //TODO: Note that this should probably only be called(?) when a card's effect discards this card
     ONEXHAUST,
     ONTURNEND,
-    ONDRAW
+    ONDRAW,
+    ONPLAYERHURT
   }
 
   private String primary;
   private String secondary;
-  private int power; //Remove basepower?
+  private int power;
   private PlayEvent whenPlayed;
 
   //Primary: First word of input data.
   //Secondary: Rest of input data, apart from terminal integer
-  //Power: Terminal integer, or 0 if last word not an integer
+  //Power: Terminal integer, or 1 if last word not an integer
   //WhenPlayed: Defaults to ONPLAY; begin with "(OnDiscard) "/"(OnTurnEnd) "/etc. to change.
   //e.g. Stores "Lorem Ipsum Dolor 4" as: P = "Lorem", S = "Ipsum Dolor", p = 4,
-  // or "Lorem Ipsum 4 Dolor" as: P = "Lorem", S = "Ipsum 4 Dolor", p = 0
-  // or "(OnExhaust) Lorem Ipsum 4 Dolor" as: P = "Lorem", S = "Ipsum 4 Dolor", p = 0, WP = ONEXHAUST
+  // or "Lorem Ipsum 4 Dolor" as: P = "Lorem", S = "Ipsum 4 Dolor", p = 1
+  // or "(OnExhaust) Lorem Ipsum 4 Dolor" as: P = "Lorem", S = "Ipsum 4 Dolor", p = 1, WP = ONEXHAUST
   public CardEffect(String data){
-    power = 0;
+    power = 1;
     String str = data;
     whenPlayed = PlayEvent.ONPLAY;
 
@@ -45,6 +46,9 @@ public class CardEffect implements Serializable {
     } else if(str.startsWith("(OnDraw) ")){
       whenPlayed = PlayEvent.ONDRAW;
       str = str.substring("(OnDraw) ".length());
+    } else if(str.startsWith("(OnPlayerHurt) ")){
+      whenPlayed = PlayEvent.ONPLAYERHURT;
+      str = str.substring("(OnPlayerHurt) ".length());
     }
     if(str.equals("Ethereal")){
       whenPlayed = PlayEvent.ONTURNEND;

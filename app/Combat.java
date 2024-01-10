@@ -125,6 +125,14 @@ public class Combat{
   public Run getRun(){ return thisRun; }
   public EventManager getEventManager(){ return eventManager; }
 
+  public ArrayList<Card> getCardsInPlay(){
+    ArrayList<Card> list = new ArrayList<Card>(drawPile);
+    list.addAll(hand);
+    list.addAll(discardPile);
+    list.addAll(exhaustPile);
+    return list;
+  }
+
 
   /**Adds the enemy to the arraylist of enemies
   */
@@ -372,12 +380,7 @@ public class Combat{
   /**Draws a card from the draw pile. Shuffles the discard into the draw pile if necessary.
   */
   private Card drawCard(){ //TODO: Put something in to make newly drawn card pop out (ie white instead of gray or smth?) so it's easier to read?
-    if(hand.size() >= 10){
-      //Hand limit (Hand is full)
-      return null;
-    }
-    if(drawPile.size() == 0 && discardPile.size() == 0){
-      //No cards to draw
+    if(!canDraw()){
       return null;
     }
     
@@ -401,6 +404,25 @@ public class Combat{
         playEffect(eff, card);
       }
     }
+  }
+
+  public boolean canDraw(){
+    if(hand.size() >= 10){
+      //Hand limit (Hand is full)
+      Str.println("1");
+      return false;
+    }
+    if(drawPile.size() == 0 && discardPile.size() == 0){
+      //No cards to draw
+      Str.println("12");
+      return false;
+    }
+    if(player.hasStatus("No Draw")){
+      Str.println("13");
+      return false;
+    }
+
+    return true;
   }
 
   /**Removes card from all piles and adds it to the exhaust pile */

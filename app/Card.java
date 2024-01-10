@@ -29,6 +29,7 @@ public class Card implements Serializable {
   //Anything that could change from being upgraded
   private class CardData implements Serializable {
     private Description description;
+    private int baseEnergyCost;
     private int energyCost; //Could be an Integer to include null for the X cost cards
     private boolean isTargeted;
     private ArrayList<CardEffect> effects; //Implemented in Combat.java
@@ -36,6 +37,7 @@ public class Card implements Serializable {
     public CardData(){}
     public CardData(CardData old){
       this.description = old.description;
+      this.baseEnergyCost = old.baseEnergyCost;
       this.energyCost = old.energyCost;
       this.isTargeted = old.isTargeted;
       if(old.effects != null){
@@ -209,7 +211,7 @@ public class Card implements Serializable {
     type = "Skill";
     upgrades = 0;
     data.description = new Description("");
-    data.energyCost = -1;
+    data.baseEnergyCost = data.energyCost = -1;
     data.isTargeted = false;
     rarity = Rarity.COMMON;
     color = Color.NEUTRAL;
@@ -234,7 +236,7 @@ public class Card implements Serializable {
     upgrades = 0;
     this.rarity = rarity;
     this.color = color;
-    data.energyCost = energyCost;
+    data.baseEnergyCost = data.energyCost = energyCost;
     data.isTargeted = targeted;
     data.effects = new ArrayList<CardEffect>();
     for(String str : effects){
@@ -245,7 +247,7 @@ public class Card implements Serializable {
   public Card(String name, String type, int energyCost, boolean targeted, ArrayList<String> effects,
               ArrayList<String> upEffects, Rarity rarity, Color color){
     this(name, type, energyCost, targeted, effects, rarity, color);
-    upData.energyCost = energyCost;
+    upData.baseEnergyCost = upData.energyCost = energyCost;
     upData.isTargeted = targeted;
     upData.effects = new ArrayList<CardEffect>();
     for(String str : upEffects){
@@ -256,7 +258,7 @@ public class Card implements Serializable {
   public Card(String name, String type, int energyCost, boolean targeted, ArrayList<String> effects,
               int upCost, boolean upTargeted, ArrayList<String> upEffects, Rarity rarity, Color color){
     this(name, type, energyCost, targeted, effects, rarity, color);
-    upData.energyCost = upCost;
+    upData.baseEnergyCost = upData.energyCost = upCost;
     upData.isTargeted = upTargeted;
     upData.effects = new ArrayList<CardEffect>();
     for(String str : upEffects){
@@ -278,7 +280,7 @@ public class Card implements Serializable {
       }
     }
 
-    upData.energyCost = upCost;
+    upData.baseEnergyCost = upData.energyCost = upCost;
     upData.isTargeted = upTargeted;
     upData.effects = new ArrayList<CardEffect>();
     for(String str : upEffects){
@@ -293,7 +295,9 @@ public class Card implements Serializable {
   public void setName(String newName){ name = newName; }
   public String getType(){ return type; }
   public void setType(String newType){ type = newType; }
-  public int getEnergyCost(){ return data.energyCost; }
+  public int getBaseEnergyCost(){ return data.baseEnergyCost; }
+  public void setBaseEnergyCost(int newCost){ data.baseEnergyCost = newCost; }
+  public int getEnergyCost(){ return data.energyCost; } //TODO: Take in combat & factor, e.g., corruption & stuff?
   public void setEnergyCost(int newCost){ data.energyCost = newCost; }
   public int getUpgrades(){ return upgrades; }
   public void setUpgrades(int newUpgrades){ upgrades = newUpgrades; }
@@ -312,6 +316,10 @@ public class Card implements Serializable {
   
   @Override
   public String toString(){
+    //TODO: Stretch Goal?: Color changing energy cost based on if it is above or below base cost
+    // String energyCostColor = getEnergyCost() > getBaseEnergyCost() ? Colors.energyCostRed :
+    //                          getEnergyCost() == getBaseEnergyCost() ? Colors.reset :
+    //                                                                  Colors.upgradeGreen;
     return Colors.gray + (data.energyCost < 0 ? "" : "(" + Colors.energyCostRed + data.energyCost + Colors.gray + ") ")
     + Colors.reset + name + colorEveryWordBySpaces(" - " + getDescriptionWONLs(), Colors.gray) + "\n" + Colors.reset;
   }
@@ -322,7 +330,7 @@ public class Card implements Serializable {
   */
   public boolean hasEffect(String effect){
     for(CardEffect eff : data.effects){
-      if(eff.getPrimary().equals(effect) && eff.getSecondary().isEmpty()){
+      if(effect.equals(eff.getPrimary()) && eff.getSecondary().isEmpty()){
         return true;
       }
     }

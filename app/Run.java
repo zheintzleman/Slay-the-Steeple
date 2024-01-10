@@ -17,8 +17,12 @@ public class Run{
     deck = new ArrayList<Card>();
     eventManager = new EventManager(this);
     App.ASSERT(new Card("Strike") != null);
-    deck.add(new Card("Wild Strike"));
+    deck.add(new Card("Battle Trance"));
+    deck.add(new Card("Battle Trance"));
     deck.add(new Card("Armaments"));
+    deck.add(new Card("Armaments"));
+    deck.add(new Card("Blood for Blood"));
+    deck.add(new Card("Blood for Blood"));
     deck.add(new Card("Heavy Blade"));
     deck.add(new Card("Flex"));
     deck.add(new Card("Flex"));
