@@ -1,11 +1,11 @@
 package app;
 import java.util.*;
 
-import app.CardEffect.PlayEvent;
+import app.EventManager.Event;
 import enemyfiles.*;
 
 public class Combat{
-  private Entity player;
+  private Player player;
   private ArrayList<Enemy> enemies;
   private ArrayList<Enemy> enemiesToUpdate;
   private ArrayList<Card> drawPile, discardPile, exhaustPile, hand;
@@ -15,12 +15,11 @@ public class Combat{
   int topRowOfCards;
   private Run thisRun; //To access data about this specific run
   private EventManager eventManager;
-  public static final String[] IRONCLADIMG = Colors.fillColor(new String[] {"        ▄▄▄   ", "       ▄███▄  ", "▀▀▀▀▀▀▀▀▀████  ", "       ▄███▄  ", "       ██▀ ▀██ ", "       █▀    ▀█"}, Colors.atkIntArtRed); 
   
   public Combat(Run run){
     thisRun = run;
     eventManager = thisRun.getEventManager();
-    player = new Entity("Ironclad", run.getHP(), run.getMaxHP(), IRONCLADIMG, this);
+    player = new Player("Ironclad", run.getHP(), run.getMaxHP(), Colors.IRONCLADIMG2, this);
     enemies = new ArrayList<Enemy>();
     //Defaults to a Jaw Worm combat
     enemies.add(new JawWorm(Run.SCREENWIDTH*5/7, this));   
@@ -39,7 +38,7 @@ public class Combat{
   public Combat(Run run, String combatType){
     thisRun = run;
     eventManager = thisRun.getEventManager();
-    player = new Entity("Ironclad", run.getHP(), run.getMaxHP(), Colors.IRONCLADIMG2, this);
+    player = new Player("Ironclad", run.getHP(), run.getMaxHP(), Colors.IRONCLADIMG2, this);
     enemies = new ArrayList<Enemy>();
     baseEnergy = 3;
     energy = -1;
@@ -246,7 +245,7 @@ public class Combat{
       boolean shouldDiscard = true;
 
       for(CardEffect eff : card.getEffects()){
-        if(eff.whenPlayed() == PlayEvent.ONTURNEND){
+        if(eff.whenPlayed() == Event.ONTURNEND){
           //Plays any relevant card effects
           //If the effect returns false (card should not discard), shouldDiscard set to false.
           shouldDiscard = shouldDiscard && playEffect(eff, card);
@@ -400,7 +399,7 @@ public class Combat{
   
   public void callOnDrawEffs(Card card){
     for(CardEffect eff : card.getEffects()){
-      if(eff.whenPlayed() == PlayEvent.ONDRAW){
+      if(eff.whenPlayed() == Event.ONDRAW){
         playEffect(eff, card);
       }
     }
@@ -430,7 +429,7 @@ public class Combat{
     removeFromAllPiles(card);
     exhaustPile.add(card);
     for(CardEffect eff : card.getEffects()){
-      if(eff.whenPlayed() == PlayEvent.ONEXHAUST){
+      if(eff.whenPlayed() == Event.ONEXHAUST){
         playEffect(eff, card);
       }
     }
@@ -492,7 +491,7 @@ public class Combat{
       if(combatOver && !eff.affectsRunState()){
         continue;
       }
-      if(eff.whenPlayed() != PlayEvent.ONPLAY){
+      if(eff.whenPlayed() != Event.ONCARDPLAY){
         continue;
       }
       String firstWord = eff.getPrimary();
@@ -647,6 +646,10 @@ public class Combat{
         break;
       case "ChangeEnergy":
         energy += power;
+        break;
+      case "ChangeCost":
+        App.ASSERT(card != null);
+        card.setEnergyCost(card.getEnergyCost() + power);
         break;
       case "Clash":
       case "Unplayable":

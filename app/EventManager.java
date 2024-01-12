@@ -1,8 +1,15 @@
 package app;
 
-import app.CardEffect.PlayEvent;
-
 public class EventManager {
+  public enum Event{
+    ONCARDPLAY,    //
+    ONDISCARD, //TODO: Note that this should probably only be called(?) when a card's effect discards this card
+    ONEXHAUST,
+    ONDRAW,
+    ONTURNEND,
+    ONPLAYERHURT
+  }
+
   private Run run;
   private Combat combat;
 
@@ -28,7 +35,7 @@ public class EventManager {
   public void OnPlayerHurt(int hpLoss){
     for(Card card : combat.getCardsInPlay()){
       for(CardEffect eff : card.getEffects()){
-        if(eff.whenPlayed() == PlayEvent.ONPLAYERHURT){
+        if(eff.whenPlayed() == Event.ONPLAYERHURT){
           combat.playEffect(eff, card);
         }
       }

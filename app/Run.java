@@ -26,6 +26,8 @@ public class Run{
     deck.add(new Card("Heavy Blade"));
     deck.add(new Card("Flex"));
     deck.add(new Card("Flex"));
+    deck.add(new Card("Flex"));
+    deck.add(new Card("Flex"));
     // TODO: Display deck in alphabetical order or smth?
     // Although this does show it in order obtained, actually.
     if(App.settingsManager.debug){

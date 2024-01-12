@@ -2,25 +2,18 @@ package app;
 
 import java.io.Serializable;
 
+import app.EventManager.Event;
+
 public class CardEffect implements Serializable {
   public static final String[] ATTACK_PRIMARIES = new String[] {"Attack", "AtkAll", "BodySlam", "SearingBlow", "HeavyAttack", "AtkRandom"}; //Can remove
   public static final String[] DEFENSE_PRIMARIES = new String[] {"Blk"};
   // Primaries that affect game state outside of the current combat (i.e. that matter even after the combat ends.)
   public static final String[] RUN_STATE_PRIMARIES = new String[] {}; //TODO: Fill out as I add them.
 
-  public enum PlayEvent{
-    ONPLAY,
-    ONDISCARD, //TODO: Note that this should probably only be called(?) when a card's effect discards this card
-    ONEXHAUST,
-    ONTURNEND,
-    ONDRAW,
-    ONPLAYERHURT
-  }
-
   private String primary;
   private String secondary;
   private int power;
-  private PlayEvent whenPlayed;
+  private Event whenPlayed;
 
   //Primary: First word of input data.
   //Secondary: Rest of input data, apart from terminal integer
@@ -32,26 +25,26 @@ public class CardEffect implements Serializable {
   public CardEffect(String data){
     power = 1;
     String str = data;
-    whenPlayed = PlayEvent.ONPLAY;
+    whenPlayed = Event.ONCARDPLAY;
 
     if(str.startsWith("(OnExhaust) ")){
-      whenPlayed = PlayEvent.ONEXHAUST;
+      whenPlayed = Event.ONEXHAUST;
       str = str.substring("(OnExhaust) ".length());
     } else if(str.startsWith("(OnDiscard) ")){
-      whenPlayed = PlayEvent.ONDISCARD;
+      whenPlayed = Event.ONDISCARD;
       str = str.substring("(OnDiscard) ".length());
     } else if(str.startsWith("(OnTurnEnd) ")){
-      whenPlayed = PlayEvent.ONTURNEND;
+      whenPlayed = Event.ONTURNEND;
       str = str.substring("(OnTurnEnd) ".length());
     } else if(str.startsWith("(OnDraw) ")){
-      whenPlayed = PlayEvent.ONDRAW;
+      whenPlayed = Event.ONDRAW;
       str = str.substring("(OnDraw) ".length());
     } else if(str.startsWith("(OnPlayerHurt) ")){
-      whenPlayed = PlayEvent.ONPLAYERHURT;
+      whenPlayed = Event.ONPLAYERHURT;
       str = str.substring("(OnPlayerHurt) ".length());
     }
     if(str.equals("Ethereal")){
-      whenPlayed = PlayEvent.ONTURNEND;
+      whenPlayed = Event.ONTURNEND;
     }
 
     int lastSpaceIndex = str.lastIndexOf(" ");
@@ -83,7 +76,7 @@ public class CardEffect implements Serializable {
   public void setSecondary(String secondary){ this.secondary = secondary; }
   public int getPower(){ return power; }
   public void setPower(int power) { this.power = power; }
-  public PlayEvent whenPlayed(){ return whenPlayed; }
+  public Event whenPlayed(){ return whenPlayed; }
 
   public boolean isAttack(){ //TODO: Why not just make this check if the card is an attack card?
     for(String s : ATTACK_PRIMARIES){

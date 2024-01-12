@@ -2,10 +2,10 @@ package app;
 import java.util.*;
 
 public class Entity{
+  public static final String[] RECTANGLE = new String[] {"███████", "███████", "███████", "███████", "███████", "███████"};
   private String name;
   private int hp, maxHP, hpBarLength, block, startOfTurnBlock;
   private String[] art;
-  public static final String[] RECTANGLE = new String[] {"███████", "███████", "███████", "███████", "███████", "███████"};
   private ArrayList<Status> statuses;
   private Combat combat;
 
@@ -220,7 +220,6 @@ public class Entity{
       hp = 0;
       this.die();
     }
-    combat.getEventManager().OnPlayerHurt(dmg);
     if(this.hasStatus("Split") && hp <= (maxHP/2)){
       this.setSplitIntent();
     }
@@ -292,7 +291,7 @@ public class Entity{
   *@param damagePreCalculations - The amount of damage the base card does (ie. 6 for an unupgraded Strike)
   *@return int - The amount of attack damage delt
   */
-  public int attack(Entity victim, int damagePreCalculations){
+  public int attack(Entity victim, int damagePreCalculations){ //TODO: Make into an event?
     int dmg = calcAttackDamage(victim, damagePreCalculations);
     int dmgDelt = victim.damage(dmg);
     if(dmgDelt > 0){              //OnTakingAttackDamage:
@@ -470,17 +469,17 @@ public class Entity{
 
   
 
-  public void die(){
-    //For the player only (Entity is overridden):
-    combat.endCombat();
-  }
-  
-
   //For polymorphism
-  public void setSplitIntent(){ }
+  public void setSplitIntent(){
+    throw new RuntimeException("Calling polymorphic function on Entity object");
+  }
+  public void die(){
+    throw new RuntimeException("Calling polymorphic function on Entity object");
+  }
 
 
   public static ArrayList<Status> copyStatusList(ArrayList<Status> ogList){
+    App.ASSERT(ogList != null);
     ArrayList<Status> newList = new ArrayList<Status>();
     for(Status s : ogList){
       Status newStatus = new Status(s);

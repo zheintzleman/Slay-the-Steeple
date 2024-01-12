@@ -38,7 +38,6 @@ public class Card implements Serializable {
     public CardData(CardData old){
       this.description = old.description;
       this.baseEnergyCost = old.baseEnergyCost;
-      this.energyCost = old.energyCost;
       this.isTargeted = old.isTargeted;
       if(old.effects != null){
         this.effects = new ArrayList<CardEffect>(old.effects);
@@ -199,7 +198,7 @@ public class Card implements Serializable {
   //~~~~~~~~~~~~~~~~~~~~~  Card Class Begins  ~~~~~~~~~~~~~~~~~~~~~
 
   private String name, type;
-  private int upgrades;
+  private int energyCost, upgrades;
   private Rarity rarity;
   private Color color;
   private CardData data = new CardData();
@@ -211,7 +210,7 @@ public class Card implements Serializable {
     type = "Skill";
     upgrades = 0;
     data.description = new Description("");
-    data.baseEnergyCost = data.energyCost = -1;
+    data.baseEnergyCost = energyCost = -1;
     data.isTargeted = false;
     rarity = Rarity.COMMON;
     color = Color.NEUTRAL;
@@ -222,6 +221,7 @@ public class Card implements Serializable {
     name = old.name;
     type = old.type;
     upgrades = 0;
+    energyCost = old.energyCost;
     rarity = old.rarity;
     color = old.color;
     data = new CardData(old.data);
@@ -236,7 +236,7 @@ public class Card implements Serializable {
     upgrades = 0;
     this.rarity = rarity;
     this.color = color;
-    data.baseEnergyCost = data.energyCost = energyCost;
+    data.baseEnergyCost = this.energyCost = energyCost;
     data.isTargeted = targeted;
     data.effects = new ArrayList<CardEffect>();
     for(String str : effects){
@@ -247,7 +247,7 @@ public class Card implements Serializable {
   public Card(String name, String type, int energyCost, boolean targeted, ArrayList<String> effects,
               ArrayList<String> upEffects, Rarity rarity, Color color){
     this(name, type, energyCost, targeted, effects, rarity, color);
-    upData.baseEnergyCost = upData.energyCost = energyCost;
+    upData.baseEnergyCost = energyCost;
     upData.isTargeted = targeted;
     upData.effects = new ArrayList<CardEffect>();
     for(String str : upEffects){
@@ -258,7 +258,7 @@ public class Card implements Serializable {
   public Card(String name, String type, int energyCost, boolean targeted, ArrayList<String> effects,
               int upCost, boolean upTargeted, ArrayList<String> upEffects, Rarity rarity, Color color){
     this(name, type, energyCost, targeted, effects, rarity, color);
-    upData.baseEnergyCost = upData.energyCost = upCost;
+    upData.baseEnergyCost = upCost;
     upData.isTargeted = upTargeted;
     upData.effects = new ArrayList<CardEffect>();
     for(String str : upEffects){
@@ -273,14 +273,16 @@ public class Card implements Serializable {
     this(name, type, energyCost, targeted, effects, rarity, color);
     data.description = new Description(description);
 
-    if(!(name.equals("Twin Strike") || name.equals("Sword Boomerang"))){ //<-Whitelist
-      // To get your attention. Read the above comment^.
+    if(!(name.equals("Twin Strike")
+      || name.equals("Sword Boomerang")
+      || name.equals("Blood for Blood"))){ //<-Whitelist
+      // To get your attention. Read the above Javadoc comment.
       for(CardEffect eff : data.effects){
         App.ASSERT(!eff.isAttack() && !eff.isDefense());
       }
     }
 
-    upData.baseEnergyCost = upData.energyCost = upCost;
+    upData.baseEnergyCost = upCost;
     upData.isTargeted = upTargeted;
     upData.effects = new ArrayList<CardEffect>();
     for(String str : upEffects){
@@ -296,9 +298,13 @@ public class Card implements Serializable {
   public String getType(){ return type; }
   public void setType(String newType){ type = newType; }
   public int getBaseEnergyCost(){ return data.baseEnergyCost; }
-  public void setBaseEnergyCost(int newCost){ data.baseEnergyCost = newCost; }
-  public int getEnergyCost(){ return data.energyCost; } //TODO: Take in combat & factor, e.g., corruption & stuff?
-  public void setEnergyCost(int newCost){ data.energyCost = newCost; }
+  public void setBaseEnergyCost(int newCost){
+    data.baseEnergyCost = newCost >= 0 ? newCost : 0;
+  }
+  public int getEnergyCost(){ return energyCost; } //TODO: Take in combat & factor, e.g., corruption & stuff?
+  public void setEnergyCost(int newCost){
+    energyCost = newCost >= 0 ? newCost : 0;
+  }
   public int getUpgrades(){ return upgrades; }
   public void setUpgrades(int newUpgrades){ upgrades = newUpgrades; }
   public boolean isTargeted(){ return data.isTargeted; }
@@ -320,7 +326,7 @@ public class Card implements Serializable {
     // String energyCostColor = getEnergyCost() > getBaseEnergyCost() ? Colors.energyCostRed :
     //                          getEnergyCost() == getBaseEnergyCost() ? Colors.reset :
     //                                                                  Colors.upgradeGreen;
-    return Colors.gray + (data.energyCost < 0 ? "" : "(" + Colors.energyCostRed + data.energyCost + Colors.gray + ") ")
+    return Colors.gray + (energyCost < 0 ? "" : "(" + Colors.energyCostRed + energyCost + Colors.gray + ") ")
     + Colors.reset + name + colorEveryWordBySpaces(" - " + getDescriptionWONLs(), Colors.gray) + "\n" + Colors.reset;
   }
 
@@ -409,7 +415,7 @@ public class Card implements Serializable {
     
     String[] image = Str.makeCenteredTextBox(text, CARDHEIGHT, CARDWIDTH); //Can make them up to 18 wide with width = 200; Up to 12 wide iirc with width = 150. 12 can work to fit long texts but the cards are really vertical.
 
-    String energyCostString = data.energyCost < 0 ? "" : "" + data.energyCost;
+    String energyCostString = energyCost < 0 ? "" : "" + energyCost;
     image[1] = Str.addStringsSkipEscSequences(image[1], 2, energyCostString, Colors.energyCostRedBold, Colors.reset);
     
     return image;
@@ -440,12 +446,13 @@ public class Card implements Serializable {
     if(upgrades == 1) {
       name += "+";            //Change Name
       name = Colors.fillColor(name, Colors.upgradeGreen);
+      energyCost = upData.baseEnergyCost;
       CardData temp = data;   //Swap data and upData
       data = upData;
       upData = temp;
     }else{ //More than 1 upgrade (Searing Blow later upgrades:)
       App.ASSERT(name.lastIndexOf("+") != -1);
-      name = name.substring(0, name.lastIndexOf("+")+1) + upgrades;                   //Changes the Name
+      name = name.substring(0, name.lastIndexOf("+")+1) + upgrades;                   //Changes the Name's #
       data.description = new Description(data.effects);
     }
 

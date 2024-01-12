@@ -21,26 +21,28 @@ public class Statuses{
   public static final Status NoDraw = new Status("No Draw", Colors.lightBlue + "N", true, false, "You may not draw any more cards this turn.");
   //!!!Add new statuses in list below, too!!!
 
-  public static ArrayList<Status> allStatuses;
+  public static final ArrayList<Status> allStatuses = loadStatuses();
 
-  public static void loadStatuses(){
-    allStatuses = new ArrayList<Status>();
-    allStatuses.add(Vulnerable);
-    allStatuses.add(Weak);
-    allStatuses.add(Frail);
-    allStatuses.add(Strength);
-    allStatuses.add(StrengthDown);
-    allStatuses.add(Dexterity);
-    allStatuses.add(DexterityDown);
-    allStatuses.add(CurlUp);
-    allStatuses.add(Ritual);
-    allStatuses.add(Angry);
-    allStatuses.add(Split);
-    allStatuses.add(Entangled);
-    allStatuses.add(SporeCloud);
-    allStatuses.add(Thievery);
-    allStatuses.add(Vigor);
-    allStatuses.add(NoDraw);
+  public static ArrayList<Status> loadStatuses(){
+    ArrayList<Status> statuses = new ArrayList<Status>();
+    statuses = new ArrayList<Status>();
+    statuses.add(Vulnerable);
+    statuses.add(Weak);
+    statuses.add(Frail);
+    statuses.add(Strength);
+    statuses.add(StrengthDown);
+    statuses.add(Dexterity);
+    statuses.add(DexterityDown);
+    statuses.add(CurlUp);
+    statuses.add(Ritual);
+    statuses.add(Angry);
+    statuses.add(Split);
+    statuses.add(Entangled);
+    statuses.add(SporeCloud);
+    statuses.add(Thievery);
+    statuses.add(Vigor);
+    statuses.add(NoDraw);
+    return statuses;
   }
 
   public static Status getStatus(String statusName){

@@ -84,10 +84,37 @@ public class Colors {
   public static final String vigorOrange = "Ø\033[38;5;214mÁ";
 
 
+  public static final String[] IRONCLADIMG0 = Colors.fillColor(new String[] {"        ▄▄▄   ",
+                                                                             "       ▄███▄  ",
+                                                                            "▀▀▀▀▀▀▀▀▀████  ",
+                                                                             "       ▄███▄  ",
+                                                                             "       ██▀ ▀██ ",
+                                                                             "       █▀    ▀█"}, Colors.atkIntArtRed); 
 
-  public static final String[] IRONCLADIMG2 = new String[] {"                    " + fillColor("▄▄▄", tan) + reset + "       " + "          ", "                   " + gray + "█" + fillColor("██▄█", tanOnYellow) + reset + "      " + "          ", "                  " + tan + "▄" + tanOnGray + "▄" + brownOnGray + "▄" + fillColor("▀▀", tanOnBrown) + reset + brown + "▄" + tan + "▄" + reset + "     " + "          ", fillColor("█▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄", gray) + reset + fillColor("▀▀█", tanOnLightBrown) + fillColor("██", brown) + brownOnLightBrown + "▀" + tanOnLightBrown + "▀" + reset + fillColor("██", tan) + "    " + "          ", fillColor(" ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀", gray) + reset + fillColor("▀█", lightBrown) + fillColor("▄▄▄", brownOnGray) + fillColor("▄▄", brownOnLightBrown) + reset + fillColor("██", lightBrown) + "    " + "          ", "                  " + fillColor("▄████▄ ", brown) + reset + lightBrown + "▀    " + "          ","                  " + fillColor("██▄▄▄█", ICRedOnBrown) + reset + ICRed + "▄     " + "          ", fillColor("                ▄█████████    ", ICRed) + "          ", "              " + tan + "▄" + tanOnICRed + "▄" + fillColor("██▀    ▀███", reset + ICRed) + reset + tan + "▄  " + "          ", "              " + tan + "▀" + fillColor("▀▀", tanOnLightBrown) + reset + tan + "▀       " +  fillColor("█▀▀", tanOnLightBrown) + reset + "  " + "          ", fillColor("               ██          ▀█▄", lightBrown) + "          ", fillColor("              ▀▀           ▄█▀", lightBrown) + "          "};
+  public static final String[] IRONCLADIMG2 = new String[] {"                    " + fillColor("▄▄▄", tan) + reset + "       " + "          ",
+                                                            "                   " + gray + "█" + fillColor("██▄█", tanOnYellow) + reset + "      " + "          ",
+                                                            "                  " + tan + "▄" + tanOnGray + "▄" + brownOnGray + "▄" + fillColor("▀▀", tanOnBrown) + reset + brown + "▄" + tan + "▄" + reset + "     " + "          ",
+                                                            fillColor("█▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄", gray) + reset + fillColor("▀▀█", tanOnLightBrown) + fillColor("██", brown) + brownOnLightBrown + "▀" + tanOnLightBrown + "▀" + reset + fillColor("██", tan) + "    " + "          ",
+                                                            fillColor(" ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀", gray) + reset + fillColor("▀█", lightBrown) + fillColor("▄▄▄", brownOnGray) + fillColor("▄▄", brownOnLightBrown) + reset + fillColor("██", lightBrown) + "    " + "          ",
+                                                            "                  " + fillColor("▄████▄ ", brown) + reset + lightBrown + "▀    " + "          ",
+                                                            "                  " + fillColor("██▄▄▄█", ICRedOnBrown) + reset + ICRed + "▄     " + "          ",
+                                                            fillColor("                ▄█████████    ", ICRed) + "          ",
+                                                            "              " + tan + "▄" + tanOnICRed + "▄" + fillColor("██▀    ▀███", reset + ICRed) + reset + tan + "▄  " + "          ",
+                                                            "              " + tan + "▀" + fillColor("▀▀", tanOnLightBrown) + reset + tan + "▀       " +  fillColor("█▀▀", tanOnLightBrown) + reset + "  " + "          ",
+                                                            fillColor("               ██          ▀█▄", lightBrown) + "          ", fillColor("              ▀▀           ▄█▀", lightBrown) + "          "};
     
-  public static final String[] IRONCLADIMG1 = new String[] {"                    " + fillColor("▄▄▄", tan) + reset + "       " + "          ", "                   " + gray + "█" + fillColor("██▄█", tanOnYellow) + reset + "      " + "          ", "                  " + tan + "▄" + tanOnGray + "▄" + brownOnGray + "▄" + fillColor("▀▀", tanOnBrown) + reset + brown + "▄" + tan + "▄" + reset + "     " + "          ", fillColor("█▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄", gray) + fillColor("███", tan) + fillColor("██", brown) + tanOnBrown + "▄" + reset + fillColor("███", tan) + "    " + "          ", fillColor(" ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀", gray) + reset + fillColor("▀█", tan) + fillColor("▄▄▄▄", brownOnGray) + tanOnBrown + "▀" + reset + fillColor("██", tan) + "    " + "          ", "                  " + fillColor("▄████▄ ", brown) + reset + tan + "▀    " + "          ","                  " + fillColor("██▄▄▄█", ICRedOnBrown) + reset + ICRed + "▄     " + "          ", fillColor("                ▄█████████    ", ICRed) + "          ", "              " + tan + "▄" + tanOnICRed + "▄" + fillColor("██▀    ▀███", reset + ICRed) + reset + tan + "▄  " + "          ", fillColor("              ▀██▀       ███  ", tan) + "          ", fillColor("               ██          ▀█▄", tan) + "          ", fillColor("              ▀▀           ▄█▀", tan) + "          "};
+  public static final String[] IRONCLADIMG1 = new String[] {"                    " + fillColor("▄▄▄", tan) + reset + "       " + "          ",
+                                                            "                   " + gray + "█" + fillColor("██▄█", tanOnYellow) + reset + "      " + "          ",
+                                                            "                  " + tan + "▄" + tanOnGray + "▄" + brownOnGray + "▄" + fillColor("▀▀", tanOnBrown) + reset + brown + "▄" + tan + "▄" + reset + "     " + "          ",
+                                                            fillColor("█▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄", gray) + fillColor("███", tan) + fillColor("██", brown) + tanOnBrown + "▄" + reset + fillColor("███", tan) + "    " + "          ",
+                                                            fillColor(" ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀", gray) + reset + fillColor("▀█", tan) + fillColor("▄▄▄▄", brownOnGray) + tanOnBrown + "▀" + reset + fillColor("██", tan) + "    " + "          ",
+                                                            "                  " + fillColor("▄████▄ ", brown) + reset + tan + "▀    " + "          ",
+                                                            "                  " + fillColor("██▄▄▄█", ICRedOnBrown) + reset + ICRed + "▄     " + "          ",
+                                                            fillColor("                ▄█████████    ", ICRed) + "          ",
+                                                            "              " + tan + "▄" + tanOnICRed + "▄" + fillColor("██▀    ▀███", reset + ICRed) + reset + tan + "▄  " + "          ",
+                                                            fillColor("              ▀██▀       ███  ", tan) + "          ",
+                                                            fillColor("               ██          ▀█▄", tan) + "          ",
+                                                            fillColor("              ▀▀           ▄█▀", tan) + "          "};
 
 
 

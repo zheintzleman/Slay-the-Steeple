@@ -52,7 +52,6 @@ public class App {
     Str.println("LIST: " + CARD_LIST); //Remove
     // ArrayList<Card> REMOVE = loadAvailableCards(CARD_LIST_PATH);
     // System.out.println(REMOVE);
-    Statuses.loadStatuses();
     //TODO: Add more assertions (just like in general)
 
     //Title
@@ -179,7 +178,6 @@ public class App {
 
   public static ArrayList<Card> loadCardList(){
     ArrayList<Card> cardList = new ArrayList<Card>();
-
     // From Above:
 
     //For encoding card effects (copied from CardEffect.java:)
@@ -251,14 +249,17 @@ public class App {
                       new ArrayList<String>(Arrays.asList("Attack 17", "GainToDraw Wound")), Rarity.COMMON, Color.IRONCLAD));
     cardList.add(new Card("Battle Trance", "Skill", 0, false, new ArrayList<String>(Arrays.asList("Draw 3", "AppPlayer No Draw")),
                       new ArrayList<String>(Arrays.asList("Draw 4", "AppPlayer No Draw")), Rarity.UNCOMMON, Color.IRONCLAD));
-    cardList.add(new Card("Blood for Blood", "Attack", 4, true, new ArrayList<String>(Arrays.asList("(OnPlayerHurt) CostMore -1", "Attack 18")),
-    3, true, new ArrayList<String>(Arrays.asList("(OnPlayerHurt) CostMore -1", "Attack 22")), Rarity.UNCOMMON, Color.IRONCLAD));
+    // cardList.add(new Card("Blood for Blood", "Attack", 4, true, ,
+    // 3, true, , Rarity.UNCOMMON, Color.IRONCLAD));
+    cardList.add(new Card("Blood for Blood", "Costs 1 less energy for each time you lose HP this combat.\nDeal ØatkÁ18ØendatkÁ damage.\n", "Attack", 4, true, new ArrayList<String>(Arrays.asList("(OnPlayerHurt) ChangeCost -1", "Attack 18")),
+                      "Costs 1 less energy for each time you lose HP this combat.\nDeal ØatkÁ22ØendatkÁ damage.\n", 3, true, new ArrayList<String>(Arrays.asList("(OnPlayerHurt) ChangeCost -1", "Attack 22")), Rarity.UNCOMMON, Color.IRONCLAD));
     // Make an event system/class(calls relevant relic/status/we/ functions) (/smth)
     // TODO: Make the display of how much damage heavy blade will do accurate (probably using the events/(OnX)'s)
     // Change the cards' (OnDiscard)/etc. into an EventManager enum?
     // ^Could even then make cards' effects all go through one of these? (Like normally through (CardPlayed) or smth?)
     //  ^Is that useful though?
     // Deal w/ hand size issue
+    // ^Could make, eg, right 4(?) cards show only half the card (overlap) & typing ">" changes that to the left 4(?)?
     // Make sure all card draw in Combat.java uses the drawCard() method (if applicable)
     // Unstackable statuses shouldn't gain multiple levels, right? (Playing two battle trances in one turn)
     // ^Could change how "Apply" works, how addstatstrength works, how Status power works in general, idk

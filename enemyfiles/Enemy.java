@@ -111,4 +111,17 @@ public class Enemy extends Entity{
     }
   }
   
+  // @Override
+  // /**Subtracts the entity's hp the specified amount. If hp is 0 or less, it dies.
+  //  * Calls OnPlayerHurt Event.
+  // */
+  // public void subtractHP(int dmg){
+  //   super.subtractHP(dmg);
+  //   int hp = super.getHP();
+  //   int maxHP = super.getMaxHP();
+  //   if(this.hasStatus("Split") && hp <= (maxHP/2)){
+  //     this.setSplitIntent();
+  //   }
+  // }
+  
 }

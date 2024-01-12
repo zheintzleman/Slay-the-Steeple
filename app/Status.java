@@ -51,9 +51,6 @@ public class Status{
   public String getName(){ return name; }
   public void setName(String newName){ name = newName; }
   public int getStrength(){ return strength; }
-  public void setStrength(int newStrength){ strength = newStrength; }
-  public void addStrength(int extraStr){ strength += extraStr; }
-  public void subtractStrength(int lessStr){ strength -= lessStr; }
   public String getImage(){ return image; }
   public void setImage(String newImage){ image = newImage; }
   public boolean isDecreasing(){ return decreasing; }
@@ -61,7 +58,21 @@ public class Status{
   public String getDescription(){ return description; }
   public boolean hasStrength(){ return hasStrength; }
   public void setHasStrength(boolean newHS){ hasStrength = newHS; }
-
+  
+  public void setStrength(int newStrength){
+    if(hasStrength){
+      strength = newStrength;
+      return;
+    }
+    strength = newStrength > 0 ? 1 : 0;
+  }
+  //setStrength deals with the (!hasStrength) behavior
+  public void addStrength(int extraStr){
+    setStrength(strength + extraStr);
+  }
+  public void subtractStrength(int lessStr){
+    setStrength(strength - lessStr);
+  }
   
   /**Constructs and returns a String of the correctly colored and formatted status description
   */
