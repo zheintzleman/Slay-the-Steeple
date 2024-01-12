@@ -125,7 +125,8 @@ public class Combat{
   public EventManager getEventManager(){ return eventManager; }
 
   public ArrayList<Card> getCardsInPlay(){
-    ArrayList<Card> list = new ArrayList<Card>(drawPile);
+    ArrayList<Card> list = new ArrayList<Card>();
+    list.addAll(drawPile);
     list.addAll(hand);
     list.addAll(discardPile);
     list.addAll(exhaustPile);

@@ -422,9 +422,9 @@ public class Card implements Serializable {
   }
 
   public boolean isUpgradable(){
-    if(name.equals("Burn")){
-      return true;
-    }
+    // if(name.equals("Burn")){
+    //   return true;
+    // }
     if(type.equals("Status") || type.equals("Curse")){
       return false;
     }
@@ -490,12 +490,12 @@ public class Card implements Serializable {
   */
   public static Card getCard(String name){
     for(Card c : App.CARD_LIST){
-      if(name.equals(c.getName())){ //TODO: Make more efficient with hash sets with strings as keys?
+      if(Str.equalsSkipEscSeqs(name, c.getName())){ //TODO: Make more efficient with hash sets with strings as keys?
         return c;
       }
     }
 
-    //Shouldn't get here
+    //Shouldn't get here (Debugging Tool:)
     for(Card c : App.CARD_LIST){
       Str.println("C: " + c.name);
     }

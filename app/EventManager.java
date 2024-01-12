@@ -29,7 +29,7 @@ public class EventManager {
     // Statuses.turnStart(...)((...));
     // ^Or just make them all here since there's going to be a bunch of different events anyway?
     //TODO: Put some stuff from (Entity/Enemy).endTurn here?
-    // Cards subscribed are taken care of in the combat.endTurn() method
+    // Cards subscribed are taken care of in the combat.endTurn() method, when discarded
   }
 
   public void OnPlayerHurt(int hpLoss){

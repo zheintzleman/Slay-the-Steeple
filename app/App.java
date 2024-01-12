@@ -190,7 +190,9 @@ public class App {
     // or "(OnExhaust) Lorem Ipsum 4 Dolor" as: P = "Lorem", S = "Ipsum 4 Dolor", p = 1, WP = ONEXHAUST
     cardList.add(new Card("Burn", "Unplayable.\nAt the end of your turn, take 2 damage.\n", "Status", -1, false, new ArrayList<String>(Arrays.asList("Unplayable", "(OnTurnEnd) DmgPlayer 2")),
                       "Unplayable.\nAt the end of your turn, take 4 damage.\n", -1, false, new ArrayList<String>(Arrays.asList("Unplayable", "(OnTurnEnd) DmgPlayer 4")), Rarity.COMMON, Color.NEUTRAL)); //TODO: Something that makes burn discard even w/ retain? Or just hard-code that in?
-    // Statuses can't be upgraded by default;^ Burn is a hardcoded exception
+    // Statuses can't be upgraded by default (incl. by apotheosis, etc.) So Burn+ is effectively its own card.
+    cardList.add(new Card(Colors.upgradeGreen + "Burn+", "Unplayable.\nAt the end of your turn, take 4 damage.\n", "Status", -1, false, new ArrayList<String>(Arrays.asList("Unplayable", "(OnTurnEnd) DmgPlayer 4")),
+                      "", -1, false, new ArrayList<String>(Arrays.asList()), Rarity.COMMON, Color.NEUTRAL));
     cardList.add(new Card("Dazed", "Status", -1, false, new ArrayList<String>(Arrays.asList("Unplayable", "Ethereal")), new ArrayList<String>(), Rarity.COMMON, Color.NEUTRAL));
     cardList.add(new Card("Slimed", "Status", 1, false, new ArrayList<String>(Arrays.asList("Exhaust")), new ArrayList<String>(), Rarity.COMMON, Color.NEUTRAL));
     cardList.add(new Card("Void", "Unplayable.\nEthereal.\nWhenever this card is drawn, lose 1 Energy\n", "Status", -1, false, new ArrayList<String>(Arrays.asList("Unplayable", "Ethereal", "(OnDraw) ChangeEnergy -1")),
@@ -262,7 +264,6 @@ public class App {
     // ^Could make, eg, right 4(?) cards show only half the card (overlap) & typing ">" changes that to the left 4(?)?
     // Make sure all card draw in Combat.java uses the drawCard() method (if applicable)
     // Unstackable statuses shouldn't gain multiple levels, right? (Playing two battle trances in one turn)
-    // ^Could change how "Apply" works, how addstatstrength works, how Status power works in general, idk
     // Battle trance text; b4b's text & functionality
 
     return cardList;
