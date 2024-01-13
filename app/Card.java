@@ -444,9 +444,12 @@ public class Card implements Serializable {
       
     upgrades++;
     if(upgrades == 1) {
-      name += "+";            //Change Name
+      //Name:
+      name += "+";
       name = Colors.fillColor(name, Colors.upgradeGreen);
-      energyCost = upData.baseEnergyCost;
+      //Cost:=
+      changeCostOnUpgrade();
+      //Data:
       CardData temp = data;   //Swap data and upData
       data = upData;
       upData = temp;
@@ -455,7 +458,22 @@ public class Card implements Serializable {
       name = name.substring(0, name.lastIndexOf("+")+1) + upgrades;                   //Changes the Name's #
       data.description = new Description(data.effects);
     }
+  }
 
+  public void changeCostOnUpgrade(){
+    //If card costs 0
+    if(energyCost < 0 || data.baseEnergyCost == upData.baseEnergyCost){
+      return;
+    }
+    //This one card functions differently for some reason. As far as I can tell the
+    //original devs just added a bunch of hard coded exceptions for it.
+    if(Str.equalsSkipEscSeqs(name, "Blood for Blood")
+    || Str.equalsSkipEscSeqs(name, "Blood for Blood+")){
+      energyCost--;
+      return;
+    }
+
+    energyCost = upData.baseEnergyCost;
   }
   
   /**Calculates the damage searing blow would do using the # of upgrades on the card.*/

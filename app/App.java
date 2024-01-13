@@ -265,6 +265,7 @@ public class App {
     // Make sure all card draw in Combat.java uses the drawCard() method (if applicable)
     // Unstackable statuses shouldn't gain multiple levels, right? (Playing two battle trances in one turn)
     // Battle trance text; b4b's text & functionality
+    // Deck pile 6(?) wide when it has 9 cards?
 
     return cardList;
   }
