@@ -312,23 +312,11 @@ public class Run{
   */
   private void constructScreen(){
     screen = new String[SCREENHEIGHT];
-    String lineOfBlocks = Str.repeatChar('█', SCREENWIDTH);
     String lineOfSpaces = Str.repeatChar(' ', SCREENWIDTH);
 
     //Fills the screen with 3 lines of gray Blocks then the rest (27) lines of spaces
-    Arrays.fill(screen, 0, 5, Colors.headerBrown + lineOfBlocks + Colors.reset);
+    reloadScreenHeader();
     Arrays.fill(screen, 5, SCREENHEIGHT, Colors.reset + lineOfSpaces + Colors.reset);
-    
-    addToScreen(2, SCREENWIDTH/2 -3, "HP: " + this.hp, Colors.hpRedOnHeaderBrown, Colors.reset + Colors.headerBrown);
-    
-    //Deck (top right)
-    String[] deckDisplay = Combat.square(3, 5, deck.size(), Colors.deckBrown, Colors.whiteOnDeckBrown);
-    addToScreen(1, SCREENWIDTH-16, deckDisplay , Colors.reset + Colors.deckBrown, Colors.reset + Colors.headerBrown);
-    addToScreen(0, SCREENWIDTH-16, "Deck-D", Colors.magentaBoldOnHeaderBrown, Colors.headerBrown);
-
-    //Settings Gear
-    String[] gearDisplay = {"▀▄█▄▀", "██" + Colors.magentaBoldOnBlockBlue + "S" + Colors.blockBlueOnHeaderBrown + "██", "▄▀█▀▄"};
-    addToScreen(1, SCREENWIDTH - 7, gearDisplay, Colors.blockBlueOnHeaderBrown, Colors.reset + Colors.headerBrown);
   }
 
   /**Sets basic run-wide values such as hp and the deck. Doesn't construct a new array.
