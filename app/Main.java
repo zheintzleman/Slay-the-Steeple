@@ -13,7 +13,7 @@ class Main {
   public static void main(String[] args) {
     System.out.println("\033[H\033[2JLoading...");
 
-    Entity E = new Player("sus", 1, 1, new String[] {"1","2","3"}, new Combat(new Run()));
+    Entity E = new Player("Test", 1, 1, new String[] {"1","2","3"}, new Combat(new Run()));
     E.die();
 
     App game = new App();
