@@ -241,7 +241,6 @@ public class Combat{
   /**Ends the turn, discarding the hand and calling OnTurnEnd events */
   public void endTurn(){
     eventManager.OnTurnEnd();
-
   }
 
   public void endEntityTurns(){

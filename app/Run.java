@@ -24,15 +24,11 @@ public class Run{
     deck.add(new Card("Armaments"));
     deck.add(new Card("Armaments"));
     deck.add(new Card("Heavy Blade"));
-    deck.add(new Card("Heavy Blade"));
-    deck.add(new Card("Heavy Blade"));
-    deck.add(new Card("Heavy Blade"));
-    deck.add(new Card("Heavy Blade"));
     deck.add(new Card("Flex"));
     deck.add(new Card("Flex"));
     deck.add(new Card("Flex"));
-    deck.add(new Card("Burn"));
-    deck.add(new Card("Burn+"));
+    // deck.add(new Card("Burn"));
+    // deck.add(new Card("Burn+"));
     deck.add(new Card("Void"));
     deck.add(new Card("Blood for Blood"));
     deck.add(new Card("Blood for Blood"));

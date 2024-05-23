@@ -256,18 +256,19 @@ public class App {
     cardList.add(new Card("Blood for Blood", "Costs 1 less energy for each time you lose HP this combat.\nDeal ØatkÁ18ØendatkÁ damage.\n", "Attack", 4, true, new ArrayList<String>(Arrays.asList("(OnPlayerHurt) ChangeCost -1", "Attack 18")),
                       "Costs 1 less energy for each time you lose HP this combat.\nDeal ØatkÁ22ØendatkÁ damage.\n", 3, true, new ArrayList<String>(Arrays.asList("(OnPlayerHurt) ChangeCost -1", "Attack 22")), Rarity.UNCOMMON, Color.IRONCLAD));
     // Make an event system/class(calls relevant relic/status/we/ functions) (/smth)
-    // TODO: Make the display of how much damage heavy blade will do accurate (probably using the events/(OnX)'s)
     // Change the cards' (OnDiscard)/etc. into an EventManager enum?
     // ^Could even then make cards' effects all go through one of these? (Like normally through (CardPlayed) or smth?)
     //  ^Is that useful though?
-    // BFB going down by 2 each time?
-    // Deal w/ hand size issue
-    // ^Could make, eg, right 4(?) cards show only half the card (overlap) & typing ">" changes that to the left 4(?)?
     // Make sure all card draw in Combat.java uses the drawCard() method (if applicable)
     // Unstackable statuses shouldn't gain multiple levels, right? (Playing two battle trances in one turn)
     // Battle trance text; b4b's text & functionality
     // Deck pile 6(?) wide when it has 9 cards?
     // Make Jaw Worm art wider?
+    // Make it so the robber(s) don't "drop gold" when they run away.
+    // Deal w/ hand size issue
+    // ^Could make, eg, right 4(?) cards show only half the card (overlap) & typing ">" changes that to the left 4(?)?
+    // Give credit for making the opening logo (to that website)
+    // In the statuses list (& possibly any other lists, too), change the section headers to be some different color (besides just white)
 
     return cardList;
   }
