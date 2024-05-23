@@ -21,21 +21,21 @@ public class Run{
     deck.add(new Card("Battle Trance"));
     deck.add(new Card("Armaments"));
     deck.add(new Card("Armaments"));
-    deck.add(new Card("Blood for Blood"));
-    deck.add(new Card("Blood for Blood"));
-    deck.add(new Card("Blood for Blood"));
-    deck.add(new Card("Blood for Blood"));
-    deck.add(new Card("Blood for Blood"));
-    deck.add(new Card("Blood for Blood"));
-    deck.add(new Card("Blood for Blood"));
-    deck.add(new Card("Blood for Blood"));
-    deck.add(new Card("Blood for Blood"));
-    deck.add(new Card("Blood for Blood"));
+    deck.add(new Card("Armaments"));
+    deck.add(new Card("Armaments"));
+    deck.add(new Card("Heavy Blade"));
+    deck.add(new Card("Heavy Blade"));
+    deck.add(new Card("Heavy Blade"));
+    deck.add(new Card("Heavy Blade"));
     deck.add(new Card("Heavy Blade"));
     deck.add(new Card("Flex"));
     deck.add(new Card("Flex"));
-    deck.add(new Card("Burn+"));
     deck.add(new Card("Flex"));
+    deck.add(new Card("Burn"));
+    deck.add(new Card("Burn+"));
+    deck.add(new Card("Void"));
+    deck.add(new Card("Blood for Blood"));
+    deck.add(new Card("Blood for Blood"));
     // TODO: Display deck in alphabetical order or smth?
     // Although this does show it in order obtained, actually.
     if(App.settingsManager.debug){
@@ -247,15 +247,13 @@ public class Run{
 
       //Take in commands:
       String input = input(screenWithAddition);
-      switch(input){
+      switch(input.toLowerCase()){
         case "0":
         case "q":
-        case "Q":
           if(selectedIndex > 0) selectedIndex--;
           break;
         case "1":
         case "z":
-        case "Z":
           if(selectedIndex < rewards.size()-1) selectedIndex++;
           break;
         case "":
@@ -391,11 +389,9 @@ public class Run{
   public String input(String[] prevScreen){
     while(true){
       String input = Main.scan.nextLine();
-      switch(input){
+      switch(input.toLowerCase()){
         case "d":
-        case "D":
         case "deck":
-        case "Deck":
           String str = "";
           for(Card c : deck){
             str += c.toString() + "\n";
@@ -403,25 +399,16 @@ public class Run{
           popup("Your whole deck:\n" + str, prevScreen);
           break;
         case "i":
-        case "I":
         case "h":
-        case "H":
         case "inst":
-        case "Inst":
         case "help":
-        case "Help":
         case "instructions":
-        case "Instructions":
           popup(App.INSTRUCTIONS, prevScreen);
           break;
         case "s":
-        case "S":
         case "settings":
-        case "Settings":
         case "esc":
-        case "Esc":
         case "escape":
-        case "Escape":
           openSettings();
           display(prevScreen);
           break; //TODO: Make some system so that you can go back to the previous screen after opening a menu like this (eg input(String[] S) or something)
@@ -455,38 +442,29 @@ public class Run{
             Colors.magenta + "Name: " + Colors.reset + App.settingsManager.name + "\n" + 
             Colors.magenta + "Screen Width: " + Colors.reset + App.settingsManager.screenWidth + "\n" + 
             Colors.magenta + "Screen Height: " + Colors.reset + App.settingsManager.screenHeight + "\n" + 
-            Colors.magenta + "Cheats: " + Colors.reset + App.settingsManager.debug + "\n" + 
+            Colors.magenta + "Cheats: " + Colors.reset + App.settingsManager.cheats + "\n" + 
             Colors.magenta + "Debug Mode: " + Colors.reset + App.settingsManager.debug + "\n\n" + 
           Colors.basicBlue + Str.repeatStr("═", popupWidth - 6);
       
       displayScreenWithAddition(Str.makeTextBox(settingsText, popupHeight, popupWidth), 5, SCREENWIDTH*3/50);
       Str.print("<Press enter to exit, or type the name of a setting to change it>\n");
       String input = Main.scan.nextLine();
-      switch (input) {
+      switch (input.toLowerCase()) {
         case "name":
-        case "Name":
           Str.print("Enter the new name (Just press enter to cancel:)\n");
           String s = Main.scan.nextLine();
           if(!s.equals("")){
             App.settingsManager.name = s;
           }
           break;
-        case "Screen Width":
-        case "screen Width":
-        case "Screen width":
         case "screen width":
-        case "Width":
         case "width":
           Str.println("Enter the new screen width (Just press enter to cancel:)");
           try{
             App.settingsManager.screenWidth = Integer.parseInt(Main.scan.nextLine());
           } catch (NumberFormatException E) {}  
           break;
-        case "Screen Height":
-        case "screen Height":
-        case "Screen height":
         case "screen height":
-        case "Height":
         case "height":
           Str.println("Enter the new screen height (Just press enter to cancel:)");
           try{
@@ -497,20 +475,14 @@ public class Run{
             //   Str.println("New height must be at least 10.");
           } catch (NumberFormatException E) {}  
           break;
-        case "Debug Mode":
-        case "debug Mode":
-        case "Debug mode":
         case "debug mode":
-        case "Debug":
         case "debug":
           Str.println("Enter what to change debug to (Just press enter to cancel:)");
           try{
             App.settingsManager.debug = parseBoolInput();
           } catch (NumberFormatException E){}
           break;
-        case "Cheats":
         case "cheats":
-        case "Cheat":
         case "cheat":
           Str.println("Enter what to change debug to (Just press enter to cancel:)");
           try{
@@ -528,25 +500,20 @@ public class Run{
     // displayScreenWithAddition(Str.makeTextBox(settingsText, popupHeight, popupWidth), 5, SCREENWIDTH*3/50);
   }
 
+  // TODO: Make all of these switch statements switch on "str.toLowerCase()" instead.
+
   private boolean parseBoolInput() throws NumberFormatException{
     String s = Main.scan.nextLine();
-    switch (s) {
-      case "True":
+    switch (s.toLowerCase()) {
       case "true":
       case "1":
-      case "Debug":
       case "debug":
-      case "Y":
       case "y":
-      case "On":
       case "on":
         return true;
-      case "False":
       case "false":
       case "0":
-      case "N":
       case "n":
-      case "Off":
       case "off":
         return false;
       default:
@@ -671,12 +638,10 @@ public class Run{
     while(true){
       Str.print("<" + popupPrompt + "; navigate with q (up) and z (down)> ");
       String input = Main.scan.nextLine();
-      switch (input) {
-        case "Q":
+      switch (input.toLowerCase()) {
         case "q":
           if(pageIndex > 0) pageIndex--;
           break;
-        case "Z":
         case "z":
           if(pageIndex < pages.size()-1) pageIndex++;
           break;

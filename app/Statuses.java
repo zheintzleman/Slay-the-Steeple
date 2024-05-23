@@ -17,9 +17,9 @@ public class Statuses{
   public static final Status Entangled = new Status("Entangled", Colors.white + "E", true, false, "You may not play any attacks this turn");
   public static final Status SporeCloud = new Status("Spore Cloud", Colors.lightYellow + "S", false, true, "On death, applies <str> Vulnerable to the player.");
   public static final Status Thievery = new Status("Thievery", Colors.lightYellow + "T", false, true, "<str> Gold is stolen with every attack. Total Gold stolen is returned if the enemy is killed.");
-  public static final Status Vigor = new Status("Vigor", Colors.vigorOrange + "v", false, true, "Your next Attack deals <str> additional damage."); //TODO: Implement
+  public static final Status Vigor = new Status("Vigor", Colors.vigorOrange + "v", false, true, "Your next Attack deals <str> additional damage.");
   public static final Status NoDraw = new Status("No Draw", Colors.lightBlue + "N", true, false, "You may not draw any more cards this turn.");
-  //!!!Add new statuses in list below, too!!!
+  //!!!Add new statuses in list below, too!!!     //TODO: Just make it a list the same way as how the cards are set up.
 
   public static final ArrayList<Status> allStatuses = loadStatuses();
 

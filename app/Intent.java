@@ -79,7 +79,8 @@ public class Intent{
     //Update damage counter thingy
     int calculatedDamage = -1; //Only equals -1 here b/c of init errors
     if(type == IntentType.ATTACK || secondaryType == IntentType.ATTACK){
-      calculatedDamage = enemy.calcAttackDamage(player, damage);
+      int strMultiplier = 1; //Amount of times to add strength to atk (i.e. for Heavy Blade)
+      calculatedDamage = enemy.calcAttackDamage(player, damage, strMultiplier);
     }
     //Create Images:
     String[] img;

@@ -117,6 +117,7 @@ public class Combat{
   public ArrayList<Card> getDrawPile(){ return drawPile; }
   public ArrayList<Card> getDiscardPile(){ return discardPile; }
   public ArrayList<Card> getExhaustPile(){ return exhaustPile; }
+  public ArrayList<Card> getHand(){ return hand; }
   public ArrayList<Enemy> getEnemies(){ return enemies; }
   public ArrayList<Enemy> getEnemiesToUpdate(){ return enemiesToUpdate; }
   public void setEnemiesToUpdate(ArrayList<Enemy> newETU){ enemiesToUpdate = newETU; }
@@ -225,7 +226,7 @@ public class Combat{
       }else if(input.equalsIgnoreCase("e") || input.equalsIgnoreCase("end") || input.equalsIgnoreCase("end turn")){
         doneAction = true;
         return true;
-      }else if(App.settingsManager.debug && (input.equalsIgnoreCase("/killall")
+      }else if(App.settingsManager.cheats && (input.equalsIgnoreCase("/killall")
                                           || input.equalsIgnoreCase("/ka"))){
         while(enemies.size() > 0){
           enemies.get(0).die();
@@ -241,21 +242,6 @@ public class Combat{
   public void endTurn(){
     eventManager.OnTurnEnd();
 
-    while(hand.size() != 0){
-      Card card = hand.get(0);
-      boolean shouldDiscard = true;
-
-      for(CardEffect eff : card.getEffects()){
-        if(eff.whenPlayed() == Event.ONTURNEND){
-          //Plays any relevant card effects
-          //If the effect returns false (card should not discard), shouldDiscard set to false.
-          shouldDiscard = shouldDiscard && playEffect(eff, card);
-        }
-      }
-      if(shouldDiscard){
-        discardCardFromHand(card);
-      }
-    }
   }
 
   public void endEntityTurns(){
@@ -510,11 +496,11 @@ public class Combat{
             player.attack(target, power);
           break;
         case "HeavyAttack": //Alternatively, could add code into the "gain pwr from strength" code to add more if card has some heavy property. Maybe even an (OnStrUse) or smth.
-          playEffect(new CardEffect("AppPlayer", "Vigor", 5), null);
           if(enemies.contains(target)){
-            int strBuff = (power - 1) * player.getStrength();
-            int basePower = 14; //Base is 14 whether upgraded or not.
-            player.attack(target, basePower + strBuff);
+            // int strBuff = (power - 1) * player.getStrength(); //TODO: Remove
+            int basePower = 14; //Base is 14 whether upgraded or not. If ever updated, can use secondary as an int as
+            player.attack(target, basePower, power);
+            // player.attack(target, basePower + strBuff); //TODO: Remove
           }
           break;
         case "BodySlam":

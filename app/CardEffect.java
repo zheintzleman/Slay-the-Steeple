@@ -5,6 +5,7 @@ import java.io.Serializable;
 import app.EventManager.Event;
 
 public class CardEffect implements Serializable {
+  //TODO: Could use a HashSet:
   public static final String[] ATTACK_PRIMARIES = new String[] {"Attack", "AtkAll", "BodySlam", "SearingBlow", "HeavyAttack", "AtkRandom"}; //Can remove
   public static final String[] DEFENSE_PRIMARIES = new String[] {"Blk"};
   // Primaries that affect game state outside of the current combat (i.e. that matter even after the combat ends.)

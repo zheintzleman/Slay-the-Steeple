@@ -260,12 +260,14 @@ public class App {
     // Change the cards' (OnDiscard)/etc. into an EventManager enum?
     // ^Could even then make cards' effects all go through one of these? (Like normally through (CardPlayed) or smth?)
     //  ^Is that useful though?
+    // BFB going down by 2 each time?
     // Deal w/ hand size issue
     // ^Could make, eg, right 4(?) cards show only half the card (overlap) & typing ">" changes that to the left 4(?)?
     // Make sure all card draw in Combat.java uses the drawCard() method (if applicable)
     // Unstackable statuses shouldn't gain multiple levels, right? (Playing two battle trances in one turn)
     // Battle trance text; b4b's text & functionality
     // Deck pile 6(?) wide when it has 9 cards?
+    // Make Jaw Worm art wider?
 
     return cardList;
   }

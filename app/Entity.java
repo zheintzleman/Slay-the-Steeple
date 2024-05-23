@@ -291,10 +291,18 @@ public class Entity{
   *@param damagePreCalculations - The amount of damage the base card does (ie. 6 for an unupgraded Strike)
   *@return int - The amount of attack damage delt
   */
-  public int attack(Entity victim, int damagePreCalculations){ //TODO: Make into an event?
-    int dmg = calcAttackDamage(victim, damagePreCalculations);
+  public int attack(Entity victim, int damagePreCalculations){
+    return attack(victim, damagePreCalculations, 1);
+  }
+  /**Attacks the victim entity for the specified amount. Takes into account relevent status effects. Takes from the victims block, then its hp.
+  *@param victim - The entity being attacked by the entity calling this method
+  *@param damagePreCalculations - The amount of damage the base card does (ie. 6 for an unupgraded Strike)
+  *@return int - The amount of attack damage delt
+  */
+  public int attack(Entity victim, int damagePreCalculations, int strMultiplier){ //TODO: Make into an event?
+    int dmg = calcAttackDamage(victim, damagePreCalculations, strMultiplier);
     int dmgDelt = victim.damage(dmg);
-    if(dmgDelt > 0){              //OnTakingAttackDamage:
+    if(dmgDelt > 0){              //On Attack Damage Dealt:
       if(victim.hasStatus("Curl Up")){ //Curl Up
       victim.addBlock(victim.getStatusStrength("Curl Up"));
       victim.setStatusStrength("Curl Up", 0);
@@ -304,11 +312,12 @@ public class Entity{
         System.out.println("Victim Anger: " + victim.getStatusStrength("Angry"));
       }
     }
+    setStatusStrength("Vigor", 0);
     return dmgDelt;
   }
   
-  public int calcAttackDamage(Entity victim, int damagePreCalculations){
-    double dmg = calcAtkDmgFromThisStats(damagePreCalculations);
+  public int calcAttackDamage(Entity victim, int damagePreCalculations, int strMultiplier){
+    double dmg = calcAtkDmgFromThisStats(damagePreCalculations, strMultiplier);
     if(victim.getStatusStrength("Vulnerable") > 0){
       dmg *= 1.5;
     }
@@ -318,8 +327,11 @@ public class Entity{
   /**Calculates the attack damage damagePreCalculations would deal, just taking into
    * account the statuses this entity has. Useful for getting #s that show up on cards
    */
-  public int calcAtkDmgFromThisStats(int damagePreCalculations){
-    double dmg = damagePreCalculations + this.getStatusStrength("Strength");
+  public int calcAtkDmgFromThisStats(int damagePreCalculations, int strMultiplier){
+    double dmg = damagePreCalculations
+                + this.getStatusStrength("Strength") * strMultiplier
+                + this.getStatusStrength("Vigor");
+
     if(this.getStatusStrength("Weak") > 0){
       dmg *= 0.75;
     }

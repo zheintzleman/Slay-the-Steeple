@@ -163,8 +163,16 @@ public class Card implements Serializable {
       if(res.isEmpty()){ return res; }
       return res.substring(0, res.length()-1);
     }
-    //Takes into account the statuses of the player
-    public String getDescriptionWStatuses(Combat combat){
+    /**
+     * Returns the card's description, with atk & blk amounts changed based on
+     * the current statuses & other combat information. Does not change
+     * underlying card description.
+     * @param combat
+     * @param strMultiplier The amount of times to multiply strength by (for
+     *  heavy blade.) By default 1.
+     * @return The formatted card description
+     */
+    public String getDescriptionWStatuses(Combat combat, int strMultiplier){
       String res = codedDescription;
       while(res.contains("ØatkÁ")){ //Updates the attack #s
         int index = res.indexOf("ØatkÁ");
@@ -172,7 +180,7 @@ public class Card implements Serializable {
         App.ASSERT(endIndex != -1);
 
         int baseDamage = Integer.parseInt(res, index + 5, endIndex, 10);
-        int newDamage = combat.getPlayer().calcAtkDmgFromThisStats(baseDamage); //todo: Display the full damage for each enemy below that enemy?
+        int newDamage = combat.getPlayer().calcAtkDmgFromThisStats(baseDamage, strMultiplier); //todo: Display the full damage for each enemy below that enemy?
         String color = "";
         if(newDamage < baseDamage){ color = Colors.hpBarRed; }
         if(newDamage > baseDamage){ color = Colors.upgradeGreen; }
@@ -317,7 +325,15 @@ public class Card implements Serializable {
   public String getDescriptionWONLs(){ return data.description.getBaseDescriptionWONLs(); }
   public Description getDescriptionObject(){ return data.description; }
   /**Takes into account the statuses of the player */
-  public String getDescriptionWStatuses(Combat c){ return data.description.getDescriptionWStatuses(c); }
+  public String getDescriptionWStatuses(Combat c){
+    int strMultiplier = 1;
+    for(CardEffect eff : getEffects()){
+      if(eff.getPrimary().equals("HeavyAttack")){
+        strMultiplier = eff.getPower();
+      }
+    }
+    return data.description.getDescriptionWStatuses(c, strMultiplier);
+  }
 
   
   @Override
