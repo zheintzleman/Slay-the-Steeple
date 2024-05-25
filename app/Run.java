@@ -3,7 +3,8 @@ import java.util.*;
 
 public class Run{
   private String[] screen;
-  //Odd number (v) (default w=199, h=50)
+  //TODO: Put these into App.java?
+  //Odd number (v) (default w=199, h=50 -- change defaults in App.java.)
   public static final int SCREENWIDTH = App.settingsManager.screenWidth;
   public static final int SCREENHEIGHT = App.settingsManager.screenHeight;
   private int hp, maxHP;
@@ -19,6 +20,11 @@ public class Run{
     App.ASSERT(new Card("Strike") != null);
     deck.add(new Card("Battle Trance"));
     deck.add(new Card("Battle Trance"));
+    deck.add(new Card("Battle Trance"));
+    deck.add(new Card("Battle Trance"));
+    deck.add(new Card("Battle Trance"));
+    deck.add(new Card("Battle Trance"));
+    deck.add(new Card("Battle Trance"));
     deck.add(new Card("Armaments"));
     deck.add(new Card("Armaments"));
     deck.add(new Card("Armaments"));
@@ -26,12 +32,6 @@ public class Run{
     deck.add(new Card("Heavy Blade"));
     deck.add(new Card("Flex"));
     deck.add(new Card("Flex"));
-    deck.add(new Card("Flex"));
-    // deck.add(new Card("Burn"));
-    // deck.add(new Card("Burn+"));
-    deck.add(new Card("Void"));
-    deck.add(new Card("Blood for Blood"));
-    deck.add(new Card("Blood for Blood"));
     // TODO: Display deck in alphabetical order or smth?
     // Although this does show it in order obtained, actually.
     if(App.settingsManager.debug){
@@ -236,7 +236,8 @@ public class Run{
       
       //Display the popup:
       //Effectively 'popup(textToPopup);', except I can actually look at what the input is:
-      String[] screenWithAddition = Str.addStringArraysSkipEscSequences(screen, 6, 78, Str.makeTextBox(textToPopup, 30 , 43));
+      int startCol = App.settingsManager.screenWidth/2 - App.POPUP_WIDTH/2; // == 78
+      String[] screenWithAddition = Str.addStringArraysSkipEscSequences(screen, 6, startCol, Str.makeTextBox(textToPopup, App.POPUP_HEIGHT , App.POPUP_WIDTH));
       display(screenWithAddition); //Same as calling displayScreenWithAddition with the above params, but can pass this screen into input below (v)
       //TODO: Print info message
       Str.println("<Just press enter to collect reward; navigate with q (up) and z (down)>");

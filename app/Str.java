@@ -1,6 +1,5 @@
 package app;
 import java.util.*;
-import java.util.function.Predicate;
 
 /**Static string-management functions */
 public class Str {

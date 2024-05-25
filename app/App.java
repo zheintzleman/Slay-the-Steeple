@@ -36,10 +36,18 @@ public class App {
                                         "░ ░   ░   ░   ▒   ░      ░      ░      ░ ░ ░ ▒       ░░     ░     ░░   ░ \n" +
                                         "      ░       ░  ░       ░      ░  ░       ░ ░        ░     ░  ░   ░     \n" +
                                         "                                                     ░                   \n";
+  public static final int POPUP_WIDTH = 43;
+  public static final int POPUP_HEIGHT = 30;
+  public static final int DEFAULT_SCREEN_WIDTH = 199;
+  public static final int DEFAULT_SCREEN_HEIGHT = 50;
+  public static final int MIN_SCREEN_WIDTH = 10;
+  public static final int MIN_SCREEN_HEIGHT = 10;
+  // TODO: Check for realistic values of MSW/MSH^
 
   public static SettingsManager settingsManager = new SettingsManager(SETTINGS_PATH);
   // public static ArrayList<Card> CARD_LIST = loadAvailableCards(CARD_LIST_PATH);
   public static ArrayList<Card> CARD_LIST = loadCardList();
+  // TODO: try w/ final^
   
   public App(){
 
@@ -259,13 +267,12 @@ public class App {
     // Change the cards' (OnDiscard)/etc. into an EventManager enum?
     // ^Could even then make cards' effects all go through one of these? (Like normally through (CardPlayed) or smth?)
     //  ^Is that useful though?
-    // Make sure all card draw in Combat.java uses the drawCard() method (if applicable)
-    // Unstackable statuses shouldn't gain multiple levels, right? (Playing two battle trances in one turn)
     // Battle trance text; b4b's text & functionality
     // Deck pile 6(?) wide when it has 9 cards?
     // Make Jaw Worm art wider?
     // Make it so the robber(s) don't "drop gold" when they run away.
     // Deal w/ hand size issue
+    // TODO: Turn "No Draw" back on 
     // ^Could make, eg, right 4(?) cards show only half the card (overlap) & typing ">" changes that to the left 4(?)?
     // Give credit for making the opening logo (to that website)
     // In the statuses list (& possibly any other lists, too), change the section headers to be some different color (besides just white)

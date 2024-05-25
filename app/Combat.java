@@ -12,7 +12,7 @@ public class Combat{
   private int energy, baseEnergy;
   // Combat stops running when set to true:
   boolean combatOver;
-  int topRowOfCards;
+  int topRowOfCards; //The highest row (of the screen) in which the hand cards are printed
   private Run thisRun; //To access data about this specific run
   private EventManager eventManager;
   
@@ -402,7 +402,7 @@ public class Combat{
       Str.println("12");
       return false;
     }
-    if(player.hasStatus("No Draw")){
+    if(player.hasStatus("Notodo Draw")){
       Str.println("13");
       return false;
     }
@@ -801,76 +801,116 @@ public class Combat{
     int rowAboveCards = topRowOfCards -1;
 
     //Odd and even numbers and even numbers have different things going on in the center, so I found it easier to just have them go separately
-    if(numCards%2 == 0){  //Even num of cards
-      //#s above cards:
-      int firstLabelCol = Run.SCREENWIDTH/2 - (int)((Card.CARDWIDTH+1)*((numCards-1)/2.0)); //Middle col - width*(numOfCardsToTheLeft-0.5)
-      for(int i=0; i<numCards; i++){
-        String iAsString = "" + (i+1);
-        System.out.println(iAsString);
-        thisRun.addToScreen(rowAboveCards, (firstLabelCol + i*(Card.CARDWIDTH+1)), iAsString, Colors.magenta, Colors.reset);
-      }
-      addEvenHandToScreen(cards);
-    }else{               //Odd num of cards
-      //#s above cards:
-      int firstLabelCol = Run.SCREENWIDTH/2 - (Card.CARDWIDTH+1)*((numCards-1)/2); //Middle col - width*numOfCardsToTheLeft
-      for(int i=0; i<numCards; i++){
-        String iAsString = "" + (i+1);
-        System.out.println(iAsString);
-        thisRun.addToScreen(rowAboveCards, (firstLabelCol + i*(Card.CARDWIDTH+1)), iAsString, Colors.magenta, Colors.reset);
-      }
-      addOddHandToScreen(cards);
+    // if(numCards%2 == 0){  //Even num of cards //todo: remove this<, too
+    //#s above cards:
+    int firstLabelCol = Run.SCREENWIDTH/2 - (int)((Card.CARDWIDTH+1)*((numCards-1)/2.0)); //Middle col - width*(numOfCardsToTheLeft-0.5)
+    for(int i=0; i<numCards; i++){
+      String iAsString = "" + (i+1);
+      System.out.println(iAsString);
+      thisRun.addToScreen(rowAboveCards, (firstLabelCol + i*(Card.CARDWIDTH+1)), iAsString, Colors.magenta, Colors.reset);
     }
+    //Cards:
+    // Explanation: Starting from the middle column, each additional card added to the hand pushes the leftmost ("starting")
+    // column of the hand (CARDWIDTH+1)/2 chars left (+1 for the empty space between.)
+    // Since the first card doesn't add an empty space, it only shifts by CARDWIDTH/2, so we add 1 to mCP1 to compensate.
+    int middleColPlus1 = Run.SCREENWIDTH/2 + 1;
+    int offsetPerCard = (Card.CARDWIDTH + 1)/2;
+    int leftmostCol = middleColPlus1 - cards.size() * offsetPerCard;
+
+    final int wiggleRoom = 20;
+    if(numCards*(Card.CARDWIDTH+1) > Run.SCREENWIDTH - wiggleRoom){
+      // If there's enough room for all the cards, w/o covering up the draw pile/etc.
+      // or being wider than the screen:
+      addHandCardsToScreen(cards, leftmostCol);
+    } else {
+      // Too many cards in hand to easily show all of them:
+      // int cardsThatFit = 
+    }
+
+    // addEvenHandToScreen(cards); //todo: Remove:<v
+    // }else{               //Odd num of cards
+    //   //#s above cards:
+    //   int firstLabelCol = Run.SCREENWIDTH/2 - (Card.CARDWIDTH+1)*((numCards-1)/2); //Middle col - width*numOfCardsToTheLeft
+    //   for(int i=0; i<numCards; i++){
+    //     String iAsString = "" + (i+1);
+    //     System.out.println(iAsString);
+    //     thisRun.addToScreen(rowAboveCards, (firstLabelCol + i*(Card.CARDWIDTH+1)), iAsString, Colors.magenta, Colors.reset);
+    //   }
+    //   addOddHandToScreen(cards);
+    // }
   }
 
-  /**Adds the hand to the screen if they hae an even number of cards in their hand.
-  */
-  private void addEvenHandToScreen(ArrayList<Card> cards){
-    int numCards = cards.size();
+  /**
+   * Starting at column leftmostCol, adds the list of cards from right to left (recursively.)
+   * @return The index of the next column to place cards (i.e. 2 spaces to the right of the rightmost
+   * card's image.)
+   */
+  int addHandCardsToScreen(List<Card> cards, int leftmostCol){
+    if (cards.size() == 0) {
+      return leftmostCol;
+    }
+    // int numCards = cards.size();
     String[] cardArt0 = cards.get(0).getImageWStatuses(this);
-    String[] cardArtLast = cards.get(cards.size()-1).getImageWStatuses(this);
-    int middleRightCardStartingCol = Run.SCREENWIDTH/2 + 1;
+    // int middleRightCardStartingCol = Run.SCREENWIDTH/2 + 1;
+    // int numExtraCardsToEachSide = (numCards-2)/2; //Num of cards on each side of the middle
+    // int card0StartingCol = middleRightCardStartingCol - (Card.CARDWIDTH+1)*(numExtraCardsToEachSide+1);
 
-    if(numCards == 2){
-      thisRun.addToScreen(topRowOfCards, middleRightCardStartingCol-(Card.CARDWIDTH+1), cardArt0);
-      thisRun.addToScreen(topRowOfCards, middleRightCardStartingCol, cardArtLast);
-      return;
-    }
-
-    int numExtraCardsToEachSide = (numCards-2)/2; //Num of cards on each side of the middle cards
-    
-    int leftCardStartingCol = middleRightCardStartingCol - (Card.CARDWIDTH+1)*(numExtraCardsToEachSide+1);
-    int rightCardStartingCol = middleRightCardStartingCol + (Card.CARDWIDTH+1)*numExtraCardsToEachSide;
-    thisRun.addToScreen(topRowOfCards, leftCardStartingCol, cardArt0);
-    thisRun.addToScreen(topRowOfCards, rightCardStartingCol, cardArtLast);
-
-    ArrayList<Card> subHand = new ArrayList<Card>(cards.subList(1, cards.size()-1));
-    addEvenHandToScreen(subHand);
+    thisRun.addToScreen(topRowOfCards, leftmostCol, cardArt0);
+    // TODO: Check for whether or not we're coming up on the end.
+    return addHandCardsToScreen(cards.subList(1, cards.size()), leftmostCol + Card.CARDWIDTH + 1);
   }
 
-  /**Adds the hand to the screen if there are an odd number of cards in their hand
-  */
-  private void addOddHandToScreen(ArrayList<Card> cards){
-    int numCards = cards.size();
-    String[] cardArt0 = cards.get(0).getImageWStatuses(this);
-    int middleCardStartingCol = Run.SCREENWIDTH/2 - (Card.CARDWIDTH/2);
+  // /**Adds the hand to the screen if they have an even number of cards in their hand.
+  // */
+  // private void addEvenHandToScreen(ArrayList<Card> cards){
+  //   int numCards = cards.size();
+  //   //Referring to the 0th, (numCards-1)th, and (numCards/2)th cards respectively:
+  //   String[] cardArt0 = cards.get(0).getImageWStatuses(this);
+  //   String[] cardArtLast = cards.get(cards.size()-1).getImageWStatuses(this);
+  //   int middleRightCardStartingCol = Run.SCREENWIDTH/2 + 1;
 
-    if(numCards == 1){
-      thisRun.addToScreen(topRowOfCards, middleCardStartingCol, cardArt0);
-      return;
-    }
+  //   if(numCards == 2){
+  //     thisRun.addToScreen(topRowOfCards, middleRightCardStartingCol-(Card.CARDWIDTH+1), cardArt0);
+  //     thisRun.addToScreen(topRowOfCards, middleRightCardStartingCol, cardArtLast);
+  //     return;
+  //   }
 
-    String[] cardArtLast = cards.get(cards.size()-1).getImageWStatuses(this);
-    int numExtraCardsToEachSide = (numCards-1)/2; //Num of cards on each side of the middle card
+  //   int numExtraCardsToEachSide = (numCards-2)/2; //Num of cards on each side of the middle
     
-    int displacement = (Card.CARDWIDTH+1)*numExtraCardsToEachSide;
-    int leftCardStartingCol = middleCardStartingCol - displacement;
-    int rightCardStartingCol = middleCardStartingCol + displacement;
-    thisRun.addToScreen(topRowOfCards, leftCardStartingCol, cardArt0);
-    thisRun.addToScreen(topRowOfCards, rightCardStartingCol, cardArtLast);
+  //   int card0StartingCol = middleRightCardStartingCol - (Card.CARDWIDTH+1)*(numExtraCardsToEachSide+1);
+  //   int cardLastStartingCol = middleRightCardStartingCol + (Card.CARDWIDTH+1)*numExtraCardsToEachSide;
+  //   // topRow
+  //   thisRun.addToScreen(topRowOfCards, card0StartingCol, cardArt0);
+  //   thisRun.addToScreen(topRowOfCards, cardLastStartingCol, cardArtLast);
+
+  //   ArrayList<Card> subHand = new ArrayList<Card>(cards.subList(1, cards.size()-1));
+  //   addEvenHandToScreen(subHand);
+  // }
+
+  // /**Adds the hand to the screen if there are an odd number of cards in their hand
+  // */
+  // private void addOddHandToScreen(ArrayList<Card> cards){
+  //   int numCards = cards.size();
+  //   String[] cardArt0 = cards.get(0).getImageWStatuses(this);
+  //   int middleCardStartingCol = Run.SCREENWIDTH/2 - (Card.CARDWIDTH/2);
+
+  //   if(numCards == 1){
+  //     thisRun.addToScreen(topRowOfCards, middleCardStartingCol, cardArt0);
+  //     return;
+  //   }
+
+  //   String[] cardArtLast = cards.get(cards.size()-1).getImageWStatuses(this);
+  //   int numExtraCardsToEachSide = (numCards-1)/2; //Num of cards on each side of the middle card
     
-    ArrayList<Card> subHand = new ArrayList<Card>(cards.subList(1, cards.size()-1));
-    addOddHandToScreen(subHand);
-  }
+  //   int displacement = (Card.CARDWIDTH+1)*numExtraCardsToEachSide;
+  //   int leftCardStartingCol = middleCardStartingCol - displacement;
+  //   int rightCardStartingCol = middleCardStartingCol + displacement;
+  //   thisRun.addToScreen(topRowOfCards, leftCardStartingCol, cardArt0);
+  //   thisRun.addToScreen(topRowOfCards, rightCardStartingCol, cardArtLast);
+    
+  //   ArrayList<Card> subHand = new ArrayList<Card>(cards.subList(1, cards.size()-1));
+  //   addOddHandToScreen(subHand);
+  // }
 
 
   /**Creates a box of ascii characters with a number in the center (ie the energy counter box). color is added only after the number in the middle line. textColor is the color of the number in the middle line.
@@ -878,7 +918,7 @@ public class Combat{
   */
   public static String[] square(int height, int minWidth, int valInCenter, String color, String textColor){
     String[] square = new String[height];
-    if(valInCenter < 9){
+    if(valInCenter <= 9){
         int numToLeft = (minWidth-1)/2;
         String halfOfRow = "";
         for(int i=0; i<numToLeft; i++){

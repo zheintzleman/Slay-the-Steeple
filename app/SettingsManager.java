@@ -18,8 +18,9 @@ public class SettingsManager{
       //To reset to default settings:
       // debug = true;
       // name = "Default";
-      // screenWidth = 199;
-      // screenHeight = 50;
+      // screenWidth = App.DEFAULT_SCREEN_WIDTH;
+      // // screenWidth = 243;
+      // screenHeight = App.DEFAULT_SCREEN_HEIGHT;
       // cheats = true;
       // save();
 
@@ -29,11 +30,11 @@ public class SettingsManager{
       screenWidth = (Integer) oi.readObject();
       screenHeight = (Integer) oi.readObject();
       cheats = (Boolean) oi.readObject();
-      if(screenHeight <= 10){
-        screenHeight = 50;
+      if(screenHeight <= App.MIN_SCREEN_HEIGHT){
+        screenHeight = App.DEFAULT_SCREEN_HEIGHT;
       }
-      if(screenWidth <= 10){
-        screenWidth = 199;
+      if(screenWidth <= App.MIN_SCREEN_WIDTH){
+        screenWidth = App.DEFAULT_SCREEN_WIDTH;
       }
 
       oi.close();
@@ -43,8 +44,8 @@ public class SettingsManager{
 			System.out.println("File not found");
       debug = true;
       name = "Default";
-      screenWidth = 199;
-      screenHeight = 50;
+      screenWidth = App.DEFAULT_SCREEN_WIDTH;
+      screenHeight = App.DEFAULT_SCREEN_HEIGHT;
       cheats = true;
       save();
 		} catch (IOException e) {
