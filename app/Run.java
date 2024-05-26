@@ -26,7 +26,10 @@ public class Run{
     deck.add(new Card("Battle Trance"));
     deck.add(new Card("Battle Trance"));
     deck.add(new Card("Armaments"));
-    deck.add(new Card("Armaments"));
+    deck.add(new Card("Blood for Blood"));
+    deck.add(new Card("Blood for Blood"));
+    deck.add(new Card("Blood for Blood"));
+    deck.add(new Card("Blood for Blood"));
     deck.add(new Card("Armaments"));
     deck.add(new Card("Armaments"));
     deck.add(new Card("Heavy Blade"));
@@ -452,14 +455,20 @@ public class Run{
           String s = Main.scan.nextLine();
           if(!s.equals("")){
             App.settingsManager.name = s;
+            App.settingsManager.save();
           }
           break;
         case "screen width":
         case "width":
-          Str.println("Enter the new screen width (Just press enter to cancel:)");
+          Str.println("Enter the new screen width, or enter 1-4 for default width options. (Just press enter to cancel:)");
           try{
-            App.settingsManager.screenWidth = Integer.parseInt(Main.scan.nextLine());
-          } catch (NumberFormatException E) {}  
+            int width = Integer.parseInt(Main.scan.nextLine());
+            if (1 <= width && width <= 4) {
+              width = 155 + 22*width;
+            }
+            App.settingsManager.screenWidth = width;
+            App.settingsManager.save();
+          } catch (NumberFormatException E) {}
           break;
         case "screen height":
         case "height":
@@ -470,13 +479,15 @@ public class Run{
             //   App.settingsManager.screenHeight = h;
             // else
             //   Str.println("New height must be at least 10.");
-          } catch (NumberFormatException E) {}  
+            App.settingsManager.save();
+          } catch (NumberFormatException E) {}
           break;
         case "debug mode":
         case "debug":
           Str.println("Enter what to change debug to (Just press enter to cancel:)");
           try{
             App.settingsManager.debug = parseBoolInput();
+            App.settingsManager.save();
           } catch (NumberFormatException E){}
           break;
         case "cheats":
@@ -484,6 +495,7 @@ public class Run{
           Str.println("Enter what to change debug to (Just press enter to cancel:)");
           try{
             App.settingsManager.cheats = parseBoolInput();
+            App.settingsManager.save();
           } catch (NumberFormatException E){}
           break;
         case "":
@@ -493,7 +505,6 @@ public class Run{
           break;
       }
     }
-    App.settingsManager.save();
     // displayScreenWithAddition(Str.makeTextBox(settingsText, popupHeight, popupWidth), 5, SCREENWIDTH*3/50);
   }
 

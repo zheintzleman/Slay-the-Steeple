@@ -267,6 +267,7 @@ public class Combat{
     thisRun.reloadScreen();
     int playerMidX = Run.SCREENWIDTH*2/7; //The x (column) value of the center of the player's display
     int entityBottomY = Run.SCREENHEIGHT/2; //The y (row) value of the row just below each entity's display
+    final int energySquareX = 24;
     
     //Player img
     String[] playerArt = player.getArt();
@@ -343,7 +344,7 @@ public class Combat{
 
     //Energy counter:
     String[] energyBlock = square(3, 7, energy, Colors.energyDisplayRed, Colors.whiteOnEnergyDisplayRed);
-    thisRun.addToScreen(topRowOfCards-3, Run.SCREENWIDTH/8, energyBlock, Colors.reset + Colors.energyDisplayRed, Colors.reset);
+    thisRun.addToScreen(topRowOfCards-3, energySquareX, energyBlock, Colors.reset + Colors.energyDisplayRed, Colors.reset);
   }
 
   /**Reloads and displays the screen

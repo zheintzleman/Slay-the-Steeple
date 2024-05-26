@@ -267,17 +267,20 @@ public class App {
     // Change the cards' (OnDiscard)/etc. into an EventManager enum?
     // ^Could even then make cards' effects all go through one of these? (Like normally through (CardPlayed) or smth?)
     //  ^Is that useful though?
-    // Battle trance text; b4b's text & functionality
-    // Deck pile 6(?) wide when it has 9 cards?
+    // Battle trance text;
     // Make Jaw Worm art wider?
     // Make it so the robber(s) don't "drop gold" when they run away.
     // Make the pink number a 0 instead of a 10 (and make typing 0 to play it work, too.)
     // Make sure there is the text explaining <>zc
     // Is the hp/gold text centered?
+    // |                      1 █
+    //  ^Make the energy square locations based on where the numbers would be
+    // Make the enemies evenly spaced
     // TODO: Turn "No Draw" back on 
     // ^Could make, eg, right 4(?) cards show only half the card (overlap) & typing ">" changes that to the left 4(?)?
     // Give credit for making the opening logo (to that website)
     // In the statuses list (& possibly any other lists, too), change the section headers to be some different color (besides just white)
+    // Stretch goal: Allow for a screen width of 155
 
     return cardList;
   }
