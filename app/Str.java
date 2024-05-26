@@ -559,9 +559,10 @@ public class Str {
   /**Returns the lower of the two values
   */
   public static int minOf(int a, int b){
-    //idk why some people hate these things they're really nice imo -Z
-    //I guess some people haven't had to learn new things in a while and aren't used to it. And this is a pretty simple example, it could get much worse.
-    return (a<b)? a : b;
+    //idk why some people hate these things they're really nice imo
+    //I guess some people haven't had to learn new things in a while and aren't used to it.
+    //And this is a pretty simple example, it could get much worse.
+    return (a < b) ? a : b;
   }
   /**Returns the lower positive number of the two values. If neither are positive, returns -1.
   */
@@ -570,8 +571,12 @@ public class Str {
       return -1;
     }
     if(a<0 || b<0){ //One negative
-      return (a>b)? a : b; //Max of two
+      return (a > b) ? a : b; //Max of two
     }
-    return (a<b)? a : b; //Min of two
+    return (a < b) ? a : b; //Min of two
+  }
+  /**Returns the higher of the two values */
+  public static int maxOf(int a, int b){
+    return (a < b) ? b : a;
   }
 }

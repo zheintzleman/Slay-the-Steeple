@@ -271,7 +271,9 @@ public class App {
     // Deck pile 6(?) wide when it has 9 cards?
     // Make Jaw Worm art wider?
     // Make it so the robber(s) don't "drop gold" when they run away.
-    // Deal w/ hand size issue
+    // Make the pink number a 0 instead of a 10 (and make typing 0 to play it work, too.)
+    // Make sure there is the text explaining <>zc
+    // Is the hp/gold text centered?
     // TODO: Turn "No Draw" back on 
     // ^Could make, eg, right 4(?) cards show only half the card (overlap) & typing ">" changes that to the left 4(?)?
     // Give credit for making the opening logo (to that website)

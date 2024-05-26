@@ -435,7 +435,7 @@ public class Run{
       String settingsText = Colors.magenta + Str.repeatChar(' ', (popupWidth-4-9)/2) + "Settings:\n" + 
                             Str.repeatChar(' ', (popupWidth-4-11)/2) + "───────────\n" + 
                             "Settings saved to the device.\n" + 
-                            "To change a setting, type the name of the setting and follow any given prompts.\n\n" + 
+                            "To change a setting, type the name of the setting and follow the given prompts.\n\n" + 
             Colors.magenta + "Name: " + Colors.reset + App.settingsManager.name + "\n" + 
             Colors.magenta + "Screen Width: " + Colors.reset + App.settingsManager.screenWidth + "\n" + 
             Colors.magenta + "Screen Height: " + Colors.reset + App.settingsManager.screenHeight + "\n" + 
@@ -504,7 +504,6 @@ public class Run{
     switch (s.toLowerCase()) {
       case "true":
       case "1":
-      case "debug":
       case "y":
       case "on":
         return true;

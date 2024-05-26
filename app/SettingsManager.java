@@ -16,13 +16,13 @@ public class SettingsManager{
   		FileInputStream fi = new FileInputStream(new File(pathname));
       ObjectInputStream oi = new ObjectInputStream(fi);
       //To reset to default settings:
-      // debug = true;
-      // name = "Default";
-      // screenWidth = App.DEFAULT_SCREEN_WIDTH;
-      // // screenWidth = 243;
-      // screenHeight = App.DEFAULT_SCREEN_HEIGHT;
-      // cheats = true;
-      // save();
+      debug = true;
+      name = "Default";
+      screenWidth = App.DEFAULT_SCREEN_WIDTH;
+      // screenWidth = 243;
+      screenHeight = App.DEFAULT_SCREEN_HEIGHT;
+      cheats = true;
+      save();
 
       // Read objects
       debug = (Boolean) oi.readObject(); //Capitalize Boolean?
