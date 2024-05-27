@@ -267,7 +267,7 @@ public class Combat{
     thisRun.reloadScreen();
     int playerMidX = Run.SCREENWIDTH*2/7; //The x (column) value of the center of the player's display
     int entityBottomY = Run.SCREENHEIGHT/2; //The y (row) value of the row just below each entity's display
-    final int energySquareX = 24;
+    final int energySquareX = 24; // = Run.SCREENWIDTH/2 - (Run.SCREENWIDTH/Card.CARDWIDTH - 1) * ((Card.CARDWIDTH + 1)/2) + Card.CARDWIDTH/2 + 3;
     
     //Player img
     String[] playerArt = player.getArt();
@@ -399,7 +399,7 @@ public class Combat{
       Str.println("12");
       return false;
     }
-    if(player.hasStatus("Notodo Draw")){
+    if(player.hasStatus("No Draw")){
       Str.println("13");
       return false;
     }
@@ -431,6 +431,10 @@ public class Combat{
   *@return boolean - Whether or not a card was played. Returns false if index is not valid, if player has too little energy, or if card is `unplayable`.
   */
   public boolean playCard(int num){
+    if(num%10 == 0){
+      num += 10;
+    }
+
     int index = num-1;
     Card card;
 
@@ -868,6 +872,8 @@ public class Combat{
   int addHandCardsToScreen(List<Card> cards, int leftmostCol, int cardIndex, int gap, int startCutoff, int endCutoff){
     if (cards.size() == 0) {
       return leftmostCol-1;
+    } else if(cardIndex == 10){
+      cardIndex = 0;
     }
     // int numCards = cards.size();
     String[] cardArt0 = cards.get(0).getImageWStatuses(this);

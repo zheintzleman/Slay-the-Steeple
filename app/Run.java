@@ -326,8 +326,8 @@ public class Run{
     Arrays.fill(screen, 0, 5, Colors.headerBrown + lineOfBlocks + Colors.reset);
     
     String hpText =  "HP: " + this.hp;
-    addToScreen(2, SCREENWIDTH/2 - Str.lengthIgnoringEscSeqs(hpText) -1, hpText, Colors.hpRedOnHeaderBrown, Colors.reset + Colors.headerBrown);
-    addToScreen(2, SCREENWIDTH/2 +2, "Gold: " + this.gold, Colors.goldOnHeaderBrown, Colors.reset + Colors.headerBrown);
+    addToScreen(2, SCREENWIDTH/2 - Str.lengthIgnoringEscSeqs(hpText) -2, hpText, Colors.hpRedOnHeaderBrown, Colors.reset + Colors.headerBrown);
+    addToScreen(2, SCREENWIDTH/2 +1, "Gold: " + this.gold, Colors.goldOnHeaderBrown, Colors.reset + Colors.headerBrown);
     
     
     //Deck (top right)

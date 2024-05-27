@@ -11,7 +11,11 @@ public class JawWorm extends Enemy{
   public static final Intent THRASH = new Intent("Thrash", IntentType.ATTACK, IntentType.DEFEND, 7);
   public static final Intent BELLOW = new Intent("Bellow", IntentType.DEFEND, IntentType.BUFF);
   private int numThrashesInARow = 0;
-  public static final String[] art = new String[] {Colors.fillColor("      ▄▄▄        ", Colors.jawWormBlue), Colors.fillColor("  ▄▄██████▄      ", Colors.jawWormBlue), Colors.fillColor("▄███████████▄    ", Colors.jawWormBlue), Colors.fillColor("▄▄▄▄▄▄", Colors.jawWormBlueOnGray) + Colors.reset + Colors.fillColor("███████▄   ", Colors.jawWormBlue) + Colors.reset, Colors.fillColor("   ▀▀▀▀▀▀█▀ ▀▀▀▀", Colors.jawWormBlue)};
+  public static final String[] art = new String[] {Colors.fillColor("      ▄▄▄        ", Colors.jawWormBlue),
+                                                   Colors.fillColor("  ▄▄██████▄      ", Colors.jawWormBlue),
+                                                   Colors.fillColor("▄███████████▄    ", Colors.jawWormBlue),
+                                                   Colors.fillColor("▄▄▄▄▄▄", Colors.jawWormBlueOnGray) + Colors.reset + Colors.fillColor("███████▄   ", Colors.jawWormBlue) + Colors.reset,
+                                                   Colors.fillColor("   ▀▀▀▀▀▀█▀ ▀▀▀▀", Colors.jawWormBlue)};
   
 
   public JawWorm(int middleX, Combat c){

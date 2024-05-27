@@ -263,18 +263,9 @@ public class App {
     // 3, true, , Rarity.UNCOMMON, Color.IRONCLAD));
     cardList.add(new Card("Blood for Blood", "Costs 1 less energy for each time you lose HP this combat.\nDeal ØatkÁ18ØendatkÁ damage.\n", "Attack", 4, true, new ArrayList<String>(Arrays.asList("(OnPlayerHurt) ChangeCost -1", "Attack 18")),
                       "Costs 1 less energy for each time you lose HP this combat.\nDeal ØatkÁ22ØendatkÁ damage.\n", 3, true, new ArrayList<String>(Arrays.asList("(OnPlayerHurt) ChangeCost -1", "Attack 22")), Rarity.UNCOMMON, Color.IRONCLAD));
-    // Make an event system/class(calls relevant relic/status/we/ functions) (/smth)
-    // Change the cards' (OnDiscard)/etc. into an EventManager enum?
-    // ^Could even then make cards' effects all go through one of these? (Like normally through (CardPlayed) or smth?)
-    //  ^Is that useful though?
     // Battle trance text;
     // Make Jaw Worm art wider?
     // Make it so the robber(s) don't "drop gold" when they run away.
-    // Make the pink number a 0 instead of a 10 (and make typing 0 to play it work, too.)
-    // Make sure there is the text explaining <>zc
-    // Is the hp/gold text centered?
-    // |                      1 █
-    //  ^Make the energy square locations based on where the numbers would be
     // Make the enemies evenly spaced
     // TODO: Turn "No Draw" back on 
     // ^Could make, eg, right 4(?) cards show only half the card (overlap) & typing ">" changes that to the left 4(?)?

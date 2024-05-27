@@ -485,7 +485,7 @@ public class Card implements Serializable {
     //original devs just added a bunch of hard coded exceptions for it.
     if(Str.equalsSkipEscSeqs(name, "Blood for Blood")
     || Str.equalsSkipEscSeqs(name, "Blood for Blood+")){
-      energyCost--;
+      setEnergyCost(energyCost-1);
       return;
     }
 
