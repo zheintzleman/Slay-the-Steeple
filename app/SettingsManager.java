@@ -60,8 +60,6 @@ public class SettingsManager{
       FileOutputStream f = new FileOutputStream(new File(pathname));
       ObjectOutputStream o = new ObjectOutputStream(f);
 
-      System.out.println("Among us settings\n");
-
       // Write objects to file
       o.writeObject((Boolean) debug); //Capitalize Boolean?
       o.writeObject(name);

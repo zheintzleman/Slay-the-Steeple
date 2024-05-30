@@ -520,21 +520,21 @@ public class Card implements Serializable {
 
 
 
-  /**Returns the card with the entered name from the list of available cards.
+  /**Returns the card with the entered name from the set of available cards.
+   *@Postcondition - Returns a card in App.CARDS -- doesn't return null
   */
   public static Card getCard(String name){
-    for(Card c : App.CARD_LIST){
-      if(Str.equalsSkipEscSeqs(name, c.getName())){ //TODO: Make more efficient with hash sets with strings as keys?
-        return c;
+    Card card = App.CARDS.get(name);
+
+    if(card == null){
+      System.out.println("Card \"" + name + "\" not found. Card list:");
+      for(Card c : App.CARDS.values()){
+        Str.println("C: " + c.name);
       }
+      throw new RuntimeException("Card \"" + name + "\" not in App.CARDS.");
     }
 
-    //Shouldn't get here (Debugging Tool:)
-    for(Card c : App.CARD_LIST){
-      Str.println("C: " + c.name);
-    }
-
-    throw new RuntimeException("Card \"" + name + "\" not in App.CARD_LIST list.");
+    return card;
   }
   
   

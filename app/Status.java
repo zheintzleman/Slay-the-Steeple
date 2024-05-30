@@ -16,18 +16,18 @@ public class Status{
   public Status(String name){ //This const might not be necessary
     this.name = name;
     strength = 1;
-    image = Statuses.getStatus(name).getImage();
-    decreasing = Statuses.getStatus(name).isDecreasing();
-    hasStrength = Statuses.getStatus(name).hasStrength();
-    description = Statuses.getStatus(name).getDescription();
+    image = getStatus(name).getImage();
+    decreasing = getStatus(name).isDecreasing();
+    hasStrength = getStatus(name).hasStrength();
+    description = getStatus(name).getDescription();
   }
   public Status(String name, int strength){ //This const might not be necessary
     this.name = name;
     this.strength = strength;
-    image = Statuses.getStatus(name).getImage();
-    decreasing = Statuses.getStatus(name).isDecreasing();
-    hasStrength = Statuses.getStatus(name).hasStrength();
-    description = Statuses.getStatus(name).getDescription();
+    image = getStatus(name).getImage();
+    decreasing = getStatus(name).isDecreasing();
+    hasStrength = getStatus(name).hasStrength();
+    description = getStatus(name).getDescription();
   }
   public Status(Status s){
     name = s.getName();
@@ -37,7 +37,7 @@ public class Status{
     hasStrength = s.hasStrength();
     description = s.getDescription();
   }
-  //For Statuses class:
+  //For App.STATUSES set:
   public Status(String name, String image, boolean decreasing, boolean hasStrength, String desc){
     this.name = name;
     this.strength = 0;
@@ -102,5 +102,22 @@ public class Status{
       str += Colors.gray + strength;
     }
     return str + Colors.reset;
+  }
+  
+  /**Returns the status with the entered name from the set of available statuses.
+   *@Postcondition - Returns a status in App.STATUSES -- doesn't return null
+  */
+  public static Status getStatus(String name){
+    Status status = App.STATUSES.get(name);
+
+    if(status == null){
+      System.out.println("Status \"" + name + "\" not found. Status list:");
+      for(Status s : App.STATUSES.values()){
+        Str.println("S: " + s.getName());
+      }
+      throw new RuntimeException("Status \"" + name + "\" not in App.STATUSES.");
+    }
+
+    return status;
   }
 }

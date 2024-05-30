@@ -1,10 +1,10 @@
 package app;
 import java.util.*;
+import java.util.function.Predicate;
 
 public class Run{
   private String[] screen;
   //TODO: Put these into App.java?
-  //Odd number (v) (default w=199, h=50 -- change defaults in App.java.)
   public static final int SCREENWIDTH = App.settingsManager.screenWidth;
   public static final int SCREENHEIGHT = App.settingsManager.screenHeight;
   private int hp, maxHP;
@@ -20,21 +20,17 @@ public class Run{
     App.ASSERT(new Card("Strike") != null);
     deck.add(new Card("Battle Trance"));
     deck.add(new Card("Battle Trance"));
-    deck.add(new Card("Battle Trance"));
-    deck.add(new Card("Battle Trance"));
-    deck.add(new Card("Battle Trance"));
-    deck.add(new Card("Battle Trance"));
-    deck.add(new Card("Battle Trance"));
+    deck.add(new Card("Blood for Blood"));
     deck.add(new Card("Armaments"));
-    deck.add(new Card("Blood for Blood"));
-    deck.add(new Card("Blood for Blood"));
-    deck.add(new Card("Blood for Blood"));
-    deck.add(new Card("Blood for Blood"));
     deck.add(new Card("Armaments"));
     deck.add(new Card("Armaments"));
     deck.add(new Card("Heavy Blade"));
     deck.add(new Card("Flex"));
     deck.add(new Card("Flex"));
+    deck.add(new Card("Thunderclap"));
+    deck.add(new Card("Thunderclap"));
+    deck.add(new Card("Clothesline"));
+    deck.add(new Card("Clothesline"));
     // TODO: Display deck in alphabetical order or smth?
     // Although this does show it in order obtained, actually.
     if(App.settingsManager.debug){
@@ -419,34 +415,11 @@ public class Run{
   }
   
   public void openSettings(){
-    //todo: move this all to some function in App?
-    //If SCREENHEIGHT*4/5 will overflow, replaces height of popup with SCREENHEIGHT - 6:
-    int popupHeight = (SCREENHEIGHT*4/5 + 6 <= SCREENHEIGHT) ? SCREENHEIGHT*4/5 : SCREENHEIGHT - 6;
-    int popupWidth = SCREENWIDTH*22/25;
     //todo: add color to true/false?
-    //Displays a popup of the settings.
-    // String[] arr = Str.makeTextBox(settingsText, popupHeight, popupWidth);
-    // displayScreenWithAddition(arr, 5, SCREENWIDTH*3/50);
-    // for(String s : arr){
-    //   Str.println(s);
-    // }
-
-    // popup(settingsText, popupHeight, popupWidth, 5, SCREENWIDTH*3/50); //todo: finish this popup //Probably make it into its own function (in main? some gamemanager or overall function class or smth? A screen/interface class? that would probably be good.) (Plus remember that you were doing the displays & stuff for combat rewards before this)
     
     boolean exit = false;
     while(!exit){
-      String settingsText = Colors.magenta + Str.repeatChar(' ', (popupWidth-4-9)/2) + "Settings:\n" + 
-                            Str.repeatChar(' ', (popupWidth-4-11)/2) + "───────────\n" + 
-                            "Settings saved to the device.\n" + 
-                            "To change a setting, type the name of the setting and follow the given prompts.\n\n" + 
-            Colors.magenta + "Name: " + Colors.reset + App.settingsManager.name + "\n" + 
-            Colors.magenta + "Screen Width: " + Colors.reset + App.settingsManager.screenWidth + "\n" + 
-            Colors.magenta + "Screen Height: " + Colors.reset + App.settingsManager.screenHeight + "\n" + 
-            Colors.magenta + "Cheats: " + Colors.reset + App.settingsManager.cheats + "\n" + 
-            Colors.magenta + "Debug Mode: " + Colors.reset + App.settingsManager.debug + "\n\n" + 
-          Colors.basicBlue + Str.repeatStr("═", popupWidth - 6);
-      
-      displayScreenWithAddition(Str.makeTextBox(settingsText, popupHeight, popupWidth), 5, SCREENWIDTH*3/50);
+      displaySettings();
       Str.print("<Press enter to exit, or type the name of a setting to change it>\n");
       String input = Main.scan.nextLine();
       switch (input.toLowerCase()) {
@@ -461,26 +434,22 @@ public class Run{
         case "screen width":
         case "width":
           Str.println("Enter the new screen width, or enter 1-4 for default width options. (Just press enter to cancel:)");
-          try{
-            int width = Integer.parseInt(Main.scan.nextLine());
-            if (1 <= width && width <= 4) {
-              width = 155 + 22*width;
-            }
-            App.settingsManager.screenWidth = width;
-            App.settingsManager.save();
-          } catch (NumberFormatException E) {}
+          int width = getIntWPred(w -> (1<=w && w<=4) || (171<=w && w<=499 && w%2 == 1), "New width must be odd, and between than 171 and 499.");
+          
+          if(1 <= width && width <= 4){
+            width = 155 + 22*width;
+          }
+          App.settingsManager.screenWidth = width;
+          App.settingsManager.save();
           break;
         case "screen height":
         case "height":
+          //TODO: add a way to reset these to default?
+          //TODO: Eventually place actually reasonable restrictions on these (+width must be odd.) //TODO: also make these actually work. (currently mostly referring to the FINAL var. Can just tell user they have to restart the game to see changes here?)
+          //TODO: Make getIntWPred return an Optional?
           Str.println("Enter the new screen height (Just press enter to cancel:)");
-          try{
-            int h = Integer.parseInt(Main.scan.nextLine()); //TODO: add a way to reset these to default?
-            // if(h >= 10) //TODO: Eventually place actually reasonable restrictions on these (+width must be odd.) //TODO: also make these actually work. (currently mostly referring to the FINAL var. Can just tell user they have to restart the game to see changes here?)
-            //   App.settingsManager.screenHeight = h;
-            // else
-            //   Str.println("New height must be at least 10.");
-            App.settingsManager.save();
-          } catch (NumberFormatException E) {}
+          App.settingsManager.screenHeight = getIntWPred(h -> h >= 50, "New height must be at least 50.");
+          App.settingsManager.save();
           break;
         case "debug mode":
         case "debug":
@@ -508,7 +477,45 @@ public class Run{
     // displayScreenWithAddition(Str.makeTextBox(settingsText, popupHeight, popupWidth), 5, SCREENWIDTH*3/50);
   }
 
-  // TODO: Make all of these switch statements switch on "str.toLowerCase()" instead.
+  private void displaySettings(){
+    final int popupHeight = (SCREENHEIGHT*4/5 + 6 <= SCREENHEIGHT) ? SCREENHEIGHT*4/5 : SCREENHEIGHT - 6;
+    final int popupWidth = SCREENWIDTH*22/25;
+    final String settingsText = Colors.magenta + Str.repeatChar(' ', (popupWidth-4-9)/2) + "Settings:\n" + 
+                                Str.repeatChar(' ', (popupWidth-4-11)/2) + "───────────\n" + 
+                                "Settings saved to the device.\n" + 
+                                "To change a setting, type the name of the setting and follow the given prompts.\n\n" + 
+                Colors.magenta + "Name: " + Colors.reset + App.settingsManager.name + "\n" + 
+                Colors.magenta + "Screen Width: " + Colors.reset + App.settingsManager.screenWidth + "\n" + 
+                Colors.magenta + "Screen Height: " + Colors.reset + App.settingsManager.screenHeight + "\n" + 
+                Colors.magenta + "Cheats: " + Colors.reset + App.settingsManager.cheats + "\n" + 
+                Colors.magenta + "Debug Mode: " + Colors.reset + App.settingsManager.debug + "\n\n" + 
+              Colors.basicBlue + Str.repeatStr("═", popupWidth - 6);
+    
+    displayScreenWithAddition(Str.makeTextBox(settingsText, popupHeight, popupWidth), 5, SCREENWIDTH*3/50);
+  }
+
+  /**
+   * Repeatedly gets input from the user until they enter an int that passes p.
+   * @param p A predicate (ideally a lambda expression) -- that returns true/false -- on an integer input.
+   * @param errMsg A string to print each time the predicate fails
+   * @return The first inputted int which passes p
+   */
+  private int getIntWPred(Predicate<Integer> p, String errMsg){
+    int inputInt;
+
+    while(true){
+      try {
+        inputInt = Integer.parseInt(Main.scan.nextLine());
+      } catch (NumberFormatException E) {
+        System.out.println("Please enter an integer");
+        continue;
+      }
+      if(p.test(inputInt)){
+        return inputInt;
+      }
+      Str.println(errMsg);
+    }
+  }
 
   private boolean parseBoolInput() throws NumberFormatException{
     String s = Main.scan.nextLine();

@@ -16,7 +16,7 @@ public class Entity{
     hpBarLength = 21;
     startOfTurnBlock = block = 0;
     art = RECTANGLE;
-    statuses = copyStatusList(Statuses.allStatuses);
+    statuses = copyStatusList(App.STATUSES.values());
   }
   public Entity(String name, Combat c){
     this.name = name;
@@ -25,7 +25,7 @@ public class Entity{
     hpBarLength = 21;
     startOfTurnBlock = block = 0;
     art = RECTANGLE;
-    statuses = copyStatusList(Statuses.allStatuses);
+    statuses = copyStatusList(App.STATUSES.values());
     this.combat = c;
   }
   public Entity(String name, int hp, Combat c){
@@ -35,7 +35,7 @@ public class Entity{
     hpBarLength = 21;
     startOfTurnBlock = block = 0;
     art = RECTANGLE;
-    statuses = copyStatusList(Statuses.allStatuses);
+    statuses = copyStatusList(App.STATUSES.values());
     this.combat = c;
   }
   public Entity(String name, int hp, int hpBarLength, Combat c){
@@ -45,7 +45,7 @@ public class Entity{
     this.hpBarLength = hpBarLength;
     startOfTurnBlock = block = 0;
     art = RECTANGLE;
-    statuses = copyStatusList(Statuses.allStatuses);
+    statuses = copyStatusList(App.STATUSES.values());
     this.combat = c;
   }
   public Entity(String name, int hp, String[] art, Combat c){
@@ -55,7 +55,7 @@ public class Entity{
     hpBarLength = 21;
     startOfTurnBlock = block = 0;
     this.art = art;
-    statuses = copyStatusList(Statuses.allStatuses);
+    statuses = copyStatusList(App.STATUSES.values());
     this.combat = c;
   }
   public Entity(String name, int hp, int maxHP, String[] art, Combat c){
@@ -65,7 +65,7 @@ public class Entity{
     hpBarLength = 21;
     startOfTurnBlock = block = 0;
     this.art = art;
-    statuses = copyStatusList(Statuses.allStatuses);
+    statuses = copyStatusList(App.STATUSES.values());
     this.combat = c;
   }
   public Entity(String name, int hp, int hpBarLength, Combat c, String[] art){
@@ -74,7 +74,7 @@ public class Entity{
     this.hpBarLength = hpBarLength;
     startOfTurnBlock = block = 0;
     this.art = art;
-    statuses = copyStatusList(Statuses.allStatuses);
+    statuses = copyStatusList(App.STATUSES.values());
     this.combat = c;
   }
   public Entity(Entity e){
@@ -489,13 +489,12 @@ public class Entity{
     throw new RuntimeException("Calling polymorphic function on Entity object");
   }
 
-
-  public static ArrayList<Status> copyStatusList(ArrayList<Status> ogList){
+  /**Performs a deep copy of the status list. */
+  public static ArrayList<Status> copyStatusList(Collection<Status> ogList){
     App.ASSERT(ogList != null);
     ArrayList<Status> newList = new ArrayList<Status>();
     for(Status s : ogList){
-      Status newStatus = new Status(s);
-      newList.add(newStatus);
+      newList.add(new Status(s));
     }
     return newList;
   }

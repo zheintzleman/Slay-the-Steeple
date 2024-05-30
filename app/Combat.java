@@ -57,8 +57,11 @@ public class Combat{
     Collections.shuffle(drawPile);
     discardPile = new ArrayList<Card>();
     exhaustPile = new ArrayList<Card>();
-    hand = new ArrayList<Card>();  
+    hand = new ArrayList<Card>();
 
+    // X pos (col) of the first enemy; offset between enemeies.
+    // If >2 enemies, used for ensuring same gap between them all.
+    int e1X, gap;
     switch(combatType){
       case "Jaw Worm":
         enemies.add(new JawWorm(Run.SCREENWIDTH*5/7, this));
@@ -82,11 +85,13 @@ public class Combat{
         enemies.add(createSlime(Run.SCREENWIDTH*5/7, 2));
         break;
       case "Lots of Slimes":
-        enemies.add(new SpikeSlimeSmall(Run.SCREENWIDTH*11/20, this));
-        enemies.add(new SpikeSlimeSmall(Run.SCREENWIDTH*13/20, this));
-        enemies.add(new SpikeSlimeSmall(Run.SCREENWIDTH*15/20, this));
-        enemies.add(new AcidSlimeSmall(Run.SCREENWIDTH*17/20, this));
-        enemies.add(new AcidSlimeSmall(Run.SCREENWIDTH*19/20, this));
+        e1X = Run.SCREENWIDTH*11/20;
+        gap = Run.SCREENWIDTH*2/20;
+        enemies.add(new SpikeSlimeSmall(e1X, this));
+        enemies.add(new SpikeSlimeSmall(e1X + gap, this));
+        enemies.add(new SpikeSlimeSmall(e1X + 2*gap, this));
+        enemies.add(new AcidSlimeSmall(e1X + 3*gap, this));
+        enemies.add(new AcidSlimeSmall(e1X + 4*gap, this));
         shuffleEnemies();
         break;
       case "Blue Slaver":
@@ -96,9 +101,11 @@ public class Combat{
         enemies.add(new RedSlaver(Run.SCREENWIDTH*5/7, this));
         break;
       case "Three Louses":
-        enemies.add(createLouse(Run.SCREENWIDTH*6/10));
-        enemies.add(createLouse(Run.SCREENWIDTH*72/100));
-        enemies.add(createLouse(Run.SCREENWIDTH*84/100));
+        e1X = Run.SCREENWIDTH*60/100;
+        gap = Run.SCREENWIDTH*12/100;
+        enemies.add(createLouse(e1X));
+        enemies.add(createLouse(e1X + gap));
+        enemies.add(createLouse(e1X + 2*gap));
         break;
       case "Two Fungi Beasts":
         enemies.add(new FungiBeast(Run.SCREENWIDTH*2/3, this));
@@ -1033,7 +1040,7 @@ public class Combat{
   /**Constructs the enemies for Gremlin Gang combat and adds them to the enemy list
   */
   public void constructGremlinGang(){
-    ArrayList<String> gremlins = new ArrayList<String>();
+    List<String> gremlins = new ArrayList<String>();
     gremlins.add("Fat");
     gremlins.add("Fat");
     gremlins.add("Sneaky");
@@ -1044,14 +1051,13 @@ public class Combat{
     gremlins.add("Wizard");
     Collections.shuffle(gremlins);
     //Remove four:
-    for(int i=0; i<4; i++){
-      gremlins.remove(0);
-    }
+    gremlins = gremlins.subList(0, 4);
     
     //Construct remaining four:
+    int midX = Run.SCREENWIDTH*6/10;
+    int gap = Run.SCREENWIDTH*1/10 + 1;
     for(int i=0; i<gremlins.size(); i++){
       String str = gremlins.get(i);
-      int midX = Run.SCREENWIDTH*(i+6)/10;
       switch(str){
         case "Fat":
           enemies.add(new FatGremlin(midX, this));
@@ -1069,6 +1075,7 @@ public class Combat{
           enemies.add(new GremlinWizard(midX, this));
           break;
       }
+      midX += gap;
     }
   }
 
