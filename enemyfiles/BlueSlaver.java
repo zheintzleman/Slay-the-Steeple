@@ -24,12 +24,12 @@ public class BlueSlaver extends Enemy{
   public String getIntentName(){ return intent.getName(); }
 
   
-  public void doIntent(Entity player, Enemy copy){
+  public void doIntent(Entity player){
     if(intent == STAB){
-      this.attack(player, 12);
+      attack(player, 12);
     }else if(intent == RAKE){
-      this.attack(player, 7);
-      player.addStatusStrengthDuringEndOfTurn("Weak", 1);
+      attack(player, 7);
+      player.addStatusStrength("Weak", 1);
     }
   }
 

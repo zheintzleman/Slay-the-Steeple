@@ -18,7 +18,7 @@ public class GreenLouse extends Enemy{
 
   public GreenLouse(int middleX, Combat c){
     super("Green Louse", (int)(Math.random()*7)+11, false, middleX, 17, art, c);
-    this.setStatusStrength("Curl Up", (int)(Math.random()*5)+3); //3-7 CurlUp
+    setStatusStrength("Curl Up", (int)(Math.random()*5)+3); //3-7 CurlUp
     biteDamage = (int)(Math.random()*2) + 5;
     bite = new Intent(BITE);
     bite.setDamage(biteDamage);
@@ -30,11 +30,11 @@ public class GreenLouse extends Enemy{
   public String getIntentName(){ return intent.getName(); }
 
   
-  public void doIntent(Entity player, Enemy copy){
+  public void doIntent(Entity player){
     if(intent == bite){
-      this.attack(player, biteDamage);
+      attack(player, biteDamage);
     }else if(intent == SPITWEB){
-      player.addStatusStrengthDuringEndOfTurn("Weak", 2);
+      player.addStatusStrength("Weak", 2);
     }
   }
 

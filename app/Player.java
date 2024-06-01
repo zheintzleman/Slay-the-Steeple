@@ -4,6 +4,9 @@ public class Player extends Entity {
   public Player(String name, int hp, int maxHP, String[] img, Combat combat){
     super("Ironclad", hp, maxHP, img, combat);
   }
+  public Player(Player p){
+    super(p);
+  }
   
   @Override
   public void die(){

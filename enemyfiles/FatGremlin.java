@@ -22,10 +22,10 @@ public class FatGremlin extends Enemy{
   public String getIntentName(){ return intent.getName(); }
 
   
-  public void doIntent(Entity player, Enemy copy){
+  public void doIntent(Entity player){
     if(intent == SMASH){
-      this.attack(player, 4);
-      player.addStatusStrengthDuringEndOfTurn("Weak", 1);
+      attack(player, 4);
+      player.addStatusStrength("Weak", 1);
     }
   }
 

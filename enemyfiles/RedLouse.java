@@ -18,7 +18,7 @@ public class RedLouse extends Enemy{
 
   public RedLouse(int middleX, Combat c){
     super("Red Louse", (int)(Math.random()*6)+10, false, middleX, 17, art, c);
-    this.setStatusStrength("Curl Up", (int)(Math.random()*5)+3); //3-7 CurlUp
+    setStatusStrength("Curl Up", (int)(Math.random()*5)+3); //3-7 CurlUp
     biteDamage = (int)(Math.random()*2) + 5;
     bite = new Intent(BITE);
     bite.setDamage(biteDamage);
@@ -30,11 +30,11 @@ public class RedLouse extends Enemy{
   public String getIntentName(){ return intent.getName(); }
 
   
-  public void doIntent(Entity player, Enemy copy){
+  public void doIntent(Entity player){
     if(intent == bite){
-      this.attack(player, biteDamage);
+      attack(player, biteDamage);
     }else if(intent == GROW){
-      copy.addStatusStrengthDuringEndOfTurn("Strength", 3);
+      addStatusStrength("Strength", 3);
     }
   }
 

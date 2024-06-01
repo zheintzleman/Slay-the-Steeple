@@ -22,12 +22,12 @@ public class Cultist extends Enemy{
   public String getIntentName(){ return intent.getName(); }
 
   
-  public void doIntent(Entity player, Enemy copy){
+  public void doIntent(Entity player){
     if(intent == DARKSTRIKE){
       System.out.println("Attacking player for 6");
-      this.attack(player, 6);
+      attack(player, 6);
     }else if(intent == INCANTATION){
-      copy.addStatusStrengthDuringEndOfTurn("Ritual", 3);
+      addStatusStrength("Ritual", 3);
     }
   }
 

@@ -14,7 +14,7 @@ public static final String[] art = Colors.fillColor(new String[] {"  ▄  █   
   public MadGremlin(int middleX, Combat c){
     super("Mad Gremlin", (int)(Math.random()*5)+20, false, middleX, 13, art, c);
     intent = SCRATCH;
-    this.addStatusStrengthDuringEndOfTurn("Angry", 1);
+    addStatusStrength("Angry", 1);
   }
 
   //Getters and Setters
@@ -22,9 +22,9 @@ public static final String[] art = Colors.fillColor(new String[] {"  ▄  █   
   public String getIntentName(){ return intent.getName(); }
 
   
-  public void doIntent(Entity player, Enemy copy){
+  public void doIntent(Entity player){
     if(intent == SCRATCH){
-      this.attack(player, 4);
+      attack(player, 4);
     }
   }
 

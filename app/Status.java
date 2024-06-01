@@ -13,22 +13,6 @@ public class Status{
     hasStrength = true;
     description = "<desc>";
   }
-  public Status(String name){ //This const might not be necessary
-    this.name = name;
-    strength = 1;
-    image = getStatus(name).getImage();
-    decreasing = getStatus(name).isDecreasing();
-    hasStrength = getStatus(name).hasStrength();
-    description = getStatus(name).getDescription();
-  }
-  public Status(String name, int strength){ //This const might not be necessary
-    this.name = name;
-    this.strength = strength;
-    image = getStatus(name).getImage();
-    decreasing = getStatus(name).isDecreasing();
-    hasStrength = getStatus(name).hasStrength();
-    description = getStatus(name).getDescription();
-  }
   public Status(Status s){
     name = s.getName();
     strength = s.getStrength();
@@ -37,7 +21,17 @@ public class Status{
     hasStrength = s.hasStrength();
     description = s.getDescription();
   }
-  //For App.STATUSES set:
+  /**Initializes the described status, with default strength of 1. */
+  public Status(String name){
+    this(getStatus(name));
+    strength = 1;
+  }
+  /**Initializes the described status with the given strength. */
+  public Status(String name, int strength){
+    this(getStatus(name));
+    this.strength = strength;
+  }
+  //For App.STATUSES:
   public Status(String name, String image, boolean decreasing, boolean hasStrength, String desc){
     this.name = name;
     this.strength = 0;
@@ -107,7 +101,7 @@ public class Status{
   /**Returns the status with the entered name from the set of available statuses.
    *@Postcondition - Returns a status in App.STATUSES -- doesn't return null
   */
-  public static Status getStatus(String name){
+  private static Status getStatus(String name){
     Status status = App.STATUSES.get(name);
 
     if(status == null){
@@ -119,5 +113,13 @@ public class Status{
     }
 
     return status;
+  }
+
+  /**Initializes a copy of this status. Same as `new Status(this)`. */
+  public Status clone(){
+    return new Status(this);
+  }
+  public String toString(){
+    return getDisplay() + " - " + getName() + ": " + getDescriptionFormatted();
   }
 }

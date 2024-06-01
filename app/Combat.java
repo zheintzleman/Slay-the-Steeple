@@ -257,6 +257,7 @@ public class Combat{
 
   public void endEntityTurns(){
     enemiesToUpdate = new ArrayList<Enemy>(enemies);
+    setAllEntityCopies(false);
     for(Enemy e : enemies){
       e.endTurn(player);
     }
@@ -266,6 +267,14 @@ public class Combat{
     enemies = enemiesToUpdate;
 
     player.endTurn();
+    setAllEntityCopies(true);
+  }
+
+  private void setAllEntityCopies(boolean toNull){
+    for(Enemy e : enemies){
+      e.endTurnCopy = toNull ? null : new Enemy(e);
+    }
+    player.endTurnCopy = toNull ? null : new Player(player);
   }
 
   /**Sets the screen to accurate values/images
@@ -298,9 +307,9 @@ public class Combat{
     //Player Statuses
     String statuses = "";
     for(Status status : player.getStatuses()){
-      if(status.getStrength() != 0){
+      // if(status.getStrength() != 0){
         statuses += status.getDisplay() + " ";
-      }
+      // }
     }
     thisRun.addToScreen(entityBottomY+2, playerMidX-(Str.lengthIgnoringEscSeqs(hpBar)/2), statuses);
     for(Enemy enemy : enemies){
@@ -330,9 +339,8 @@ public class Combat{
       //Enemy Statuses
       statuses = ""; //Declared above
       for(Status status : enemy.getStatuses()){
-        if(status.getStrength() != 0){
-          statuses += status.getDisplay() + " ";
-        }
+        App.ASSERT(status.getStrength() != 0);
+        statuses += status.getDisplay() + " ";
       }
       thisRun.addToScreen(entityBottomY+2, enemyMidX-(Str.lengthIgnoringEscSeqs(hpBar)/2), statuses);
     }
@@ -772,17 +780,13 @@ public class Combat{
         case "status":
           String statuses = "Player Statuses:\n"; //TODO: Add some color to these headers
           for(Status s : player.getStatuses()){
-            if(s.getStrength() != 0){
-              statuses += s.getDisplay() + " - " + s.getName() + ": " + s.getDescriptionFormatted() + "\n";
-            }
+            statuses += s.toString() + "\n";
           }
           int i=0;
           for(Enemy enemy : enemies){
-            statuses += Colors.reset + "\nEnemy " + (++i) + " Statuses:\n"; 
+            statuses += Colors.reset + "\nEnemy " + (++i) + " Statuses:\n";
             for(Status s : enemy.getStatuses()){
-              if(s.getStrength() != 0){
-                statuses += s.getDisplay() + " - " + s.getName() + ": " + s.getDescriptionFormatted() + "\n";
-              }
+              statuses += s.toString() + "\n";
             }
           }
           thisRun.popup(statuses);

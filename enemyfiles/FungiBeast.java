@@ -15,7 +15,7 @@ public class FungiBeast extends Enemy{
 
   public FungiBeast(int middleX, Combat c){
     super("Fungi Beast", (int)(Math.random()*7)+22, false, middleX, art, c);
-    this.setStatusStrength("Spore Cloud", 2); //3-7 SporeCloud
+    setStatusStrength("Spore Cloud", 2); //3-7 SporeCloud
     setNextIntent();
   }
 
@@ -24,11 +24,11 @@ public class FungiBeast extends Enemy{
   public String getIntentName(){ return intent.getName(); }
 
   
-  public void doIntent(Entity player, Enemy copy){
+  public void doIntent(Entity player){
     if(intent == BITE){
-      this.attack(player, 6);
+      attack(player, 6);
     }else if(intent == GROW){
-      copy.addStatusStrengthDuringEndOfTurn("Strength", 3);
+      addStatusStrength("Strength", 3);
     }
   }
 

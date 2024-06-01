@@ -39,16 +39,16 @@ public class ShieldGremlin extends Enemy{
   }
 
   
-  public void doIntent(Entity player, Enemy copy){
+  public void doIntent(Entity player){
     if(intent == SHIELDBASH){
-      this.attack(player, 6);
+      attack(player, 6);
     }else if(intent == PROTECT){
       int rn = (int)(Math.random()*allies.size());
       while(rn == getIndexInAllies()){
         rn = (int)(Math.random()*allies.size());
       }
       Enemy target = allies.get(rn);
-      this.giveBlockDuringEndOfTurn(target, 7);
+      giveBlockDuringEndOfTurn(target, 7);
     }
   }
 

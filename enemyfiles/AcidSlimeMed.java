@@ -36,15 +36,15 @@ public class AcidSlimeMed extends Enemy{
   public String getIntentName(){ return intent.getName(); }
 
   @Override
-  public void doIntent(Entity player, Enemy copy){
+  public void doIntent(Entity player){
     if(intent == TACKLE){
-      this.attack(player, 10);
+      attack(player, 10);
     }else if(intent == CORROSIVESPIT){
-      this.attack(player, 7);
+      attack(player, 7);
       ArrayList<Card> disc = combat.getDiscardPile();
       disc.add(Card.getCard("Slimed"));
     }else if(intent == LICK){
-      player.addStatusStrengthDuringEndOfTurn("Weak", 1);
+      player.addStatusStrength("Weak", 1);
     }
   }
 

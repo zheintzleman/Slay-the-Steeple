@@ -25,11 +25,11 @@ public static final String[] art = Colors.fillColor(new String[] {"      █▄�
   public String getIntentName(){ return intent.getName(); }
 
   
-  public void doIntent(Entity player, Enemy copy){
+  public void doIntent(Entity player){
     if(intent == CHARGING){
       //Does nothing
     }else if(intent == ULTIMATEBLAST){
-      this.attack(player, 25);
+      attack(player, 25);
     }
     patternNum++;
   }

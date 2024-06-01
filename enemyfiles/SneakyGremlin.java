@@ -21,9 +21,9 @@ public static final String[] art = Colors.fillColor(new String[] {"    ▄▄   
   public String getIntentName(){ return intent.getName(); }
 
   
-  public void doIntent(Entity player, Enemy copy){
+  public void doIntent(Entity player){
     if(intent == PUNCTURE){
-      this.attack(player, 9);
+      attack(player, 9);
     }
   }
 

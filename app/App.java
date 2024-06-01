@@ -60,7 +60,7 @@ public class App {
     // //Load the available cards list:
     // updateAvailableCardsFile(CARD_LIST_PATH); //TODO: Remove these 3 lines (<, ^, v) <-???
     // ASSERT(CARD_LIST != null);
-    Str.println("CARDS: " + CARDS); //Remove
+    Str.println("CARDS: " + CARDS.values()); //Remove
     // ArrayList<Card> REMOVE = loadAvailableCards(CARD_LIST_PATH);
     // System.out.println(REMOVE);
     //TODO: Add more assertions (just like in general)
@@ -262,21 +262,21 @@ public class App {
                       "Draw 4 cards.\nYou cannot draw additional cards this turn.\n", 0, false, new ArrayList<String>(Arrays.asList("Draw 4", "AppPlayer No Draw")), Rarity.UNCOMMON, Color.IRONCLAD));
     cards.put("Blood for Blood", new Card("Blood for Blood", "Costs 1 less energy for each time you lose HP this combat.\nDeal ØatkÁ18ØendatkÁ damage.\n", "Attack", 4, true, new ArrayList<String>(Arrays.asList("(OnPlayerHurt) ChangeCost -1", "Attack 18")),
                       "Costs 1 less energy for each time you lose HP this combat.\nDeal ØatkÁ22ØendatkÁ damage.\n", 3, true, new ArrayList<String>(Arrays.asList("(OnPlayerHurt) ChangeCost -1", "Attack 22")), Rarity.UNCOMMON, Color.IRONCLAD));
+    // TODO: Add endOfTurn boolean and just have "add to strength" or w/e check that.
+    // Try to make the screen width/etc. update in real time by not using Run.SCREENX & using SettingsManager.x instead?
+    //  ^If done, actually use the OnAtkDmgDealt() function.
+    // Have current run, combat, etc. just be static globals in App?
+    // Change all(?) instances of attack()-ing repeatedly into a single attack([], ...);.
+    // (if they exist and I haven't already converted all of them.)
+    //  ^Note: Vigor situation s/b already solved for enemy multiattacks
+    // Check whether or not statuses used to show in the order they were obtained.
+    // Figure out how the sts stat ordering works.
+    // Give credit for making the opening logo (to that website)
     // Make it so the robber(s) don't "drop gold" when they run away.
     // Make Jaw Worm art wider?
-    // Try to make the screen width/etc. update in real time by not using Run>SCREENX & using SettingsManager.x instead?
-    // Give credit for making the opening logo (to that website)
-    // Make statuses show up in the order attained?
-    // Make some of those arraylists into hashsets
     // In the statuses list (& possibly any other lists, too), change the section headers to be some different color (besides just white)
     // Is there benefit to having a screen/interface class?
     // Stretch goal: Allow for a screen width of 155
-
-    // TODO: Remove:
-    for (Card c : cards.values()) {
-      ASSERT(cards.get(c.getName()) == c || Str.equalsSkipEscSeqs(c.getName(), "Burn+"));
-    }
-    System.out.println("Oof");
 
     return cards;
   }
@@ -291,20 +291,21 @@ public class App {
     statuses.put("Frail", new Status("Frail", Colors.lightBlue + "F", true, true, "Block gained from cards is reduced by 25% for the next <str> turn(s)."));
     //TODO: Cap at 999 (dex too)
     statuses.put("Strength", new Status("Strength", Colors.hpBarRed + "S", false, true, "Increases attack damage by <str> (per hit)"));
-    statuses.put("StrengthDown", new Status("Strength Down", Colors.lightYellow + "s", false, true, "At the end of your turn, lose <str> Strength."));
+    statuses.put("Strength Down", new Status("Strength Down", Colors.lightYellow + "s", false, true, "At the end of your turn, lose <str> Strength."));
     statuses.put("Dexterity", new Status("Dexterity", Colors.dexGreen + "D", false, true, "Increases block gained from cards by <str>."));
-    statuses.put("DexterityDown", new Status("Dexterity Down", Colors.lightYellow + "d", false, true, "At the end of your turn, lose <str> Dexterity."));
+    statuses.put("Dexterity Down", new Status("Dexterity Down", Colors.lightYellow + "d", false, true, "At the end of your turn, lose <str> Dexterity."));
     //TODO: See how this interacts w/, eg, Twin Strike
-    statuses.put("CurlUp", new Status("Curl Up", Colors.lightBlue + "C", false, true, "Gains <str> block upon first receiving attack damage."));
+    statuses.put("Curl Up", new Status("Curl Up", Colors.lightBlue + "C", false, true, "Gains <str> block upon first receiving attack damage."));
     statuses.put("Ritual", new Status("Ritual", Colors.lightBlue + "R", false, true, "Gains <str> Strength at the end of each turn."));
     statuses.put("Angry", new Status("Angry", Colors.lightYellow + "A", false, true, "Gains <str> Strength when this receives attack damage."));
     //TODO: Make display the amount of HP needed for splitting (or just add max HP to the HP bar)
     statuses.put("Split", new Status("Split", Colors.lightGreen + "S", false, false, "When at half HP or below, this splits into two smaller slimes with its current HP."));
     statuses.put("Entangled", new Status("Entangled", Colors.white + "E", true, false, "You may not play any attacks this turn"));
-    statuses.put("SporeCloud", new Status("Spore Cloud", Colors.lightYellow + "S", false, true, "On death, applies <str> Vulnerable to the player."));
+    statuses.put("Spore Cloud", new Status("Spore Cloud", Colors.lightYellow + "S", false, true, "On death, applies <str> Vulnerable to the player."));
     statuses.put("Thievery", new Status("Thievery", Colors.lightYellow + "T", false, true, "<str> Gold is stolen with every attack. Total Gold stolen is returned if the enemy is killed."));
     statuses.put("Vigor", new Status("Vigor", Colors.vigorOrange + "v", false, true, "Your next Attack deals <str> additional damage."));
-    statuses.put("NoDraw", new Status("No Draw", Colors.lightBlue + "N", true, false, "You may not draw any more cards this turn."));
+    statuses.put("No Draw", new Status("No Draw", Colors.lightBlue + "N", true, false, "You may not draw any more cards this turn."));
+
     return statuses;
   }
 

@@ -8,6 +8,9 @@ public class Entity{
   private String[] art;
   private ArrayList<Status> statuses;
   private Combat combat;
+  // While enemies are doing their intents, new statuses are applied to a copy of the entity
+  // instead of to the entity itself. They then sync at the start of the next turn.
+  public Entity endTurnCopy = null;
 
   public Entity(){
     name = "<Entity>";
@@ -16,7 +19,7 @@ public class Entity{
     hpBarLength = 21;
     startOfTurnBlock = block = 0;
     art = RECTANGLE;
-    statuses = copyStatusList(App.STATUSES.values());
+    statuses = new ArrayList<Status>();
   }
   public Entity(String name, Combat c){
     this.name = name;
@@ -25,7 +28,7 @@ public class Entity{
     hpBarLength = 21;
     startOfTurnBlock = block = 0;
     art = RECTANGLE;
-    statuses = copyStatusList(App.STATUSES.values());
+    statuses = new ArrayList<Status>();
     this.combat = c;
   }
   public Entity(String name, int hp, Combat c){
@@ -35,7 +38,7 @@ public class Entity{
     hpBarLength = 21;
     startOfTurnBlock = block = 0;
     art = RECTANGLE;
-    statuses = copyStatusList(App.STATUSES.values());
+    statuses = new ArrayList<Status>();
     this.combat = c;
   }
   public Entity(String name, int hp, int hpBarLength, Combat c){
@@ -45,7 +48,7 @@ public class Entity{
     this.hpBarLength = hpBarLength;
     startOfTurnBlock = block = 0;
     art = RECTANGLE;
-    statuses = copyStatusList(App.STATUSES.values());
+    statuses = new ArrayList<Status>();
     this.combat = c;
   }
   public Entity(String name, int hp, String[] art, Combat c){
@@ -55,7 +58,7 @@ public class Entity{
     hpBarLength = 21;
     startOfTurnBlock = block = 0;
     this.art = art;
-    statuses = copyStatusList(App.STATUSES.values());
+    statuses = new ArrayList<Status>();
     this.combat = c;
   }
   public Entity(String name, int hp, int maxHP, String[] art, Combat c){
@@ -65,7 +68,7 @@ public class Entity{
     hpBarLength = 21;
     startOfTurnBlock = block = 0;
     this.art = art;
-    statuses = copyStatusList(App.STATUSES.values());
+    statuses = new ArrayList<Status>();
     this.combat = c;
   }
   public Entity(String name, int hp, int hpBarLength, Combat c, String[] art){
@@ -74,7 +77,7 @@ public class Entity{
     this.hpBarLength = hpBarLength;
     startOfTurnBlock = block = 0;
     this.art = art;
-    statuses = copyStatusList(App.STATUSES.values());
+    statuses = new ArrayList<Status>();
     this.combat = c;
   }
   public Entity(Entity e){
@@ -120,7 +123,7 @@ public class Entity{
   public void setDexterity(int newDexterity){ setStatusStrength("Dexterity", newDexterity); }
 
   
-  /**Returns this entity's status with the specified name.
+  /**Returns this entity's status with the specified name, or null if none is present.
   */
   public Status getStatus(String name){
     for(Status s : statuses){
@@ -130,72 +133,96 @@ public class Entity{
     }
     return null;
   }
-  
   /**Returns this entity's strength of the status with the specified name.
   */
   public int getStatusStrength(String name){
-    for(Status s : statuses){
-      if(s.getName().equals(name)){
-        return s.getStrength();
-      }
+    Status s = getStatus(name);
+    if(s != null){
+      // Status strength not 0:
+      return s.getStrength();
+    } else {
+      return 0;
     }
-    return -1; 
   }
-  /**Sets this entity's strength of the status with the specified name.
+  /**Sets this entity's status (with the specified name) to have the given strength.
+   * If status not present, creates one.
+   * If `strength` == 0, removes status from the status list.
+   * If during turn-end, sets the status in the entity copy instead.
+   * @return The status being set (even if removed from list for being set to 0)
+   * @return null, if setting a status already at 0 to 0.
   */
-  public void setStatusStrength(String name, int strength){
-    for(int i=0; i<statuses.size(); i++){
-      if(statuses.get(i).getName().equals(name)){
-        statuses.get(i).setStrength(strength);
-      }
+  public Status setStatusStrength(String name, int strength){
+    if(isEndOfTurn()){
+      // While enemies doing intents, want to edit their statuses instead.
+      return endTurnCopy.setStatusStrength(name, strength); //TODO: Did this break things?
     }
-    return;
+
+    Status s = getStatus(name);
+    // If status strength == 0; i.e. not currently present in the statuses list
+    // (and not setting it to 0)
+    if(strength != 0 && s == null){
+      s = new Status(name, strength);
+      statuses.add(s);
+      return s;
+    } else if(s == null){
+      // Setting a non-present status to 0 -- doing nothing.
+      return null;
+    }
+    if(strength == 0){
+      statuses.remove(s);
+    } else {
+      s.setStrength(strength);
+    }
+    return s;
   }
-  /**Adds strength to this entity's status with the specified name.
+  /**Adds strength to this entity's status (with the specified name.)
+   * If status not present, creates one.
+   * If new strength is 0, removes status from the status list.
+   * If during turn-end, add status to the entity copy instead.
+   * @return The status added to (even if removed from list for being set to 0)
+   * @return null, if strength is 0.
   */
-  public void addStatusStrength(String name, int strength){
-    for(int i=0; i<statuses.size(); i++){
-      Status s = statuses.get(i);
-      if(s.getName().equals(name)){
-        s.addStrength(strength);
-        return;
-      }
+  public Status addStatusStrength(String name, int strength){
+    if(strength == 0){ return null; }
+    if(isEndOfTurn()){
+      return endTurnCopy.addStatusStrength(name, strength);
     }
-    throw new RuntimeException("Cannot find status: \"" + name + "\"");
+
+    Status s = getStatus(name);
+
+    // If status strength == 0; i.e. not currently present in the statuses list
+    if(s == null){
+      s = new Status(name, strength);
+      statuses.add(s);
+      return s;
+    }
+    s.addStrength(strength);
+    if(s.getStrength() == 0){
+      statuses.remove(s);
+    }
+    return s;
   }
-  /**Subtracts strength from this entity's status with the specified name.
+  /**Subtracts strength from this entity's status (with the specified name.)
+   * If status not present, creates one.
+   * If new strength is 0, removes status from the status list.
+   * If during turn-end, subtracts status from the entity copy instead.
+   * @NOTE Only deletes on == 0. If subtracting >1 at a time, make sure it can go
+   * negative (or else that you deal with the negative case, or rewrite this function.)
+   * @return The status subtracted from (even if removed from list for being set to 0)
+   * @Precondition Not during turn-end, or being called by endTurnCopy (i.e. endTurnCopy == null)
   */
-  public void subtractStatusStrength(String name, int strength){
-    for(int i=0; i<statuses.size(); i++){
-      if(statuses.get(i).getName().equals(name)){
-        statuses.get(i).subtractStrength(strength);
-        return;
-      }
-    }
-    throw new RuntimeException("Cannot find status: \"" + name + "\"");
+  public Status subtractStatusStrength(String name, int strength){
+    return addStatusStrength(name, -strength);
   }
-  /**Returns whether or not this enemy has the status in any strength besides 0.
+  /**Returns whether or not this enemy has the status in any strength, besides 0.
+   * @NOTE Returns true for negative status strength.
   */
   public boolean hasStatus(String name){
-    return getStatusStrength(name) > 0;
+    return getStatus(name) != null;
   }
-  /**Adds strength to this entity's with the specified name. If the strength was 0 and the status will decrease at the end of the turn, adds 1 to its strength to counteract that.
-  */
-  public void addStatusStrengthDuringEndOfTurn(String name, int strength){
-    for(int i=0; i<statuses.size(); i++){
-      Status s = statuses.get(i);
-      if(s.getName().equals(name)){
-        //So that it's not immediately removed:
-        if(s.isDecreasing() && s.getStrength() == 0){
-          strength++;
-        }
-        s.addStrength(strength);
-        return;
-      }
-    }
-    throw new RuntimeException("Cannot find status: \"" + name + "\"");
+  public boolean isEndOfTurn(){
+    return endTurnCopy != null;
   }
-
 
   
   /**Damages the entity the specified amount; taking from its block then its hp. If hp is 0 or less, it dies.
@@ -286,34 +313,60 @@ public class Entity{
     int blk = calcBlockAmount(blockPreCalculations);
     receiver.addStartOfTurnBlock(blk);
   }
-  /**Attacks the victim entity for the specified amount. Takes into account relevent status effects. Takes from the victims block, then its hp.
-  *@param victim - The entity being attacked by the entity calling this method
-  *@param damagePreCalculations - The amount of damage the base card does (ie. 6 for an unupgraded Strike)
-  *@return int - The amount of attack damage delt
+  /**Attacks the victim entity for the specified amount. Takes into account relevent status effects.
+   * Takes from the victim's block, then its hp.
+   * @param victim - The entity being attacked by the entity calling this method
+   * @param damagePreCalculations - The amount of damage the base card does (ie. 6 for an unupgraded Strike)
+   * @return int - The amount of attack damage delt
   */
   public int attack(Entity victim, int damagePreCalculations){
-    return attack(victim, damagePreCalculations, 1);
+    return attack(Collections.singletonList(victim), damagePreCalculations, 1);
   }
-  /**Attacks the victim entity for the specified amount. Takes into account relevent status effects. Takes from the victims block, then its hp.
-  *@param victim - The entity being attacked by the entity calling this method
-  *@param damagePreCalculations - The amount of damage the base card does (ie. 6 for an unupgraded Strike)
-  *@return int - The amount of attack damage delt
+  /**Attacks the victims for the specified amount each. Takes into account relevent status effects.
+   * Takes from the victims' block, then their hp. Doesn't update statuses until all attacks completed.
+   * @param victims - The entities being attacked by the entity calling this method
+   * @param damagePreCalculations - The amount of damage the base card does (ie. 6 for an unupgraded Strike)
+   * @return int - The total amount of attack damage delt
   */
-  public int attack(Entity victim, int damagePreCalculations, int strMultiplier){ //TODO: Make into an event?
-    int dmg = calcAttackDamage(victim, damagePreCalculations, strMultiplier);
-    int dmgDelt = victim.damage(dmg);
-    if(dmgDelt > 0){              //On Attack Damage Dealt:
-      if(victim.hasStatus("Curl Up")){ //Curl Up
-      victim.addBlock(victim.getStatusStrength("Curl Up"));
-      victim.setStatusStrength("Curl Up", 0);
+  public int attack(List<Entity> victims, int damagePreCalculations){
+    return attack(victims, damagePreCalculations, 1);
+  }
+  /**Attacks the victim entity for the specified amount. Takes into account relevent status effects.
+   * Takes from the victim's block, then its hp.
+   * @param victim - The entity being attacked by the entity calling this method
+   * @param damagePreCalculations - The amount of damage the base card does (ie. 6 for an unupgraded Strike)
+   * @param strMultiplier - Multiplies the effect of strength by this; default 1. Used for Heavy Blade, etc.
+   * @return int - The amount of attack damage delt
+  */
+  public int attack(Entity victim, int damagePreCalculations, int strMultiplier){
+    return attack(Collections.singletonList(victim), damagePreCalculations, strMultiplier);
+  }
+  /**Attacks the victims for the specified amount each. Takes into account relevent status effects.
+   * Takes from the victims' block, then their hp. Doesn't update statuses until all attacks completed.
+   * @param victims - The entities being attacked by the entity calling this method
+   * @param damagePreCalculations - The amount of damage the base card does (ie. 6 for an unupgraded Strike)
+   * @param strMultiplier - Multiplies the effect of strength by this; default 1. Used for Heavy Blade, etc.
+   * @return int - The total amount of attack damage delt
+  */
+  public int attack(List<Entity> victims, int damagePreCalculations, int strMultiplier){ //TODO: Make into an event?
+    int totalDmgDealt = 0;
+    for(Entity victim : victims){
+      int dmg = calcAttackDamage(victim, damagePreCalculations, strMultiplier);
+      int dmgDealt = victim.damage(dmg);
+      totalDmgDealt += dmgDealt;
+      if(dmgDealt > 0){
+        if(victim.hasStatus("Curl Up")){ //Curl Up
+          victim.addBlock(victim.getStatusStrength("Curl Up"));
+          victim.setStatusStrength("Curl Up", 0);
+        }
+        if(victim.hasStatus("Angry")){
+          victim.addStatusStrength("Strength", victim.getStatusStrength("Angry"));
+          System.out.println("Victim Anger: " + victim.getStatusStrength("Angry"));
+        }
       }
-      if(victim.hasStatus("Angry")){
-        victim.addStatusStrength("Strength", victim.getStatusStrength("Angry"));
-        System.out.println("Victim Anger: " + victim.getStatusStrength("Angry"));
-      }
+      setStatusStrength("Vigor", 0);
     }
-    setStatusStrength("Vigor", 0);
-    return dmgDelt;
+    return totalDmgDealt;
   }
   
   public int calcAttackDamage(Entity victim, int damagePreCalculations, int strMultiplier){
@@ -357,20 +410,36 @@ public class Entity{
     }
   }
 
+  public void display(){ //TODO: REMOVE
+    combat.display();
+  }
   /**Ends the turn of the entity. Will generally only be called on the player
   */
   public void endTurn(){
     this.block = 0;
-    for(int i=0; i<statuses.size(); i++){
-      Status s = statuses.get(i);
-      if(s.isDecreasing() && s.getStrength() > 0){
+    updateCopysDecreasingStatuses();
+    endTurnCopy.subtractStatusStrength("Strength", getStatusStrength("Strength Down"));
+    endTurnCopy.setStatusStrength("Strength Down", 0);
+    endTurnCopy.subtractStatusStrength("Dexterity", getStatusStrength("Dexterity Down"));
+    endTurnCopy.setStatusStrength("Dexterity Down", 0);
+    statuses = endTurnCopy.statuses;
+  }
+  /**Loops over the copy's statuses (i.e. the entity's statuses after end-of-turn status changes
+   * such as entity intents), decreasing the strength of statuses that where:
+   * The status is decreasing, and it is present both in the copy and in the original.
+   * */
+  public void updateCopysDecreasingStatuses(){
+    for(int i=0; i<endTurnCopy.statuses.size(); i++){
+      Status s = endTurnCopy.statuses.get(i);
+      if(s.isDecreasing() && this.hasStatus(s.getName())){
+        App.ASSERT(s.getStrength() != 0); //Used to be a condition above. Implied by existence in the statuses list.
         s.subtractStrength(1);
+        if(s.getStrength() == 0){
+          endTurnCopy.statuses.remove(i);
+          i--;
+        }
       }
     }
-    this.subtractStatusStrength("Strength", getStatusStrength("Strength Down"));
-    this.setStatusStrength("Strength Down", 0);
-    this.subtractStatusStrength("Dexterity", getStatusStrength("Dexterity Down"));
-    this.setStatusStrength("Dexterity Down", 0);
   }
 
 
@@ -492,7 +561,8 @@ public class Entity{
   /**Performs a deep copy of the status list. */
   public static ArrayList<Status> copyStatusList(Collection<Status> ogList){
     App.ASSERT(ogList != null);
-    ArrayList<Status> newList = new ArrayList<Status>();
+    ArrayList<Status> newList = new ArrayList<Status>(ogList.size());
+
     for(Status s : ogList){
       newList.add(new Status(s));
     }

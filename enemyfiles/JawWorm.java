@@ -28,15 +28,15 @@ public class JawWorm extends Enemy{
   public String getIntentName(){ return intent.getName(); }
 
   
-  public void doIntent(Entity player, Enemy copy){
+  public void doIntent(Entity player){
     if(intent == CHOMP){
-      this.attack(player, 11);
+      attack(player, 11);
     }else if(intent == THRASH){
-      this.attack(player, 7);
-      this.blockAfterTurn(5);
+      attack(player, 7);
+      blockAfterTurn(5);
     }else if(intent == BELLOW){
-      this.blockAfterTurn(6);
-      copy.addStatusStrengthDuringEndOfTurn("Strength", 3);
+      blockAfterTurn(6);
+      addStatusStrength("Strength", 3);
     }
   }
 

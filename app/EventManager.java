@@ -29,7 +29,7 @@ public class EventManager {
 
   public void OnTurnEnd(){
     // Relics.turnStart(...)((...));
-    // Statuses.turnStart(...)((...));
+    // Status.turnStart(...)((...));
     // ^Or just make them all here since there's going to be a bunch of different events anyway?
     //TODO: Put some stuff from (Entity/Enemy).endTurn here?
     // Cards subscribed are taken care of in the combat.endTurn() method, when discarded
@@ -64,6 +64,17 @@ public class EventManager {
         }
       }
     }
+  }
+
+  public void OnAtkDmgDealt(Entity victim, int damage){
+    // if(victim.hasStatus("Curl Up")){ //Curl Up
+    //   victim.addBlock(victim.getStatusStrength("Curl Up"));
+    //   victim.setStatusStrength("Curl Up", 0);
+    // }
+    // if(victim.hasStatus("Angry")){
+    //   victim.addStatusStrength("Strength", victim.getStatusStrength("Angry"));
+    //   System.out.println("Victim Anger: " + victim.getStatusStrength("Angry"));
+    // }
   }
 
   // TODO: Make a global function? Or does the need for int hpLoss/etc. make that not worth it?

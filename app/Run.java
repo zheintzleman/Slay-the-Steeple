@@ -29,6 +29,18 @@ public class Run{
     deck.add(new Card("Flex"));
     deck.add(new Card("Thunderclap"));
     deck.add(new Card("Thunderclap"));
+    deck.add(new Card("Thunderclap"));
+    deck.add(new Card("Thunderclap"));
+    deck.add(new Card("Thunderclap"));
+    deck.add(new Card("Thunderclap"));
+    deck.add(new Card("Thunderclap"));
+    deck.add(new Card("Thunderclap"));
+    deck.add(new Card("Thunderclap"));
+    deck.add(new Card("Thunderclap"));
+    deck.add(new Card("Thunderclap"));
+    deck.add(new Card("Thunderclap"));
+    deck.add(new Card("Thunderclap"));
+    deck.add(new Card("Thunderclap"));
     deck.add(new Card("Clothesline"));
     deck.add(new Card("Clothesline"));
     // TODO: Display deck in alphabetical order or smth?

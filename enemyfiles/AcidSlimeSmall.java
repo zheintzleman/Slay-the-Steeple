@@ -28,11 +28,11 @@ public class AcidSlimeSmall extends Enemy{
 
   
   @Override
-  public void doIntent(Entity player, Enemy copy){
+  public void doIntent(Entity player){
     if(intent == TACKLE){
-      this.attack(player, 3);
+      attack(player, 3);
     }else if(intent == LICK){
-      player.addStatusStrengthDuringEndOfTurn("Weak", 1);
+      player.addStatusStrength("Weak", 1);
     }
   }
 

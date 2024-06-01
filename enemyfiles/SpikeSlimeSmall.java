@@ -21,9 +21,9 @@ public class SpikeSlimeSmall extends Enemy{
   public String getIntentName(){ return intent.getName(); }
 
   
-  public void doIntent(Entity player, Enemy copy){
+  public void doIntent(Entity player){
     if(intent == TACKLE){
-      this.attack(player, 5);
+      attack(player, 5);
     }
   }
 

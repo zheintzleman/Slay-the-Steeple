@@ -27,14 +27,14 @@ public class RedSlaver extends Enemy{
   public String getIntentName(){ return intent.getName(); }
 
   
-  public void doIntent(Entity player, Enemy copy){
+  public void doIntent(Entity player){
     if(intent == STAB){
-      this.attack(player, 12);
+      attack(player, 12);
     }else if(intent == SCRAPE){
-      this.attack(player, 7);
-      player.addStatusStrengthDuringEndOfTurn("Weak", 1);
+      attack(player, 7);
+      player.addStatusStrength("Weak", 1);
     }else if(intent == ENTANGLE){
-      player.addStatusStrengthDuringEndOfTurn("Entangled", 1);
+      player.addStatusStrength("Entangled", 1);
     }
     patternNum++;
   }

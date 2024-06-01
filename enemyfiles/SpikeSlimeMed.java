@@ -35,13 +35,13 @@ public class SpikeSlimeMed extends Enemy{
   public String getIntentName(){ return intent.getName(); }
 
   
-  public void doIntent(Entity player, Enemy copy){
+  public void doIntent(Entity player){
     if(intent == FLAMETACKLE){
-      this.attack(player, 8);
+      attack(player, 8);
       ArrayList<Card> disc = combat.getDiscardPile();
       disc.add(Card.getCard("Slimed"));
     }else if(intent == LICK){
-      player.addStatusStrengthDuringEndOfTurn("Frail", 1);
+      player.addStatusStrength("Frail", 1);
     }
   }
 

@@ -4,7 +4,6 @@ import java.util.*;
 import app.Combat;
 import app.Entity;
 import app.Intent;
-import app.Status;
 
 public class Enemy extends Entity{
   boolean isElite;
@@ -58,7 +57,7 @@ public class Enemy extends Entity{
 
   /**Performs the enemy's intent. (Should always be overridden)
   */
-  public void doIntent(Entity p, Enemy copy){
+  public void doIntent(Entity p){
     System.out.println("Basic Enemy Intent");
   }
   /**Sets the enemy's next intent. (Should always be overridden)
@@ -69,19 +68,13 @@ public class Enemy extends Entity{
   /**Does necessary actions for the end of the enemy's turn
   */
   public void endTurn(Entity player){
-    Enemy enemyCopy = new Enemy(this);
     //Creating a copy enemy and changing its statuses instead of the real entity's. (Still attacking with the real entity.) Then, syncs the copy's statuses to the real entity at the end of this method.
     System.out.println("About to do intent");
-    this.doIntent(player, enemyCopy);
-    for(int i=0; i<enemyCopy.getStatuses().size(); i++){
-      Status s = enemyCopy.getStatuses().get(i);
-      if(s.isDecreasing() && s.getStrength() > 0){
-        s.subtractStrength(1);
-      }
-    }
-    enemyCopy.addStatusStrength("Strength", this.getStatusStrength("Ritual")); //New rituals don't count until the end of the turn
+    this.doIntent(player);
+    updateCopysDecreasingStatuses(); //Updates said statuses in endTurnCopy.
+    endTurnCopy.addStatusStrength("Strength", this.getStatusStrength("Ritual")); //Only counts rituals that were there already.
     this.setBlock(0);
-    this.setStatuses(enemyCopy.getStatuses());
+    this.setStatuses(endTurnCopy.getStatuses());
     this.setNextIntent();
   }
 

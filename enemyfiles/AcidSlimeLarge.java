@@ -17,7 +17,7 @@ public class AcidSlimeLarge extends Enemy{
 
   public AcidSlimeLarge(int middleX, Combat c){
     super("Acid Slime (L)", (int)(Math.random()*5)+65, false, middleX, 41, art, c);
-    this.setStatusStrength("Split", 1);
+    setStatusStrength("Split", 1);
     combat = c;
     setNextIntent();
   }
@@ -28,16 +28,16 @@ public class AcidSlimeLarge extends Enemy{
   public Combat getCombat(){  return combat; }
 
   @Override
-  public void doIntent(Entity player, Enemy copy){
+  public void doIntent(Entity player){
     if(intent == TACKLE){
-      this.attack(player, 16);
+      attack(player, 16);
     }else if(intent == CORROSIVESPIT){
-      this.attack(player, 11);
+      attack(player, 11);
       ArrayList<Card> disc = combat.getDiscardPile();
       disc.add(Card.getCard("Slimed"));
       disc.add(Card.getCard("Slimed"));
     }else if(intent == LICK){
-      player.addStatusStrengthDuringEndOfTurn("Weak", 2);
+      player.addStatusStrength("Weak", 2);
     }else if(intent == SPLIT){
       ArrayList<Enemy> enemiesToUpdate = combat.getEnemiesToUpdate();
       int thisIndex = -1;

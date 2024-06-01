@@ -22,7 +22,7 @@ public class SpikeSlimeLarge extends Enemy{
 
   public SpikeSlimeLarge(int middleX, Combat c){
     super("Spike Slime (L)", (int)(Math.random()*6)+64, false, middleX, 41, art, c);
-    this.setStatusStrength("Split", 1);
+    setStatusStrength("Split", 1);
     combat = c;
     setNextIntent();
   }
@@ -33,14 +33,14 @@ public class SpikeSlimeLarge extends Enemy{
   public Combat getCombat(){  return combat; }
 
   
-  public void doIntent(Entity player, Enemy copy){
+  public void doIntent(Entity player){
     if(intent == FLAMETACKLE){
-      this.attack(player, 16);
+      attack(player, 16);
       ArrayList<Card> disc = combat.getDiscardPile();
       disc.add(Card.getCard("Slimed"));
       disc.add(Card.getCard("Slimed"));
     }else if(intent == LICK){
-      player.addStatusStrengthDuringEndOfTurn("Frail", 2);
+      player.addStatusStrength("Frail", 2);
     }else if(intent == SPLIT){
       ArrayList<Enemy> enemiesToUpdate = combat.getEnemiesToUpdate();
       int thisIndex = -1;
