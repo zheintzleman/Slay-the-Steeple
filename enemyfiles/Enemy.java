@@ -73,7 +73,7 @@ public class Enemy extends Entity{
     this.doIntent(player);
     updateCopysDecreasingStatuses(); //Updates said statuses in endTurnCopy.
     endTurnCopy.addStatusStrength("Strength", this.getStatusStrength("Ritual")); //Only counts rituals that were there already.
-    this.setBlock(0);
+    this.setBlock(0); //Could add the whole "start of turn block" system to be dealt with with the enemy copy system instead.
     this.setStatuses(endTurnCopy.getStatuses());
     this.setNextIntent();
   }

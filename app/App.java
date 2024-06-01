@@ -262,7 +262,6 @@ public class App {
                       "Draw 4 cards.\nYou cannot draw additional cards this turn.\n", 0, false, new ArrayList<String>(Arrays.asList("Draw 4", "AppPlayer No Draw")), Rarity.UNCOMMON, Color.IRONCLAD));
     cards.put("Blood for Blood", new Card("Blood for Blood", "Costs 1 less energy for each time you lose HP this combat.\nDeal ØatkÁ18ØendatkÁ damage.\n", "Attack", 4, true, new ArrayList<String>(Arrays.asList("(OnPlayerHurt) ChangeCost -1", "Attack 18")),
                       "Costs 1 less energy for each time you lose HP this combat.\nDeal ØatkÁ22ØendatkÁ damage.\n", 3, true, new ArrayList<String>(Arrays.asList("(OnPlayerHurt) ChangeCost -1", "Attack 22")), Rarity.UNCOMMON, Color.IRONCLAD));
-    // TODO: Add endOfTurn boolean and just have "add to strength" or w/e check that.
     // Try to make the screen width/etc. update in real time by not using Run.SCREENX & using SettingsManager.x instead?
     //  ^If done, actually use the OnAtkDmgDealt() function.
     // Have current run, combat, etc. just be static globals in App?
