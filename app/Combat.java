@@ -266,7 +266,7 @@ public class Combat{
     }
     enemies = enemiesToUpdate;
 
-    player.endTurn();
+    player.endTurn(player);
     setAllEntityCopies(true);
   }
 
@@ -512,10 +512,8 @@ public class Combat{
           break;
         case "HeavyAttack": //Alternatively, could add code into the "gain pwr from strength" code to add more if card has some heavy property. Maybe even an (OnStrUse) or smth.
           if(enemies.contains(target)){
-            // int strBuff = (power - 1) * player.getStrength(); //TODO: Remove
-            int basePower = 14; //Base is 14 whether upgraded or not. If ever updated, can use secondary as an int as
+            int basePower = 14; //Base is 14 whether upgraded or not. If ever updated, can use secondary as an int
             player.attack(target, basePower, power);
-            // player.attack(target, basePower + strBuff); //TODO: Remove
           }
           break;
         case "BodySlam":
@@ -523,9 +521,7 @@ public class Combat{
             player.attack(target, player.getBlock());
           break;
         case "AtkAll": //Uses shortened word to be separate from "Attack" (& for brevity)
-          for(Object enemy : enemies.toArray()){
-            player.attack((Enemy)enemy, power);
-          }
+          player.attack(enemies, power);
           break;
         case "Apply":
           target.addStatusStrength(otherWords, power);

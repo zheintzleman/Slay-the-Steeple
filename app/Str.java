@@ -1,8 +1,10 @@
 package app;
 import java.util.*;
 
-/**Static string-management functions */
-public class Str {
+/**Collection of static utility functions. Most are for dealing with strings (and escape sequences.)
+ * Name of the class is Str for String.
+ */
+public abstract class Str {
   /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ CUT FROM RUN.JAVA ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
 
   /**Constructs and returns a String[] of a box with the (now wrapped) text within. Uses default sizes.

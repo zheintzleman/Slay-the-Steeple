@@ -4,8 +4,11 @@ import java.util.*;
 import app.Combat;
 import app.Entity;
 import app.Intent;
+import app.Player;
 
 public class Enemy extends Entity{
+  // Would be an abstract class, but we make copies of the enemies for end-turn status purposes,
+  // and the copies are of type Enemy.
   boolean isElite;
   int middleX;
 
@@ -63,11 +66,16 @@ public class Enemy extends Entity{
   /**Sets the enemy's next intent. (Should always be overridden)
   */
   public void setNextIntent(){}
+  
+  @Override
+  public void setSplitIntent() {
+    throw new RuntimeException("Calling setSplitIntent function on non-large-slime Enemy.");
+  }
 
-  //Not @Override
   /**Does necessary actions for the end of the enemy's turn
   */
-  public void endTurn(Entity player){
+  @Override
+  public void endTurn(Player player){
     //Creating a copy enemy and changing its statuses instead of the real entity's. (Still attacking with the real entity.) Then, syncs the copy's statuses to the real entity at the end of this method.
     System.out.println("About to do intent");
     this.doIntent(player);

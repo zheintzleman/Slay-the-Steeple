@@ -23,4 +23,18 @@ public class Player extends Entity {
       getCombat().getEventManager().OnPlayerHurt(dmg);
     }
   }
+  @Override
+  public void endTurn(Player player){
+    setBlock(0);
+    updateCopysDecreasingStatuses();
+    endTurnCopy.subtractStatusStrength("Strength", getStatusStrength("Strength Down"));
+    endTurnCopy.setStatusStrength("Strength Down", 0);
+    endTurnCopy.subtractStatusStrength("Dexterity", getStatusStrength("Dexterity Down"));
+    endTurnCopy.setStatusStrength("Dexterity Down", 0);
+    setStatuses(endTurnCopy.getStatuses());
+  }
+  @Override
+  public void setSplitIntent() {
+    throw new RuntimeException("Calling setSplitIntent on Player"); //TODO: Make a more specific Exception type.
+  }
 }

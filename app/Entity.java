@@ -1,7 +1,7 @@
 package app;
 import java.util.*;
 
-public class Entity{
+public abstract class Entity{
   public static final String[] RECTANGLE = new String[] {"███████", "███████", "███████", "███████", "███████", "███████"};
   private String name;
   private int hp, maxHP, hpBarLength, block, startOfTurnBlock;
@@ -328,7 +328,7 @@ public class Entity{
    * @param damagePreCalculations - The amount of damage the base card does (ie. 6 for an unupgraded Strike)
    * @return int - The total amount of attack damage delt
   */
-  public int attack(List<Entity> victims, int damagePreCalculations){
+  public int attack(List<? extends Entity> victims, int damagePreCalculations){
     return attack(victims, damagePreCalculations, 1);
   }
   /**Attacks the victim entity for the specified amount. Takes into account relevent status effects.
@@ -348,9 +348,11 @@ public class Entity{
    * @param strMultiplier - Multiplies the effect of strength by this; default 1. Used for Heavy Blade, etc.
    * @return int - The total amount of attack damage delt
   */
-  public int attack(List<Entity> victims, int damagePreCalculations, int strMultiplier){ //TODO: Make into an event?
+  public int attack(List<? extends Entity> victims, int damagePreCalculations, int strMultiplier){ //TODO: Make into an event?
     int totalDmgDealt = 0;
-    for(Entity victim : victims){
+    // To prevent ConcurrentModificationException's:
+    List<? extends Entity> victimsCopy = List.copyOf(victims);
+    for(Entity victim : victimsCopy){
       int dmg = calcAttackDamage(victim, damagePreCalculations, strMultiplier);
       int dmgDealt = victim.damage(dmg);
       totalDmgDealt += dmgDealt;
@@ -364,10 +366,15 @@ public class Entity{
           System.out.println("Victim Anger: " + victim.getStatusStrength("Angry"));
         }
       }
-      setStatusStrength("Vigor", 0);
     }
+    setStatusStrength("Vigor", 0);
     return totalDmgDealt;
   }
+  /**Performs an attack that hits `victim` `times` times. See attack(List, int, int) for more details. */
+  public int multiattack(int times, Entity victim, int damagePreCalculations){
+    return attack(Collections.nCopies(times, victim), damagePreCalculations, 1);
+  }
+
   
   public int calcAttackDamage(Entity victim, int damagePreCalculations, int strMultiplier){
     double dmg = calcAtkDmgFromThisStats(damagePreCalculations, strMultiplier);
@@ -410,20 +417,14 @@ public class Entity{
     }
   }
 
-  public void display(){ //TODO: REMOVE
-    combat.display();
-  }
+  
+
+  //For polymorphism
+  public abstract void setSplitIntent();
+  public abstract void die();
   /**Ends the turn of the entity. Will generally only be called on the player
   */
-  public void endTurn(){
-    this.block = 0;
-    updateCopysDecreasingStatuses();
-    endTurnCopy.subtractStatusStrength("Strength", getStatusStrength("Strength Down"));
-    endTurnCopy.setStatusStrength("Strength Down", 0);
-    endTurnCopy.subtractStatusStrength("Dexterity", getStatusStrength("Dexterity Down"));
-    endTurnCopy.setStatusStrength("Dexterity Down", 0);
-    statuses = endTurnCopy.statuses;
-  }
+  public abstract void endTurn(Player player);
   /**Loops over the copy's statuses (i.e. the entity's statuses after end-of-turn status changes
    * such as entity intents), decreasing the strength of statuses that where:
    * The status is decreasing, and it is present both in the copy and in the original.
@@ -546,16 +547,6 @@ public class Entity{
 
     String str = "" + ch;
     return str;
-  }
-
-  
-
-  //For polymorphism
-  public void setSplitIntent(){
-    throw new RuntimeException("Calling polymorphic function on Entity object");
-  }
-  public void die(){
-    throw new RuntimeException("Calling polymorphic function on Entity object");
   }
 
   /**Performs a deep copy of the status list. */

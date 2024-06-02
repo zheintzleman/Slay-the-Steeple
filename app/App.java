@@ -265,10 +265,8 @@ public class App {
     // Try to make the screen width/etc. update in real time by not using Run.SCREENX & using SettingsManager.x instead?
     //  ^If done, actually use the OnAtkDmgDealt() function.
     // Have current run, combat, etc. just be static globals in App?
-    // Change all(?) instances of attack()-ing repeatedly into a single attack([], ...);.
-    // (if they exist and I haven't already converted all of them.)
-    //  ^Note: Vigor situation s/b already solved for enemy multiattacks
     // Check whether or not statuses used to show in the order they were obtained.
+    // Make the multi-attacks a single call to multiattack (similar for Sword Boomerang, etc.)
     // Figure out how the sts stat ordering works.
     // Give credit for making the opening logo (to that website)
     // Make it so the robber(s) don't "drop gold" when they run away.
