@@ -207,45 +207,6 @@ public abstract class Str {
     String message = "index " + indexToAdd + " out of bounds for mainStr length " + lengthIgnoringEscSeqs(mainStr) + " and toAdd length " + lengthIgnoringEscSeqs(toAdd);
     throw new IndexOutOfBoundsException(message);
   }
-  /**Adds one String over the other at the specified index. Skips escape sequences that are marked with the O and A characters. String added will start with color and ends with colorReset, them also being added appropriately around spaces
-  *@Precondition Escape sequences in mainStr are preceded by 'Ø' and succeeded by 'Á'. The characters 'Ø' and 'Á' are not used in mainStr outside of escape sequences.
-  */
-  /*
-  public static String addStringsTransparent(String mainStr, int indexToAdd, String toAdd, String color, String colorReset){
-    int col = 0;
-    boolean inEscSequence = false;
-
-    for(int i=0; i<mainStr.length(); i++){
-      if(mainStr.charAt(i) == 'Ø'){ //Start of esc sequence
-        inEscSequence = true;
-        continue;
-      }
-      if(mainStr.charAt(i) == 'Á'){ //End of esc sequence
-        inEscSequence = false;
-        continue;
-      }
-      if(col == indexToAdd+1){
-        String toAddTransparent = toAdd;
-        int nextSpaceIndex = toAddTransparent.indexOf(' ');
-        //While there are any spaces in the string
-        while(nextSpaceIndex != -1){
-          String newChar = colorReset + mainStr.charAt(nextSpaceIndex)//Yeah this'll need an indexOfIgnoringEscSequences and I realized I don't actually need it soo..
-          toAddTransparent = toAddTransparent.substring(0, nextSpaceIndex) + colorReset + toAddTransparent.substring(nextSpaceIndex);
-          //While this string of spaces has not been fully replaced
-          do{
-            
-          }while(toAddTransparent.charAt(nextSpaceIndex+1) == ' ');
-        }
-        return substringIgnoringEscSequences(mainStr, 0, col) + color + toAdd + colorReset + substringIgnoringEscSequences(mainStr, col + lengthIgnoringEscSeqs(toAdd));
-      }
-      if(!inEscSequence){
-        col++;
-      }
-    }
-
-    String message = "index " + indexToAdd + " out of bounds for mainStr length " + lengthIgnoringEscSeqs(mainStr) + " and toAdd length " + lengthIgnoringEscSeqs(toAdd);
-    throw new IndexOutOfBoundsException(message);
-  }*/
   
   /**Adds the String[] over the other starting at the specified indeces. Skips escape sequences that are marked with the O and A characters.
   *@Precondition Escape sequences in mainArr are preceded by 'Ø' and succeeded by 'Á'. The characters 'Ø' and 'Á' are not used in mainStr outside of escape sequences.
@@ -383,52 +344,6 @@ public abstract class Str {
     App.ASSERT(str.isEmpty()); //Shouldn't be returning in this failure case unless "", I think.
     return "";
   }
-  
-  //Originally was: //also made the same change to col++; in the other sIES method //TODO: remove eventually
-  // /**Returns the substring of the string from the start index to the end index, ignoring esc sequences that have been marked with the O and A chars
-  // */
-  // public static String substringIgnoringEscSequences(String str, int start, int end){
-  //   //Traverse ignoring esc sequences until col==start. Save that actual index (i), and then traverse ignoring esc sequences until col==end. Return substring between actual indexes
-    
-  //   if(end < start){
-  //     System.out.println("sIES: End < Start");
-  //   }
-  //   int col = 0;
-  //   boolean inEscSequence = false;
-  //   int actualStartIndex = 0;
-  //   int actualEndIndex;
-
-  //   for(int i=0; i<str.length(); i++){
-  //     if(str.charAt(i) == 'Ø'){ //Start of esc sequence
-  //       inEscSequence = true;
-  //       continue;
-  //     }
-  //     if(str.charAt(i) == 'Á'){ //End of esc sequence
-  //       inEscSequence = false;
-  //       continue;
-  //     }
-  //     if(!inEscSequence){                                               //if not in escape sequence:
-  //       col++;                                                                //Increment col
-  //       if(col == start){
-  //         actualStartIndex = i;                                               //If col is equal to start, save i
-  //       }else if(col == end){
-  //         actualEndIndex = i;
-  //         if(actualStartIndex!=0 && str.charAt(actualStartIndex-1)=='Á'){
-  //           while(!(str.charAt(actualStartIndex)=='Ø' && str.charAt(actualStartIndex-1)!='Á')){
-  //             //Backs up start index so that it includes esc sequences on the border
-  //             actualEndIndex--;
-  //             Str.println("ASI: " + actualStartIndex);
-  //             if(actualStartIndex == 0){
-  //               break;
-  //             }
-  //           }
-  //         }
-  //         return str.substring(actualStartIndex, actualEndIndex);             //If col is equal to end, return the substring from the start to the end
-  //       }
-  //     }
-  //   }
-  //   return "";
-  // }
 
   /**Returns the last character in string, skipping escape sequences. Returns '\0' if str.isEmpty(). */
   public static char lastCharIgnoringEscSeqs(String str){
@@ -521,20 +436,6 @@ public abstract class Str {
   /**Calls System.out.println() on the string, removing all special O and A characters
   */
   public static void println(String string){
-      // Old Code, kept for sentimental reasons:
-    // String str = string;
-    // //Remove Øs
-    // int indexOfO = str.indexOf('Ø');
-    // while (indexOfO != -1){
-    //   str = str.substring(0,indexOfO) + str.substring(indexOfO+1);
-    //   indexOfO = str.indexOf('Ø');
-    // }
-    // //Remove Ás
-    // int indexOfA = str.indexOf('Á');
-    // while (indexOfA != -1){
-    //   str = str.substring(0,indexOfA) + str.substring(indexOfA+1);
-    //   indexOfA = str.indexOf('Á');
-    // }
     //Print
     System.out.println(string.replace("Ø", "").replace("Á", ""));
   }

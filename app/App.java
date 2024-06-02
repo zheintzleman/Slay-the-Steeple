@@ -57,13 +57,7 @@ public class App {
   }
 
   public void run(){
-    // //Load the available cards list:
-    // updateAvailableCardsFile(CARD_LIST_PATH); //TODO: Remove these 3 lines (<, ^, v) <-???
-    // ASSERT(CARD_LIST != null);
     Str.println("CARDS: " + CARDS.values()); //Remove
-    // ArrayList<Card> REMOVE = loadAvailableCards(CARD_LIST_PATH);
-    // System.out.println(REMOVE);
-    //TODO: Add more assertions (just like in general)
 
     //Title
     if(!settingsManager.debug)
@@ -83,109 +77,6 @@ public class App {
     Str.println(Colors.clearScreen);
     */
   }
-
-  // Previously would save the arraylist of cards to a file and read from it each run. It was too buggy, though,
-  // so for now at least I'm just constructing the ~~arraylist~~HashSet each time.
-
-  /**Loads the available cards list from the entered file name
-  */
-  // public static ArrayList<Card> loadAvailableCards(String pathname){
-  //   try {
-  // 		FileInputStream fi = new FileInputStream(new File(pathname));
-  //     ObjectInputStream oi = new ObjectInputStream(fi);
-
-  //     Object r = oi.readObject();
-  //     ArrayList<Card> res = (ArrayList<Card>) r;
-    
-  //     oi.close();
-  //     fi.close();
-  //     return res;
-      
-	// 	} catch (IOException | ClassNotFoundException e) {
-	// 		e.printStackTrace();
-  //     settingsManager.debug = true; //TODO: Is this meant to be long-term? (ie save() or smth?)
-  //     return new ArrayList<Card>();
-	// 	}
-  // }
-
-  /**Updates the available cards list in the entered file name
-   * UNCOMMENT IN main(); IF UPDATED (>= ONCE)
-  */
-  // private static void updateAvailableCardsFile(String pathname){
-  //   try{
-  //     FileOutputStream f = new FileOutputStream(new File(pathname));
-  //     ObjectOutputStream o = new ObjectOutputStream(f);
-
-  //     ArrayList<Card> cardList = new ArrayList<Card>();
-
-  //     //Name, desc, energy cost, isTargeted, effects
-  //     // Write objects to file
-  
-  //     //For encoding card effects (copied from CardEffect.java:)
-  //     //Primary: First word of input data.
-  //     //Secondary: Rest of input data, apart from terminal integer
-  //     //Power: Terminal integer, or 0 if last word not an integer
-  //     //e.g. Stores "Lorem Ipsum Dolor 4" as: P = "Lorem", S = "Ipsum Dolor", p = 4,
-  //     // or "Lorem Ipsum 4 Dolor" as: P = "Lorem", S = "Ipsum 4 Dolor", p = 0.
-  //     cardList.add(new Card("Strike", "Attack", 1, true, new ArrayList<String>(Arrays.asList("Attack 6")), //TODO: Should these arraylists really just be arrays?
-  //                       new ArrayList<String>(Arrays.asList("Attack 9")), Rarity.BASIC));
-  //     cardList.add(new Card("Defend", "Skill", 1, false, new ArrayList<String>(Arrays.asList("Block 5")),
-  //                       new ArrayList<String>(Arrays.asList("Block 8")), Rarity.BASIC)); 
-  //     cardList.add(new Card("Bash", "Attack", 2, true, new ArrayList<String>(Arrays.asList("Attack 8", "Apply Vulnerable 2")),
-  //                       new ArrayList<String>(Arrays.asList("Attack 10", "Apply Vulnerable 3")), Rarity.BASIC));
-  //     cardList.add(new Card("Slimed", "Status", 1, false, new ArrayList<String>(Arrays.asList("Exhaust")), new ArrayList<String>(), Rarity.NULL));
-  //     cardList.add(new Card("Anger", "Attack", 0, true, new ArrayList<String>(Arrays.asList("Attack 6", "Anger")),
-  //                       new ArrayList<String>(Arrays.asList("Attack 8", "Anger")), Rarity.COMMON));
-  //     cardList.add(new Card("Armaments", "Skill", 1, false, new ArrayList<String>(Arrays.asList("Block 5", "Upgrade Choose1FromHand")),
-  //                       new ArrayList<String>(Arrays.asList("Block 5", "Upgrade Hand")), Rarity.COMMON));
-  //     cardList.add(new Card("Searing Blow", "Attack", 2, true, new ArrayList<String>(Arrays.asList("SearingBlow")),
-  //                       new ArrayList<String>(Arrays.asList("SearingBlow")), Rarity.COMMON));
-  //     cardList.add(new Card("Clash", "Attack", 0, true, new ArrayList<String>(Arrays.asList("Clash", "Attack 14")),
-  //                       new ArrayList<String>(Arrays.asList("Clash", "Attack 18")), Rarity.COMMON));
-  //     cardList.add(new Card("Body Slam", "Attack", 1, true, new ArrayList<String>(Arrays.asList("BodySlam")),
-  //                       0, true, new ArrayList<String>(Arrays.asList("BodySlam")), Rarity.COMMON));
-  //     cardList.add(new Card("Cleave", "Attack", 1, false, new ArrayList<String>(Arrays.asList("AtkAll 8")),
-  //                       new ArrayList<String>(Arrays.asList("AtkAll 11")), Rarity.COMMON));
-  //     //10
-  //     cardList.add(new Card("Clothesline", "Attack", 2, true, new ArrayList<String>(Arrays.asList("Attack 12", "Apply Weak 2")),
-  //                       new ArrayList<String>(Arrays.asList("Attack 14", "Apply Weak 3")), Rarity.COMMON));
-  //     cardList.add(new Card("Flex", "Gain 2 Strength.\nAt the end of this turn, lose 2 Strength.\n", "Skill", 0, false, new ArrayList<String>(Arrays.asList("AppPlayer Strength 2", "AppPlayer Strength Down 2 UseStatDesc")),
-  //                                       "Gain 4 Strength.\nAt the end of this turn, lose 4 Strength.\n", 0, false, new ArrayList<String>(Arrays.asList("AppPlayer Strength 4", "AppPlayer Strength Down 4 UsesStatusDesc")), Rarity.COMMON));
-  //     cardList.add(new Card("Havoc", "Skill", 1, false, new ArrayList<String>(Arrays.asList("Havoc")),
-  //                       0, false, new ArrayList<String>(Arrays.asList("Havoc")), Rarity.COMMON));
-  //     cardList.add(new Card("Headbutt", "Attack", 1, true, new ArrayList<String>(Arrays.asList("Attack 9", "PutOnDrawPile Choose1FromDisc")),
-  //                       new ArrayList<String>(Arrays.asList("Attack 12", "PutOnDrawPile Choose1FromDisc")), Rarity.COMMON));
-  //     cardList.add(new Card("Heavy Blade", "Attack", 2, true, new ArrayList<String>(Arrays.asList("Heavy 3", "Attack 14")),
-  //                       new ArrayList<String>(Arrays.asList("Heavy 5", "Attack 14")), Rarity.COMMON));
-  //     cardList.add(new Card("Iron Wave", "Attack", 1, true, new ArrayList<String>(Arrays.asList("Block 5", "Attack 5")),
-  //                       new ArrayList<String>(Arrays.asList("Block 7", "Attack 7")), Rarity.COMMON));
-  //     cardList.add(new Card("Pommel Strike", "Attack", 1, true, new ArrayList<String>(Arrays.asList("Attack 9", "Draw 1")), //TODO: rn in Card, energy cost displays right next to the name (adj. chars)
-  //                       new ArrayList<String>(Arrays.asList("Attack 10", "Draw 2")), Rarity.COMMON));
-  //     cardList.add(new Card("Shrug It Off", "Skill", 1, false, new ArrayList<String>(Arrays.asList("Block 8", "Draw 1")),
-  //                       new ArrayList<String>(Arrays.asList("Block 11", "Draw 1")), Rarity.COMMON));
-  //     cardList.add(new Card("Sword Boomerang", "Deal 3 damage to a random enemy 3 times.", "Attack", 1, false, new ArrayList<String>(Arrays.asList("AtkRandom 3", "AtkRandom 3", "AtkRandom 3")),
-  //                       "Deal 3 damage to a random enemy 4 times.\n", 1, false, new ArrayList<String>(Arrays.asList("AtkRandom 3", "AtkRandom 3", "AtkRandom 3", "AtkRandom 3")), Rarity.COMMON));
-  //     cardList.add(new Card("Thunderclap", "Attack", 1, false, new ArrayList<String>(Arrays.asList("AtkAll 4", "AppAll Vulnerable 1")),
-  //                       new ArrayList<String>(Arrays.asList("AtkAll 7", "AppAll Vulnerable 1")), Rarity.COMMON));
-  //     cardList.add(new Card("True Grit", "Exhaust a random card in your hand.", "Skill", 1, false, new ArrayList<String>(Arrays.asList("Block 7", "Exhaust RandHand")),
-  //                 "Exhaust a card in your hand.", 1, false, new ArrayList<String>(Arrays.asList("Block 9", "Exhaust Choose1FromHand")), Rarity.COMMON));
-  //     // cardList.add(new Card("Twin Strike", "Attack", 1, true, new ArrayList<String>(Arrays.asList("Attack 5", "Attack 5")),
-  //                       // new ArrayList<String>(Arrays.asList("Attack 7", "Attack 7")), Rarity.COMMON));
-  //     cardList.add(new Card("Twin Strike", "Deal 5 damage twice.", "Attack", 1, true, new ArrayList<String>(Arrays.asList("Attack 5", "Attack 5")),
-  //                       "Deal 7 damage twice.", 1, true, new ArrayList<String>(Arrays.asList("Attack 5", "Attack 5")), Rarity.COMMON));
-      
-  //     //Remember to update NUMCARDS in loadAvailableCards, for each addition here.
-  //     //^Probably not necessary anymore.
-    
-  //     o.writeObject(cardList);
-
-  //     o.close();
-  //     f.close();
-  //   } catch (IOException e) {
-	// 		e.printStackTrace();
-  //     settingsManager.debug = true;
-	// 	}
-  // }
 
   public static HashMap<String, Card> loadCards(){
     HashMap<String, Card> cards = new HashMap<String, Card>();
@@ -273,6 +164,7 @@ public class App {
     // Make Jaw Worm art wider?
     // In the statuses list (& possibly any other lists, too), change the section headers to be some different color (besides just white)
     // Is there benefit to having a screen/interface class?
+    // Add more assertions?
     // Stretch goal: Allow for a screen width of 155
 
     return cards;

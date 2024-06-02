@@ -392,28 +392,6 @@ public class Card implements Serializable {
     return false;
   }
 
-  // /**Generates the card's description using its data.effects list //todo: Remove this comment block after a bit
-  //  */
-  // public String generateDescription(){
-  //   return generateDescription(data.effects, true);
-  // }
-  // /**Generates the card's description using the entered effects list
-  //  */
-  // public String generateDescription(ArrayList<CardEffect> effects){
-  //   return generateDescription(effects, true);
-  // }
-  // /**Generates the card's description using the entered effects list
-  //  */
-  // public String generateDescription(ArrayList<CardEffect> effects, boolean useBasePower){
-  //   String desc = "";
-  //   if(effects == null){ return ""; }
-
-  //   for(CardEffect eff : effects){
-  //     desc += eff.generateDescription(upgrades, useBasePower);
-  //   }
-
-  //   return desc;
-  // }
 
   /**Returns the image of the card that will be displayed on the screen
    * using the card's base description (not accounting for statuses).
