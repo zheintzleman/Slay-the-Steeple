@@ -156,6 +156,7 @@ public class App {
                       "Costs 1 less energy for each time you lose HP this combat.\nDeal ØatkÁ22ØendatkÁ damage.\n", 3, true, List.of("(OnPlayerHurt) ChangeCost -1", "Attack 22"), Rarity.UNCOMMON, Color.IRONCLAD));
     cards.put("Bloodletting", new Card("Bloodletting", "Skill", 0, false, List.of("LoseHP 3", "GainEnergy 2"), List.of("LoseHP 3", "GainEnergy 3"), Rarity.UNCOMMON, Color.IRONCLAD));
     cards.put("Burning Pact", new Card("Burning Pact", "Skill", 1, false, List.of("Exhaust Choose1FromHand", "Draw 2"), List.of("Exhaust Choose1FromHand", "Draw 3"), Rarity.UNCOMMON, Color.IRONCLAD));
+    cards.put("Carnage", new Card("Carnage", "Attack", 2, true, List.of("Ethereal", "Attack 20"), List.of("Ethereal", "Attack 28"), Rarity.UNCOMMON, Color.IRONCLAD));
     // Todo List:
     // Try to make the screen width/etc. update in real time by not using Run.SCREENX & using SettingsManager.x instead?
     // Check whether or not statuses used to show in the order they were obtained.
