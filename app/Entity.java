@@ -276,6 +276,7 @@ public abstract class Entity{
   /**Subtracts the entity's hp the specified amount. If hp is 0 or less, it dies.
   */
   public void subtractHP(int dmg){
+    EventManager.em.OnLoseHP(this, dmg);
     hp -= dmg;
     if(hp <= 0){
       hp = 0;

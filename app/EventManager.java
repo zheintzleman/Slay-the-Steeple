@@ -48,7 +48,14 @@ public class EventManager {
     }
   }
 
-  public void OnPlayerHurt(int hpLoss){
+  public void OnLoseHP(Entity victim, int hpLoss){
+    // Note: If entity killed, hpLoss parameter not appropriately decreased.
+    if(victim == Combat.c.getPlayer()){
+      OnPlayerHurt(hpLoss);
+    }
+  }
+
+  private void OnPlayerHurt(int hpLoss){
     for(Card card : Combat.c.getCardsInPlay()){
       for(CardEffect eff : card.getEffects()){
         if(eff.whenPlayed() == Event.ONPLAYERHURT){

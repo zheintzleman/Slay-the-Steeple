@@ -154,6 +154,8 @@ public class App {
                       "Draw 4 cards.\nYou cannot draw additional cards this turn.\n", 0, false, List.of("Draw 4", "AppPlayer No Draw"), Rarity.UNCOMMON, Color.IRONCLAD));
     cards.put("Blood for Blood", new Card("Blood for Blood", "Costs 1 less energy for each time you lose HP this combat.\nDeal ØatkÁ18ØendatkÁ damage.\n", "Attack", 4, true, List.of("(OnPlayerHurt) ChangeCost -1", "Attack 18"),
                       "Costs 1 less energy for each time you lose HP this combat.\nDeal ØatkÁ22ØendatkÁ damage.\n", 3, true, List.of("(OnPlayerHurt) ChangeCost -1", "Attack 22"), Rarity.UNCOMMON, Color.IRONCLAD));
+    cards.put("Bloodletting", new Card("Bloodletting", "Skill", 0, false, List.of("LoseHP 3", "GainEnergy 2"), List.of("LoseHP 3", "GainEnergy 3"), Rarity.UNCOMMON, Color.IRONCLAD));
+    cards.put("Burning Pact", new Card("Burning Pact", "Skill", 0, false, List.of("LoseHP 3", "GainEnergy 2"), List.of("LoseHP 3", "GainEnergy 3"), Rarity.UNCOMMON, Color.IRONCLAD));
     // Todo List:
     // Try to make the screen width/etc. update in real time by not using Run.SCREENX & using SettingsManager.x instead?
     // Check whether or not statuses used to show in the order they were obtained.
@@ -165,6 +167,11 @@ public class App {
     // Is there benefit to having a screen/interface class?
     // Add more assertions?
     // Stretch goal: Allow for a screen width of 155
+
+    // Assert that all entries in `cards` are named correctly:
+    App.ASSERT(cards.entrySet().stream()
+      .map((Map.Entry<String, Card> e) -> Str.equalsSkipEscSeqs(e.getKey(), e.getValue().getName()))
+      .reduce(true, Boolean::logicalAnd));
 
     return cards;
   }
@@ -193,6 +200,12 @@ public class App {
     statuses.put("Thievery", new Status("Thievery", Colors.lightYellow + "T", false, true, "<str> Gold is stolen with every attack. Total Gold stolen is returned if the enemy is killed."));
     statuses.put("Vigor", new Status("Vigor", Colors.vigorOrange + "v", false, true, "Your next Attack deals <str> additional damage."));
     statuses.put("No Draw", new Status("No Draw", Colors.lightBlue + "N", true, false, "You may not draw any more cards this turn."));
+
+    
+    // Assert that all entries in `cards` are named correctly:
+    App.ASSERT(statuses.entrySet().stream()
+      .map((Map.Entry<String, Status> e) -> Str.equalsSkipEscSeqs(e.getKey(), e.getValue().getName()))
+      .reduce(true, Boolean::logicalAnd));
 
     return statuses;
   }

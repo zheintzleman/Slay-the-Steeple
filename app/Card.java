@@ -138,8 +138,13 @@ public class Card implements Serializable {
             codedDescription += "Deal ØatkÁ14ØendatkÁ damage.\nStrength affects this card " + effectPower + " times.\n";
             break;
           case "GainToDraw":
-            codedDescription += "Shuffle a " + secondary + " into your draw pile.";
+            codedDescription += "Shuffle a " + secondary + " into your draw pile.\n";
             break;
+          case "LoseHP":
+            codedDescription += "Lose " + effectPower + " HP.\n";
+            break;
+          case "GainEnergy":
+            codedDescription += "Gain " + effectPower + " energy.\n";
           default:
             break;
         }

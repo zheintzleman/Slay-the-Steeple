@@ -534,7 +534,7 @@ public class Combat{
           break;
         default:
           // Other effects that are included in the playEffect function
-          shouldDiscard = shouldDiscard && playEffect(eff, card);
+          shouldDiscard = playEffect(eff, card) && shouldDiscard;
       }
     }
 
@@ -602,6 +602,9 @@ public class Combat{
       case "DmgPlayer":
         player.damage(power);
         break;
+      case "LoseHP":
+        player.subtractHP(power);
+        break;
       case "Ethereal": // The only thing Ethereal changes is when it is activated (OnTurnEnd); the effect is the same.
       case "Exhaust":
         for(Card c : cardTargets(otherWords, card)){
@@ -653,6 +656,10 @@ public class Combat{
         drawPile.add(new Card(otherWords));
         Collections.shuffle(drawPile);
         break;
+      case "LoseEnergy":
+        power = -power;
+        //FALLTHRU
+      case "GainEnergy":
       case "ChangeEnergy":
         energy += power;
         break;
