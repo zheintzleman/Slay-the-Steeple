@@ -80,22 +80,31 @@ public class Card implements Serializable {
             codedDescription += "Apply " + effectPower + " " + secondary + " to ALL enemies.\n";
             break;
           case "Exhaust":
-            codedDescription += "Exhaust.\n";
+            switch (secondary) {
+              case "Choose1FromHand":
+                codedDescription += "Exhaust 1 card.\n";
+                break;
+              default:
+                codedDescription += "Exhaust.\n";
+                break;
+            }
             break;
           case "Draw":
             codedDescription += "Draw " + effectPower + (effectPower.equals("1") ? " card.\n" : " cards.\n");
             break;
           case "Upgrade":
-            if(secondary.equals("Choose1FromHand")){
-              codedDescription += "Upgrade a card in your hand for the rest of combat.\n";
-              break;
-            }else if(secondary.equals("Hand")){
-              codedDescription += "Upgrade ALL cards in your hand for the rest of combat.\n";
-              break;
-            }else{
-              codedDescription += "[Upgrade; Enter text in Card.java]\n";
-              break;
+            switch(secondary){
+              case "Choose1FromHand":
+                codedDescription += "Upgrade a card in your hand for the rest of combat.\n";
+                break;
+              case "Hand":
+                codedDescription += "Upgrade ALL cards in your hand for the rest of combat.\n";
+                break;
+              default:
+                codedDescription += "[Upgrade; Enter text in Card.java]\n";
+                break;
             }
+            break;
           case "PutOnDrawPile":
             switch(secondary){
               case "Choose1FromDisc":

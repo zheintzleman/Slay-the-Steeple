@@ -502,13 +502,13 @@ public class Combat{
       if(eff.whenPlayed() != Event.ONCARDPLAY){
         continue;
       }
-      String firstWord = eff.getPrimary();
-      String otherWords = eff.getSecondary();
+      String primary = eff.getPrimary();
+      String secondary = eff.getSecondary();
       int power = eff.getPower();
       
       // Could make this into an enum for speed, but this code is only run a few times
       // each card play at most, so efficiency isn't crucial in exchange for legibility
-      switch(firstWord){
+      switch(primary){
         case "SearingBlow":
           power = card.searingBlowDamage();
           //Fallthrough
@@ -530,7 +530,7 @@ public class Combat{
           player.attack(enemies, power);
           break;
         case "Apply":
-          target.addStatusStrength(otherWords, power);
+          target.addStatusStrength(secondary, power);
           break;
         default:
           // Other effects that are included in the playEffect function
@@ -577,8 +577,8 @@ public class Combat{
   public boolean playEffect(CardEffect eff, Card card){
     // Can make one of these which takes in a target, too, but there's no need for one right now.
     boolean shouldDiscard = true;
-    String firstWord = eff.getPrimary();
-    String otherWords = eff.getSecondary();
+    String primary = eff.getPrimary();
+    String secondary = eff.getSecondary();
     int power = eff.getPower();
 
     switch (eff.getPrimary()) {
@@ -592,11 +592,11 @@ public class Combat{
         player.attack(target, power);
         break;
       case "AppPlayer":
-        player.addStatusStrength(otherWords, power);
+        player.addStatusStrength(secondary, power);
         break;
       case "AppAll":
         for(Enemy enemy : enemies){
-          enemy.addStatusStrength(otherWords, power);
+          enemy.addStatusStrength(secondary, power);
         }
         break;
       case "DmgPlayer":
@@ -607,7 +607,7 @@ public class Combat{
         break;
       case "Ethereal": // The only thing Ethereal changes is when it is activated (OnTurnEnd); the effect is the same.
       case "Exhaust":
-        for(Card c : cardTargets(otherWords, card)){
+        for(Card c : cardTargets(secondary, card)){
           exhaust(c);
           if(c == card){
             shouldDiscard = false;
@@ -620,12 +620,12 @@ public class Combat{
         }
         break;
       case "Upgrade":
-        for (Card c : cardTargets(otherWords, card)){
+        for (Card c : cardTargets(secondary, card)){
           c.upgrade();
         }
         break;
       case "PutOnDrawPile":
-        Card[] cardTargets = cardTargets(otherWords, card);
+        Card[] cardTargets = cardTargets(secondary, card);
         for(Card c : cardTargets){
           removeFromAllPiles(c);
           drawPile.add(0, c);
@@ -653,7 +653,7 @@ public class Combat{
         exhaust(c);
         break;
       case "GainToDraw":
-        drawPile.add(new Card(otherWords));
+        drawPile.add(new Card(secondary));
         Collections.shuffle(drawPile);
         break;
       case "LoseEnergy":
@@ -671,7 +671,7 @@ public class Combat{
       case "Unplayable":
         break; //Relevant code is earlier; included to avoid error.
       default:
-        System.out.println("(Error) Cannot compile card data: " + card + ", firstWord: " + firstWord);
+        System.out.println("(Error) Cannot compile card data: " + card + ", primary: " + primary);
     }
     return shouldDiscard;
   }
@@ -694,12 +694,12 @@ public class Combat{
     return -1;
   }
 
-  /**Returns an arraylist of the card represented by the expression in otherWords
-   * @param otherWords The second word of the card effect, the meaning of which will be converted to an arraylist
+  /**Returns an arraylist of the card represented by the expression in secondary
+   * @param secondary The second word of the card effect, the meaning of which will be converted to an arraylist
    * @param current The card being currently played
    */
-  public Card[] cardTargets(String otherWords, Card current){ //TODO: finish
-    switch (otherWords) {
+  public Card[] cardTargets(String secondary, Card current){ //TODO: finish
+    switch (secondary) {
       case "":
       case "This":
         return new Card[] {current};

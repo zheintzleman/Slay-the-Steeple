@@ -24,6 +24,9 @@ public class Run{
     deck.add(new Card("Armaments"));
     deck.add(new Card("Armaments"));
     deck.add(new Card("Armaments"));
+    deck.add(new Card("Burning Pact"));
+    deck.add(new Card("Burning Pact"));
+    deck.add(new Card("Burning Pact"));
     deck.add(new Card("Flex"));
     deck.add(new Card("Flex"));
     deck.add(new Card("Sword Boomerang"));
