@@ -27,11 +27,10 @@ public class Player extends Entity {
   public void endTurn(Player player){
     setBlock(0);
     updateCopysDecreasingStatuses();
-    endTurnCopy.subtractStatusStrength("Strength", getStatusStrength("Strength Down"));
-    endTurnCopy.setStatusStrength("Strength Down", 0);
-    endTurnCopy.subtractStatusStrength("Dexterity", getStatusStrength("Dexterity Down"));
-    endTurnCopy.setStatusStrength("Dexterity Down", 0);
-    setStatuses(endTurnCopy.getStatuses());
+    subtractStatusStrength("Strength", getStatusStrength("Strength Down"));
+    setStatusStrength("Strength Down", 0);
+    subtractStatusStrength("Dexterity", getStatusStrength("Dexterity Down"));
+    setStatusStrength("Dexterity Down", 0);
   }
   @Override
   public void setSplitIntent() {

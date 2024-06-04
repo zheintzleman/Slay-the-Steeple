@@ -8,8 +8,6 @@ import app.Card.Color;
 import app.Card.Rarity;
 
 public class App {
-  // Singleton app instance:
-  public static final App a = new App();
   public static final String SETTINGS_PATH = "app\\settings.dat"; // Changed STS 2.0+\\ to app\\
   public static final String CARD_LIST_PATH = "app\\cardList1.dat";// Changed STS 2.0+\\ to app\\
   public static final String INSTRUCTIONS = "Instructions:\n\n"
@@ -51,7 +49,8 @@ public class App {
   // Can use Card.getCard(String) and Status.getStatus(String) to easily access w/ null-checking:
   public static final HashMap<String, Card> CARDS = loadCards();
   public static final HashMap<String, Status> STATUSES = loadStatuses();
-  // TODO: try w/ final^
+  // Singleton app instance:
+  public static final App a = new App();
   
   private App(){
 
@@ -122,7 +121,7 @@ public class App {
                       new ArrayList<String>(Arrays.asList("AtkAll 11")), Rarity.COMMON, Color.IRONCLAD));
     cards.put("Clothesline", new Card("Clothesline", "Attack", 2, true, new ArrayList<String>(Arrays.asList("Attack 12", "Apply Weak 2")),
                       new ArrayList<String>(Arrays.asList("Attack 14", "Apply Weak 3")), Rarity.COMMON, Color.IRONCLAD));
-    cards.put("Flex", new Card("Flex", "Gain 2 Strength.\nAt the end of this turn, lose 2 Strength.\n", "Skill", 0, false, new ArrayList<String>(Arrays.asList("AppPlayer Strength 2", "AppPlayer Strength Down 2")),
+    cards.put("Flex", new Card("Flex", "Gain 2 Strength.\nAt the end of this turn, lose 2 Strength.\n", "Skill", 0, false, new ArrayList<String>(Arrays.asList("AppPlayer Strength 3", "AppPlayer Strength Down 2", "AppPlayer Vigor 5")),
                                       "Gain 4 Strength.\nAt the end of this turn, lose 4 Strength.\n", 0, false, new ArrayList<String>(Arrays.asList("AppPlayer Strength 4", "AppPlayer Strength Down 4")), Rarity.COMMON, Color.IRONCLAD));
     cards.put("Havoc", new Card("Havoc", "Skill", 1, false, new ArrayList<String>(Arrays.asList("Havoc")),
                       0, false, new ArrayList<String>(Arrays.asList("Havoc")), Rarity.COMMON, Color.IRONCLAD));
@@ -136,8 +135,8 @@ public class App {
                       new ArrayList<String>(Arrays.asList("Attack 10", "Draw 2")), Rarity.COMMON, Color.IRONCLAD));
     cards.put("Shrug It Off", new Card("Shrug It Off", "Skill", 1, false, new ArrayList<String>(Arrays.asList("Block 8", "Draw 1")),
                       new ArrayList<String>(Arrays.asList("Block 11", "Draw 1")), Rarity.COMMON, Color.IRONCLAD));
-    cards.put("Sword Boomerang", new Card("Sword Boomerang", "Deal ØatkÁ3ØendatkÁ damage to a random enemy 3 times.\n", "Attack", 1, false, new ArrayList<String>(Arrays.asList("AtkRandom 3")),
-                      "Deal ØatkÁ3ØendatkÁ damage to a random enemy 4 times.\n", 1, false, new ArrayList<String>(Arrays.asList("AtkRandom 4 3")), Rarity.COMMON, Color.IRONCLAD));
+    cards.put("Sword Boomerang", new Card("Sword Boomerang", "Deal ØatkÁ3ØendatkÁ damage to a random enemy 3 times.\n", "Attack", 1, false, new ArrayList<String>(Arrays.asList("AtkRandom 3", "AtkRandom 3", "AtkRandom 3")),
+                      "Deal ØatkÁ3ØendatkÁ damage to a random enemy 4 times.\n", 1, false, new ArrayList<String>(Arrays.asList("AtkRandom 3","AtkRandom 3", "AtkRandom 3", "AtkRandom 3")), Rarity.COMMON, Color.IRONCLAD));
     cards.put("Thunderclap", new Card("Thunderclap", "Attack", 1, false, new ArrayList<String>(Arrays.asList("AtkAll 4", "AppAll Vulnerable 1")),
                       new ArrayList<String>(Arrays.asList("AtkAll 7", "AppAll Vulnerable 1")), Rarity.COMMON, Color.IRONCLAD));
     cards.put("True Grit", new Card("True Grit", "Gain 7 block.\nExhaust a random card in your hand.\n", "Skill", 1, false, new ArrayList<String>(Arrays.asList("Block 7", "Exhaust RandHand")),

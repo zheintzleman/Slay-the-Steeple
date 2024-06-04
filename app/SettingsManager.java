@@ -2,14 +2,14 @@ package app;
 import java.io.*;
 
 public class SettingsManager{
-  // Singleton EventManager Instance
-  public static final SettingsManager sm = new SettingsManager(App.SETTINGS_PATH);
   public String pathname;
   public boolean debug;
   public String name;
   public int screenWidth;
   public int screenHeight;
   public boolean cheats;
+  // Singleton EventManager Instance
+  public static final SettingsManager sm = new SettingsManager(App.SETTINGS_PATH);
 
   private SettingsManager(String pathname){
     this.pathname = pathname;
@@ -18,13 +18,13 @@ public class SettingsManager{
   		FileInputStream fi = new FileInputStream(new File(pathname));
       ObjectInputStream oi = new ObjectInputStream(fi);
       //To reset to default settings:
-      // debug = true;
-      // name = "Default";
-      // screenWidth = App.DEFAULT_SCREEN_WIDTH;
-      // // screenWidth = 243;
-      // screenHeight = App.DEFAULT_SCREEN_HEIGHT;
-      // cheats = true;
-      // save();
+      debug = true;
+      name = "Default";
+      screenWidth = App.DEFAULT_SCREEN_WIDTH;
+      // screenWidth = 243;
+      screenHeight = App.DEFAULT_SCREEN_HEIGHT;
+      cheats = true;
+      save();
 
       // Read objects
       debug = (Boolean) oi.readObject(); //Capitalize Boolean?

@@ -7,7 +7,7 @@ import app.EventManager;
 import app.Intent;
 import app.Player;
 
-public class Enemy extends Entity{
+public abstract class Enemy extends Entity{
   // Would be an abstract class, but we make copies of the enemies for end-turn status purposes,
   // and the copies are of type Enemy.
   boolean isElite;
@@ -80,10 +80,9 @@ public class Enemy extends Entity{
     //Creating a copy enemy and changing its statuses instead of the real entity's. (Still attacking with the real entity.) Then, syncs the copy's statuses to the real entity at the end of this method.
     System.out.println("About to do intent");
     this.doIntent(player);
-    updateCopysDecreasingStatuses(); //Updates said statuses in endTurnCopy.
-    endTurnCopy.addStatusStrength("Strength", this.getStatusStrength("Ritual")); //Only counts rituals that were there already.
+    updateCopysDecreasingStatuses(); //Updates said statuses in copy.
+    addStatusStrength("Strength", this.getStatusStrength("Ritual")); //Only counts rituals that were there already.
     this.setBlock(0); //Could add the whole "start of turn block" system to be dealt with with the enemy copy system instead.
-    this.setStatuses(endTurnCopy.getStatuses());
     this.setNextIntent();
   }
 

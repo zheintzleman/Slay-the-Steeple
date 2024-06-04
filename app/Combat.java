@@ -1,13 +1,12 @@
 package app;
 import java.util.*;
+import java.util.function.Consumer;
 import java.util.stream.Stream;
 
 import app.EventManager.Event;
 import enemyfiles.*;
 
 public class Combat{
-  // Semi-singleton Combat instance:
-  public static Combat c;
   private Player player;
   private ArrayList<Enemy> enemies;
   private ArrayList<Enemy> enemiesToUpdate;
@@ -18,7 +17,10 @@ public class Combat{
   // For when too many cards in hand to fully print all of them
   boolean condenseLeftHalfOfHand;
   int topRowOfCards; //The highest row (of the screen) in which the hand cards are printed
+  // A reference to EventManager.er
   private EventManager eventManager;
+  // Semi-singleton Combat instance:
+  public static Combat c;
   
   public Combat(){
     c = this;
@@ -271,10 +273,10 @@ public class Combat{
   }
 
   private void setAllEntityCopies(boolean toNull){
-    for(Enemy e : enemies){
-      e.endTurnCopy = toNull ? null : new Enemy(e);
-    }
-    player.endTurnCopy = toNull ? null : new Player(player);
+    // Calls either mergeCopy or createCopy on the enemies and player.
+    Consumer<Entity> func = toNull ? Entity::mergeCopy : Entity::createCopy;
+    enemies.stream().forEach(func);
+    func.accept(player);
   }
 
   /**Sets the screen to accurate values/images
@@ -487,6 +489,9 @@ public class Combat{
     energy -= card.getEnergyCost();
 
     //Doing the card's effect(s):
+
+    // New statuses to the player aren't counted until we call mergeCopy.
+    player.createCopy();
     
     ArrayList<CardEffect> cardEffects = card.getEffects();
     for(CardEffect eff : cardEffects){
@@ -539,6 +544,8 @@ public class Combat{
       eventManager.OnAttackFinished(player);
     }
     
+    player.mergeCopy();
+
     return true;
   }
 

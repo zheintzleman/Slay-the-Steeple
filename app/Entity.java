@@ -10,9 +10,11 @@ public abstract class Entity{
   // for a specific element. The lists are relatively short, though (and this project is not
   // especially computationally demanding), so asymptotics aren't as important.
   private ArrayList<Status> statuses;
-  // While enemies are doing their intents, new statuses are applied to a copy of the entity
-  // instead of to the entity itself. They then sync at the start of the next turn.
-  public Entity endTurnCopy = null;
+  // While enemies are doing their intents & while a card is being played, new statuses are applied
+  // to a copy of the entity instead of to the entity itself. They then sync at the start of the
+  // next turn. Originally just for during "end-of-turn" (i.e. while enemies are doing their
+  // intents), but the use cases have since expanded.
+  private Entity copy = null;
 
   public Entity(){
     name = "<Entity>";
@@ -114,7 +116,28 @@ public abstract class Entity{
   public void setStrength(int newStrength){ setStatusStrength("Strength", newStrength); }
   public int getDexterity(){ return this.getStatusStrength("Dexterity"); }
   public void setDexterity(int newDexterity){ setStatusStrength("Dexterity", newDexterity); }
+  
 
+  /** Initializes `copy` to a clone of `this`. All new status effects
+   * will go to the clone until mergeCopy() is called.
+   * @Precondition: A copy is not currently created.
+   */
+  public void createCopy(){
+    App.ASSERT(!hasCopy());
+    copy = new AbstractEntity(this);
+  }
+  /** Merges the statuses that have been applied to `copy` to this instead,
+   * and sets `copy` back to null.
+   * @Precondition: A copy has been initialized.
+   */
+  public void mergeCopy(){
+    App.ASSERT(hasCopy());
+    setStatuses(copy.getStatuses());
+    copy = null;
+  }
+  public boolean hasCopy(){
+    return copy != null;
+  }
   
   /**Returns this entity's status with the specified name, or null if none is present.
   */
@@ -145,9 +168,9 @@ public abstract class Entity{
    * @return null, if setting a status already at 0 to 0.
   */
   public Status setStatusStrength(String name, int strength){
-    if(isEndOfTurn()){
+    if(hasCopy()){
       // While enemies doing intents, want to edit their statuses instead.
-      return endTurnCopy.setStatusStrength(name, strength); //TODO: Did this break things?
+      return copy.setStatusStrength(name, strength); //TODO: Did this break things?
     }
 
     Status s = getStatus(name);
@@ -177,8 +200,8 @@ public abstract class Entity{
   */
   public Status addStatusStrength(String name, int strength){
     if(strength == 0){ return null; }
-    if(isEndOfTurn()){
-      return endTurnCopy.addStatusStrength(name, strength);
+    if(hasCopy()){
+      return copy.addStatusStrength(name, strength);
     }
 
     Status s = getStatus(name);
@@ -202,7 +225,7 @@ public abstract class Entity{
    * @NOTE Only deletes on == 0. If subtracting >1 at a time, make sure it can go
    * negative (or else that you deal with the negative case, or rewrite this function.)
    * @return The status subtracted from (even if removed from list for being set to 0)
-   * @Precondition Not during turn-end, or being called by endTurnCopy (i.e. endTurnCopy == null)
+   * @Precondition Not during turn-end, or being called by `copy` (i.e. copy == null)
   */
   public Status subtractStatusStrength(String name, int strength){
     return addStatusStrength(name, -strength);
@@ -212,9 +235,6 @@ public abstract class Entity{
   */
   public boolean hasStatus(String name){
     return getStatus(name) != null;
-  }
-  public boolean isEndOfTurn(){
-    return endTurnCopy != null;
   }
 
   
@@ -422,13 +442,13 @@ public abstract class Entity{
    * The status is decreasing, and it is present both in the copy and in the original.
    * */
   public void updateCopysDecreasingStatuses(){
-    for(int i=0; i<endTurnCopy.statuses.size(); i++){
-      Status s = endTurnCopy.statuses.get(i);
+    for(int i=0; i<copy.statuses.size(); i++){
+      Status s = copy.statuses.get(i);
       if(s.isDecreasing() && this.hasStatus(s.getName())){
         App.ASSERT(s.getStrength() != 0); //Used to be a condition above. Implied by existence in the statuses list.
         s.subtractStrength(1);
         if(s.getStrength() == 0){
-          endTurnCopy.statuses.remove(i);
+          copy.statuses.remove(i);
           i--;
         }
       }

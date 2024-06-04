@@ -70,6 +70,9 @@ public class EventManager {
   }
 
   public void OnAttackFinished(Entity attacker){
+    //todo: If we never add anything else to this event, can change it so the attack() function
+    //Just directly reduces vigor -- the entity copy system will make it so the statuses don't
+    //apply until after all of the attacks are done.
     attacker.setStatusStrength("Vigor", 0);
   }
 

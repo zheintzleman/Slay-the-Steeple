@@ -3,8 +3,6 @@ import java.util.*;
 import java.util.function.Predicate;
 
 public class Run{
-  // Singleton run instance:
-  public static final Run r = new Run();
   private String[] screen;
   //TODO: Put these into App.java?
   public static final int SCREENWIDTH = SettingsManager.sm.screenWidth;
@@ -12,6 +10,8 @@ public class Run{
   private int hp, maxHP;
   private int gold;
   private ArrayList<Card> deck;
+  // Singleton run instance:
+  public static final Run r = new Run();
   
   private Run(){
     if(r != null){
@@ -32,18 +32,9 @@ public class Run{
     deck.add(new Card("Flex"));
     deck.add(new Card("Thunderclap"));
     deck.add(new Card("Thunderclap"));
-    deck.add(new Card("Thunderclap"));
-    deck.add(new Card("Thunderclap"));
-    deck.add(new Card("Thunderclap"));
-    deck.add(new Card("Thunderclap"));
-    deck.add(new Card("Thunderclap"));
-    deck.add(new Card("Thunderclap"));
-    deck.add(new Card("Thunderclap"));
-    deck.add(new Card("Thunderclap"));
-    deck.add(new Card("Thunderclap"));
-    deck.add(new Card("Thunderclap"));
-    deck.add(new Card("Thunderclap"));
-    deck.add(new Card("Thunderclap"));
+    deck.add(new Card("Sword Boomerang"));
+    deck.add(new Card("Sword Boomerang"));
+    deck.add(new Card("Sword Boomerang"));
     deck.add(new Card("Clothesline"));
     deck.add(new Card("Clothesline"));
     // TODO: Display deck in alphabetical order or smth?
