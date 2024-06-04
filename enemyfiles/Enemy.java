@@ -115,7 +115,7 @@ public abstract class Enemy extends Entity{
   @Override
   public int attack(List<? extends Entity> victims, int damagePreCalculations, int strMultiplier) {
     int retVal = super.attack(victims, damagePreCalculations, strMultiplier);
-    EventManager.er.OnAttackFinished(this);
+    EventManager.em.OnAttackFinished(this);
     return retVal;
   }
   

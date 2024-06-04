@@ -1,5 +1,6 @@
 package app;
 import java.util.*;
+import java.util.function.Consumer;
 
 public abstract class Entity{
   public static final String[] RECTANGLE = new String[] {"███████", "███████", "███████", "███████", "███████", "███████"};
@@ -118,11 +119,31 @@ public abstract class Entity{
   public void setDexterity(int newDexterity){ setStatusStrength("Dexterity", newDexterity); }
   
 
+  /** For each entity currently in play:
+   * Initializes `copy` to a clone of `this`. All new status effects
+   * will go to the clone until mergeCopy() is called.
+   * @Precondition: A copy is not currently created.
+   */
+  public static void createCopies(){
+    // Calls createCopy on the enemies and player.
+    Combat.c.getEntities().stream()
+      .forEach(Entity::createCopy);
+  }
+  /** For each entity currently in play:
+   * Merges the statuses that have been applied to `copy` to this instead,
+   * and sets `copy` back to null.
+   * @Precondition: A copy has been initialized.
+   */
+  public static void mergeCopies(){
+    // Calls  mergeCopy on the enemies and player.
+    Combat.c.getEntities().stream()
+      .forEach(Entity::mergeCopy);
+  }
   /** Initializes `copy` to a clone of `this`. All new status effects
    * will go to the clone until mergeCopy() is called.
    * @Precondition: A copy is not currently created.
    */
-  public void createCopy(){
+  private void createCopy(){
     App.ASSERT(!hasCopy());
     copy = new AbstractEntity(this);
   }
@@ -130,7 +151,7 @@ public abstract class Entity{
    * and sets `copy` back to null.
    * @Precondition: A copy has been initialized.
    */
-  public void mergeCopy(){
+  private void mergeCopy(){
     App.ASSERT(hasCopy());
     setStatuses(copy.getStatuses());
     copy = null;
@@ -370,19 +391,13 @@ public abstract class Entity{
       int dmgDealt = victim.damage(dmg);
       totalDmgDealt += dmgDealt;
       if(dmgDealt > 0){
-        if(victim.hasStatus("Curl Up")){ //Curl Up
-          victim.addBlock(victim.getStatusStrength("Curl Up"));
-          victim.setStatusStrength("Curl Up", 0);
-        }
-        if(victim.hasStatus("Angry")){
-          victim.addStatusStrength("Strength", victim.getStatusStrength("Angry"));
-          System.out.println("Victim Anger: " + victim.getStatusStrength("Angry"));
-        }
+        EventManager.em.OnAtkDmgDealt(victim, dmgDealt);
       }
     }
     return totalDmgDealt;
   }
-  /**Performs an attack that hits `victim` `times` times. See attack(List, int, int) for more details. */
+  /**Performs an attack that hits `victim` `times` times. See attack(List, int, int) for more details.
+   */
   public int multiattack(int times, Entity victim, int damagePreCalculations){
     return attack(Collections.nCopies(times, victim), damagePreCalculations, 1);
   }

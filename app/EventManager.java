@@ -13,8 +13,8 @@ public class EventManager {
     ONATKDMGDEALT
   }
 
-  // Singleton EventManager Instance
-  public static final EventManager er = new EventManager();
+  /** Singleton EventManager Instance */
+  public static final EventManager em = new EventManager();
 
   private EventManager(){
   }
@@ -59,14 +59,14 @@ public class EventManager {
   }
 
   public void OnAtkDmgDealt(Entity victim, int damage){
-    // if(victim.hasStatus("Curl Up")){ //Curl Up
-    //   victim.addBlock(victim.getStatusStrength("Curl Up"));
-    //   victim.setStatusStrength("Curl Up", 0);
-    // }
-    // if(victim.hasStatus("Angry")){
-    //   victim.addStatusStrength("Strength", victim.getStatusStrength("Angry"));
-    //   System.out.println("Victim Anger: " + victim.getStatusStrength("Angry"));
-    // }
+    if(victim.hasStatus("Curl Up")){ //Curl Up
+      victim.addBlock(victim.getStatusStrength("Curl Up"));
+      victim.setStatusStrength("Curl Up", 0);
+    }
+    if(victim.hasStatus("Angry")){
+      victim.addStatusStrength("Strength", victim.getStatusStrength("Angry"));
+      System.out.println("Victim Anger: " + victim.getStatusStrength("Angry"));
+    }
   }
 
   public void OnAttackFinished(Entity attacker){

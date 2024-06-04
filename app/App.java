@@ -10,15 +10,16 @@ import app.Card.Rarity;
 public class App {
   public static final String SETTINGS_PATH = "app\\settings.dat"; // Changed STS 2.0+\\ to app\\
   public static final String CARD_LIST_PATH = "app\\cardList1.dat";// Changed STS 2.0+\\ to app\\
-  public static final String INSTRUCTIONS = "Instructions:\n\n"
-                                          + "Interact with the game by typing commands in the terminal. "
-                                          + "You can look at these instructions again mid-game by typing \"help\" or \"instructions\". "
-                                          + "Specific actions have their respective commands written near them in " + Colors.magenta + "magenta" + Colors.reset + ". "
-                                          + "Along with the commands shown on screen, you can type the following:\n\n\"E\", \"end\", or \"end turn\" to end your turn,\n"
-                                          + "\"Stat\" or \"status\" to see all entities' status effects, and\n"
-                                          + "For convenience, you can refer to draw, discard, and exhaust piles as \"draw\", \"disc\", and \"exh\" respectively.\n\n"
-                                          + "Some screens have additional information written below the screen, so check there if you're confused.\n\n"
-                                          + "Each combat drops 10-20 " + Colors.gold + "gold" + Colors.reset + ". Try to get as much as possible before dying!\n\n";
+  public static final String INSTRUCTIONS_TEXT = "Interact with the game by typing commands in the terminal. "
+                                               + "You can see these instructions mid-game by typing \"help\" or \"instructions\". "
+                                               + "Specific actions have their respective commands written near them in " + Colors.magenta + "magenta" + Colors.reset + ". "
+                                               + "Along with the commands shown on screen, you can type the following:\n\n\"E\", \"end\", or \"end turn\" to end your turn,\n"
+                                               + "\"Stat\" or \"status\" to see all entities' status effects, and\n"
+                                               + "For convenience, you can refer to draw, discard, and exhaust piles as \"draw\"/\"a\", \"disc\"/\"s\", and \"exh\"/\"x\" respectively.\n\n"
+                                               + "Some screens have additional information written below the screen, so check there if you're confused.\n\n"
+                                               + "Each combat drops 10-20 " + Colors.gold + "gold" + Colors.reset + ". Try to get as much as possible before dying!\n\n";
+  public static final String INSTRUCTIONS = "Instructions:\n\n" + INSTRUCTIONS_TEXT;
+  // Big text generated using https://patorjk.com/software/taag/
   public static final String TITLE = Colors.headerBrown + "\n   ▄▄▄▄▄   █    ██  ▀▄    ▄        ▄▄▄▄▀ ▄  █ ▄███▄          ▄▄▄▄▄   █ ▄▄  ▄█ █▄▄▄▄ ▄███▄   \n"
                                                           + "  █     ▀▄ █    █ █   █  █      ▀▀▀ █   █   █ █▀   ▀        █     ▀▄ █   █ ██ █  ▄▀ █▀   ▀  \n"
                                                           + "▄  ▀▀▀▀▄   █    █▄▄█   ▀█           █   ██▀▀█ ██▄▄        ▄  ▀▀▀▀▄   █▀▀▀  ██ █▀▀▌  ██▄▄    \n"
@@ -49,7 +50,7 @@ public class App {
   // Can use Card.getCard(String) and Status.getStatus(String) to easily access w/ null-checking:
   public static final HashMap<String, Card> CARDS = loadCards();
   public static final HashMap<String, Status> STATUSES = loadStatuses();
-  // Singleton app instance:
+  /** Singleton app instance */
   public static final App a = new App();
   
   private App(){
@@ -57,19 +58,19 @@ public class App {
   }
 
   public void run(){
-    Str.println("CARDS: " + CARDS.values()); //Remove
-
-    //Title
-    if(!SettingsManager.sm.debug)
+    //Title Screen
+    if(!SettingsManager.sm.debug){
       Str.println(Colors.clearScreen);
+    } else {
+      Str.println("CARDS: " + CARDS.values());
+    }
     Str.println(TITLE);
        
     Str.println("\n" + INSTRUCTIONS + "Press " + Colors.magenta + "Enter" + Colors.reset + " to continue\n");
     
     Main.scan.nextLine();
     
-    Run g = Run.r;
-    g.play();
+    Run.r.play();
     //Probably bring back when/if making a home screen or smth:
     /*
     scan.nextLine();
@@ -90,78 +91,73 @@ public class App {
     //e.g. Stores "Lorem Ipsum Dolor 4" as: P = "Lorem", S = "Ipsum Dolor", p = 4,
     // or "Lorem Ipsum 4 Dolor" as: P = "Lorem", S = "Ipsum 4 Dolor", p = 1.
     // or "(OnExhaust) Lorem Ipsum 4 Dolor" as: P = "Lorem", S = "Ipsum 4 Dolor", p = 1, WP = ONEXHAUST
-    cards.put("Burn", new Card("Burn", "Unplayable.\nAt the end of your turn, take 2 damage.\n", "Status", -1, false, new ArrayList<String>(Arrays.asList("Unplayable", "(OnTurnEnd) DmgPlayer 2")),
-                      "Unplayable.\nAt the end of your turn, take 4 damage.\n", -1, false, new ArrayList<String>(Arrays.asList("Unplayable", "(OnTurnEnd) DmgPlayer 4")), Rarity.COMMON, Color.NEUTRAL)); //TODO: Something that makes burn discard even w/ retain? Or just hard-code that in?
+    cards.put("Burn", new Card("Burn", "Unplayable.\nAt the end of your turn, take 2 damage.\n", "Status", -1, false, List.of("Unplayable", "(OnTurnEnd) DmgPlayer 2"),
+                      "Unplayable.\nAt the end of your turn, take 4 damage.\n", -1, false, List.of("Unplayable", "(OnTurnEnd) DmgPlayer 4"), Rarity.COMMON, Color.NEUTRAL)); //TODO: Something that makes burn discard even w/ retain? Or just hard-code that in?
     // Statuses can't be upgraded by default (incl. by apotheosis, etc.) So Burn+ is effectively its own card.
-    cards.put("Burn+", new Card(Colors.upgradeGreen + "Burn+", "Unplayable.\nAt the end of your turn, take 4 damage.\n", "Status", -1, false, new ArrayList<String>(Arrays.asList("Unplayable", "(OnTurnEnd) DmgPlayer 4")),
-                      "", -1, false, new ArrayList<String>(Arrays.asList()), Rarity.COMMON, Color.NEUTRAL));
-    cards.put("Dazed", new Card("Dazed", "Status", -1, false, new ArrayList<String>(Arrays.asList("Unplayable", "Ethereal")), new ArrayList<String>(), Rarity.COMMON, Color.NEUTRAL));
-    cards.put("Slimed", new Card("Slimed", "Status", 1, false, new ArrayList<String>(Arrays.asList("Exhaust")), new ArrayList<String>(), Rarity.COMMON, Color.NEUTRAL));
-    cards.put("Void", new Card("Void", "Unplayable.\nEthereal.\nWhenever this card is drawn, lose 1 Energy\n", "Status", -1, false, new ArrayList<String>(Arrays.asList("Unplayable", "Ethereal", "(OnDraw) ChangeEnergy -1")),
-                      "", -1, false, new ArrayList<String>(Arrays.asList()), Rarity.COMMON, Color.NEUTRAL));
-    cards.put("Wound", new Card("Wound", "Status", -1, false, new ArrayList<String>(Arrays.asList("Unplayable")), new ArrayList<String>(), Rarity.COMMON, Color.NEUTRAL));
+    cards.put("Burn+", new Card(Colors.upgradeGreen + "Burn+", "Unplayable.\nAt the end of your turn, take 4 damage.\n", "Status", -1, false, List.of("Unplayable", "(OnTurnEnd) DmgPlayer 4"),
+                      "", -1, false, List.of(), Rarity.COMMON, Color.NEUTRAL));
+    cards.put("Dazed", new Card("Dazed", "Status", -1, false, List.of("Unplayable", "Ethereal"), List.of(), Rarity.COMMON, Color.NEUTRAL));
+    cards.put("Slimed", new Card("Slimed", "Status", 1, false, List.of("Exhaust"), List.of(), Rarity.COMMON, Color.NEUTRAL));
+    cards.put("Void", new Card("Void", "Unplayable.\nEthereal.\nWhenever this card is drawn, lose 1 Energy\n", "Status", -1, false, List.of("Unplayable", "Ethereal", "(OnDraw) ChangeEnergy -1"),
+                      "", -1, false, List.of(), Rarity.COMMON, Color.NEUTRAL));
+    cards.put("Wound", new Card("Wound", "Status", -1, false, List.of("Unplayable"), List.of(), Rarity.COMMON, Color.NEUTRAL));
 
-    cards.put("Strike", new Card("Strike", "Attack", 1, true, new ArrayList<String>(Arrays.asList("Attack 6")), //TODO: Should these arraylists really just be arrays?
-                      new ArrayList<String>(Arrays.asList("Attack 9")), Rarity.BASIC, Color.IRONCLAD));
-    cards.put("Defend", new Card("Defend", "Skill", 1, false, new ArrayList<String>(Arrays.asList("Block 5")),
-                      new ArrayList<String>(Arrays.asList("Block 8")), Rarity.BASIC, Color.IRONCLAD)); 
-    cards.put("Bash", new Card("Bash", "Attack", 2, true, new ArrayList<String>(Arrays.asList("Attack 8", "Apply Vulnerable 2")),
-                      new ArrayList<String>(Arrays.asList("Attack 10", "Apply Vulnerable 3")), Rarity.BASIC, Color.IRONCLAD));
-    cards.put("Anger", new Card("Anger", "Attack", 0, true, new ArrayList<String>(Arrays.asList("Attack 6", "Anger")),
-                      new ArrayList<String>(Arrays.asList("Attack 8", "Anger")), Rarity.COMMON, Color.IRONCLAD));
-    cards.put("Armaments", new Card("Armaments", "Skill", 1, false, new ArrayList<String>(Arrays.asList("Block 5", "Upgrade Choose1FromHand")),
-                      new ArrayList<String>(Arrays.asList("Block 5", "Upgrade Hand")), Rarity.COMMON, Color.IRONCLAD));
-    cards.put("Searing Blow", new Card("Searing Blow", "Attack", 2, true, new ArrayList<String>(Arrays.asList("SearingBlow")),
-                      new ArrayList<String>(Arrays.asList("SearingBlow")), Rarity.COMMON, Color.IRONCLAD));
-    cards.put("Clash", new Card("Clash", "Attack", 0, true, new ArrayList<String>(Arrays.asList("Clash", "Attack 14")),
-                      new ArrayList<String>(Arrays.asList("Clash", "Attack 18")), Rarity.COMMON, Color.IRONCLAD));
-    cards.put("Body Slam", new Card("Body Slam", "Attack", 1, true, new ArrayList<String>(Arrays.asList("BodySlam")),
-                      0, true, new ArrayList<String>(Arrays.asList("BodySlam")), Rarity.COMMON, Color.IRONCLAD));
-    cards.put("Cleave", new Card("Cleave", "Attack", 1, false, new ArrayList<String>(Arrays.asList("AtkAll 8")),
-                      new ArrayList<String>(Arrays.asList("AtkAll 11")), Rarity.COMMON, Color.IRONCLAD));
-    cards.put("Clothesline", new Card("Clothesline", "Attack", 2, true, new ArrayList<String>(Arrays.asList("Attack 12", "Apply Weak 2")),
-                      new ArrayList<String>(Arrays.asList("Attack 14", "Apply Weak 3")), Rarity.COMMON, Color.IRONCLAD));
-    cards.put("Flex", new Card("Flex", "Gain 2 Strength.\nAt the end of this turn, lose 2 Strength.\n", "Skill", 0, false, new ArrayList<String>(Arrays.asList("AppPlayer Strength 3", "AppPlayer Strength Down 2", "AppPlayer Vigor 5")),
-                                      "Gain 4 Strength.\nAt the end of this turn, lose 4 Strength.\n", 0, false, new ArrayList<String>(Arrays.asList("AppPlayer Strength 4", "AppPlayer Strength Down 4")), Rarity.COMMON, Color.IRONCLAD));
-    cards.put("Havoc", new Card("Havoc", "Skill", 1, false, new ArrayList<String>(Arrays.asList("Havoc")),
-                      0, false, new ArrayList<String>(Arrays.asList("Havoc")), Rarity.COMMON, Color.IRONCLAD));
-    cards.put("Headbutt", new Card("Headbutt", "Attack", 1, true, new ArrayList<String>(Arrays.asList("Attack 9", "PutOnDrawPile Choose1FromDisc")),
-                      new ArrayList<String>(Arrays.asList("Attack 12", "PutOnDrawPile Choose1FromDisc")), Rarity.COMMON, Color.IRONCLAD));
-    cards.put("Heavy Blade", new Card("Heavy Blade", "Attack", 2, true, new ArrayList<String>(Arrays.asList("HeavyAttack 3")),
-                      new ArrayList<String>(Arrays.asList("HeavyAttack 5")), Rarity.COMMON, Color.IRONCLAD));
-    cards.put("Iron Wave", new Card("Iron Wave", "Attack", 1, true, new ArrayList<String>(Arrays.asList("Block 5", "Attack 5")),
-                      new ArrayList<String>(Arrays.asList("Block 7", "Attack 7")), Rarity.COMMON, Color.IRONCLAD));
-    cards.put("Pommel Strike", new Card("Pommel Strike", "Attack", 1, true, new ArrayList<String>(Arrays.asList("Attack 9", "Draw 1")), //TODO: rn in Card, energy cost displays right next to the name (adj. chars)
-                      new ArrayList<String>(Arrays.asList("Attack 10", "Draw 2")), Rarity.COMMON, Color.IRONCLAD));
-    cards.put("Shrug It Off", new Card("Shrug It Off", "Skill", 1, false, new ArrayList<String>(Arrays.asList("Block 8", "Draw 1")),
-                      new ArrayList<String>(Arrays.asList("Block 11", "Draw 1")), Rarity.COMMON, Color.IRONCLAD));
-    cards.put("Sword Boomerang", new Card("Sword Boomerang", "Deal ØatkÁ3ØendatkÁ damage to a random enemy 3 times.\n", "Attack", 1, false, new ArrayList<String>(Arrays.asList("AtkRandom 3", "AtkRandom 3", "AtkRandom 3")),
-                      "Deal ØatkÁ3ØendatkÁ damage to a random enemy 4 times.\n", 1, false, new ArrayList<String>(Arrays.asList("AtkRandom 3","AtkRandom 3", "AtkRandom 3", "AtkRandom 3")), Rarity.COMMON, Color.IRONCLAD));
-    cards.put("Thunderclap", new Card("Thunderclap", "Attack", 1, false, new ArrayList<String>(Arrays.asList("AtkAll 4", "AppAll Vulnerable 1")),
-                      new ArrayList<String>(Arrays.asList("AtkAll 7", "AppAll Vulnerable 1")), Rarity.COMMON, Color.IRONCLAD));
-    cards.put("True Grit", new Card("True Grit", "Gain 7 block.\nExhaust a random card in your hand.\n", "Skill", 1, false, new ArrayList<String>(Arrays.asList("Block 7", "Exhaust RandHand")),
-                      "Gain 9 block.\nExhaust a card in your hand.\n", 1, false, new ArrayList<String>(Arrays.asList("Block 9", "Exhaust Choose1FromHand")), Rarity.COMMON, Color.IRONCLAD));
-    cards.put("Twin Strike", new Card("Twin Strike", "Deal ØatkÁ5ØendatkÁ damage twice.\n", "Attack", 1, true, new ArrayList<String>(Arrays.asList("Attack 5", "Attack 5")),
-                      "Deal ØatkÁ7ØendatkÁ damage twice.\n", 1, true, new ArrayList<String>(Arrays.asList("Attack 7", "Attack 7")), Rarity.COMMON, Color.IRONCLAD));
-    cards.put("Warcry", new Card("Warcry", "Skill", 0, false, new ArrayList<String>(Arrays.asList("Draw 1", "PutOnDrawPile Choose1FromHand", "Exhaust")),
-                      new ArrayList<String>(Arrays.asList("Draw 2", "PutOnDrawPile Choose1FromHand", "Exhaust")), Rarity.COMMON, Color.IRONCLAD));
-    // cards.put("Sentinel", new Card("Sentinel", "Skill", 1, false, new ArrayList<String>(Arrays.asList("(OnExhaust) Block 5")),
-    //                   new ArrayList<String>(Arrays.asList("(OnExhaust) Block 8")), Rarity.UNCOMMON)); //TODO: Remove/update to be correct eventually (just for testing rn)
-    cards.put("Wild Strike", new Card("Wild Strike", "Attack", 1, true, new ArrayList<String>(Arrays.asList("Attack 12", "GainToDraw Wound")),
-                      new ArrayList<String>(Arrays.asList("Attack 17", "GainToDraw Wound")), Rarity.COMMON, Color.IRONCLAD));
-    cards.put("Battle Trance", new Card("Battle Trance", "Draw 3 cards.\nYou cannot draw additional cards this turn.\n", "Skill", 0, false, new ArrayList<String>(Arrays.asList("Draw 3", "AppPlayer No Draw")),
-                      "Draw 4 cards.\nYou cannot draw additional cards this turn.\n", 0, false, new ArrayList<String>(Arrays.asList("Draw 4", "AppPlayer No Draw")), Rarity.UNCOMMON, Color.IRONCLAD));
-    cards.put("Blood for Blood", new Card("Blood for Blood", "Costs 1 less energy for each time you lose HP this combat.\nDeal ØatkÁ18ØendatkÁ damage.\n", "Attack", 4, true, new ArrayList<String>(Arrays.asList("(OnPlayerHurt) ChangeCost -1", "Attack 18")),
-                      "Costs 1 less energy for each time you lose HP this combat.\nDeal ØatkÁ22ØendatkÁ damage.\n", 3, true, new ArrayList<String>(Arrays.asList("(OnPlayerHurt) ChangeCost -1", "Attack 22")), Rarity.UNCOMMON, Color.IRONCLAD));
+    cards.put("Strike", new Card("Strike", "Attack", 1, true, List.of("Attack 6"), //TODO: Should these arraylists really just be arrays?
+                      List.of("Attack 9"), Rarity.BASIC, Color.IRONCLAD));
+    cards.put("Defend", new Card("Defend", "Skill", 1, false, List.of("Block 5"),
+                      List.of("Block 8"), Rarity.BASIC, Color.IRONCLAD)); 
+    cards.put("Bash", new Card("Bash", "Attack", 2, true, List.of("Attack 8", "Apply Vulnerable 2"),
+                      List.of("Attack 10", "Apply Vulnerable 3"), Rarity.BASIC, Color.IRONCLAD));
+    cards.put("Anger", new Card("Anger", "Attack", 0, true, List.of("Attack 6", "Anger"),
+                      List.of("Attack 8", "Anger"), Rarity.COMMON, Color.IRONCLAD));
+    cards.put("Armaments", new Card("Armaments", "Skill", 1, false, List.of("Block 5", "Upgrade Choose1FromHand"),
+                      List.of("Block 5", "Upgrade Hand"), Rarity.COMMON, Color.IRONCLAD));
+    cards.put("Searing Blow", new Card("Searing Blow", "Attack", 2, true, List.of("SearingBlow"),
+                      List.of("SearingBlow"), Rarity.COMMON, Color.IRONCLAD));
+    cards.put("Clash", new Card("Clash", "Attack", 0, true, List.of("Clash", "Attack 14"),
+                      List.of("Clash", "Attack 18"), Rarity.COMMON, Color.IRONCLAD));
+    cards.put("Body Slam", new Card("Body Slam", "Attack", 1, true, List.of("BodySlam"),
+                      0, true, List.of("BodySlam"), Rarity.COMMON, Color.IRONCLAD));
+    cards.put("Cleave", new Card("Cleave", "Attack", 1, false, List.of("AtkAll 8"),
+                      List.of("AtkAll 11"), Rarity.COMMON, Color.IRONCLAD));
+    cards.put("Clothesline", new Card("Clothesline", "Attack", 2, true, List.of("Attack 12", "Apply Weak 2"),
+                      List.of("Attack 14", "Apply Weak 3"), Rarity.COMMON, Color.IRONCLAD));
+    cards.put("Flex", new Card("Flex", "Gain 2 Strength.\nAt the end of this turn, lose 2 Strength.\n", "Skill", 0, false, List.of("AppPlayer Strength 2", "AppPlayer Strength Down 2"),
+                                      "Gain 4 Strength.\nAt the end of this turn, lose 4 Strength.\n", 0, false, List.of("AppPlayer Strength 4", "AppPlayer Strength Down 4"), Rarity.COMMON, Color.IRONCLAD));
+    cards.put("Havoc", new Card("Havoc", "Skill", 1, false, List.of("Havoc"),
+                      0, false, List.of("Havoc"), Rarity.COMMON, Color.IRONCLAD));
+    cards.put("Headbutt", new Card("Headbutt", "Attack", 1, true, List.of("Attack 9", "PutOnDrawPile Choose1FromDisc"),
+                      List.of("Attack 12", "PutOnDrawPile Choose1FromDisc"), Rarity.COMMON, Color.IRONCLAD));
+    cards.put("Heavy Blade", new Card("Heavy Blade", "Attack", 2, true, List.of("HeavyAttack 3"),
+                      List.of("HeavyAttack 5"), Rarity.COMMON, Color.IRONCLAD));
+    cards.put("Iron Wave", new Card("Iron Wave", "Attack", 1, true, List.of("Block 5", "Attack 5"),
+                      List.of("Block 7", "Attack 7"), Rarity.COMMON, Color.IRONCLAD));
+    cards.put("Pommel Strike", new Card("Pommel Strike", "Attack", 1, true, List.of("Attack 9", "Draw 1"), //TODO: rn in Card, energy cost displays right next to the name (adj. chars)
+                      List.of("Attack 10", "Draw 2"), Rarity.COMMON, Color.IRONCLAD));
+    cards.put("Shrug It Off", new Card("Shrug It Off", "Skill", 1, false, List.of("Block 8", "Draw 1"),
+                      List.of("Block 11", "Draw 1"), Rarity.COMMON, Color.IRONCLAD));
+    cards.put("Sword Boomerang", new Card("Sword Boomerang", "Deal ØatkÁ3ØendatkÁ damage to a random enemy 3 times.\n", "Attack", 1, false, List.of("AtkRandom 3", "AtkRandom 3", "AtkRandom 3"),
+                      "Deal ØatkÁ3ØendatkÁ damage to a random enemy 4 times.\n", 1, false, List.of("AtkRandom 3","AtkRandom 3", "AtkRandom 3", "AtkRandom 3"), Rarity.COMMON, Color.IRONCLAD));
+    cards.put("Thunderclap", new Card("Thunderclap", "Attack", 1, false, List.of("AtkAll 4", "AppAll Vulnerable 1"),
+                      List.of("AtkAll 7", "AppAll Vulnerable 1"), Rarity.COMMON, Color.IRONCLAD));
+    cards.put("True Grit", new Card("True Grit", "Gain 7 block.\nExhaust a random card in your hand.\n", "Skill", 1, false, List.of("Block 7", "Exhaust RandHand"),
+                      "Gain 9 block.\nExhaust a card in your hand.\n", 1, false, List.of("Block 9", "Exhaust Choose1FromHand"), Rarity.COMMON, Color.IRONCLAD));
+    cards.put("Twin Strike", new Card("Twin Strike", "Deal ØatkÁ5ØendatkÁ damage twice.\n", "Attack", 1, true, List.of("Attack 5", "Attack 5"),
+                      "Deal ØatkÁ7ØendatkÁ damage twice.\n", 1, true, List.of("Attack 7", "Attack 7"), Rarity.COMMON, Color.IRONCLAD));
+    cards.put("Warcry", new Card("Warcry", "Skill", 0, false, List.of("Draw 1", "PutOnDrawPile Choose1FromHand", "Exhaust"),
+                      List.of("Draw 2", "PutOnDrawPile Choose1FromHand", "Exhaust"), Rarity.COMMON, Color.IRONCLAD));
+    // cards.put("Sentinel", new Card("Sentinel", "Skill", 1, false, List.of("(OnExhaust) Block 5")),
+    //                   List.of("(OnExhaust) Block 8")), Rarity.UNCOMMON)); //TODO: Remove/update to be correct eventually (just for testing rn)
+    cards.put("Wild Strike", new Card("Wild Strike", "Attack", 1, true, List.of("Attack 12", "GainToDraw Wound"),
+                      List.of("Attack 17", "GainToDraw Wound"), Rarity.COMMON, Color.IRONCLAD));
+    cards.put("Battle Trance", new Card("Battle Trance", "Draw 3 cards.\nYou cannot draw additional cards this turn.\n", "Skill", 0, false, List.of("Draw 3", "AppPlayer No Draw"),
+                      "Draw 4 cards.\nYou cannot draw additional cards this turn.\n", 0, false, List.of("Draw 4", "AppPlayer No Draw"), Rarity.UNCOMMON, Color.IRONCLAD));
+    cards.put("Blood for Blood", new Card("Blood for Blood", "Costs 1 less energy for each time you lose HP this combat.\nDeal ØatkÁ18ØendatkÁ damage.\n", "Attack", 4, true, List.of("(OnPlayerHurt) ChangeCost -1", "Attack 18"),
+                      "Costs 1 less energy for each time you lose HP this combat.\nDeal ØatkÁ22ØendatkÁ damage.\n", 3, true, List.of("(OnPlayerHurt) ChangeCost -1", "Attack 22"), Rarity.UNCOMMON, Color.IRONCLAD));
+    // Todo List:
     // Try to make the screen width/etc. update in real time by not using Run.SCREENX & using SettingsManager.x instead?
-    //  ^If done, actually use the OnAtkDmgDealt() function.
-    // Have current run, combat, etc. just be static globals in App?
     // Check whether or not statuses used to show in the order they were obtained.
-    // Make the multi-attacks a single call to multiattack (similar for Sword Boomerang, etc.)
     // Figure out how the sts stat ordering works.
-    // Copy the player whenever a card is played anyway? (Even just have playCard() pass in a copy of player)
-    // Finish up the "making sword boomerang work" and things.
-    // Give credit for making the opening logo (to that website)
     // ~Combine App & Str, and rename it to Util?
     // Make it so the robber(s) don't "drop gold" when they run away.
     // Make Jaw Worm art wider?

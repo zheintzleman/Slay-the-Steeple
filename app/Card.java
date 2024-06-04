@@ -238,7 +238,7 @@ public class Card implements Serializable {
   public Card(String name){
     this(getCard(name));
   }
-  private Card(String name, String type, int energyCost, boolean targeted, ArrayList<String> effects, Rarity rarity, Color color){
+  private Card(String name, String type, int energyCost, boolean targeted, List<String> effects, Rarity rarity, Color color){
     this.name = name;
     this.type = type;
     upgrades = 0;
@@ -252,8 +252,8 @@ public class Card implements Serializable {
     }
     data.description = new Description(data.effects);
   }
-  public Card(String name, String type, int energyCost, boolean targeted, ArrayList<String> effects,
-              ArrayList<String> upEffects, Rarity rarity, Color color){
+  public Card(String name, String type, int energyCost, boolean targeted, List<String> effects,
+              List<String> upEffects, Rarity rarity, Color color){
     this(name, type, energyCost, targeted, effects, rarity, color);
     upData.baseEnergyCost = energyCost;
     upData.isTargeted = targeted;
@@ -263,8 +263,8 @@ public class Card implements Serializable {
     }
     upData.description = new Description(upData.effects);
   }
-  public Card(String name, String type, int energyCost, boolean targeted, ArrayList<String> effects,
-              int upCost, boolean upTargeted, ArrayList<String> upEffects, Rarity rarity, Color color){
+  public Card(String name, String type, int energyCost, boolean targeted, List<String> effects,
+              int upCost, boolean upTargeted, List<String> upEffects, Rarity rarity, Color color){
     this(name, type, energyCost, targeted, effects, rarity, color);
     upData.baseEnergyCost = upCost;
     upData.isTargeted = upTargeted;
@@ -276,8 +276,8 @@ public class Card implements Serializable {
   }
   /**If card's description can be affected by str/dex, include the ØatkÁ / ØendatkÁ / ØblkÁ / ØendblkÁ around the number(s)
    */
-  public Card(String name, String description, String type, int energyCost, boolean targeted, ArrayList<String> effects,
-              String upDescription, int upCost, boolean upTargeted, ArrayList<String> upEffects, Rarity rarity, Color color){
+  public Card(String name, String description, String type, int energyCost, boolean targeted, List<String> effects,
+              String upDescription, int upCost, boolean upTargeted, List<String> upEffects, Rarity rarity, Color color){
     this(name, type, energyCost, targeted, effects, rarity, color);
     data.description = new Description(description);
 

@@ -10,7 +10,7 @@ public class Run{
   private int hp, maxHP;
   private int gold;
   private ArrayList<Card> deck;
-  // Singleton run instance:
+  /** Singleton run instance */
   public static final Run r = new Run();
   
   private Run(){
@@ -335,7 +335,7 @@ public class Run{
 
     //Settings Gear
     //todo: Change the blue color?
-    String[] gearDisplay = {"▀▄█▄▀", "██" + Colors.magentaBoldOnBlockBlue + "S" + Colors.blockBlueOnHeaderBrown + "██", "▄▀█▀▄"};
+    String[] gearDisplay = {"▀▄█▄▀", "█" + Colors.magentaBoldOnBlockBlue + "Esc" + Colors.blockBlueOnHeaderBrown + "█", "▄▀█▀▄"};
     addToScreen(1, SCREENWIDTH - 7, gearDisplay, Colors.blockBlueOnHeaderBrown, Colors.reset + Colors.headerBrown);
   }
 
@@ -403,7 +403,7 @@ public class Run{
         case "instructions":
           popup(App.INSTRUCTIONS, prevScreen);
           break;
-        case "s":
+        case "set":
         case "settings":
         case "esc":
         case "escape":
@@ -482,18 +482,26 @@ public class Run{
   private void displaySettings(){
     final int popupHeight = (SCREENHEIGHT*4/5 + 6 <= SCREENHEIGHT) ? SCREENHEIGHT*4/5 : SCREENHEIGHT - 6;
     final int popupWidth = SCREENWIDTH*22/25;
-    final String settingsText = Colors.magenta + Str.repeatChar(' ', (popupWidth-4-9)/2) + "Settings:\n" + 
-                                Str.repeatChar(' ', (popupWidth-4-11)/2) + "───────────\n" + 
+    final String settingsText = Colors.magenta + settingsHeader("Settings:", popupWidth) + 
                                 "Settings saved to the device.\n" + 
                                 "To change a setting, type the name of the setting and follow the given prompts.\n\n" + 
-                Colors.magenta + "Name: " + Colors.reset + SettingsManager.sm.name + "\n" + 
-                Colors.magenta + "Screen Width: " + Colors.reset + SettingsManager.sm.screenWidth + "\n" + 
-                Colors.magenta + "Screen Height: " + Colors.reset + SettingsManager.sm.screenHeight + "\n" + 
-                Colors.magenta + "Cheats: " + Colors.reset + SettingsManager.sm.cheats + "\n" + 
-                Colors.magenta + "Debug Mode: " + Colors.reset + SettingsManager.sm.debug + "\n\n" + 
-              Colors.basicBlue + Str.repeatStr("═", popupWidth - 6);
+               Colors.magenta + "Name: " + Colors.reset + SettingsManager.sm.name + "\n" + 
+               Colors.magenta + "Screen Width: " + Colors.reset + SettingsManager.sm.screenWidth + "\n" + 
+               Colors.magenta + "Screen Height: " + Colors.reset + SettingsManager.sm.screenHeight + "\n" + 
+               Colors.magenta + "Cheats: " + Colors.reset + SettingsManager.sm.cheats + "\n" + 
+               Colors.magenta + "Debug Mode: " + Colors.reset + SettingsManager.sm.debug + "\n\n" + 
+       " " + Colors.basicBlue + Str.repeatStr("═", popupWidth - 6) + Colors.reset + "\n" + 
+               Colors.magenta + settingsHeader("Instructions:", popupWidth) + 
+                                App.INSTRUCTIONS_TEXT;
     
     displayScreenWithAddition(Str.makeTextBox(settingsText, popupHeight, popupWidth), 5, SCREENWIDTH*3/50);
+  }
+  private String settingsHeader(String str, int popupWidth){
+    int strLen = Str.lengthIgnoringEscSeqs(str);
+    String alignedText = Str.repeatChar(' ', (popupWidth-4-strLen)/2) + str;
+    String bar = Str.repeatChar('─', strLen + 2);
+    String alignedBar = Str.repeatChar(' ', (popupWidth-4-(strLen+2))/2) + bar;
+    return alignedText + "\n" + alignedBar + "\n";
   }
 
   /**

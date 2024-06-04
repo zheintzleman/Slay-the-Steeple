@@ -8,7 +8,7 @@ public class SettingsManager{
   public int screenWidth;
   public int screenHeight;
   public boolean cheats;
-  // Singleton EventManager Instance
+  /** Singleton SettingsManager Instance */
   public static final SettingsManager sm = new SettingsManager(App.SETTINGS_PATH);
 
   private SettingsManager(String pathname){

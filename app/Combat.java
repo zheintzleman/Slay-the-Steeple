@@ -1,6 +1,5 @@
 package app;
 import java.util.*;
-import java.util.function.Consumer;
 import java.util.stream.Stream;
 
 import app.EventManager.Event;
@@ -9,6 +8,8 @@ import enemyfiles.*;
 public class Combat{
   private Player player;
   private ArrayList<Enemy> enemies;
+  /** Changes to the enemy list while the enemies perform their intents go here instead of the main
+    * enemies list. This is then synced back to the main enemies list after all intents are done. */
   private ArrayList<Enemy> enemiesToUpdate;
   private ArrayList<Card> drawPile, discardPile, exhaustPile, hand;
   private int energy, baseEnergy;
@@ -16,15 +17,16 @@ public class Combat{
   boolean combatOver;
   // For when too many cards in hand to fully print all of them
   boolean condenseLeftHalfOfHand;
-  int topRowOfCards; //The highest row (of the screen) in which the hand cards are printed
-  // A reference to EventManager.er
+  //The highest row (of the screen) in which the hand cards are printed
+  int topRowOfCards;
+  /** A reference to EventManager.er */
   private EventManager eventManager;
-  // Semi-singleton Combat instance:
+  /** Semi-singleton Combat instance (only ever exists 1, but not final) */
   public static Combat c;
   
   public Combat(){
     c = this;
-    eventManager = EventManager.er;
+    eventManager = EventManager.em;
     player = new Player("Ironclad", Run.r.getHP(), Run.r.getMaxHP(), Colors.IRONCLADIMG2);
     enemies = new ArrayList<Enemy>();
     //Defaults to a Jaw Worm combat
@@ -44,7 +46,7 @@ public class Combat{
   }
   public Combat(String combatType){
     c = this;
-    eventManager = EventManager.er;
+    eventManager = EventManager.em;
     player = new Player("Ironclad", Run.r.getHP(), Run.r.getMaxHP(), Colors.IRONCLADIMG2);
     enemies = new ArrayList<Enemy>();
     baseEnergy = 3;
@@ -145,6 +147,12 @@ public class Combat{
     list.addAll(hand);
     list.addAll(discardPile);
     list.addAll(exhaustPile);
+    return list;
+  }
+  public ArrayList<Entity> getEntities(){
+    ArrayList<Entity> list = new ArrayList<Entity>();
+    list.add(player);
+    list.addAll(enemies);
     return list;
   }
 
@@ -259,7 +267,7 @@ public class Combat{
 
   public void endEntityTurns(){
     enemiesToUpdate = new ArrayList<Enemy>(enemies);
-    setAllEntityCopies(false);
+    Entity.createCopies();
     for(Enemy e : enemies){
       e.endTurn(player);
     }
@@ -269,14 +277,7 @@ public class Combat{
     enemies = enemiesToUpdate;
 
     player.endTurn(player);
-    setAllEntityCopies(true);
-  }
-
-  private void setAllEntityCopies(boolean toNull){
-    // Calls either mergeCopy or createCopy on the enemies and player.
-    Consumer<Entity> func = toNull ? Entity::mergeCopy : Entity::createCopy;
-    enemies.stream().forEach(func);
-    func.accept(player);
+    Entity.mergeCopies();
   }
 
   /**Sets the screen to accurate values/images
@@ -491,7 +492,7 @@ public class Combat{
     //Doing the card's effect(s):
 
     // New statuses to the player aren't counted until we call mergeCopy.
-    player.createCopy();
+    Entity.createCopies();
     
     ArrayList<CardEffect> cardEffects = card.getEffects();
     for(CardEffect eff : cardEffects){
@@ -544,7 +545,7 @@ public class Combat{
       eventManager.OnAttackFinished(player);
     }
     
-    player.mergeCopy();
+    Entity.mergeCopies();
 
     return true;
   }
@@ -758,6 +759,7 @@ public class Combat{
       
       switch (input.toLowerCase()) {
         case "draw":
+        case "a":
           ArrayList<Card> sortedDrawPile = sortedList(drawPile);
           str = "Draw pile, sorted alphabetically:\n";
           for(Card c : sortedDrawPile){
@@ -767,6 +769,7 @@ public class Combat{
           break;
         case "disc":
         case "discard":
+        case "s":
           str = "Discard pile:\n";
           for(Card c : discardPile){
             str += c.toString() + "\n";
@@ -775,6 +778,7 @@ public class Combat{
           break;
         case "exh":
         case "exhaust":
+        case "x":
           str = "Exhausted Cards:\n";
           for(Card c : exhaustPile){
             str += c.toString() + "\n";
@@ -784,6 +788,7 @@ public class Combat{
         case "stat":
         case "stats":
         case "status":
+        case "t":
           String statuses = "Player Statuses:\n"; //TODO: Add some color to these headers
           for(Status s : player.getStatuses()){
             statuses += s.toString() + "\n";

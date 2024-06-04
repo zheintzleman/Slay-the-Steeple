@@ -20,7 +20,7 @@ public class Player extends Entity {
   public void subtractHP(int dmg){
     super.subtractHP(dmg);
     if(dmg > 0){
-      EventManager.er.OnPlayerHurt(dmg);
+      EventManager.em.OnPlayerHurt(dmg);
     }
   }
   @Override
