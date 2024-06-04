@@ -16,33 +16,30 @@ public class SpikeSlimeLarge extends Enemy{
   public static final Intent SPLIT = new Intent("Split", IntentType.UNKNOWN);
   private int FTsInARow = 0;
   private int licksInARow = 0;
-  private Combat combat;
   public static final String[] art = Colors.fillColor(new String[] {"             ▄▄▄▄▄▄▄▄▄▄                  ", "          ▄██████████████▄               ", "       ██████████████████████            ", "     ▄▄███████████████████████▄▄         ", "   ▄█████████████████████████████▄▄      ", "▄████████████████████████████████████▄   ", "█████████████████████████████████████▀   ", "▀█████████████████████████████████▀  ▄██▄", "   ▀▀▀██████▀▀▀▀▀▀█████████████▀▀         ", "                   ▀▀▀███▀▀              "}, Colors.spikeSlimeColor);
 
 
-  public SpikeSlimeLarge(int middleX, Combat c){
-    super("Spike Slime (L)", (int)(Math.random()*6)+64, false, middleX, 41, art, c);
+  public SpikeSlimeLarge(int middleX){
+    super("Spike Slime (L)", (int)(Math.random()*6)+64, false, middleX, 41, art);
     setStatusStrength("Split", 1);
-    combat = c;
     setNextIntent();
   }
 
   //Getters and Setters
   public Intent getIntent(){ return intent; }
   public String getIntentName(){ return intent.getName(); }
-  public Combat getCombat(){  return combat; }
 
   
   public void doIntent(Entity player){
     if(intent == FLAMETACKLE){
       attack(player, 16);
-      ArrayList<Card> disc = combat.getDiscardPile();
+      ArrayList<Card> disc = Combat.c.getDiscardPile();
       disc.add(Card.getCard("Slimed"));
       disc.add(Card.getCard("Slimed"));
     }else if(intent == LICK){
       player.addStatusStrength("Frail", 2);
     }else if(intent == SPLIT){
-      ArrayList<Enemy> enemiesToUpdate = combat.getEnemiesToUpdate();
+      ArrayList<Enemy> enemiesToUpdate = Combat.c.getEnemiesToUpdate();
       int thisIndex = -1;
       for(int i=0; i<enemiesToUpdate.size(); i++){
         Enemy e = enemiesToUpdate.get(i);

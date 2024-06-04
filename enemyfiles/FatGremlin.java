@@ -1,6 +1,5 @@
 package enemyfiles;
 import app.Colors;
-import app.Combat;
 import app.Entity;
 import app.Intent;
 import app.IntentType;
@@ -12,8 +11,8 @@ public class FatGremlin extends Enemy{
   public static final String[] art = Colors.fillColor(new String[] {" █▄████▄ ▄ ", " ▄███████▀ ","▀▄██████▀▄ ", " ████████  ", "  ██████▀  ", "  █    █   "}, Colors.fatGGreen);
 
 
-  public FatGremlin(int middleX, Combat c){
-    super("Fat Gremlin", (int)(Math.random()*5)+13, false, middleX, 11, art, c);
+  public FatGremlin(int middleX){
+    super("Fat Gremlin", (int)(Math.random()*5)+13, false, middleX, 11, art);
     intent = SMASH;
   }
 

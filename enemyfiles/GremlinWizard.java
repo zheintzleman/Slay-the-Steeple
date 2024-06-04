@@ -1,6 +1,5 @@
 package enemyfiles;
 import app.Colors;
-import app.Combat;
 import app.Entity;
 import app.Intent;
 import app.IntentType;
@@ -14,8 +13,8 @@ public class GremlinWizard extends Enemy{
 public static final String[] art = Colors.fillColor(new String[] {"      █▄▀", " ▄▄  ▀██ ", "▀▄ █▄▄██ ", "   █  ██ ", "   █ █ █ "}, Colors.wizardPurple);
 
 
-  public GremlinWizard(int middleX, Combat c){
-    super("Gremlin Wizard", (int)(Math.random()*3)+23, false, middleX, 13, art, c);
+  public GremlinWizard(int middleX){
+    super("Gremlin Wizard", (int)(Math.random()*3)+23, false, middleX, 13, art);
     intent = CHARGING;
     patternNum = 2;
   }

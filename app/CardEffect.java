@@ -103,6 +103,18 @@ public class CardEffect implements Serializable {
     }
     return false;
   }
+  /**
+   * Converts the secondary (all text between the first word & an optional last number)
+   * to an Integer. If not an integer, returns defaultVal.
+   * @return The secondary as an integer, or defaultVal if n/a.
+   */
+  public int getIntFromSecondary(int defaultVal){
+    try{
+      return Integer.parseInt(secondary);
+    } catch (NumberFormatException e) {
+      return defaultVal;
+    }
+  }
 
   @Override
   public boolean equals(Object obj) {

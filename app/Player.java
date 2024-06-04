@@ -1,8 +1,8 @@
 package app;
 
 public class Player extends Entity {
-  public Player(String name, int hp, int maxHP, String[] img, Combat combat){
-    super("Ironclad", hp, maxHP, img, combat);
+  public Player(String name, int hp, int maxHP, String[] img){
+    super("Ironclad", hp, img, maxHP);
   }
   public Player(Player p){
     super(p);
@@ -10,7 +10,7 @@ public class Player extends Entity {
   
   @Override
   public void die(){
-    getCombat().endCombat();
+    Combat.c.endCombat();
   }
 
   @Override
@@ -20,7 +20,7 @@ public class Player extends Entity {
   public void subtractHP(int dmg){
     super.subtractHP(dmg);
     if(dmg > 0){
-      getCombat().getEventManager().OnPlayerHurt(dmg);
+      EventManager.er.OnPlayerHurt(dmg);
     }
   }
   @Override

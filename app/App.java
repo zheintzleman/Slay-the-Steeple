@@ -8,6 +8,8 @@ import app.Card.Color;
 import app.Card.Rarity;
 
 public class App {
+  // Singleton app instance:
+  public static final App a = new App();
   public static final String SETTINGS_PATH = "app\\settings.dat"; // Changed STS 2.0+\\ to app\\
   public static final String CARD_LIST_PATH = "app\\cardList1.dat";// Changed STS 2.0+\\ to app\\
   public static final String INSTRUCTIONS = "Instructions:\n\n"
@@ -44,7 +46,6 @@ public class App {
   public static final int MIN_SCREEN_HEIGHT = 10;
   // TODO: Check for realistic values of MSW/MSH^
 
-  public static final SettingsManager settingsManager = new SettingsManager(SETTINGS_PATH);
   // Note: Switched to HashMaps in refactoring; changes not updated in loadAvailableCards.
   // public static HashMap<String, Card> CARDS = loadAvailableCards(CARD_LIST_PATH);
   // Can use Card.getCard(String) and Status.getStatus(String) to easily access w/ null-checking:
@@ -52,7 +53,7 @@ public class App {
   public static final HashMap<String, Status> STATUSES = loadStatuses();
   // TODO: try w/ final^
   
-  public App(){
+  private App(){
 
   }
 
@@ -60,7 +61,7 @@ public class App {
     Str.println("CARDS: " + CARDS.values()); //Remove
 
     //Title
-    if(!settingsManager.debug)
+    if(!SettingsManager.sm.debug)
       Str.println(Colors.clearScreen);
     Str.println(TITLE);
        
@@ -68,7 +69,7 @@ public class App {
     
     Main.scan.nextLine();
     
-    Run g = new Run();
+    Run g = Run.r;
     g.play();
     //Probably bring back when/if making a home screen or smth:
     /*
@@ -135,8 +136,8 @@ public class App {
                       new ArrayList<String>(Arrays.asList("Attack 10", "Draw 2")), Rarity.COMMON, Color.IRONCLAD));
     cards.put("Shrug It Off", new Card("Shrug It Off", "Skill", 1, false, new ArrayList<String>(Arrays.asList("Block 8", "Draw 1")),
                       new ArrayList<String>(Arrays.asList("Block 11", "Draw 1")), Rarity.COMMON, Color.IRONCLAD));
-    cards.put("Sword Boomerang", new Card("Sword Boomerang", "Deal ØatkÁ3ØendatkÁ damage to a random enemy 3 times.\n", "Attack", 1, false, new ArrayList<String>(Arrays.asList("AtkRandom 3", "AtkRandom 3", "AtkRandom 3")),
-                      "Deal ØatkÁ3ØendatkÁ damage to a random enemy 4 times.\n", 1, false, new ArrayList<String>(Arrays.asList("AtkRandom 3", "AtkRandom 3", "AtkRandom 3", "AtkRandom 3")), Rarity.COMMON, Color.IRONCLAD));
+    cards.put("Sword Boomerang", new Card("Sword Boomerang", "Deal ØatkÁ3ØendatkÁ damage to a random enemy 3 times.\n", "Attack", 1, false, new ArrayList<String>(Arrays.asList("AtkRandom 3")),
+                      "Deal ØatkÁ3ØendatkÁ damage to a random enemy 4 times.\n", 1, false, new ArrayList<String>(Arrays.asList("AtkRandom 4 3")), Rarity.COMMON, Color.IRONCLAD));
     cards.put("Thunderclap", new Card("Thunderclap", "Attack", 1, false, new ArrayList<String>(Arrays.asList("AtkAll 4", "AppAll Vulnerable 1")),
                       new ArrayList<String>(Arrays.asList("AtkAll 7", "AppAll Vulnerable 1")), Rarity.COMMON, Color.IRONCLAD));
     cards.put("True Grit", new Card("True Grit", "Gain 7 block.\nExhaust a random card in your hand.\n", "Skill", 1, false, new ArrayList<String>(Arrays.asList("Block 7", "Exhaust RandHand")),
@@ -159,7 +160,10 @@ public class App {
     // Check whether or not statuses used to show in the order they were obtained.
     // Make the multi-attacks a single call to multiattack (similar for Sword Boomerang, etc.)
     // Figure out how the sts stat ordering works.
+    // Copy the player whenever a card is played anyway? (Even just have playCard() pass in a copy of player)
+    // Finish up the "making sword boomerang work" and things.
     // Give credit for making the opening logo (to that website)
+    // ~Combine App & Str, and rename it to Util?
     // Make it so the robber(s) don't "drop gold" when they run away.
     // Make Jaw Worm art wider?
     // In the statuses list (& possibly any other lists, too), change the section headers to be some different color (besides just white)

@@ -1,6 +1,5 @@
 package enemyfiles;
 import app.Colors;
-import app.Combat;
 import app.Entity;
 import app.Intent;
 import app.IntentType;
@@ -16,8 +15,8 @@ public class RedLouse extends Enemy{
   public static final String[] art = Colors.fillColor(new String[] {" ▄▀▀▀     ", " █████▄▄ ", "█████████"}, Colors.louseRed);
   
 
-  public RedLouse(int middleX, Combat c){
-    super("Red Louse", (int)(Math.random()*6)+10, false, middleX, 17, art, c);
+  public RedLouse(int middleX){
+    super("Red Louse", (int)(Math.random()*6)+10, false, middleX, 17, art);
     setStatusStrength("Curl Up", (int)(Math.random()*5)+3); //3-7 CurlUp
     biteDamage = (int)(Math.random()*2) + 5;
     bite = new Intent(BITE);

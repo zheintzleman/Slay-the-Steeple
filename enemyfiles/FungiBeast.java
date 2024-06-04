@@ -1,6 +1,5 @@
 package enemyfiles;
 import app.Colors;
-import app.Combat;
 import app.Entity;
 import app.Intent;
 import app.IntentType;
@@ -13,8 +12,8 @@ public class FungiBeast extends Enemy{
   public static final String[] art = Colors.fillColor(new String[] {"     ▄▄▄▄        ", "    ██████       ", "▄█▄ ▄ █   ▄▄  ▄▄▄", "███████▄▄███▄▄█ █", " █▀▀█████████ ▀  █", "  ▀  ▀▀▀▀▀  ▀▄   "}, Colors.gray);
   
 
-  public FungiBeast(int middleX, Combat c){
-    super("Fungi Beast", (int)(Math.random()*7)+22, false, middleX, art, c);
+  public FungiBeast(int middleX){
+    super("Fungi Beast", (int)(Math.random()*7)+22, false, middleX, art);
     setStatusStrength("Spore Cloud", 2); //3-7 SporeCloud
     setNextIntent();
   }

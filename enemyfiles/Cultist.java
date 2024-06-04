@@ -1,6 +1,5 @@
 package enemyfiles;
 import app.Colors;
-import app.Combat;
 import app.Entity;
 import app.Intent;
 import app.IntentType;
@@ -12,8 +11,8 @@ public class Cultist extends Enemy{
   public static final String[] art = Colors.fillColor(new String[] {" ▄▄              ", " ▄ █           ▀▄", " ▀█▀ ▄█▄      █▄█", "  ▀██████▄▄▄████ ", "   ▀▀▀ ████▀█████", "      ▄████    ▀ ", "      █████▄ ▄   ", "       █ █▄ ▀    "}, Colors.cultistBlue);
   
 
-  public Cultist(int middleX, Combat c){
-    super("Cultist", (int)(Math.random()*5)+40, false, middleX, art, c);
+  public Cultist(int middleX){
+    super("Cultist", (int)(Math.random()*5)+40, false, middleX, art);
     intent = INCANTATION; //Always starts w/ Incantaion
   }
 

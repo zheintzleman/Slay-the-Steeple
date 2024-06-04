@@ -1,6 +1,5 @@
 package enemyfiles;
 import app.Colors;
-import app.Combat;
 import app.Entity;
 import app.Intent;
 
@@ -11,8 +10,8 @@ public class SneakyGremlin extends Enemy{
 public static final String[] art = Colors.fillColor(new String[] {"    ▄▄   ▄▄  ", "     ▀███▀   ", "▄     ███    ", " ▀▄▄  ▄███▄  ", "   ▀▀▀▀████  ", "      ▄▀ █   "}, Colors.sneakyGColor);
 
 
-  public SneakyGremlin(int middleX, Combat c){
-    super("Sneaky Gremlin", (int)(Math.random()*5)+10, false, middleX, 11, art, c);
+  public SneakyGremlin(int middleX){
+    super("Sneaky Gremlin", (int)(Math.random()*5)+10, false, middleX, 11, art);
     intent = PUNCTURE;
   }
 

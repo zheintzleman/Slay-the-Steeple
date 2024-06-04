@@ -6,6 +6,8 @@ import app.EventManager.Event;
 import enemyfiles.*;
 
 public class Combat{
+  // Semi-singleton Combat instance:
+  public static Combat c;
   private Player player;
   private ArrayList<Enemy> enemies;
   private ArrayList<Enemy> enemiesToUpdate;
@@ -16,16 +18,15 @@ public class Combat{
   // For when too many cards in hand to fully print all of them
   boolean condenseLeftHalfOfHand;
   int topRowOfCards; //The highest row (of the screen) in which the hand cards are printed
-  private Run thisRun; //To access data about this specific run
   private EventManager eventManager;
   
-  public Combat(Run run){
-    thisRun = run;
-    eventManager = thisRun.getEventManager();
-    player = new Player("Ironclad", run.getHP(), run.getMaxHP(), Colors.IRONCLADIMG2, this);
+  public Combat(){
+    c = this;
+    eventManager = EventManager.er;
+    player = new Player("Ironclad", Run.r.getHP(), Run.r.getMaxHP(), Colors.IRONCLADIMG2);
     enemies = new ArrayList<Enemy>();
     //Defaults to a Jaw Worm combat
-    enemies.add(new JawWorm(Run.SCREENWIDTH*5/7, this));   
+    enemies.add(new JawWorm(Run.SCREENWIDTH*5/7));   
     
     baseEnergy = 3;
     energy = -1;
@@ -33,16 +34,16 @@ public class Combat{
     condenseLeftHalfOfHand = false;
     topRowOfCards = Run.SCREENHEIGHT - Card.CARDHEIGHT;
     
-    drawPile = new ArrayList<Card>(run.getDeck());
+    drawPile = new ArrayList<Card>(Run.r.getDeck());
     Collections.shuffle(drawPile);
     discardPile = new ArrayList<Card>();
     exhaustPile = new ArrayList<Card>();
     hand = new ArrayList<Card>();
   }
-  public Combat(Run run, String combatType){
-    thisRun = run;
-    eventManager = thisRun.getEventManager();
-    player = new Player("Ironclad", run.getHP(), run.getMaxHP(), Colors.IRONCLADIMG2, this);
+  public Combat(String combatType){
+    c = this;
+    eventManager = EventManager.er;
+    player = new Player("Ironclad", Run.r.getHP(), Run.r.getMaxHP(), Colors.IRONCLADIMG2);
     enemies = new ArrayList<Enemy>();
     baseEnergy = 3;
     energy = -1;
@@ -51,7 +52,7 @@ public class Combat{
     topRowOfCards = Run.SCREENHEIGHT - Card.CARDHEIGHT;
     
     drawPile = new ArrayList<Card>();
-    for(Card c : run.getDeck()){
+    for(Card c : Run.r.getDeck()){
       drawPile.add(new Card(c));    //Makes draw pile contain a copy of each card in the deck.
     }
     Collections.shuffle(drawPile);
@@ -64,14 +65,14 @@ public class Combat{
     int e1X, gap;
     switch(combatType){
       case "Jaw Worm":
-        enemies.add(new JawWorm(Run.SCREENWIDTH*5/7, this));
+        enemies.add(new JawWorm(Run.SCREENWIDTH*5/7));
         break;
       case "Two Louses":
         enemies.add(createLouse(Run.SCREENWIDTH*2/3));
         enemies.add(createLouse(Run.SCREENWIDTH*4/5));
         break;
       case "Cultist":
-        enemies.add(new Cultist(Run.SCREENWIDTH*5/7, this));
+        enemies.add(new Cultist(Run.SCREENWIDTH*5/7));
         break;
       case "Small and Med Slime":
       case "Small and Medium Slime":
@@ -87,18 +88,18 @@ public class Combat{
       case "Lots of Slimes":
         e1X = Run.SCREENWIDTH*11/20;
         gap = Run.SCREENWIDTH*2/20;
-        enemies.add(new SpikeSlimeSmall(e1X, this));
-        enemies.add(new SpikeSlimeSmall(e1X + gap, this));
-        enemies.add(new SpikeSlimeSmall(e1X + 2*gap, this));
-        enemies.add(new AcidSlimeSmall(e1X + 3*gap, this));
-        enemies.add(new AcidSlimeSmall(e1X + 4*gap, this));
+        enemies.add(new SpikeSlimeSmall(e1X));
+        enemies.add(new SpikeSlimeSmall(e1X + gap));
+        enemies.add(new SpikeSlimeSmall(e1X + 2*gap));
+        enemies.add(new AcidSlimeSmall(e1X + 3*gap));
+        enemies.add(new AcidSlimeSmall(e1X + 4*gap));
         shuffleEnemies();
         break;
       case "Blue Slaver":
-        enemies.add(new BlueSlaver(Run.SCREENWIDTH*5/7, this));
+        enemies.add(new BlueSlaver(Run.SCREENWIDTH*5/7));
         break;
       case "Red Slaver":
-        enemies.add(new RedSlaver(Run.SCREENWIDTH*5/7, this));
+        enemies.add(new RedSlaver(Run.SCREENWIDTH*5/7));
         break;
       case "Three Louses":
         e1X = Run.SCREENWIDTH*60/100;
@@ -108,11 +109,11 @@ public class Combat{
         enemies.add(createLouse(e1X + 2*gap));
         break;
       case "Two Fungi Beasts":
-        enemies.add(new FungiBeast(Run.SCREENWIDTH*2/3, this));
-        enemies.add(new FungiBeast(Run.SCREENWIDTH*4/5, this));
+        enemies.add(new FungiBeast(Run.SCREENWIDTH*2/3));
+        enemies.add(new FungiBeast(Run.SCREENWIDTH*4/5));
         break;
       case "Looter":
-        enemies.add(new Looter(Run.SCREENWIDTH*5/7, this));
+        enemies.add(new Looter(Run.SCREENWIDTH*5/7));
         break;
       case "Exordium Thugs":
       case "Thugs":
@@ -134,8 +135,7 @@ public class Combat{
   public ArrayList<Enemy> getEnemiesToUpdate(){ return enemiesToUpdate; }
   public void setEnemiesToUpdate(ArrayList<Enemy> newETU){ enemiesToUpdate = newETU; }
   public Entity getPlayer(){ return player; }
-  public Run getRun(){ return thisRun; }
-  public EventManager getEventManager(){ return eventManager; }
+  public Run getRun(){ return Run.r; }
 
   public ArrayList<Card> getCardsInPlay(){
     ArrayList<Card> list = new ArrayList<Card>();
@@ -206,7 +206,7 @@ public class Combat{
       //Ends player & enemy turns
       endEntityTurns();
       
-      thisRun.setHP(player.getHP());
+      Run.r.setHP(player.getHP());
     }
     //TODO: Make gold stolen be updated here (both remove the gold from the player and add # to res)
       //(Make it related to the theivery/w/e status too btw)
@@ -238,7 +238,7 @@ public class Combat{
       }else if(input.equalsIgnoreCase("e") || input.equalsIgnoreCase("end") || input.equalsIgnoreCase("end turn")){
         doneAction = true;
         return true;
-      }else if(App.settingsManager.cheats && (input.equalsIgnoreCase("/killall")
+      }else if(SettingsManager.sm.cheats && (input.equalsIgnoreCase("/killall")
                                           || input.equalsIgnoreCase("/ka"))){
         while(enemies.size() > 0){
           enemies.get(0).die();
@@ -280,14 +280,14 @@ public class Combat{
   /**Sets the screen to accurate values/images
   */
   public void setUpCombatDisplay(){
-    thisRun.reloadScreen();
+    Run.r.reloadScreen();
     int playerMidX = Run.SCREENWIDTH*2/7; //The x (column) value of the center of the player's display
     int entityBottomY = Run.SCREENHEIGHT/2; //The y (row) value of the row just below each entity's display
     final int energySquareX = 24; // = Run.SCREENWIDTH/2 - (Run.SCREENWIDTH/Card.CARDWIDTH - 1) * ((Card.CARDWIDTH + 1)/2) + Card.CARDWIDTH/2 + 3;
     
     //Player img
     String[] playerArt = player.getArt();
-    thisRun.addToScreen(entityBottomY-playerArt.length, playerMidX-(Str.lengthIgnoringEscSeqs(playerArt[0])/2), playerArt, Colors.lightRed, Colors.reset);
+    Run.r.addToScreen(entityBottomY-playerArt.length, playerMidX-(Str.lengthIgnoringEscSeqs(playerArt[0])/2), playerArt, Colors.lightRed, Colors.reset);
     String hpBar = player.getHPBar();
     if(player.getBlock() > 0){    //adds blocknumber to left
       String middleRow = square(1, 3, player.getBlock(), Colors.blockBlue, Colors.whiteBold + Colors.backgroundBlockBlue)[0];
@@ -298,12 +298,12 @@ public class Combat{
         bottomRow += "▀";
       }
       int leftIndex = playerMidX - (player.getHPBarLength()-1)/2 - Str.lengthIgnoringEscSeqs(middleRow) -1;
-      thisRun.addToScreen(entityBottomY, leftIndex, new String[] {topRow, middleRow, bottomRow}, Colors.reset+Colors.blockBlue, Colors.reset);
+      Run.r.addToScreen(entityBottomY, leftIndex, new String[] {topRow, middleRow, bottomRow}, Colors.reset+Colors.blockBlue, Colors.reset);
     }
     //Player hp bar
-    thisRun.addToScreen(entityBottomY+1, playerMidX-(Str.lengthIgnoringEscSeqs(hpBar)/2), hpBar, "", Colors.reset);
+    Run.r.addToScreen(entityBottomY+1, playerMidX-(Str.lengthIgnoringEscSeqs(hpBar)/2), hpBar, "", Colors.reset);
     //Player name
-    thisRun.addToScreen(entityBottomY+3, playerMidX-(Str.lengthIgnoringEscSeqs(player.getName())/2), player.getName(), Colors.reset, "");
+    Run.r.addToScreen(entityBottomY+3, playerMidX-(Str.lengthIgnoringEscSeqs(player.getName())/2), player.getName(), Colors.reset, "");
     //Player Statuses
     String statuses = "";
     for(Status status : player.getStatuses()){
@@ -311,12 +311,12 @@ public class Combat{
         statuses += status.getDisplay() + " ";
       // }
     }
-    thisRun.addToScreen(entityBottomY+2, playerMidX-(Str.lengthIgnoringEscSeqs(hpBar)/2), statuses);
+    Run.r.addToScreen(entityBottomY+2, playerMidX-(Str.lengthIgnoringEscSeqs(hpBar)/2), statuses);
     for(Enemy enemy : enemies){
       //Enemy img
       String[] enemyArt = enemy.getArt();
       int enemyMidX = enemy.getMiddleX();
-      thisRun.addToScreen(entityBottomY-enemyArt.length, enemyMidX-(Str.lengthIgnoringEscSeqs(enemyArt[0])/2), enemyArt, "", Colors.reset);
+      Run.r.addToScreen(entityBottomY-enemyArt.length, enemyMidX-(Str.lengthIgnoringEscSeqs(enemyArt[0])/2), enemyArt, "", Colors.reset);
       hpBar = enemy.getHPBar();
       if(enemy.getBlock() > 0){    //adds blocknumber to left
         String middleRow = square(1, 3, enemy.getBlock(), Colors.blockBlue, Colors.whiteBold + Colors.backgroundBlockBlue)[0];
@@ -327,46 +327,46 @@ public class Combat{
           bottomRow += "▀";
         }
         int leftIndex = enemyMidX - (enemy.getHPBarLength()-1)/2 - Str.lengthIgnoringEscSeqs(middleRow) -1;
-        thisRun.addToScreen(entityBottomY, leftIndex, new String[] {topRow, middleRow, bottomRow}, Colors.reset+Colors.blockBlue, Colors.reset);
+        Run.r.addToScreen(entityBottomY, leftIndex, new String[] {topRow, middleRow, bottomRow}, Colors.reset+Colors.blockBlue, Colors.reset);
       }
       //Enemy hp bar
-      thisRun.addToScreen(entityBottomY+1, enemyMidX-(Str.lengthIgnoringEscSeqs(hpBar)/2), hpBar, "", Colors.reset);
+      Run.r.addToScreen(entityBottomY+1, enemyMidX-(Str.lengthIgnoringEscSeqs(hpBar)/2), hpBar, "", Colors.reset);
       //Enemy name
-      thisRun.addToScreen(entityBottomY+3, enemyMidX-(Str.lengthIgnoringEscSeqs(enemy.getName())/2), enemy.getName(), Colors.reset, "");
+      Run.r.addToScreen(entityBottomY+3, enemyMidX-(Str.lengthIgnoringEscSeqs(enemy.getName())/2), enemy.getName(), Colors.reset, "");
       //Enemy intent
       String[] intentImage = enemy.getIntent().getImage(enemy, player);
-      thisRun.addToScreen(entityBottomY-enemyArt.length-intentImage.length-1, enemyMidX-(Str.lengthIgnoringEscSeqs(intentImage[0])/2), intentImage);
+      Run.r.addToScreen(entityBottomY-enemyArt.length-intentImage.length-1, enemyMidX-(Str.lengthIgnoringEscSeqs(intentImage[0])/2), intentImage);
       //Enemy Statuses
       statuses = ""; //Declared above
       for(Status status : enemy.getStatuses()){
         App.ASSERT(status.getStrength() != 0);
         statuses += status.getDisplay() + " ";
       }
-      thisRun.addToScreen(entityBottomY+2, enemyMidX-(Str.lengthIgnoringEscSeqs(hpBar)/2), statuses);
+      Run.r.addToScreen(entityBottomY+2, enemyMidX-(Str.lengthIgnoringEscSeqs(hpBar)/2), statuses);
     }
     //Draw and Discard Piles
     String[] drawPileDisplay = square(3, 5, drawPile.size(), Colors.deckBrown, Colors.whiteOnDeckBrown);
-    thisRun.addToScreen(Run.SCREENHEIGHT -4, 1, drawPileDisplay , Colors.reset + Colors.deckBrown, Colors.reset);
-    thisRun.addToScreen(Run.SCREENHEIGHT -6, 1, new String[] {"Draw", "Pile"}, Colors.magenta, Colors.reset);
+    Run.r.addToScreen(Run.SCREENHEIGHT -4, 1, drawPileDisplay , Colors.reset + Colors.deckBrown, Colors.reset);
+    Run.r.addToScreen(Run.SCREENHEIGHT -6, 1, new String[] {"Draw", "Pile"}, Colors.magenta, Colors.reset);
     String[] discardPileDisplay = square(3, 5, discardPile.size(), Colors.deckBrown, Colors.whiteOnDeckBrown);
-    thisRun.addToScreen(Run.SCREENHEIGHT -4, Run.SCREENWIDTH -6, discardPileDisplay , Colors.reset + Colors.deckBrown, Colors.reset);
-    thisRun.addToScreen(Run.SCREENHEIGHT -6, Run.SCREENWIDTH -8, new String[] {"Discard", "   Pile"}, Colors.magenta, Colors.reset);
+    Run.r.addToScreen(Run.SCREENHEIGHT -4, Run.SCREENWIDTH -6, discardPileDisplay , Colors.reset + Colors.deckBrown, Colors.reset);
+    Run.r.addToScreen(Run.SCREENHEIGHT -6, Run.SCREENWIDTH -8, new String[] {"Discard", "   Pile"}, Colors.magenta, Colors.reset);
     String[] exhaustPileDisplay = square(3, 5, exhaustPile.size(), Colors.exhGray, Colors.whiteOnExhGray);
-    thisRun.addToScreen(Run.SCREENHEIGHT -10, Run.SCREENWIDTH -6, exhaustPileDisplay , Colors.reset + Colors.exhGray, Colors.reset);
-    thisRun.addToScreen(Run.SCREENHEIGHT -12, Run.SCREENWIDTH -8, new String[] {"Exhaust", "   Pile"}, Colors.magenta, Colors.reset);
+    Run.r.addToScreen(Run.SCREENHEIGHT -10, Run.SCREENWIDTH -6, exhaustPileDisplay , Colors.reset + Colors.exhGray, Colors.reset);
+    Run.r.addToScreen(Run.SCREENHEIGHT -12, Run.SCREENWIDTH -8, new String[] {"Exhaust", "   Pile"}, Colors.magenta, Colors.reset);
 
     addHandToScreen(hand);
 
     //Energy counter:
     String[] energyBlock = square(3, 7, energy, Colors.energyDisplayRed, Colors.whiteOnEnergyDisplayRed);
-    thisRun.addToScreen(topRowOfCards-3, energySquareX, energyBlock, Colors.reset + Colors.energyDisplayRed, Colors.reset);
+    Run.r.addToScreen(topRowOfCards-3, energySquareX, energyBlock, Colors.reset + Colors.energyDisplayRed, Colors.reset);
   }
 
   /**Reloads and displays the screen
   */
   public void display(){
     setUpCombatDisplay(); //Actually just save the screen as a variable like in Run, if I'm having speed issues
-    thisRun.display();
+    Run.r.display();
   }
   
 
@@ -535,6 +535,9 @@ public class Combat{
     if(shouldDiscard){
       discardPile.add(card);
     }
+    if(card.getType().equals("Attack")){
+      eventManager.OnAttackFinished(player);
+    }
     
     return true;
   }
@@ -628,9 +631,9 @@ public class Combat{
         Card c = drawPile.remove(0);
         display();
         
-        int startRow = App.settingsManager.screenHeight/2 - c.getImage().length/2;
-        int startCol = App.settingsManager.screenWidth/2 - c.getImage()[0].length()/2;
-        thisRun.displayScreenWithAddition(c.getImage(), startRow, startCol);
+        int startRow = SettingsManager.sm.screenHeight/2 - c.getImage().length/2;
+        int startCol = SettingsManager.sm.screenWidth/2 - c.getImage()[0].length()/2;
+        Run.r.displayScreenWithAddition(c.getImage(), startRow, startCol);
         Str.print("Playing and Exhausting " + c.getName() + ". (Press enter)");
         Main.scan.nextLine();
         
@@ -717,7 +720,7 @@ public class Combat{
             }
             Card c = null;
             while(c == null){ //Until they enter the name of a card in their discard pile
-              String input = thisRun.popupInput(str, "Select the name of a card in your discard pile"); //todo: make all of these kinds of text popups into on-screen things like the card rewards screen?
+              String input = Run.r.popupInput(str, "Select the name of a card in your discard pile"); //todo: make all of these kinds of text popups into on-screen things like the card rewards screen?
               for(Card discardCard : discardPile){
                 if(Str.equalsIgnoreCaseSkipEscSeqs(input, discardCard.getName())){ //Checks if input is a card in the discard pile //TODO: make work w/ coloring the name; also just now I typed "flex" when (a green) "flex+" was available and it kinda broke
                   c = discardCard;
@@ -743,7 +746,7 @@ public class Combat{
   public String input(String prompt){
     while(true){
       Str.print(prompt); //TODO: Call this version of input more, where I'm already effectively using it?
-      String input = thisRun.input();
+      String input = Run.r.input();
       String str;
       
       switch (input.toLowerCase()) {
@@ -753,7 +756,7 @@ public class Combat{
           for(Card c : sortedDrawPile){
             str += c.toString() + "\n";
           }
-          thisRun.popup(str);
+          Run.r.popup(str);
           break;
         case "disc":
         case "discard":
@@ -761,7 +764,7 @@ public class Combat{
           for(Card c : discardPile){
             str += c.toString() + "\n";
           }
-          thisRun.popup(str);
+          Run.r.popup(str);
           break;
         case "exh":
         case "exhaust":
@@ -769,7 +772,7 @@ public class Combat{
           for(Card c : exhaustPile){
             str += c.toString() + "\n";
           }
-          thisRun.popup(str);
+          Run.r.popup(str);
           break;
         case "stat":
         case "stats":
@@ -785,7 +788,7 @@ public class Combat{
               statuses += s.toString() + "\n";
             }
           }
-          thisRun.popup(statuses);
+          Run.r.popup(statuses);
           break;
         case ">":
         case "c":
@@ -799,14 +802,14 @@ public class Combat{
           break;
         case "test": //TODO: REMOVE
           // Test Cases:
-          thisRun.popup("Sus");
-          thisRun.popup("Sus2", thisRun.getScreen());
-          thisRun.popup("Sus3", 20);
-          thisRun.popup("Sus4", 12, 20);
-          thisRun.popup("Sus5", 12, 20, 10, 30);
-          thisRun.popup("Sus6", 12, 20, 10, 30, thisRun.getScreen());
-          thisRun.popupInput("Sussi 7", "Enter a letter");
-          thisRun.popupInput("Sussi8", "Be Sus:", 12, 20, 10, 30, thisRun.getScreen());
+          Run.r.popup("Sus");
+          Run.r.popup("Sus2", Run.r.getScreen());
+          Run.r.popup("Sus3", 20);
+          Run.r.popup("Sus4", 12, 20);
+          Run.r.popup("Sus5", 12, 20, 10, 30);
+          Run.r.popup("Sus6", 12, 20, 10, 30, Run.r.getScreen());
+          Run.r.popupInput("Sussi 7", "Enter a letter");
+          Run.r.popupInput("Sussi8", "Be Sus:", 12, 20, 10, 30, Run.r.getScreen());
           //FALLTHRU
         default:
           return input;
@@ -853,12 +856,12 @@ public class Combat{
         // Cuts off the last CARDWIDTH/2 chars from the images of the rightmost cards. //11 cols wide
         nextCol = addHandCardsToScreen(cards.subList(0, numCardsSquished), leftmostCol, 1, 0, 0, squishedWidth);
         addHandCardsToScreen(cards.subList(numCardsSquished, numCards), nextCol, numCardsSquished+1);
-        thisRun.addToScreen(topRowOfCards-1, leftmostCol-1 + squishedWidth*numCardsSquished/2, "<", Colors.magenta, Colors.reset);
+        Run.r.addToScreen(topRowOfCards-1, leftmostCol-1 + squishedWidth*numCardsSquished/2, "<", Colors.magenta, Colors.reset);
       } else {
         nextCol = addHandCardsToScreen(cards.subList(0, numCardsPrintedNormally), leftmostCol, 1);
         // Cut off the first CARDWIDTH/2 chars from the images of the rightmost cards. //11 cols wide
         addHandCardsToScreen(cards.subList(numCardsPrintedNormally, numCards), nextCol, numCardsPrintedNormally+1, 0, squishedWidth-1, Card.CARDWIDTH);
-        thisRun.addToScreen(topRowOfCards-1, nextCol-2 + squishedWidth*numCardsSquished/2, ">", Colors.magenta, Colors.reset);
+        Run.r.addToScreen(topRowOfCards-1, nextCol-2 + squishedWidth*numCardsSquished/2, ">", Colors.magenta, Colors.reset);
       }
     }
   }
@@ -891,10 +894,10 @@ public class Combat{
       }
       // cardArt0 = Stream.of(cardArt0).map(s -> Str.substringIgnoringEscSequences(s, startCutoff, endCutoff)).toArray(String[]::new); //Stream Implementation
     } else {
-      thisRun.addToScreen(topRowOfCards-1, leftmostCol + Card.CARDWIDTH/2, "" + cardIndex, Colors.magenta, Colors.reset);
+      Run.r.addToScreen(topRowOfCards-1, leftmostCol + Card.CARDWIDTH/2, "" + cardIndex, Colors.magenta, Colors.reset);
     }
 
-    thisRun.addToScreen(topRowOfCards, leftmostCol, cardArt0);
+    Run.r.addToScreen(topRowOfCards, leftmostCol, cardArt0);
     return addHandCardsToScreen(cards.subList(1, cards.size()), leftmostCol + endCutoff - startCutoff + gap, cardIndex+1, gap, startCutoff, endCutoff);
   }
 
@@ -1006,9 +1009,9 @@ public class Combat{
   */
   public Enemy createLouse(int midX){
     if(Math.random() < 0.5){
-      return new RedLouse(midX, this);
+      return new RedLouse(midX);
     }
-    return new GreenLouse(midX, this);
+    return new GreenLouse(midX);
   }
   /**Constructs and returns a slime of the specified size and a random type
   *@Precondition - 0 >= size >= 2
@@ -1018,20 +1021,20 @@ public class Combat{
     if(isAcidSlime){ //Acid Slime:
       switch(size){
         case 0: //Small
-          return new AcidSlimeSmall(midX, this);
+          return new AcidSlimeSmall(midX);
         case 1: //Medium
-          return new AcidSlimeMed(midX, this);
+          return new AcidSlimeMed(midX);
         case 2:
-          return new AcidSlimeLarge(midX, this);
+          return new AcidSlimeLarge(midX);
       }
     }else{ //Spike Slime:
       switch(size){
         case 0: //Small
-          return new SpikeSlimeSmall(midX, this);
+          return new SpikeSlimeSmall(midX);
         case 1: //Medium
-          return new SpikeSlimeMed(midX, this);
+          return new SpikeSlimeMed(midX);
         case 2:
-          return new SpikeSlimeLarge(midX, this);
+          return new SpikeSlimeLarge(midX);
       }
     }
     return null;
@@ -1060,19 +1063,19 @@ public class Combat{
       String str = gremlins.get(i);
       switch(str){
         case "Fat":
-          enemies.add(new FatGremlin(midX, this));
+          enemies.add(new FatGremlin(midX));
           break;
         case "Sneaky":
-          enemies.add(new SneakyGremlin(midX, this));
+          enemies.add(new SneakyGremlin(midX));
           break;
         case "Mad":
-          enemies.add(new MadGremlin(midX, this));
+          enemies.add(new MadGremlin(midX));
           break;
         case "Shield":
-          enemies.add(new ShieldGremlin(midX, this));
+          enemies.add(new ShieldGremlin(midX));
           break;
         case "Wizard":
-          enemies.add(new GremlinWizard(midX, this));
+          enemies.add(new GremlinWizard(midX));
           break;
       }
       midX += gap;
@@ -1090,13 +1093,13 @@ public class Combat{
     }
     rn = Math.random();
     if(rn<0.25){
-      enemies.add(new Looter(Run.SCREENWIDTH*4/5, this));
+      enemies.add(new Looter(Run.SCREENWIDTH*4/5));
     }else if(rn<0.5){
-      enemies.add(new Cultist(Run.SCREENWIDTH*4/5, this));
+      enemies.add(new Cultist(Run.SCREENWIDTH*4/5));
     }else if(rn<0.75){
-      enemies.add(new BlueSlaver(Run.SCREENWIDTH*4/5, this));
+      enemies.add(new BlueSlaver(Run.SCREENWIDTH*4/5));
     }else{
-      enemies.add(new RedSlaver(Run.SCREENWIDTH*4/5, this));
+      enemies.add(new RedSlaver(Run.SCREENWIDTH*4/5));
     }
   }
 
@@ -1105,9 +1108,9 @@ public class Combat{
   public void constructWildlife(){
     double rn = Math.random();
     if(rn < 0.5){
-      enemies.add(new FungiBeast(Run.SCREENWIDTH*2/3, this));
+      enemies.add(new FungiBeast(Run.SCREENWIDTH*2/3));
     }else{
-      enemies.add(new JawWorm(Run.SCREENWIDTH*2/3, this));
+      enemies.add(new JawWorm(Run.SCREENWIDTH*2/3));
     }
     rn = Math.random();
     if(rn < 0.5){

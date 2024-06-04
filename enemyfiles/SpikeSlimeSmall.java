@@ -1,6 +1,5 @@
 package enemyfiles;
 import app.Colors;
-import app.Combat;
 import app.Entity;
 import app.Intent;
 
@@ -11,8 +10,8 @@ public class SpikeSlimeSmall extends Enemy{
   public static final String[] art = Colors.fillColor(new String[] {"   ▄█▄   ", " ▄█████▄ ", "▀███████▀"}, Colors.spikeSlimeColor);
 
 
-  public SpikeSlimeSmall(int middleX, Combat c){
-    super("Spike Slime (S)", (int)(Math.random()*5)+10, false, middleX, 11, art, c);
+  public SpikeSlimeSmall(int middleX){
+    super("Spike Slime (S)", (int)(Math.random()*5)+10, false, middleX, 11, art);
     intent = TACKLE;
   }
 

@@ -3,20 +3,23 @@ import java.util.*;
 import java.util.function.Predicate;
 
 public class Run{
+  // Singleton run instance:
+  public static final Run r = new Run();
   private String[] screen;
   //TODO: Put these into App.java?
-  public static final int SCREENWIDTH = App.settingsManager.screenWidth;
-  public static final int SCREENHEIGHT = App.settingsManager.screenHeight;
+  public static final int SCREENWIDTH = SettingsManager.sm.screenWidth;
+  public static final int SCREENHEIGHT = SettingsManager.sm.screenHeight;
   private int hp, maxHP;
   private int gold;
   private ArrayList<Card> deck;
-  private EventManager eventManager;
   
-  public Run(){
+  private Run(){
+    if(r != null){
+      return;
+    }
     hp = maxHP = 80;
     gold = 99;
     deck = new ArrayList<Card>();
-    eventManager = new EventManager(this);
     App.ASSERT(new Card("Strike") != null);
     deck.add(new Card("Battle Trance"));
     deck.add(new Card("Battle Trance"));
@@ -45,11 +48,11 @@ public class Run{
     deck.add(new Card("Clothesline"));
     // TODO: Display deck in alphabetical order or smth?
     // Although this does show it in order obtained, actually.
-    if(App.settingsManager.debug){
+    if(SettingsManager.sm.debug){
       System.out.println("W: " + SCREENWIDTH);
       System.out.println("H: " + SCREENHEIGHT);
-      System.out.println("W: " + App.settingsManager.screenWidth);
-      System.out.println("H: " + App.settingsManager.screenHeight);
+      System.out.println("W: " + SettingsManager.sm.screenWidth);
+      System.out.println("H: " + SettingsManager.sm.screenHeight);
 
       Str.println(Colors.hpRed + "HP Red ");
       Str.println(Colors.hpBarRed + "HP Bar Red ");
@@ -82,7 +85,6 @@ public class Run{
   public int getMaxHP(){ return maxHP; }
   public int getGold(){ return gold; }
   public ArrayList<Card> getDeck(){ return deck; }
-  public EventManager getEventManager(){ return eventManager; }
 
   /**Plays the run
   */
@@ -92,37 +94,34 @@ public class Run{
       double rn = Math.random();
       double chance = 1.0/14;
       if(rn < chance){
-      c = new Combat(this, "Cultist");
+      c = new Combat("Cultist");
       }else if(rn < 2*chance){
-      c = new Combat(this, "Jaw Worm");
+      c = new Combat("Jaw Worm");
       }else if(rn < 3*chance){
-      c = new Combat(this, "Two Louses");
+      c = new Combat("Two Louses");
       }else if(rn < 4*chance){
-      c = new Combat(this, "Small and Med Slime");
+      c = new Combat("Small and Med Slime");
       }else if(rn < 5*chance){
-      c = new Combat(this, "Gremlin Gang");
+      c = new Combat("Gremlin Gang");
       }else if(rn < 6*chance){
-      c = new Combat(this, "Large Slime");
+      c = new Combat("Large Slime");
       }else if(rn < 7*chance){
-      c = new Combat(this, "Lots of Slimes");
+      c = new Combat("Lots of Slimes");
       }else if(rn < 8*chance){
-      c = new Combat(this, "Blue Slaver");
+      c = new Combat("Blue Slaver");
       }else if(rn < 9*chance){
-      c = new Combat(this, "Red Slaver");
+      c = new Combat("Red Slaver");
       }else if(rn < 10*chance){
-      c = new Combat(this, "Three Louses");
+      c = new Combat("Three Louses");
       }else if(rn < 11*chance){
-      c = new Combat(this, "Two Fungi Beasts");
+      c = new Combat("Two Fungi Beasts");
       }else if(rn < 12*chance){
-      c = new Combat(this, "Exordium Thugs");
+      c = new Combat("Exordium Thugs");
       }else if(rn < 13*chance){
-      c = new Combat(this, "Exordium Wildlife");
+      c = new Combat("Exordium Wildlife");
       }else{
-      c = new Combat(this, "Looter");
+      c = new Combat("Looter");
       }
-      eventManager.setCombat(c);
-      EventManager E = c.getEventManager();
-      App.ASSERT(c.getEventManager() == eventManager);
       int goldStolen = c.runCombat();
       if(hp <= 0){
         break; //Death mechanic (temporary?) //global bool var for death?
@@ -247,7 +246,7 @@ public class Run{
       
       //Display the popup:
       //Effectively 'popup(textToPopup);', except I can actually look at what the input is:
-      int startCol = App.settingsManager.screenWidth/2 - App.POPUP_WIDTH/2; // == 78
+      int startCol = SettingsManager.sm.screenWidth/2 - App.POPUP_WIDTH/2; // == 78
       String[] screenWithAddition = Str.addStringArraysSkipEscSequences(screen, 6, startCol, Str.makeTextBox(textToPopup, App.POPUP_HEIGHT , App.POPUP_WIDTH));
       display(screenWithAddition); //Same as calling displayScreenWithAddition with the above params, but can pass this screen into input below (v)
       //TODO: Print info message
@@ -299,7 +298,7 @@ public class Run{
   /**Displays the entered String array.
   */
   public static void display(String[] arr){
-    if(!App.settingsManager.debug)
+    if(!SettingsManager.sm.debug)
       System.out.println(Colors.clearScreen);
 
     for(String str : arr){
@@ -439,8 +438,8 @@ public class Run{
           Str.print("Enter the new name (Just press enter to cancel:)\n");
           String s = Main.scan.nextLine();
           if(!s.equals("")){
-            App.settingsManager.name = s;
-            App.settingsManager.save();
+            SettingsManager.sm.name = s;
+            SettingsManager.sm.save();
           }
           break;
         case "screen width":
@@ -451,8 +450,8 @@ public class Run{
           if(1 <= width && width <= 4){
             width = 155 + 22*width;
           }
-          App.settingsManager.screenWidth = width;
-          App.settingsManager.save();
+          SettingsManager.sm.screenWidth = width;
+          SettingsManager.sm.save();
           break;
         case "screen height":
         case "height":
@@ -460,23 +459,23 @@ public class Run{
           //TODO: Eventually place actually reasonable restrictions on these (+width must be odd.) //TODO: also make these actually work. (currently mostly referring to the FINAL var. Can just tell user they have to restart the game to see changes here?)
           //TODO: Make getIntWPred return an Optional?
           Str.println("Enter the new screen height (Just press enter to cancel:)");
-          App.settingsManager.screenHeight = getIntWPred(h -> h >= 50, "New height must be at least 50.");
-          App.settingsManager.save();
+          SettingsManager.sm.screenHeight = getIntWPred(h -> h >= 50, "New height must be at least 50.");
+          SettingsManager.sm.save();
           break;
         case "debug mode":
         case "debug":
           Str.println("Enter what to change debug to (Just press enter to cancel:)");
           try{
-            App.settingsManager.debug = parseBoolInput();
-            App.settingsManager.save();
+            SettingsManager.sm.debug = parseBoolInput();
+            SettingsManager.sm.save();
           } catch (NumberFormatException E){}
           break;
         case "cheats":
         case "cheat":
           Str.println("Enter what to change debug to (Just press enter to cancel:)");
           try{
-            App.settingsManager.cheats = parseBoolInput();
-            App.settingsManager.save();
+            SettingsManager.sm.cheats = parseBoolInput();
+            SettingsManager.sm.save();
           } catch (NumberFormatException E){}
           break;
         case "":
@@ -496,11 +495,11 @@ public class Run{
                                 Str.repeatChar(' ', (popupWidth-4-11)/2) + "───────────\n" + 
                                 "Settings saved to the device.\n" + 
                                 "To change a setting, type the name of the setting and follow the given prompts.\n\n" + 
-                Colors.magenta + "Name: " + Colors.reset + App.settingsManager.name + "\n" + 
-                Colors.magenta + "Screen Width: " + Colors.reset + App.settingsManager.screenWidth + "\n" + 
-                Colors.magenta + "Screen Height: " + Colors.reset + App.settingsManager.screenHeight + "\n" + 
-                Colors.magenta + "Cheats: " + Colors.reset + App.settingsManager.cheats + "\n" + 
-                Colors.magenta + "Debug Mode: " + Colors.reset + App.settingsManager.debug + "\n\n" + 
+                Colors.magenta + "Name: " + Colors.reset + SettingsManager.sm.name + "\n" + 
+                Colors.magenta + "Screen Width: " + Colors.reset + SettingsManager.sm.screenWidth + "\n" + 
+                Colors.magenta + "Screen Height: " + Colors.reset + SettingsManager.sm.screenHeight + "\n" + 
+                Colors.magenta + "Cheats: " + Colors.reset + SettingsManager.sm.cheats + "\n" + 
+                Colors.magenta + "Debug Mode: " + Colors.reset + SettingsManager.sm.debug + "\n\n" + 
               Colors.basicBlue + Str.repeatStr("═", popupWidth - 6);
     
     displayScreenWithAddition(Str.makeTextBox(settingsText, popupHeight, popupWidth), 5, SCREENWIDTH*3/50);

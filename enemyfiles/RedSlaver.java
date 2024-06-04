@@ -1,6 +1,5 @@
 package enemyfiles;
 import app.Colors;
-import app.Combat;
 import app.Entity;
 import app.Intent;
 import app.IntentType;
@@ -17,8 +16,8 @@ public class RedSlaver extends Enemy{
   public static final String[] art = Colors.fillColor(new String[] {"        ▄▄▄        ", "        ██████▄    ", "         ▀█████▄   ", "          ██████   ", "          █▀█████  ", "▄█▄█▄█▄▄▄▄██▄█████▄▄", " ▀ ▀ ▀      ████▀  ", "            ▀█▀█   ", "            ▄█▀▀   "}, Colors.slaverRed);
   
 
-  public RedSlaver(int middleX, Combat c){
-    super("Red Slaver", (int)(Math.random()*5)+46, false, middleX, art, c);
+  public RedSlaver(int middleX){
+    super("Red Slaver", (int)(Math.random()*5)+46, false, middleX, art);
     intent = STAB;
   }
 

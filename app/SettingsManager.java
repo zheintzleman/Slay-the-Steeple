@@ -2,6 +2,8 @@ package app;
 import java.io.*;
 
 public class SettingsManager{
+  // Singleton EventManager Instance
+  public static final SettingsManager sm = new SettingsManager(App.SETTINGS_PATH);
   public String pathname;
   public boolean debug;
   public String name;
@@ -9,7 +11,7 @@ public class SettingsManager{
   public int screenHeight;
   public boolean cheats;
 
-  public SettingsManager(String pathname){
+  private SettingsManager(String pathname){
     this.pathname = pathname;
 
     try {

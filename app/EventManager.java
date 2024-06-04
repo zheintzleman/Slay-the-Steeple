@@ -13,30 +13,22 @@ public class EventManager {
     ONATKDMGDEALT
   }
 
-  private Run run;
-  private Combat combat;
+  // Singleton EventManager Instance
+  public static final EventManager er = new EventManager();
 
-  public EventManager(Run r){
-    run = r;
-    combat = null;
+  private EventManager(){
   }
-  public EventManager(Combat c){
-    run = c.getRun();
-    combat = c;
-  }
-  public Combat getCombat(){ return combat; }
-  public void setCombat(Combat c){ combat = c; }
 
   public void OnTurnEnd(){
     // Relics.turnStart(...)((...));
     // Status.turnStart(...)((...));
     // ^Or just make them all here since there's going to be a bunch of different events anyway?
     //TODO: Put some stuff from (Entity/Enemy).endTurn here?
-    // Cards subscribed are taken care of in the combat.endTurn() method, when discarded
+    // Cards subscribed are taken care of in the Combat.c.endTurn() method, when discarded
 
     // Calls ONTURNEND card effects from cards in hand; discards them if appropriate.
     // Each card discarded immediately after "play", for canon continuity.
-    ArrayList<Card> hand = combat.getHand();
+    ArrayList<Card> hand = Combat.c.getHand();
     while(hand.size() != 0){
       Card card = hand.get(0);
       // Tracks whether the card has been removed from hand already or if it needs to be discarded still.
@@ -47,20 +39,20 @@ public class EventManager {
         if(eff.whenPlayed() == Event.ONTURNEND){
           //Plays any ONTURNEND card effects
           //If the effect returns false (card should not discard), shouldDiscard set to false.
-          shouldDiscard = shouldDiscard && combat.playEffect(eff, card);
+          shouldDiscard = shouldDiscard && Combat.c.playEffect(eff, card);
         }
       }
       if(shouldDiscard){
-        combat.discardCardFromHand(card);
+        Combat.c.discardCardFromHand(card);
       }
     }
   }
 
   public void OnPlayerHurt(int hpLoss){
-    for(Card card : combat.getCardsInPlay()){
+    for(Card card : Combat.c.getCardsInPlay()){
       for(CardEffect eff : card.getEffects()){
         if(eff.whenPlayed() == Event.ONPLAYERHURT){
-          combat.playEffect(eff, card);
+          Combat.c.playEffect(eff, card);
         }
       }
     }
@@ -77,10 +69,14 @@ public class EventManager {
     // }
   }
 
+  public void OnAttackFinished(Entity attacker){
+    attacker.setStatusStrength("Vigor", 0);
+  }
+
   // TODO: Make a global function? Or does the need for int hpLoss/etc. make that not worth it?
   
   // Along with editing these functions for card/relic/w/e effects, can edit:
   // - Entity.calcAttackDamage / Entity.calcAtkDmgFromThisStats
-  // - Combat.playCard / Combat.playEffect
+  // - Combat.c.playCard / Combat.c.playEffect
   // - Card.Description constructor
 }

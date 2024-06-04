@@ -1,6 +1,5 @@
 package enemyfiles;
 import app.Colors;
-import app.Combat;
 import app.Entity;
 import app.Intent;
 import app.IntentType;
@@ -13,8 +12,8 @@ public class AcidSlimeSmall extends Enemy{
   public static final String[] art = Colors.fillColor(new String[] {"   ▄▄▄   ", " ▄█████▄ ", "▀███████▀"}, Colors.lightGreen);
 
 
-  public AcidSlimeSmall(int middleX, Combat c){
-    super("Acid Slime (S)", (int)(Math.random()*5)+8, false, middleX, 11, art, c);
+  public AcidSlimeSmall(int middleX){
+    super("Acid Slime (S)", (int)(Math.random()*5)+8, false, middleX, 11, art);
     if(Math.random() < 0.5){
       intent = TACKLE;
     }else{

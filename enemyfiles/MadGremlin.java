@@ -1,6 +1,5 @@
 package enemyfiles;
 import app.Colors;
-import app.Combat;
 import app.Entity;
 import app.Intent;
 
@@ -11,8 +10,8 @@ public class MadGremlin extends Enemy{
 public static final String[] art = Colors.fillColor(new String[] {"  ▄  █     ", "   ▀██ ▄█▄ ", " ▄  ██▄▄▄▀ ", "▀▀▀▀▀██   ", "   ▄█▀█    ", "   █  █    ", "   ▀  █    "}, Colors.madGRed);
 
 
-  public MadGremlin(int middleX, Combat c){
-    super("Mad Gremlin", (int)(Math.random()*5)+20, false, middleX, 13, art, c);
+  public MadGremlin(int middleX){
+    super("Mad Gremlin", (int)(Math.random()*5)+20, false, middleX, 13, art);
     intent = SCRATCH;
     addStatusStrength("Angry", 1);
   }

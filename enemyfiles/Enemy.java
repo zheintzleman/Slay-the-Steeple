@@ -3,6 +3,7 @@ import java.util.*;
 
 import app.Combat;
 import app.Entity;
+import app.EventManager;
 import app.Intent;
 import app.Player;
 
@@ -15,33 +16,33 @@ public class Enemy extends Entity{
   public Enemy(){
     super();
   }
-  public Enemy(String name, Combat c){
-    super(name, c);
+  public Enemy(String name){
+    super(name);
   }
-  public Enemy(String name, int hp, Combat c){
-    super(name, hp, c);
+  public Enemy(String name, int hp){
+    super(name, hp);
   }
-  public Enemy(String name, int hp, boolean isElite, Combat c){
-    super(name, hp, c);
+  public Enemy(String name, int hp, boolean isElite){
+    super(name, hp);
     this.isElite = isElite;
   }
-  public Enemy(String name, int hp, boolean isElite, int middleX, Combat c){
-    super(name, hp, c);
-    this.isElite = isElite;
-    this.middleX = middleX;
-  }
-  public Enemy(String name, int hp, boolean isElite, int middleX, int hpBarLength, Combat c){
-    super(name, hp, hpBarLength, c);
+  public Enemy(String name, int hp, boolean isElite, int middleX){
+    super(name, hp);
     this.isElite = isElite;
     this.middleX = middleX;
   }
-  public Enemy(String name, int hp, boolean isElite, int middleX, int hpBarLength, String[] art, Combat c){
-    super(name, hp, hpBarLength, c, art);
+  public Enemy(String name, int hp, boolean isElite, int middleX, int hpBarLength){
+    super(name, hp, hpBarLength);
     this.isElite = isElite;
     this.middleX = middleX;
   }
-  public Enemy(String name, int hp, boolean isElite, int middleX, String[] art, Combat c){
-    super(name, hp, art, c);
+  public Enemy(String name, int hp, boolean isElite, int middleX, int hpBarLength, String[] art){
+    super(name, hp, hpBarLength, art);
+    this.isElite = isElite;
+    this.middleX = middleX;
+  }
+  public Enemy(String name, int hp, boolean isElite, int middleX, String[] art){
+    super(name, hp, art);
     this.isElite = isElite;
     this.middleX = middleX;
   }
@@ -89,7 +90,7 @@ public class Enemy extends Entity{
   
   @Override
   public void die(){
-    Combat combat = this.getCombat();
+    Combat combat = Combat.c;
     Entity player = combat.getPlayer();
 
     if(this.hasStatus("Spore Cloud")){
@@ -110,6 +111,13 @@ public class Enemy extends Entity{
     if(enemies.size() == 0){
       combat.endCombat();
     }
+  }
+
+  @Override
+  public int attack(List<? extends Entity> victims, int damagePreCalculations, int strMultiplier) {
+    int retVal = super.attack(victims, damagePreCalculations, strMultiplier);
+    EventManager.er.OnAttackFinished(this);
+    return retVal;
   }
   
   // @Override

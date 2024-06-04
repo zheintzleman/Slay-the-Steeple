@@ -6,8 +6,10 @@ public abstract class Entity{
   private String name;
   private int hp, maxHP, hpBarLength, block, startOfTurnBlock;
   private String[] art;
+  // Could instead use a LinkedHashMap, especially given most of the use cases are with searching
+  // for a specific element. The lists are relatively short, though (and this project is not
+  // especially computationally demanding), so asymptotics aren't as important.
   private ArrayList<Status> statuses;
-  private Combat combat;
   // While enemies are doing their intents, new statuses are applied to a copy of the entity
   // instead of to the entity itself. They then sync at the start of the next turn.
   public Entity endTurnCopy = null;
@@ -21,7 +23,7 @@ public abstract class Entity{
     art = RECTANGLE;
     statuses = new ArrayList<Status>();
   }
-  public Entity(String name, Combat c){
+  public Entity(String name){
     this.name = name;
     this.maxHP = (int)(Math.random()*10) + 45;
     this.hp = this.maxHP;
@@ -29,9 +31,8 @@ public abstract class Entity{
     startOfTurnBlock = block = 0;
     art = RECTANGLE;
     statuses = new ArrayList<Status>();
-    this.combat = c;
   }
-  public Entity(String name, int hp, Combat c){
+  public Entity(String name, int hp){
     this.name = name;
     this.maxHP = hp;
     this.hp = this.maxHP;
@@ -39,9 +40,8 @@ public abstract class Entity{
     startOfTurnBlock = block = 0;
     art = RECTANGLE;
     statuses = new ArrayList<Status>();
-    this.combat = c;
   }
-  public Entity(String name, int hp, int hpBarLength, Combat c){
+  public Entity(String name, int hp, int hpBarLength){
     this.name = name;
     this.maxHP = hp;
     this.hp = this.maxHP;
@@ -49,9 +49,8 @@ public abstract class Entity{
     startOfTurnBlock = block = 0;
     art = RECTANGLE;
     statuses = new ArrayList<Status>();
-    this.combat = c;
   }
-  public Entity(String name, int hp, String[] art, Combat c){
+  public Entity(String name, int hp, String[] art){
     this.name = name;
     this.maxHP = hp;
     this.hp = this.maxHP;
@@ -59,9 +58,8 @@ public abstract class Entity{
     startOfTurnBlock = block = 0;
     this.art = art;
     statuses = new ArrayList<Status>();
-    this.combat = c;
   }
-  public Entity(String name, int hp, int maxHP, String[] art, Combat c){
+  public Entity(String name, int hp, String[] art, int maxHP){
     this.name = name;
     this.maxHP = maxHP;
     this.hp = hp;
@@ -69,16 +67,14 @@ public abstract class Entity{
     startOfTurnBlock = block = 0;
     this.art = art;
     statuses = new ArrayList<Status>();
-    this.combat = c;
   }
-  public Entity(String name, int hp, int hpBarLength, Combat c, String[] art){
+  public Entity(String name, int hp, int hpBarLength, String[] art){
     this.name = name;
     this.hp = this.maxHP = hp;
     this.hpBarLength = hpBarLength;
     startOfTurnBlock = block = 0;
     this.art = art;
     statuses = new ArrayList<Status>();
-    this.combat = c;
   }
   public Entity(Entity e){
     this.name = e.name;
@@ -89,7 +85,6 @@ public abstract class Entity{
     startOfTurnBlock = 0;
     this.art = e.art.clone();
     this.statuses = copyStatusList(e.statuses);
-    this.combat = e.combat;
   }
   
   //Getters and Setters
@@ -109,8 +104,6 @@ public abstract class Entity{
   public void setHPBarLength(int newHPBarLength){ hpBarLength = newHPBarLength; }
   public ArrayList<Status> getStatuses(){ return statuses; } 
   public void setStatuses(ArrayList<Status> newStatus){ statuses = newStatus; }
-  public Combat getCombat(){ return combat; }
-  public void setCombat(Combat newCombat){ combat = newCombat; }
   public int getVuln(){ return this.getStatusStrength("Vulnerable"); }
   public void setVuln(int newVuln){ setStatusStrength("Vulnerable", newVuln); }
   public int getWeak(){ return this.getStatusStrength("Weak"); }
@@ -342,7 +335,7 @@ public abstract class Entity{
     return attack(Collections.singletonList(victim), damagePreCalculations, strMultiplier);
   }
   /**Attacks the victims for the specified amount each. Takes into account relevent status effects.
-   * Takes from the victims' block, then their hp. Doesn't update statuses until all attacks completed.
+   * Takes from the victims' block, then their hp.
    * @param victims - The entities being attacked by the entity calling this method
    * @param damagePreCalculations - The amount of damage the base card does (ie. 6 for an unupgraded Strike)
    * @param strMultiplier - Multiplies the effect of strength by this; default 1. Used for Heavy Blade, etc.
@@ -367,7 +360,6 @@ public abstract class Entity{
         }
       }
     }
-    setStatusStrength("Vigor", 0);
     return totalDmgDealt;
   }
   /**Performs an attack that hits `victim` `times` times. See attack(List, int, int) for more details. */

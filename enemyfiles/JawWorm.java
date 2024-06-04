@@ -1,6 +1,5 @@
 package enemyfiles;
 import app.Colors;
-import app.Combat;
 import app.Entity;
 import app.Intent;
 import app.IntentType;
@@ -18,8 +17,8 @@ public class JawWorm extends Enemy{
                                                    Colors.fillColor("   ▀▀▀▀▀▀█▀ ▀▀▀▀", Colors.jawWormBlue)};
   
 
-  public JawWorm(int middleX, Combat c){
-    super("Jaw Worm", (int)(Math.random()*5)+40, false, middleX, art, c);
+  public JawWorm(int middleX){
+    super("Jaw Worm", (int)(Math.random()*5)+40, false, middleX, art);
     intent = CHOMP; //Always starts w/ Chomp
   }
 

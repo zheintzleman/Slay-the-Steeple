@@ -14,7 +14,7 @@ class Main {
   public static void main(String[] args) {
     System.out.println("\033[H\033[2JLoading...");
 
-    App game = new App();
+    App game = App.a;
     game.run();
 
     scan.nextLine();

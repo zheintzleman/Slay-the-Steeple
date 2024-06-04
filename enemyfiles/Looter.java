@@ -6,6 +6,7 @@ import app.Combat;
 import app.Entity;
 import app.Intent;
 import app.IntentType;
+import app.Run;
 
 public class Looter extends Enemy{
 
@@ -19,8 +20,8 @@ public class Looter extends Enemy{
   public static final String[] art = Colors.fillColor(new String[] {"       ▄█▄     ", "   ▄  ▀████    ", "   ▀▄    ███   ", "▀▀▄▄██▄▄████   ", "     ▀▀▀▀████  ", "      ▄██████  ", "     ██▀  ██ ", "     ▀█   ██   ", "      ▀    █   "}, Colors.slaverBlue);
 
 
-  public Looter(int middleX, Combat c){
-    super("Looter", (int)(Math.random()*5)+44, false, middleX, art, c);
+  public Looter(int middleX){
+    super("Looter", (int)(Math.random()*5)+44, false, middleX, art);
     addStatusStrength("Thievery", 15);
     intent = MUG;
     patternNum = 1;
@@ -35,14 +36,14 @@ public class Looter extends Enemy{
   public void doIntent(Entity player){
     if(intent == MUG){
       attack(player, 10);
-      goldStolen += getCombat().getRun().loseGold(15);
+      goldStolen += Combat.c.getRun().loseGold(15);
     }else if(intent == LUNGE){
       attack(player, 12);
-      goldStolen += getCombat().getRun().loseGold(15);
+      goldStolen += Combat.c.getRun().loseGold(15);
     }else if(intent == SMOKEBOMB){
       blockAfterTurn(6);
     }else if(intent == ESCAPE){
-      ArrayList<Enemy> enemiesToUpdate = getCombat().getEnemiesToUpdate();
+      ArrayList<Enemy> enemiesToUpdate = Combat.c.getEnemiesToUpdate();
       int thisIndex = -1;
       for(int i=0; i<enemiesToUpdate.size(); i++){
         Enemy e = enemiesToUpdate.get(i);
@@ -52,7 +53,7 @@ public class Looter extends Enemy{
       }
       enemiesToUpdate.remove(thisIndex);
       if(enemiesToUpdate.size() == 0){
-        getCombat().endCombat();
+        Combat.c.endCombat();
       }
     }
     patternNum++;
@@ -87,7 +88,7 @@ public class Looter extends Enemy{
 
   @Override
   public void die(){
-    getCombat().getRun().addGold(goldStolen);
+    Run.r.addGold(goldStolen);
     super.die();
   }
 }

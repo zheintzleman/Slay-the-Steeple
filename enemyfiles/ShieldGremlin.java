@@ -12,16 +12,14 @@ public class ShieldGremlin extends Enemy{
   private Intent intent;
   public static final Intent SHIELDBASH = new Intent("Shield Bash", 6);
   public static final Intent PROTECT = new Intent("Protect", IntentType.DEFEND);
-  private Combat combat;
   private ArrayList<Enemy> allies; //List of the other gremlins/enemies it is with
   public static final String[] art = Colors.fillColor(new String[] {"   ▄▄▄▄▀ ", "█ ▀ ██   ", "▀█▄ ▄█▄  ", " ▀█████▄ ", " ▄█████  ", "   ████  ", "   █ ▀█▄ ", "   █  █▀▀"}, Colors.shieldGPink);
 
   
-  public ShieldGremlin(int middleX, Combat c){
-    super("Shield Gremlin", (int)(Math.random()*4)+12, false, middleX, 11, art, c);
+  public ShieldGremlin(int middleX){
+    super("Shield Gremlin", (int)(Math.random()*4)+12, false, middleX, 11, art);
     intent = PROTECT;
-    combat = c;
-    allies = combat.getEnemies();
+    allies = Combat.c.getEnemies();
   }
 
   //Getters and Setters
@@ -54,7 +52,7 @@ public class ShieldGremlin extends Enemy{
 
 
   public void setNextIntent(){
-    if(combat.getEnemies().size() == 1){
+    if(Combat.c.getEnemies().size() == 1){
       intent = SHIELDBASH;
     }
     intent = PROTECT;

@@ -16,18 +16,15 @@ public class AcidSlimeMed extends Enemy{
   public static final Intent CORROSIVESPIT = new Intent("Corrosive Spit", IntentType.ATTACK, IntentType.DEBUFF, 7);
   public static final Intent LICK = new Intent("Lick", IntentType.DEBUFF);
   private int spitsInARow = 0;
-  private Combat combat;
   public static final String[] art = Colors.fillColor(new String[] {"      ▄▄▄▄▄▄       ", "    ▄████████▄     ", "  ▄████████████▄   ", "▄████████████████▄ ", "███████████████████", " ▀▀▀██████████▀▀▀  "}, Colors.lightGreen);
 
 
-  public AcidSlimeMed(int middleX, Combat c){
-    super("Acid Slime (M)", (int)(Math.random()*5)+28, false, middleX, 17, art, c);
-    combat = c;
+  public AcidSlimeMed(int middleX){
+    super("Acid Slime (M)", (int)(Math.random()*5)+28, false, middleX, 17, art);
     setNextIntent();
   }
   public AcidSlimeMed(AcidSlimeLarge lSlime, int middleX){
-    super("Acid Slime (M)", lSlime.getHP(), false, middleX, 17, art, lSlime.getCombat());
-    combat = lSlime.getCombat();
+    super("Acid Slime (M)", lSlime.getHP(), false, middleX, 17, art);
     setNextIntent();
   }
 
@@ -41,7 +38,7 @@ public class AcidSlimeMed extends Enemy{
       attack(player, 10);
     }else if(intent == CORROSIVESPIT){
       attack(player, 7);
-      ArrayList<Card> disc = combat.getDiscardPile();
+      ArrayList<Card> disc = Combat.c.getDiscardPile();
       disc.add(Card.getCard("Slimed"));
     }else if(intent == LICK){
       player.addStatusStrength("Weak", 1);

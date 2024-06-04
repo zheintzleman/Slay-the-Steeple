@@ -15,18 +15,15 @@ public class SpikeSlimeMed extends Enemy{
   public static final Intent LICK = new Intent("Lick", IntentType.DEBUFF);
   private int FTsInARow = 0;
   private int licksInARow = 0;
-  private Combat combat;
   public static final String[] art = Colors.fillColor(new String[] {"      ▄▄▄▄▄▄       ",  "    ██████████     ", "  ▄████████████▄   ", "▄████████████████▄ ", "███████████████████", " ▀▀▀██████████▀▀▀  "}, Colors.spikeSlimeColor);
 
 
-  public SpikeSlimeMed(int middleX, Combat c){
-    super("Spike Slime (M)", (int)(Math.random()*5)+28, false, middleX, 17, art, c);
-    combat = c;
+  public SpikeSlimeMed(int middleX){
+    super("Spike Slime (M)", (int)(Math.random()*5)+28, false, middleX, 17, art);
     setNextIntent();
   }
   public SpikeSlimeMed(SpikeSlimeLarge lSlime, int middleX){
-    super("Spike Slime (M)", lSlime.getHP(), false, middleX, 17, art, lSlime.getCombat());
-    combat = lSlime.getCombat();
+    super("Spike Slime (M)", lSlime.getHP(), false, middleX, 17, art);
     setNextIntent();
   }
 
@@ -38,7 +35,7 @@ public class SpikeSlimeMed extends Enemy{
   public void doIntent(Entity player){
     if(intent == FLAMETACKLE){
       attack(player, 8);
-      ArrayList<Card> disc = combat.getDiscardPile();
+      ArrayList<Card> disc = Combat.c.getDiscardPile();
       disc.add(Card.getCard("Slimed"));
     }else if(intent == LICK){
       player.addStatusStrength("Frail", 1);
