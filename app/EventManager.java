@@ -1,6 +1,8 @@
 package app;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.List;
 
 public class EventManager {
   public enum Event{
@@ -20,11 +22,6 @@ public class EventManager {
   }
 
   public void OnTurnEnd(){
-    // Relics.turnStart(...)((...));
-    // ^Or just make them all here since there's going to be a bunch of different events anyway?
-    // Cards subscribed are taken care of in the Combat.c.endTurn() method, when discarded
-
-    // Call all (OnTurnEnd) statuses
     playStatusEffects(Event.ONTURNEND);
 
     // Calls ONTURNEND card effects from cards in hand; discards them if appropriate.
@@ -54,6 +51,7 @@ public class EventManager {
     if(victim == Combat.c.getPlayer()){
       OnPlayerHurt(hpLoss);
     }
+    //TODO: playStatusEffects(Event.ONLOSEHP, Collections.singletonList(victim));
   }
 
   private void OnPlayerHurt(int hpLoss){
@@ -64,6 +62,7 @@ public class EventManager {
         }
       }
     }
+    playStatusEffects(Event.ONPLAYERHURT);
   }
 
   public void OnAtkDmgDealt(Entity victim, int damage){
@@ -84,11 +83,21 @@ public class EventManager {
     attacker.setStatusStrength("Vigor", 0);
   }
 
-  /**Plays all status effects that were initialized with the respective event;
+  
+  /**Plays all status effects (on all entities) that were initialized with the respective event;
    * e.g. with (OnTurnEnd) for event == Event.ONTURNEND.
+   * @param event The Event enum elt. to call
    */
   private void playStatusEffects(Event event){
-    for(Entity entity : Combat.c.getEntities()){
+    playStatusEffects(event, Combat.c.getEntities());
+  }
+  /**Plays all status effects that were initialized with the respective event;
+   * e.g. with (OnTurnEnd) for event == Event.ONTURNEND.
+   * @param event The Event enum elt. to call
+   * @param entities The list of entities to call on
+   */
+  private void playStatusEffects(Event event, List<? extends Entity> entities){
+    for(Entity entity : entities){
       if(entity.isDead()) continue;
       for(Status stat : entity.getStatuses()){
         for(Effect eff : stat.getEffects()){

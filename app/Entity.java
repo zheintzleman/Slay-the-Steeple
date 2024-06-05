@@ -156,7 +156,8 @@ public abstract class Entity{
    * @Precondition: A copy has been initialized.
    */
   private void mergeCopy(){
-    App.ASSERT(hasCopy());
+    // Not asserting hasCopy(), since a new enemy could have been created since createCopy,
+    // and they are created w/ hasCopy() false (i.e. copy == null.)
     setStatuses(copy.getStatuses());
     copy = null;
   }
