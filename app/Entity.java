@@ -1,11 +1,14 @@
 package app;
+import java.lang.annotation.Inherited;
 import java.util.*;
 import java.util.function.Consumer;
 
 public abstract class Entity{
+  /** Default Entity Image */
   public static final String[] RECTANGLE = new String[] {"███████", "███████", "███████", "███████", "███████", "███████"};
   private String name;
   private int hp, maxHP, hpBarLength, block, startOfTurnBlock;
+  private boolean isDead = false;
   private String[] art;
   // Could instead use a LinkedHashMap, especially given most of the use cases are with searching
   // for a specific element. The lists are relatively short, though (and this project is not
@@ -101,6 +104,7 @@ public abstract class Entity{
   public void setStartOfTurnBlock(int newBlock){ startOfTurnBlock = newBlock; }
   public int getBlock(){ return block; }
   public void setBlock(int newBlock){ block = newBlock; }
+  public boolean isDead(){ return isDead; }
   public String[] getArt(){ return art; }
   public void setArt(String[] newArt){ art = newArt; }
   public int getHPBarLength(){ return hpBarLength; }
@@ -156,6 +160,7 @@ public abstract class Entity{
     setStatuses(copy.getStatuses());
     copy = null;
   }
+  /** See `copy` description for more details. Returns false if called on the copy. */
   public boolean hasCopy(){
     return copy != null;
   }
@@ -445,11 +450,13 @@ public abstract class Entity{
     }
   }
 
-  
+  /** Meant to be overridden w/ a super() call. */
+  public void die(){
+    isDead = true;
+  }
 
   //For polymorphism
   public abstract void setSplitIntent();
-  public abstract void die();
   /**Ends the turn of the entity. Will generally only be called on the player
   */
   public abstract void endTurn(Player player);

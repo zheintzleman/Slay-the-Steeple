@@ -262,7 +262,7 @@ public class Card implements Serializable {
     data.isTargeted = targeted;
     data.effects = new ArrayList<CardEffect>();
     for(String str : effects){
-      data.effects.add(new CardEffect(str));
+      data.effects.add(new CardEffect(str, this));
     }
     data.description = new Description(data.effects);
   }
@@ -273,7 +273,7 @@ public class Card implements Serializable {
     upData.isTargeted = targeted;
     upData.effects = new ArrayList<CardEffect>();
     for(String str : upEffects){
-      upData.effects.add(new CardEffect(str));
+      upData.effects.add(new CardEffect(str, this));
     }
     upData.description = new Description(upData.effects);
   }
@@ -284,7 +284,7 @@ public class Card implements Serializable {
     upData.isTargeted = upTargeted;
     upData.effects = new ArrayList<CardEffect>();
     for(String str : upEffects){
-      upData.effects.add(new CardEffect(str));
+      upData.effects.add(new CardEffect(str, this));
     }
     upData.description = new Description(upData.effects);
   }
@@ -308,7 +308,7 @@ public class Card implements Serializable {
     upData.isTargeted = upTargeted;
     upData.effects = new ArrayList<CardEffect>();
     for(String str : upEffects){
-      upData.effects.add(new CardEffect(str));
+      upData.effects.add(new CardEffect(str, this));
     }
     upData.description = new Description(upDescription);
   }

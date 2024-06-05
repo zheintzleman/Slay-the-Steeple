@@ -1,6 +1,7 @@
 package enemyfiles;
 import java.util.*;
 
+import app.App;
 import app.Combat;
 import app.Entity;
 import app.EventManager;
@@ -89,6 +90,9 @@ public abstract class Enemy extends Entity{
   
   @Override
   public void die(){
+    super.die();
+    App.ASSERT(isDead());
+    
     Combat combat = Combat.c;
     Entity player = combat.getPlayer();
 

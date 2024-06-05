@@ -14,11 +14,13 @@ public class Combat{
   private ArrayList<Card> drawPile, discardPile, exhaustPile, hand;
   private int energy, baseEnergy;
   // Combat stops running when set to true:
-  boolean combatOver;
+  private boolean combatOver;
   // For when too many cards in hand to fully print all of them
-  boolean condenseLeftHalfOfHand;
+  private boolean condenseLeftHalfOfHand;
   //The highest row (of the screen) in which the hand cards are printed
-  int topRowOfCards;
+  private int topRowOfCards;
+  /** The number of times Combust has been played this combat */
+  private int combusts = 0;
   /** A reference to EventManager.er */
   private EventManager eventManager;
   /** Semi-singleton Combat instance (only ever exists 1, but not final) */
@@ -401,7 +403,7 @@ public class Combat{
   public void callOnDrawEffs(Card card){
     for(CardEffect eff : card.getEffects()){
       if(eff.whenPlayed() == Event.ONDRAW){
-        playEffect(eff, card);
+        playEffect(eff);
       }
     }
   }
@@ -431,7 +433,7 @@ public class Combat{
     exhaustPile.add(card);
     for(CardEffect eff : card.getEffects()){
       if(eff.whenPlayed() == Event.ONEXHAUST){
-        playEffect(eff, card);
+        playEffect(eff);
       }
     }
     // Relics.onExhaust(card, combat); // Or smth
@@ -534,7 +536,7 @@ public class Combat{
           break;
         default:
           // Other effects that are included in the playEffect function
-          shouldDiscard = playEffect(eff, card) && shouldDiscard;
+          shouldDiscard = playEffect(eff) && shouldDiscard;
       }
     }
 
@@ -574,12 +576,13 @@ public class Combat{
    * be discarded, and so returns false instead of the default of true.)
    * @precondition eff does not target an enemy.
    */
-  public boolean playEffect(CardEffect eff, Card card){
+  public boolean playEffect(Effect eff){
     // Can make one of these which takes in a target, too, but there's no need for one right now.
     boolean shouldDiscard = true;
     String primary = eff.getPrimary();
     String secondary = eff.getSecondary();
     int power = eff.getPower();
+    Card card = (eff instanceof CardEffect) ? ((CardEffect) eff).getCard() : null;
 
     switch (eff.getPrimary()) {
       case "Block":
@@ -666,6 +669,14 @@ public class Combat{
       case "ChangeCost":
         App.ASSERT(card != null);
         card.setEnergyCost(card.getEnergyCost() + power);
+        break;
+      case "IncrCombustCnt":
+        combusts++;
+        break;
+      case "Combust":
+        final int combustDamage = power;
+        player.subtractHP(combusts);
+        List.copyOf(enemies).forEach(e -> e.damage(combustDamage));
         break;
       case "Clash":
       case "Unplayable":

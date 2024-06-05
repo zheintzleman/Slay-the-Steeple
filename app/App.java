@@ -157,11 +157,14 @@ public class App {
     cards.put("Bloodletting", new Card("Bloodletting", "Skill", 0, false, List.of("LoseHP 3", "GainEnergy 2"), List.of("LoseHP 3", "GainEnergy 3"), Rarity.UNCOMMON, Color.IRONCLAD));
     cards.put("Burning Pact", new Card("Burning Pact", "Skill", 1, false, List.of("Exhaust Choose1FromHand", "Draw 2"), List.of("Exhaust Choose1FromHand", "Draw 3"), Rarity.UNCOMMON, Color.IRONCLAD));
     cards.put("Carnage", new Card("Carnage", "Attack", 2, true, List.of("Ethereal", "Attack 20"), List.of("Ethereal", "Attack 28"), Rarity.UNCOMMON, Color.IRONCLAD));
+    cards.put("Combust", new Card("Combust", "Power", 1, false, List.of("AppPlayer Combust 5", "IncrCombustCnt"), List.of("AppPlayer Combust 7", "IncrCombustCnt <str>"), Rarity.UNCOMMON, Color.IRONCLAD));
     // Todo List:
     // Try to make the screen width/etc. update in real time by not using Run.SCREENX & using SettingsManager.x instead?
     // Check whether or not statuses used to show in the order they were obtained.
     // Figure out how the sts stat ordering works.
+    // Finish that stuff in the Status constructor & w/ StatusEffects. (& just Combust in general.)
     // ~Combine App & Str, and rename it to Util?
+    // Finish implementing Combust.
     // Make it so the robber(s) don't "drop gold" when they run away.
     // Make Jaw Worm art wider?
     // In the statuses list (& possibly any other lists, too), change the section headers to be some different color (besides just white)
@@ -181,7 +184,7 @@ public class App {
     HashMap<String, Status> statuses = new HashMap<String, Status>();
     statuses = new HashMap<String, Status>();
     
-    //Name, image, isDecreasing, hasStrength, description
+    //Name, image, isDecreasing, hasStrength, description, (Optional: Effects -- can use <str> as effect strength)
     statuses.put("Vulnerable", new Status("Vulnerable", Colors.darkRed + "V", true, true, "Takes 50% more damage from attacks for the next <str> turn(s)."));
     statuses.put("Weak", new Status("Weak", Colors.lightGreen + "W", true, true, "Deals 25% less attack damage for the next <str> turn(s)."));
     statuses.put("Frail", new Status("Frail", Colors.lightBlue + "F", true, true, "Block gained from cards is reduced by 25% for the next <str> turn(s)."));
@@ -201,6 +204,7 @@ public class App {
     statuses.put("Thievery", new Status("Thievery", Colors.lightYellow + "T", false, true, "<str> Gold is stolen with every attack. Total Gold stolen is returned if the enemy is killed."));
     statuses.put("Vigor", new Status("Vigor", Colors.vigorOrange + "v", false, true, "Your next Attack deals <str> additional damage."));
     statuses.put("No Draw", new Status("No Draw", Colors.lightBlue + "N", true, false, "You may not draw any more cards this turn."));
+    statuses.put("Combust", new Status("Combust", Colors.vigorOrange + "C", false, true, "At the end of your turn, lose 1 HP(for each Combust played) and deal <str> damage to ALL enemies.", List.of("(OnTurnEnd) Combust <str>")));
 
     
     // Assert that all entries in `cards` are named correctly:

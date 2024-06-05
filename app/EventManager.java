@@ -21,10 +21,11 @@ public class EventManager {
 
   public void OnTurnEnd(){
     // Relics.turnStart(...)((...));
-    // Status.turnStart(...)((...));
     // ^Or just make them all here since there's going to be a bunch of different events anyway?
-    //TODO: Put some stuff from (Entity/Enemy).endTurn here?
     // Cards subscribed are taken care of in the Combat.c.endTurn() method, when discarded
+
+    // Call all (OnTurnEnd) statuses
+    playStatusEffects(Event.ONTURNEND);
 
     // Calls ONTURNEND card effects from cards in hand; discards them if appropriate.
     // Each card discarded immediately after "play", for canon continuity.
@@ -39,7 +40,7 @@ public class EventManager {
         if(eff.whenPlayed() == Event.ONTURNEND){
           //Plays any ONTURNEND card effects
           //If the effect returns false (card should not discard), shouldDiscard set to false.
-          shouldDiscard = shouldDiscard && Combat.c.playEffect(eff, card);
+          shouldDiscard = shouldDiscard && Combat.c.playEffect(eff);
         }
       }
       if(shouldDiscard){
@@ -59,7 +60,7 @@ public class EventManager {
     for(Card card : Combat.c.getCardsInPlay()){
       for(CardEffect eff : card.getEffects()){
         if(eff.whenPlayed() == Event.ONPLAYERHURT){
-          Combat.c.playEffect(eff, card);
+          Combat.c.playEffect(eff);
         }
       }
     }
@@ -81,6 +82,22 @@ public class EventManager {
     //Just directly reduces vigor -- the entity copy system will make it so the statuses don't
     //apply until after all of the attacks are done.
     attacker.setStatusStrength("Vigor", 0);
+  }
+
+  /**Plays all status effects that were initialized with the respective event;
+   * e.g. with (OnTurnEnd) for event == Event.ONTURNEND.
+   */
+  private void playStatusEffects(Event event){
+    for(Entity entity : Combat.c.getEntities()){
+      if(entity.isDead()) continue;
+      for(Status stat : entity.getStatuses()){
+        for(Effect eff : stat.getEffects()){
+          if(eff.whenPlayed() == event){
+            Combat.c.playEffect(eff);
+          }
+        }
+      }
+    }
   }
 
   // TODO: Make a global function? Or does the need for int hpLoss/etc. make that not worth it?

@@ -11,10 +11,6 @@ public class AbstractEntity extends Entity {
     throw new RuntimeException("Calling endTurn function on abstract entity.");
   }
   @Override
-  public void die() {
-    throw new RuntimeException("Calling die function on abstract entity.");
-  }
-  @Override
   public void setSplitIntent() {
     throw new RuntimeException("Calling setSplitIntent function on abstract entity.");
   }

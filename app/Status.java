@@ -1,9 +1,14 @@
 package app;
+
+import java.util.ArrayList;
+import java.util.List;
+
 public class Status{
   private String name, description;
   private int strength;
   private String image;
   private boolean decreasing, hasStrength;
+  final private List<StatusEffect> effects;
 
   public Status(){
     name = "<Status>";
@@ -12,6 +17,7 @@ public class Status{
     decreasing = false;
     hasStrength = true;
     description = "<desc>";
+    effects = new ArrayList<>();
   }
   public Status(Status s){
     name = s.getName();
@@ -20,6 +26,10 @@ public class Status{
     decreasing = s.isDecreasing();
     hasStrength = s.hasStrength();
     description = s.getDescription();
+    // For each effect: create a new (otherwise identical) StatusEffect that points to this status.
+    effects = s.getEffects().stream()
+                .map((StatusEffect eff) -> new StatusEffect(eff, this))
+                .toList();
   }
   /**Initializes the described status, with default strength of 1. */
   public Status(String name){
@@ -39,6 +49,19 @@ public class Status{
     this.decreasing = decreasing;
     this.hasStrength = hasStrength;
     description = desc;
+    effects = new ArrayList<>();
+  }
+  //For App.STATUSES:
+  public Status(String name, String image, boolean decreasing, boolean hasStrength, String desc, List<String> effects){
+    this(name, image, decreasing, hasStrength, desc);
+    for(String eff : effects){
+      // If ends w/ <str>, delete it and mark that 
+      if(eff.endsWith(" <str>")){
+        this.effects.add(new StatusEffect(eff, this, true));
+      } else {
+        this.effects.add(new StatusEffect(eff, this));
+      }
+    }
   }
 
   //Getters and Setters
@@ -52,6 +75,7 @@ public class Status{
   public String getDescription(){ return description; }
   public boolean hasStrength(){ return hasStrength; }
   public void setHasStrength(boolean newHS){ hasStrength = newHS; }
+  public List<StatusEffect> getEffects() { return effects; }
   
   public void setStrength(int newStrength){
     if(hasStrength){
