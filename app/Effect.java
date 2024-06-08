@@ -1,6 +1,7 @@
 package app;
 
 import java.io.Serializable;
+import java.util.regex.*;
 
 import app.EventManager.Event;
 
@@ -27,21 +28,12 @@ public class Effect implements Serializable {
     String str = data;
     whenPlayed = Event.ONCARDPLAY;
 
-    if(str.startsWith("(OnExhaust) ")){
-      whenPlayed = Event.ONEXHAUST;
-      str = str.substring("(OnExhaust) ".length());
-    } else if(str.startsWith("(OnDiscard) ")){
-      whenPlayed = Event.ONDISCARD;
-      str = str.substring("(OnDiscard) ".length());
-    } else if(str.startsWith("(OnTurnEnd) ")){
-      whenPlayed = Event.ONTURNEND;
-      str = str.substring("(OnTurnEnd) ".length());
-    } else if(str.startsWith("(OnDraw) ")){
-      whenPlayed = Event.ONDRAW;
-      str = str.substring("(OnDraw) ".length());
-    } else if(str.startsWith("(OnPlayerHurt) ")){
-      whenPlayed = Event.ONPLAYERHURT;
-      str = str.substring("(OnPlayerHurt) ".length());
+    if(str.startsWith("(")){
+      String[] halves = str.split("[\\(\\)] ", 2);
+      App.ASSERT(halves.length == 2);
+      String enumName = halves[0].substring(1).toUpperCase();
+      whenPlayed = Event.valueOf(enumName);
+      str = halves[1];
     }
     if(str.equals("Ethereal")){
       whenPlayed = Event.ONTURNEND;

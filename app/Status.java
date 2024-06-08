@@ -58,6 +58,7 @@ public class Status{
       // If ends w/ <str>, delete it and mark that 
       if(eff.endsWith(" <str>")){
         this.effects.add(new StatusEffect(eff, this, true));
+        // TODO: Stretch goal: make plurals singular if <str> == 1 (e.g.in Dark Embrace)
       } else {
         this.effects.add(new StatusEffect(eff, this));
       }

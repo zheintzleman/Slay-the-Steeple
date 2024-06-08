@@ -158,7 +158,9 @@ public abstract class Entity{
   private void mergeCopy(){
     // Not asserting hasCopy(), since a new enemy could have been created since createCopy,
     // and they are created w/ hasCopy() false (i.e. copy == null.)
-    setStatuses(copy.getStatuses());
+    if(hasCopy()){
+      setStatuses(copy.getStatuses());
+    }
     copy = null;
   }
   /** See `copy` description for more details. Returns false if called on the copy. */

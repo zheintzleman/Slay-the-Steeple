@@ -82,6 +82,7 @@ public class Colors {
   public static final String looterBlue = "Ø\033[38;5;74mÁ";
   public static final String basicBlue = "Ø\033[38;2;38;66;77mÁ";
   public static final String vigorOrange = "Ø\033[38;5;214mÁ";
+  public static final String darkEmbracePurple = "Ø\033[38;2;235;160;240mÁ";
 
 
   public static final String[] IRONCLADIMG0 = Colors.fillColor(new String[] {"        ▄▄▄   ",

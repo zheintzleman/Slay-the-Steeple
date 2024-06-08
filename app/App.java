@@ -87,7 +87,7 @@ public class App {
     //Primary: First word of input data.
     //Secondary: Rest of input data, apart from terminal integer
     //Power: Terminal integer, or 1 if last word not an integer
-    //WhenPlayed: Defaults to ONPLAY; begin with "(OnDiscard) "/"(OnTurnEnd) "/etc. to change.
+    //WhenPlayed: Defaults to ONPLAY; begin with "(OnDiscarded) "/"(OnTurnEnd) "/etc. to change.
     //e.g. Stores "Lorem Ipsum Dolor 4" as: P = "Lorem", S = "Ipsum Dolor", p = 4,
     // or "Lorem Ipsum 4 Dolor" as: P = "Lorem", S = "Ipsum 4 Dolor", p = 1.
     // or "(OnExhaust) Lorem Ipsum 4 Dolor" as: P = "Lorem", S = "Ipsum 4 Dolor", p = 1, WP = ONEXHAUST
@@ -98,7 +98,7 @@ public class App {
                       "", -1, false, List.of(), Rarity.COMMON, Color.NEUTRAL));
     cards.put("Dazed", new Card("Dazed", "Status", -1, false, List.of("Unplayable", "Ethereal"), List.of(), Rarity.COMMON, Color.NEUTRAL));
     cards.put("Slimed", new Card("Slimed", "Status", 1, false, List.of("Exhaust"), List.of(), Rarity.COMMON, Color.NEUTRAL));
-    cards.put("Void", new Card("Void", "Unplayable.\nEthereal.\nWhenever this card is drawn, lose 1 Energy\n", "Status", -1, false, List.of("Unplayable", "Ethereal", "(OnDraw) ChangeEnergy -1"),
+    cards.put("Void", new Card("Void", "Unplayable.\nEthereal.\nWhenever this card is drawn, lose 1 Energy\n", "Status", -1, false, List.of("Unplayable", "Ethereal", "(OnDrawn) ChangeEnergy -1"),
                       "", -1, false, List.of(), Rarity.COMMON, Color.NEUTRAL));
     cards.put("Wound", new Card("Wound", "Status", -1, false, List.of("Unplayable"), List.of(), Rarity.COMMON, Color.NEUTRAL));
 
@@ -146,8 +146,8 @@ public class App {
                       "Deal ØatkÁ7ØendatkÁ damage twice.\n", 1, true, List.of("Attack 7", "Attack 7"), Rarity.COMMON, Color.IRONCLAD));
     cards.put("Warcry", new Card("Warcry", "Skill", 0, false, List.of("Draw 1", "PutOnDrawPile Choose1FromHand", "Exhaust"),
                       List.of("Draw 2", "PutOnDrawPile Choose1FromHand", "Exhaust"), Rarity.COMMON, Color.IRONCLAD));
-    // cards.put("Sentinel", new Card("Sentinel", "Skill", 1, false, List.of("(OnExhaust) Block 5")),
-    //                   List.of("(OnExhaust) Block 8")), Rarity.UNCOMMON)); //TODO: Remove/update to be correct eventually (just for testing rn)
+    // cards.put("Sentinel", new Card("Sentinel", "Skill", 1, false, List.of("(OnExhausted) Block 5")),
+    //                   List.of("(OnExhausted) Block 8")), Rarity.UNCOMMON)); //TODO: Remove/update to be correct eventually (just for testing rn)
     cards.put("Wild Strike", new Card("Wild Strike", "Attack", 1, true, List.of("Attack 12", "GainToDraw Wound"),
                       List.of("Attack 17", "GainToDraw Wound"), Rarity.COMMON, Color.IRONCLAD));
     cards.put("Battle Trance", new Card("Battle Trance", "Draw 3 cards.\nYou cannot draw additional cards this turn.\n", "Skill", 0, false, List.of("Draw 3", "AppPlayer No Draw"),
@@ -157,18 +157,22 @@ public class App {
     cards.put("Bloodletting", new Card("Bloodletting", "Skill", 0, false, List.of("LoseHP 3", "GainEnergy 2"), List.of("LoseHP 3", "GainEnergy 3"), Rarity.UNCOMMON, Color.IRONCLAD));
     cards.put("Burning Pact", new Card("Burning Pact", "Skill", 1, false, List.of("Exhaust Choose1FromHand", "Draw 2"), List.of("Exhaust Choose1FromHand", "Draw 3"), Rarity.UNCOMMON, Color.IRONCLAD));
     cards.put("Carnage", new Card("Carnage", "Attack", 2, true, List.of("Ethereal", "Attack 20"), List.of("Ethereal", "Attack 28"), Rarity.UNCOMMON, Color.IRONCLAD));
-    cards.put("Combust", new Card("Combust", "Power", 1, false, List.of("AppPlayer Combust 5", "IncrCombustCnt"), List.of("AppPlayer Combust 7", "IncrCombustCnt <str>"), Rarity.UNCOMMON, Color.IRONCLAD));
+    cards.put("Combust", new Card("Combust", "At the end of your turn, lose 1 HP and deal 5 damage to ALL enemies.\n", "Power", 1, false, List.of("AppPlayer Combust 5", "IncrCombustCnt"),
+                      "At the end of your turn, lose 1 HP and deal 7 damage to ALL enemies.\n", 1, false, List.of("AppPlayer Combust 7", "IncrCombustCnt <str>"), Rarity.UNCOMMON, Color.IRONCLAD));
+    cards.put("Dark Embrace", new Card("Dark Embrace", "Whenever a card is Exhausted, draw 1 card.\n", "Power", 2, false, List.of("AppPlayer Dark Embrace"),
+                      "Whenever a card is Exhausted, draw 1 card.\n", 1, false, List.of("AppPlayer Dark Embrace"), Rarity.UNCOMMON, Color.IRONCLAD));
     // Todo List:
-    // Try to make the screen width/etc. update in real time by not using Run.SCREENX & using SettingsManager.x instead?
     // Check whether or not statuses used to show in the order they were obtained.
     // Figure out how the sts stat ordering works.
-    // Finish that stuff in the Status constructor & w/ StatusEffects. (& just Combust in general.)
     // ~Combine App & Str, and rename it to Util?
-    // Finish implementing Combust.
+    // Test Dark Embrace
     // Make it so the robber(s) don't "drop gold" when they run away.
+    // Dark Embrace/Ethereal interaction?
     // Make Jaw Worm art wider?
+    // Try to make the screen width/etc. update in real time by not using Run.SCREENX & using SettingsManager.x instead?
     // In the statuses list (& possibly any other lists, too), change the section headers to be some different color (besides just white)
     // Is there benefit to having a screen/interface class?
+    // OnTurnEnd shouldn't be called when you win the combat.
     // Add more assertions?
     // Stretch goal: Allow for a screen width of 155
 
@@ -205,6 +209,7 @@ public class App {
     statuses.put("Vigor", new Status("Vigor", Colors.vigorOrange + "v", false, true, "Your next Attack deals <str> additional damage."));
     statuses.put("No Draw", new Status("No Draw", Colors.lightBlue + "N", true, false, "You may not draw any more cards this turn."));
     statuses.put("Combust", new Status("Combust", Colors.vigorOrange + "C", false, true, "At the end of your turn, lose 1 HP(for each Combust played) and deal <str> damage to ALL enemies.", List.of("(OnTurnEnd) Combust <str>")));
+    statuses.put("Dark Embrace", new Status("Dark Embrace", Colors.darkEmbracePurple + "D", false, true, "Whenever a card is Exhausted, draw <str> cards.", List.of("(OnExhaust) Draw <str>")));
 
     
     // Assert that all entries in `cards` are named correctly:

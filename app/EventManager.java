@@ -6,19 +6,31 @@ import java.util.List;
 
 public class EventManager {
   public enum Event{
-    ONCARDPLAY,    //
-    ONDISCARD, //TODO: Note that this should probably only be called(?) when a(ny) card's effect discards this card
+    ONCARDPLAY,
+    ONDISCARD,
+    ONDISCARDED,
     ONEXHAUST,
+    ONEXHAUSTED,
     ONDRAW,
+    ONDRAWN,
     ONTURNEND,
+    ONLOSEHP,
     ONPLAYERHURT,
     ONATKDMGDEALT
   }
 
   /** Singleton EventManager Instance */
   public static final EventManager em = new EventManager();
+  private EventManager(){}
+  public static final List<Event> BANNED_CARD_EFFECTS =
+    List.of(Event.ONDRAW, Event.ONDISCARD, Event.ONEXHAUST, Event.ONLOSEHP, Event.ONATKDMGDEALT);
+  public static final List<Event> BANNED_STATUS_EFFECTS =
+    List.of(Event.ONDRAWN, Event.ONDISCARDED, Event.ONEXHAUSTED);
 
-  private EventManager(){
+
+  public void OnExhaust(Card exhausted){
+    playCardEffects(Event.ONEXHAUSTED, exhausted);
+    playStatusEffects(Event.ONEXHAUST);
   }
 
   public void OnTurnEnd(){
@@ -37,11 +49,11 @@ public class EventManager {
         if(eff.whenPlayed() == Event.ONTURNEND){
           //Plays any ONTURNEND card effects
           //If the effect returns false (card should not discard), shouldDiscard set to false.
-          shouldDiscard = shouldDiscard && Combat.c.playEffect(eff);
+          shouldDiscard = Combat.c.playEffect(eff) && shouldDiscard;
         }
       }
       if(shouldDiscard){
-        Combat.c.discardCardFromHand(card);
+        Combat.c.discard(card, false);
       }
     }
   }
@@ -55,13 +67,7 @@ public class EventManager {
   }
 
   private void OnPlayerHurt(int hpLoss){
-    for(Card card : Combat.c.getCardsInPlay()){
-      for(CardEffect eff : card.getEffects()){
-        if(eff.whenPlayed() == Event.ONPLAYERHURT){
-          Combat.c.playEffect(eff);
-        }
-      }
-    }
+    playCardEffects(Event.ONPLAYERHURT, Combat.c.getCardsInPlay());
     playStatusEffects(Event.ONPLAYERHURT);
   }
 
@@ -83,17 +89,27 @@ public class EventManager {
     attacker.setStatusStrength("Vigor", 0);
   }
 
+  /** Activates when a card is discarded "unnaturally", i.e. not from just playing it, but from
+   * another effect such as Gambling Chip or Acrobatics. Only calls effects on the discarded card.
+   * @param c The card discarded
+   */
+  public void OnDiscard(Card c){
+    playCardEffects(Event.ONDISCARDED, c);
+    playStatusEffects(Event.ONDISCARD);
+  }
+
+
   
-  /**Plays all status effects (on all entities) that were initialized with the respective event;
+  /** Plays all status effects (on all entities) that were initialized with the respective event;
    * e.g. with (OnTurnEnd) for event == Event.ONTURNEND.
-   * @param event The Event enum elt. to call
+   * @param event The Event enum to call
    */
   private void playStatusEffects(Event event){
     playStatusEffects(event, Combat.c.getEntities());
   }
-  /**Plays all status effects that were initialized with the respective event;
+  /** Plays all status effects that were initialized with the respective event;
    * e.g. with (OnTurnEnd) for event == Event.ONTURNEND.
-   * @param event The Event enum elt. to call
+   * @param event The Event enum to call
    * @param entities The list of entities to call on
    */
   private void playStatusEffects(Event event, List<? extends Entity> entities){
@@ -104,6 +120,27 @@ public class EventManager {
           if(eff.whenPlayed() == event){
             Combat.c.playEffect(eff);
           }
+        }
+      }
+    }
+  }
+  /** Plays all card effects (on the given card) that were initialized with the respective event;
+   * e.g. with (OnTurnEnd) for event == Event.ONTURNEND.
+   * @param event The Event enum to call
+   */
+  private void playCardEffects(Event event, Card c){
+    playCardEffects(event, Collections.singletonList(c));
+  }
+  /** Plays all card effects (on the given cards) that were initialized with the respective event;
+   * e.g. with (OnTurnEnd) for event == Event.ONTURNEND.
+   * @param event The Event enum to call
+   * @param cards The list of cards to call on
+   */
+  private void playCardEffects(Event event, List<? extends Card> cards){
+    for(Card card : cards){
+      for(CardEffect eff : card.getEffects()){
+        if(eff.whenPlayed() == event){
+          Combat.c.playEffect(eff);
         }
       }
     }

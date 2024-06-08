@@ -21,15 +21,27 @@ public class Run{
     gold = 99;
     deck = new ArrayList<Card>();
     App.ASSERT(new Card("Strike") != null);
+    deck.add(new Card("Void"));
+    deck.add(new Card("Void"));
     deck.add(new Card("Armaments"));
     deck.add(new Card("Armaments"));
     deck.add(new Card("Armaments"));
+    deck.add(new Card("Combust"));
     deck.add(new Card("Combust"));
     deck.add(new Card("Combust"));
     deck.add(new Card("Burning Pact"));
+    deck.add(new Card("Burning Pact"));
+    deck.add(new Card("Burning Pact"));
     deck.add(new Card("Flex"));
     deck.add(new Card("Flex"));
-    deck.add(new Card("Sword Boomerang"));
+    deck.add(new Card("Dark Embrace"));
+    deck.add(new Card("Dark Embrace"));
+    deck.add(new Card("Burn"));
+    deck.add(new Card("Burn"));
+    deck.add(new Card("Burn+"));
+    deck.add(new Card("Burn+"));
+    deck.add(new Card("Blood for Blood"));
+    deck.add(new Card("Blood for Blood"));
     // TODO: Display deck in alphabetical order or smth?
     // Although this does show it in order obtained, actually.
     if(SettingsManager.sm.debug){

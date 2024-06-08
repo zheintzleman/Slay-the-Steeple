@@ -35,12 +35,15 @@ public class Card implements Serializable {
     private ArrayList<CardEffect> effects; //Implemented in Combat.java
 
     public CardData(){}
-    public CardData(CardData old){
+    public CardData(CardData old, Card c){
       this.description = old.description;
       this.baseEnergyCost = old.baseEnergyCost;
       this.isTargeted = old.isTargeted;
       if(old.effects != null){
-        this.effects = new ArrayList<CardEffect>(old.effects);
+        this.effects = new ArrayList<CardEffect>();
+        for(CardEffect eff : old.effects){
+          this.effects.add(new CardEffect(eff, c));
+        }
       }
     }
   }
@@ -237,7 +240,7 @@ public class Card implements Serializable {
     rarity = Rarity.COMMON;
     color = Color.NEUTRAL;
     data.effects = new ArrayList<CardEffect>();
-    upData = new CardData(data);
+    upData = new CardData(data, this);
   }
   public Card(Card old){
     name = old.name;
@@ -246,8 +249,8 @@ public class Card implements Serializable {
     energyCost = old.energyCost;
     rarity = old.rarity;
     color = old.color;
-    data = new CardData(old.data);
-    upData = new CardData(old.upData);
+    data = new CardData(old.data, this);
+    upData = new CardData(old.upData, this);
   }
   public Card(String name){
     this(getCard(name));

@@ -145,8 +145,8 @@ public class Combat{
 
   public ArrayList<Card> getCardsInPlay(){
     ArrayList<Card> list = new ArrayList<Card>();
-    list.addAll(drawPile);
     list.addAll(hand);
+    list.addAll(drawPile);
     list.addAll(discardPile);
     list.addAll(exhaustPile);
     return list;
@@ -406,21 +406,19 @@ public class Combat{
         playEffect(eff);
       }
     }
+    // TODO: Make into EventManager method
   }
 
   public boolean canDraw(){
     if(hand.size() >= 10){
       //Hand limit (Hand is full)
-      Str.println("1");
       return false;
     }
     if(drawPile.size() == 0 && discardPile.size() == 0){
       //No cards to draw
-      Str.println("12");
       return false;
     }
     if(player.hasStatus("No Draw")){
-      Str.println("13");
       return false;
     }
 
@@ -431,12 +429,19 @@ public class Combat{
   public void exhaust(Card card){
     removeFromAllPiles(card);
     exhaustPile.add(card);
-    for(CardEffect eff : card.getEffects()){
-      if(eff.whenPlayed() == Event.ONEXHAUST){
-        playEffect(eff);
-      }
+    EventManager.em.OnExhaust(card);
+  }
+  /**Removes the card from all piles & adds it to the discard pile.
+   * @param c The card to discard
+   * @param callOnDiscard Whether or not to call the OnDiscard method, i.e. whether or not the card
+   * discarded naturally (false) vs. if it was discarded by some effect like another card.
+  */
+  public void discard(Card c, boolean callOnDiscard){
+    removeFromAllPiles(c);
+    if(callOnDiscard){
+      EventManager.em.OnDiscard(c);
     }
-    // Relics.onExhaust(card, combat); // Or smth
+    discardPile.add(0, c);
   }
 
   public void removeFromAllPiles(Card card){
@@ -540,8 +545,11 @@ public class Combat{
       }
     }
 
-    if(shouldDiscard){
-      discardPile.add(card);
+    if(card.getType().equals("Power")){
+      // Note: Should already not be in any piles, but just in case:
+      removeFromAllPiles(card);
+    } else if(shouldDiscard){
+      discard(card, false);
     }
     if(card.getType().equals("Attack")){
       eventManager.OnAttackFinished(player);
@@ -1026,13 +1034,6 @@ public class Combat{
     }
 
     return sortedList;
-  }
-
-  /**Discards the card at the specified index from hand.
-  */
-  public void discardCardFromHand(Card c){
-    hand.remove(c);
-    discardPile.add(0, c);
   }
 
   /**Constructs and returns a louse of a random color
