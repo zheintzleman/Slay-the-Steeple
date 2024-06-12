@@ -1,81 +1,80 @@
-package app;
-import java.io.*;
+/** Stores and provides basic utility functions for settings.
+ * A from-scratch rewrite of the previous system, which was a somewhat ugly mess I had copy-pasted
+ * from Stack Overflow when I didn't understand anything about file IO.
+ * 
+ * See also: App.DEFAULT_SCREEN_X, Run.xSettings.
+ */
 
-public class SettingsManager{
-  public String pathname;
-  public boolean debug;
+package app;
+
+import java.io.ObjectInputStream;
+import java.io.ObjectOutputStream;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+
+public class SettingsManager {
+  private final Path path;
   public String name;
   public int screenWidth;
   public int screenHeight;
+  public boolean debug;
   public boolean cheats;
+  // On adding more settings, update the below functions & the xSettings methods in Run.java.
+  
   /** Singleton SettingsManager Instance */
   public static final SettingsManager sm = new SettingsManager(App.SETTINGS_PATH);
 
-  private SettingsManager(String pathname){
-    this.pathname = pathname;
-
-    try {
-  		FileInputStream fi = new FileInputStream(new File(pathname));
-      ObjectInputStream oi = new ObjectInputStream(fi);
-      //To reset to default settings:
-      debug = true;
-      name = "Default";
-      screenWidth = App.DEFAULT_SCREEN_WIDTH;
-      // screenWidth = 243;
-      screenHeight = App.DEFAULT_SCREEN_HEIGHT;
-      cheats = true;
-      save();
-
-      // Read objects
-      debug = (Boolean) oi.readObject(); //Capitalize Boolean?
-      name = (String) oi.readObject();
-      screenWidth = (Integer) oi.readObject();
-      screenHeight = (Integer) oi.readObject();
-      cheats = (Boolean) oi.readObject();
-      if(screenHeight <= App.MIN_SCREEN_HEIGHT){
-        screenHeight = App.DEFAULT_SCREEN_HEIGHT;
-      }
-      if(screenWidth <= App.MIN_SCREEN_WIDTH){
-        screenWidth = App.DEFAULT_SCREEN_WIDTH;
-      }
-
-      oi.close();
-      fi.close();
-      
-		} catch (FileNotFoundException e) {
-			System.out.println("File not found");
-      debug = true;
-      name = "Default";
-      screenWidth = App.DEFAULT_SCREEN_WIDTH;
-      screenHeight = App.DEFAULT_SCREEN_HEIGHT;
-      cheats = true;
-      save();
-		} catch (IOException e) {
-			System.out.println("Error initializing stream");
-		} catch (ClassNotFoundException e) {
-			e.printStackTrace();
-		}
+  private SettingsManager(String pathName){
+    path = Paths.get(pathName);
+    load();
   }
 
+  /** Rewrites the App.SETTINGS_PATH file to contain the current settings. */
   public void save(){
-    try{
-      FileOutputStream f = new FileOutputStream(new File(pathname));
-      ObjectOutputStream o = new ObjectOutputStream(f);
-
-      // Write objects to file
-      o.writeObject((Boolean) debug); //Capitalize Boolean?
-      o.writeObject(name);
-      o.writeObject((Integer) screenWidth);
-      o.writeObject((Integer) screenHeight);
-      o.writeObject((Boolean) cheats);
-    
-      o.close();
-      f.close();
-    } catch (FileNotFoundException e) {
-			System.out.println("File not found");
-		} catch (IOException e) {
-			System.out.println("Error initializing stream");
+    try(ObjectOutputStream os = new ObjectOutputStream(new FileOutputStream(path.toFile()))){
+      os.writeObject(name);
+      os.writeInt(screenWidth);
+      os.writeInt(screenHeight);
+      os.writeBoolean(debug);
+      os.writeBoolean(cheats);
+    } catch(IOException e){
+      System.out.println("Error saving settings data. Press enter to continue anyway.");
+      e.printStackTrace();
+      Main.scan.nextLine();
     }
   }
 
+  /** Reads settings from App.SETTINGS_PATH into the singleton instance's public variables. */
+  private void load(){
+    try(ObjectInputStream is = new ObjectInputStream(new FileInputStream(path.toFile()))){
+      name = (String) is.readObject();
+      screenWidth = is.readInt();
+      screenHeight = is.readInt();
+      debug = is.readBoolean();
+      cheats = is.readBoolean();
+    } catch(IOException | ClassNotFoundException e){
+      System.out.println("Error loading settings data.");
+      System.out.println("Press enter to reset to default settings." + 
+                         " Or type \"error\" to see the error message.");
+      while(Main.scan.nextLine().equalsIgnoreCase("error")){
+        e.printStackTrace();
+        System.out.println("Press enter to reset to default settings." + 
+                           " Or type \"error\" to see the error message.");
+      }
+      resetToDefaults();
+    }
+  }
+
+  /** Resets the settings to their default values, and resets the file accordingly. */
+  public void resetToDefaults(){
+    name = "Default";
+    screenWidth = App.DEFAULT_SCREEN_WIDTH;
+    screenHeight = App.DEFAULT_SCREEN_HEIGHT;
+    debug = true;
+    cheats = false;
+    save();
+  }
 }

@@ -23,6 +23,9 @@ public class Run{
     App.ASSERT(new Card("Strike") != null);
     deck.add(new Card("Void"));
     deck.add(new Card("Void"));
+    deck.add(new Card("Slimed"));
+    deck.add(new Card("Slimed"));
+    deck.add(new Card("Slimed"));
     deck.add(new Card("Armaments"));
     deck.add(new Card("Armaments"));
     deck.add(new Card("Armaments"));
@@ -474,6 +477,15 @@ public class Run{
             SettingsManager.sm.save();
           } catch (NumberFormatException E){}
           break;
+        case "reset":
+        case "default":
+        case "defaults":
+          Str.println("Are you sure you want to reset all settings to their default values? (y/n)");
+          input = Main.scan.nextLine().toLowerCase();
+          if(input.equals("y") || input.equals("yes")){
+            SettingsManager.sm.resetToDefaults();
+          }
+        break;
         case "":
           exit = true;
           break;
@@ -488,13 +500,16 @@ public class Run{
     final int popupHeight = (SCREENHEIGHT*4/5 + 6 <= SCREENHEIGHT) ? SCREENHEIGHT*4/5 : SCREENHEIGHT - 6;
     final int popupWidth = SCREENWIDTH*22/25;
     final String settingsText = Colors.magenta + settingsHeader("Settings:", popupWidth) + 
-                                "Settings saved to the device.\n" + 
-                                "To change a setting, type the name of the setting and follow the given prompts.\n\n" + 
+                                "Settings saved between runs.\n" + 
+                                "To change a setting, type the name of the setting and follow the given prompts.\n" + 
+                                "Type " + Colors.magenta + "reset" + Colors.reset + " to reset all settings to" +
+                                " their default values.\n" + 
+                                "Restart the program for some settings to take effect.\n\n" + 
                Colors.magenta + "Name: " + Colors.reset + SettingsManager.sm.name + "\n" + 
                Colors.magenta + "Screen Width: " + Colors.reset + SettingsManager.sm.screenWidth + "\n" + 
                Colors.magenta + "Screen Height: " + Colors.reset + SettingsManager.sm.screenHeight + "\n" + 
-               Colors.magenta + "Cheats: " + Colors.reset + SettingsManager.sm.cheats + "\n" + 
-               Colors.magenta + "Debug Mode: " + Colors.reset + SettingsManager.sm.debug + "\n\n" + 
+               Colors.magenta + "Debug Mode: " + Colors.reset + SettingsManager.sm.debug + "\n" + 
+               Colors.magenta + "Cheats: " + Colors.reset + SettingsManager.sm.cheats + "\n\n" + 
        " " + Colors.basicBlue + Str.repeatStr("═", popupWidth - 6) + Colors.reset + "\n" + 
                Colors.magenta + settingsHeader("Instructions:", popupWidth) + 
                                 App.INSTRUCTIONS_TEXT;
@@ -511,7 +526,7 @@ public class Run{
 
   /**
    * Repeatedly gets input from the user until they enter an int that passes p.
-   * @param p A predicate (ideally a lambda expression) -- that returns true/false -- on an integer input.
+   * @param p A predicate (ideally a lambda expression) on an integer input.
    * @param errMsg A string to print each time the predicate fails
    * @return The first inputted int which passes p
    */

@@ -8,8 +8,8 @@ import app.Card.Color;
 import app.Card.Rarity;
 
 public class App {
-  public static final String SETTINGS_PATH = "app\\settings.dat"; // Changed STS 2.0+\\ to app\\
-  public static final String CARD_LIST_PATH = "app\\cardList1.dat";// Changed STS 2.0+\\ to app\\
+  public static final String SETTINGS_PATH = "data\\settings.dat";
+  public static final String CARD_LIST_PATH = "data\\cardList1.dat";
   public static final String INSTRUCTIONS_TEXT = "Interact with the game by typing commands in the terminal. "
                                                + "You can see these instructions mid-game by typing \"help\" or \"instructions\". "
                                                + "Specific actions have their respective commands written near them in " + Colors.magenta + "magenta" + Colors.reset + ". "
@@ -19,7 +19,7 @@ public class App {
                                                + "Some screens have additional information written below the screen, so check there if you're confused.\n\n"
                                                + "Each combat drops 10-20 " + Colors.gold + "gold" + Colors.reset + ". Try to get as much as possible before dying!\n\n";
   public static final String INSTRUCTIONS = "Instructions:\n\n" + INSTRUCTIONS_TEXT;
-  // Big text generated using https://patorjk.com/software/taag/
+  // Big texts generated using https://patorjk.com/software/taag/
   public static final String TITLE = Colors.headerBrown + "\n   ▄▄▄▄▄   █    ██  ▀▄    ▄        ▄▄▄▄▀ ▄  █ ▄███▄          ▄▄▄▄▄   █ ▄▄  ▄█ █▄▄▄▄ ▄███▄   \n"
                                                           + "  █     ▀▄ █    █ █   █  █      ▀▀▀ █   █   █ █▀   ▀        █     ▀▄ █   █ ██ █  ▄▀ █▀   ▀  \n"
                                                           + "▄  ▀▀▀▀▄   █    █▄▄█   ▀█           █   ██▀▀█ ██▄▄        ▄  ▀▀▀▀▄   █▀▀▀  ██ █▀▀▌  ██▄▄    \n"
@@ -98,7 +98,7 @@ public class App {
                       "", -1, false, List.of(), Rarity.COMMON, Color.NEUTRAL));
     cards.put("Dazed", new Card("Dazed", "Status", -1, false, List.of("Unplayable", "Ethereal"), List.of(), Rarity.COMMON, Color.NEUTRAL));
     cards.put("Slimed", new Card("Slimed", "Status", 1, false, List.of("Exhaust"), List.of(), Rarity.COMMON, Color.NEUTRAL));
-    cards.put("Void", new Card("Void", "Unplayable.\nEthereal.\nWhenever this card is drawn, lose 1 Energy\n", "Status", -1, false, List.of("Unplayable", "Ethereal", "(OnDrawn) ChangeEnergy -1"),
+    cards.put("Void", new Card("Void", "Unplayable.\nEthereal.\nWhenever this card is drawn, lose 1 Energy.\n", "Status", -1, false, List.of("Unplayable", "Ethereal", "(OnDrawn) ChangeEnergy -1"),
                       "", -1, false, List.of(), Rarity.COMMON, Color.NEUTRAL));
     cards.put("Wound", new Card("Wound", "Status", -1, false, List.of("Unplayable"), List.of(), Rarity.COMMON, Color.NEUTRAL));
 
@@ -164,10 +164,7 @@ public class App {
     // Todo List:
     // Check whether or not statuses used to show in the order they were obtained.
     // Figure out how the sts stat ordering works.
-    // ~Combine App & Str, and rename it to Util?
-    // Test Dark Embrace
     // Make it so the robber(s) don't "drop gold" when they run away.
-    // Dark Embrace/Ethereal interaction?
     // Make Jaw Worm art wider?
     // Try to make the screen width/etc. update in real time by not using Run.SCREENX & using SettingsManager.x instead?
     // In the statuses list (& possibly any other lists, too), change the section headers to be some different color (besides just white)
@@ -209,7 +206,7 @@ public class App {
     statuses.put("Vigor", new Status("Vigor", Colors.vigorOrange + "v", false, true, "Your next Attack deals <str> additional damage."));
     statuses.put("No Draw", new Status("No Draw", Colors.lightBlue + "N", true, false, "You may not draw any more cards this turn."));
     statuses.put("Combust", new Status("Combust", Colors.vigorOrange + "C", false, true, "At the end of your turn, lose 1 HP(for each Combust played) and deal <str> damage to ALL enemies.", List.of("(OnTurnEnd) Combust <str>")));
-    statuses.put("Dark Embrace", new Status("Dark Embrace", Colors.darkEmbracePurple + "D", false, true, "Whenever a card is Exhausted, draw <str> cards.", List.of("(OnExhaust) Draw <str>")));
+    statuses.put("Dark Embrace", new Status("Dark Embrace", Colors.darkEmbracePurple + "D", false, true, "Whenever a card is Exhausted, draw <str> card(s).", List.of("(OnExhaust) Draw <str>")));
 
     
     // Assert that all entries in `cards` are named correctly:

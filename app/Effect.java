@@ -1,12 +1,25 @@
+/**Generic class for effects that cards/statuses/etc. might have during the game.
+ * Usually stored as List<Effect>, with each card/status/etc. do at least one effect. 
+ * When the effect goes off is also specifies -- defaults to "OnPlay", which is only available
+ * for cards.
+ * Primary: First word of input data.
+ * Secondary: Rest of input data, apart from terminal integer
+ * Power: Terminal integer, or 1 if last word not an integer
+ * WhenPlayed: Defaults to ONPLAY; begin with "(OnDiscard) "/"(OnTurnEnd) "/etc. to change.
+ * e.g. Stores "Lorem Ipsum Dolor 4" as: P = "Lorem", S = "Ipsum Dolor", p = 4,
+ *  or "Lorem Ipsum 4 Dolor" as: P = "Lorem", S = "Ipsum 4 Dolor", p = 1
+ *  or "(OnExhaust) Lorem Ipsum 4 Dolor" as: P = "Lorem", S = "Ipsum 4 Dolor", p = 1, WP = ONEXHAUST
+ * 
+ * See Combat.playCard(), Combat.playEff(), and EventManager.
+ */
+
 package app;
 
 import java.io.Serializable;
-import java.util.regex.*;
 
 import app.EventManager.Event;
 
-public class Effect implements Serializable {
-  //TODO: Could use a HashSet:
+public abstract class Effect implements Serializable {
   public static final String[] ATTACK_PRIMARIES = new String[] {"Attack", "AtkAll", "BodySlam", "SearingBlow", "HeavyAttack", "AtkRandom"}; //Can remove
   public static final String[] DEFENSE_PRIMARIES = new String[] {"Blk"};
   // Primaries that affect game state outside of the current combat (i.e. that matter even after the combat ends.)
@@ -17,13 +30,6 @@ public class Effect implements Serializable {
   private int power;
   private Event whenPlayed;
 
-  //Primary: First word of input data.
-  //Secondary: Rest of input data, apart from terminal integer
-  //Power: Terminal integer, or 1 if last word not an integer
-  //WhenPlayed: Defaults to ONPLAY; begin with "(OnDiscard) "/"(OnTurnEnd) "/etc. to change.
-  //e.g. Stores "Lorem Ipsum Dolor 4" as: P = "Lorem", S = "Ipsum Dolor", p = 4,
-  // or "Lorem Ipsum 4 Dolor" as: P = "Lorem", S = "Ipsum 4 Dolor", p = 1
-  // or "(OnExhaust) Lorem Ipsum 4 Dolor" as: P = "Lorem", S = "Ipsum 4 Dolor", p = 1, WP = ONEXHAUST
   public Effect(String data){
     String str = data;
     whenPlayed = Event.ONCARDPLAY;

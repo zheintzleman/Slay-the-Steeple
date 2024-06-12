@@ -1,12 +1,7 @@
 package app;
 import java.util.*;
-import java.io.File;
-import java.io.FileInputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.Serializable;
 
-public class Card implements Serializable {
+public class Card {
 	private static final long serialVersionUID = 1L;
   // private static final ArrayList<Card> availableCards = App.CARD_LIST; //Wasn't working as well
   public static final int CARDWIDTH = 21; //Odd
@@ -19,7 +14,8 @@ public class Card implements Serializable {
     UNCOMMON,
     RARE,
   }
-  public enum Color{ //(Card Color)
+  /** Card color (i.e. character) */
+  public enum Color{
     IRONCLAD,
     SILENT,
     DEFECT,
@@ -27,7 +23,7 @@ public class Card implements Serializable {
     NEUTRAL
   }
   //Anything that could change from being upgraded
-  private class CardData implements Serializable {
+  private class CardData {
     private Description description;
     private int baseEnergyCost;
     private int energyCost; //Could be an Integer to include null for the X cost cards
@@ -47,7 +43,7 @@ public class Card implements Serializable {
       }
     }
   }
-  private class Description implements Serializable {
+  private class Description {
     private String codedDescription; //todo: Make final?
     //If having performance issues, could maybe store the WStatuses desc as well, and update it less
 
@@ -160,6 +156,7 @@ public class Card implements Serializable {
           default:
             break;
         }
+        // TODO: Make sure every description, here and in App.java, ends with ".\n".
       }
     }
     //End Description Constructors

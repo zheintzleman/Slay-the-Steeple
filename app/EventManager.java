@@ -38,11 +38,10 @@ public class EventManager {
 
     // Calls ONTURNEND card effects from cards in hand; discards them if appropriate.
     // Each card discarded immediately after "play", for canon continuity.
-    ArrayList<Card> hand = Combat.c.getHand();
-    while(hand.size() != 0){
-      Card card = hand.get(0);
+    @SuppressWarnings("unchecked")
+    ArrayList<Card> hand = (ArrayList<Card>) Combat.c.getHand().clone();
+    for(Card card : hand){
       // Tracks whether the card has been removed from hand already or if it needs to be discarded still.
-      // todo: Just check whether or not it's still in hand?
       boolean shouldDiscard = true;
 
       for(CardEffect eff : card.getEffects()){
