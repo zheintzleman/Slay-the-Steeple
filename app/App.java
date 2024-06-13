@@ -1,5 +1,3 @@
-/**Contains and initializes various program-wide constants and data structures. */
-
 package app;
 
 import java.util.*;
@@ -7,7 +5,9 @@ import java.util.*;
 import app.Card.Color;
 import app.Card.Rarity;
 
-public class App {
+
+/** Staticly contains and initializes various program-wide constants and data structures. */
+public abstract class App {
   public static final String SETTINGS_PATH = "data\\settings.dat";
   public static final String CARD_LIST_PATH = "data\\cardList1.dat";
   public static final String INSTRUCTIONS_TEXT = "Interact with the game by typing commands in the terminal. "
@@ -50,34 +50,6 @@ public class App {
   // Can use Card.getCard(String) and Status.getStatus(String) to easily access w/ null-checking:
   public static final HashMap<String, Card> CARDS = loadCards();
   public static final HashMap<String, Status> STATUSES = loadStatuses();
-  /** Singleton app instance */
-  public static final App a = new App();
-  
-  private App(){
-
-  }
-
-  public void run(){
-    //Title Screen
-    if(!SettingsManager.sm.debug){
-      Str.println(Colors.clearScreen);
-    } else {
-      Str.println("CARDS: " + CARDS.values());
-    }
-    Str.println(TITLE);
-       
-    Str.println("\n" + INSTRUCTIONS + "Press " + Colors.magenta + "Enter" + Colors.reset + " to continue\n");
-    
-    Main.scan.nextLine();
-    
-    Run.r.play();
-    //Probably bring back when/if making a home screen or smth:
-    /*
-    scan.nextLine();
-    scan.close();
-    Str.println(Colors.clearScreen);
-    */
-  }
 
   public static HashMap<String, Card> loadCards(){
     HashMap<String, Card> cards = new HashMap<String, Card>();
@@ -164,6 +136,7 @@ public class App {
     // Todo List:
     // Check whether or not statuses used to show in the order they were obtained.
     // Figure out how the sts stat ordering works.
+    // Add headers to the files.
     // Make it so the robber(s) don't "drop gold" when they run away.
     // Make Jaw Worm art wider?
     // Try to make the screen width/etc. update in real time by not using Run.SCREENX & using SettingsManager.x instead?
