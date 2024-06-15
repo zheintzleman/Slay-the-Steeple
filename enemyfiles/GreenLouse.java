@@ -2,7 +2,7 @@ package enemyfiles;
 import app.Colors;
 import app.Entity;
 import app.Intent;
-import app.IntentType;
+import app.Intent.IntentType;
 
 public class GreenLouse extends Enemy{
   private Intent intent;

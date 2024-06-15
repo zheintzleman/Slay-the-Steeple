@@ -1,10 +1,3 @@
-/** Stores and provides basic utility functions for settings.
- * A from-scratch rewrite of the previous system, which was a somewhat ugly mess I had copy-pasted
- * from Stack Overflow when I didn't understand anything about file IO.
- * 
- * See also: App.DEFAULT_SCREEN_X, Run.xSettings.
- */
-
 package app;
 
 import java.io.ObjectInputStream;
@@ -15,6 +8,14 @@ import java.io.IOException;
 import java.nio.file.Path;
 import java.nio.file.Paths;
 
+
+/** Singleton instance that stores and provides basic utility functions for settings.
+ * A from-scratch rewrite of the previous system, which was a somewhat ugly mess I had copy-pasted
+ * from Stack Overflow when I didn't understand anything about file IO.
+ * 
+ * @see App App.DEFAULT_SCREEN_X
+ * @see Run Run.xSettings.
+ */
 public class SettingsManager {
   private final Path path;
   public String name;
@@ -28,6 +29,10 @@ public class SettingsManager {
   public static final SettingsManager sm = new SettingsManager(App.SETTINGS_PATH);
 
   private SettingsManager(String pathName){
+    if(sm != null){
+      throw new IllegalStateException("Instantiating second SettingsManager object.");
+    }
+
     path = Paths.get(pathName);
     load();
   }

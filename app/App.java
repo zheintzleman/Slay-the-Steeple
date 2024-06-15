@@ -6,7 +6,13 @@ import app.Card.Color;
 import app.Card.Rarity;
 
 
-/** Staticly contains and initializes various program-wide constants and data structures. */
+/** Staticly contains and initializes various program-wide constants and data structures.
+ *
+ * @see Str
+ * @see Colors
+ * @see Card
+ * @see Status
+*/
 public abstract class App {
   public static final String SETTINGS_PATH = "data\\settings.dat";
   public static final String CARD_LIST_PATH = "data\\cardList1.dat";
@@ -45,15 +51,22 @@ public abstract class App {
   public static final int MIN_SCREEN_HEIGHT = 10;
   // TODO: Check for realistic values of MSW/MSH^
 
-  // Note: Switched to HashMaps in refactoring; changes not updated in loadAvailableCards.
-  // public static HashMap<String, Card> CARDS = loadAvailableCards(CARD_LIST_PATH);
   // Can use Card.getCard(String) and Status.getStatus(String) to easily access w/ null-checking:
   public static final HashMap<String, Card> CARDS = loadCards();
   public static final HashMap<String, Status> STATUSES = loadStatuses();
 
+  /** Generates the final hashmap containing all cards in the game.
+   * 
+   * @see Card Card.getCard()
+   * @see Effect Effect / CardEffect
+   * @see Combat Combat.playCard()
+   * @see Combat Combat.playEff()
+   * @see Card.Description
+   * @see EventManager
+   */
   public static HashMap<String, Card> loadCards(){
     HashMap<String, Card> cards = new HashMap<String, Card>();
-    // From Above:
+    // From Effect.java's javadoc:
 
     //For encoding card effects (copied from CardEffect.java:)
     //Primary: First word of input data.
@@ -108,14 +121,14 @@ public abstract class App {
                       List.of("Attack 10", "Draw 2"), Rarity.COMMON, Color.IRONCLAD));
     cards.put("Shrug It Off", new Card("Shrug It Off", "Skill", 1, false, List.of("Block 8", "Draw 1"),
                       List.of("Block 11", "Draw 1"), Rarity.COMMON, Color.IRONCLAD));
-    cards.put("Sword Boomerang", new Card("Sword Boomerang", "Deal ØatkÁ3ØendatkÁ damage to a random enemy 3 times.\n", "Attack", 1, false, List.of("AtkRandom 3", "AtkRandom 3", "AtkRandom 3"),
-                      "Deal ØatkÁ3ØendatkÁ damage to a random enemy 4 times.\n", 1, false, List.of("AtkRandom 3","AtkRandom 3", "AtkRandom 3", "AtkRandom 3"), Rarity.COMMON, Color.IRONCLAD));
+    cards.put("Sword Boomerang", new Card("Sword Boomerang", "Deal <atk>3<endatk> damage to a random enemy 3 times.\n", "Attack", 1, false, List.of("AtkRandom 3", "AtkRandom 3", "AtkRandom 3"),
+                      "Deal <atk>3<endatk> damage to a random enemy 4 times.\n", 1, false, List.of("AtkRandom 3","AtkRandom 3", "AtkRandom 3", "AtkRandom 3"), Rarity.COMMON, Color.IRONCLAD));
     cards.put("Thunderclap", new Card("Thunderclap", "Attack", 1, false, List.of("AtkAll 4", "AppAll Vulnerable 1"),
                       List.of("AtkAll 7", "AppAll Vulnerable 1"), Rarity.COMMON, Color.IRONCLAD));
     cards.put("True Grit", new Card("True Grit", "Gain 7 block.\nExhaust a random card in your hand.\n", "Skill", 1, false, List.of("Block 7", "Exhaust RandHand"),
                       "Gain 9 block.\nExhaust a card in your hand.\n", 1, false, List.of("Block 9", "Exhaust Choose1FromHand"), Rarity.COMMON, Color.IRONCLAD));
-    cards.put("Twin Strike", new Card("Twin Strike", "Deal ØatkÁ5ØendatkÁ damage twice.\n", "Attack", 1, true, List.of("Attack 5", "Attack 5"),
-                      "Deal ØatkÁ7ØendatkÁ damage twice.\n", 1, true, List.of("Attack 7", "Attack 7"), Rarity.COMMON, Color.IRONCLAD));
+    cards.put("Twin Strike", new Card("Twin Strike", "Deal <atk>5<endatk> damage twice.\n", "Attack", 1, true, List.of("Attack 5", "Attack 5"),
+                      "Deal <atk>7<endatk> damage twice.\n", 1, true, List.of("Attack 7", "Attack 7"), Rarity.COMMON, Color.IRONCLAD));
     cards.put("Warcry", new Card("Warcry", "Skill", 0, false, List.of("Draw 1", "PutOnDrawPile Choose1FromHand", "Exhaust"),
                       List.of("Draw 2", "PutOnDrawPile Choose1FromHand", "Exhaust"), Rarity.COMMON, Color.IRONCLAD));
     // cards.put("Sentinel", new Card("Sentinel", "Skill", 1, false, List.of("(OnExhausted) Block 5")),
@@ -124,8 +137,8 @@ public abstract class App {
                       List.of("Attack 17", "GainToDraw Wound"), Rarity.COMMON, Color.IRONCLAD));
     cards.put("Battle Trance", new Card("Battle Trance", "Draw 3 cards.\nYou cannot draw additional cards this turn.\n", "Skill", 0, false, List.of("Draw 3", "AppPlayer No Draw"),
                       "Draw 4 cards.\nYou cannot draw additional cards this turn.\n", 0, false, List.of("Draw 4", "AppPlayer No Draw"), Rarity.UNCOMMON, Color.IRONCLAD));
-    cards.put("Blood for Blood", new Card("Blood for Blood", "Costs 1 less energy for each time you lose HP this combat.\nDeal ØatkÁ18ØendatkÁ damage.\n", "Attack", 4, true, List.of("(OnPlayerHurt) ChangeCost -1", "Attack 18"),
-                      "Costs 1 less energy for each time you lose HP this combat.\nDeal ØatkÁ22ØendatkÁ damage.\n", 3, true, List.of("(OnPlayerHurt) ChangeCost -1", "Attack 22"), Rarity.UNCOMMON, Color.IRONCLAD));
+    cards.put("Blood for Blood", new Card("Blood for Blood", "Costs 1 less energy for each time you lose HP this combat.\nDeal <atk>18<endatk> damage.\n", "Attack", 4, true, List.of("(OnPlayerHurt) ChangeCost -1", "Attack 18"),
+                      "Costs 1 less energy for each time you lose HP this combat.\nDeal <atk>22<endatk> damage.\n", 3, true, List.of("(OnPlayerHurt) ChangeCost -1", "Attack 22"), Rarity.UNCOMMON, Color.IRONCLAD));
     cards.put("Bloodletting", new Card("Bloodletting", "Skill", 0, false, List.of("LoseHP 3", "GainEnergy 2"), List.of("LoseHP 3", "GainEnergy 3"), Rarity.UNCOMMON, Color.IRONCLAD));
     cards.put("Burning Pact", new Card("Burning Pact", "Skill", 1, false, List.of("Exhaust Choose1FromHand", "Draw 2"), List.of("Exhaust Choose1FromHand", "Draw 3"), Rarity.UNCOMMON, Color.IRONCLAD));
     cards.put("Carnage", new Card("Carnage", "Attack", 2, true, List.of("Ethereal", "Attack 20"), List.of("Ethereal", "Attack 28"), Rarity.UNCOMMON, Color.IRONCLAD));
@@ -138,6 +151,7 @@ public abstract class App {
     // Figure out how the sts stat ordering works.
     // Add headers to the files.
     // Make it so the robber(s) don't "drop gold" when they run away.
+    // Continue writing docs (continue from Entity.java.)
     // Make Jaw Worm art wider?
     // Try to make the screen width/etc. update in real time by not using Run.SCREENX & using SettingsManager.x instead?
     // In the statuses list (& possibly any other lists, too), change the section headers to be some different color (besides just white)
@@ -154,6 +168,13 @@ public abstract class App {
     return cards;
   }
   
+  /** Generates the final hashmap containing all statuses in the game.
+   * 
+   * @see Status Status.getStatus()
+   * @see Effect Effect / StatusEffect
+   * @see Combat Combat.playEff()
+   * @see EventManager
+   */
   public static HashMap<String, Status> loadStatuses(){
     HashMap<String, Status> statuses = new HashMap<String, Status>();
     statuses = new HashMap<String, Status>();

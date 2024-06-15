@@ -5,7 +5,7 @@ import app.Colors;
 import app.Combat;
 import app.Entity;
 import app.Intent;
-import app.IntentType;
+import app.Intent.IntentType;
 
 public class ShieldGremlin extends Enemy{
 

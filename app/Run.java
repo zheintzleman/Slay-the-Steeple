@@ -2,6 +2,14 @@ package app;
 import java.util.*;
 import java.util.function.Predicate;
 
+/** Singleton class representing the current run, along with most/all screen-related methods
+ * and Settings Screen implementation.
+ * 
+ * @see Main
+ * @see Combat
+ * @see Str
+ * @see SettingsManager
+ */
 public class Run{
   private String[] screen;
   //TODO: Put these into App.java?
@@ -15,7 +23,7 @@ public class Run{
   
   private Run(){
     if(r != null){
-      return;
+      throw new IllegalStateException("Instantiating second Run object.");
     }
     hp = maxHP = 80;
     gold = 99;
@@ -35,6 +43,8 @@ public class Run{
     deck.add(new Card("Burning Pact"));
     deck.add(new Card("Burning Pact"));
     deck.add(new Card("Burning Pact"));
+    deck.add(new Card("Flex"));
+    deck.add(new Card("Flex"));
     deck.add(new Card("Flex"));
     deck.add(new Card("Flex"));
     deck.add(new Card("Dark Embrace"));
@@ -94,7 +104,7 @@ public class Run{
       double chance = 1.0/14;
       if(rn < chance){
       c = new Combat("Cultist");
-      }else if(rn < 2*chance){
+      }else if(rn < 200*chance){
       c = new Combat("Jaw Worm");
       }else if(rn < 3*chance){
       c = new Combat("Two Louses");

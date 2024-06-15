@@ -5,6 +5,17 @@ import java.util.stream.Stream;
 import app.EventManager.Event;
 import enemyfiles.*;
 
+/** A semi-singleton (i.e. only 1 at a time, but can be replaced by a new one) class representing
+ * the current combat -- the current fight with an enemy/group of enemies.
+ * Ties together many other classes, and contains methods for any situation that could occur
+ * during a combat (excluding some methods that have been moved to EventManager as events.)
+ * 
+ * @see Run
+ * @see Entity Entity / Enemy / Player
+ * @see Card
+ * @see Effect Effect / CardEffect / StatusEffect
+ * @see EventManager
+ */
 public class Combat{
   private Player player;
   private ArrayList<Enemy> enemies;

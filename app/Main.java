@@ -3,12 +3,16 @@ package app;
 import java.util.*;
 
 /**
- * Slay the Spire in the Console - Java
- * Zachary Heintzleman (solo)
- * 5/10/22 - 5/25/22
- * 2/13/23 - 8/28/23
- * 12/22/23 - 1/13/24
+ * Slay the Spire in the Console - Java                             <p></p>
+ * 5/10/22 - 5/25/22 (Alpha release 0.1.0 -- APCSA final)           <p></p>
+ * 2/13/23 - 8/28/23                                                <p></p>
+ * 12/22/23 - 1/13/24                                               <p></p>
  * 5/22/24 - (...)
+ * 
+ * @author Zachary Heintzleman
+ * @see Run
+ * @see App Todo list in App.loadCards
+ * (put there since my progress is slowly marked by that method growing longer.)
  */
 class Main {
   public static Scanner scan = new Scanner(System.in);

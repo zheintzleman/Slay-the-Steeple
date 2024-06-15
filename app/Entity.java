@@ -1,8 +1,9 @@
 package app;
-import java.lang.annotation.Inherited;
 import java.util.*;
-import java.util.function.Consumer;
 
+/** Represents any entity in a combat -- either the player or an enemy.
+ * 
+ */
 public abstract class Entity{
   /** Default Entity Image */
   public static final String[] RECTANGLE = new String[] {"███████", "███████", "███████", "███████", "███████", "███████"};

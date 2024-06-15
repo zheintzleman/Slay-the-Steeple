@@ -1,12 +1,14 @@
 package app;
 import java.util.*;
 
-/**Collection of static utility functions. Most are for dealing with strings (and escape sequences.)
- * Name of the class is Str for String.
+/** Collection of static utility functions. Most are for dealing with strings (and escape sequences.)
+ * Name of the class is Str for String (as opposed to Strength.)
+ * 
+ * @see App
+ * @see Run Run (screen methods)
+ * @see Colors
  */
 public abstract class Str {
-  /* ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ CUT FROM RUN.JAVA ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~ */
-
   /**Constructs and returns a String[] of a box with the (now wrapped) text within. Uses default sizes.
    * @Precondition No spaces adjacent to new lines in text; 
   */

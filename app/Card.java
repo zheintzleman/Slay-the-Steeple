@@ -1,13 +1,23 @@
 package app;
 import java.util.*;
 
+/** Class for cards that the player (usually) plays on their turn, that make up the deck, etc.
+ * Also contains related public enums and private classes.
+ * 
+ * @see Combat
+ * @see CardEffect
+ * @see Combat Combat.playCard()
+ * @see App App.loadCards()
+ * @see Card.Rarity
+ * @see Card.Color
+ * @see Card.CardData
+ * @see Card.Description
+ */
 public class Card {
-	private static final long serialVersionUID = 1L;
-  // private static final ArrayList<Card> availableCards = App.CARD_LIST; //Wasn't working as well
   public static final int CARDWIDTH = 21; //Odd
   public static final int CARDHEIGHT = 14;
-  // public static final String[] TARGETEDCARDEFFECTS = new String[] {"Attack", "Apply"}; //List of card effects that trigger the playCard() method to prompt the player for a target
   
+  /** Card rarity; determines frequency a card shows up */
   public enum Rarity{
     BASIC,
     COMMON,
@@ -22,7 +32,9 @@ public class Card {
     WATCHER,
     NEUTRAL
   }
-  //Anything that could change from being upgraded
+  /** Anything that could change from being upgraded.
+   * Card stores two of these -- one for base values, and one for upgraded values.
+   */
   private class CardData {
     private Description description;
     private int baseEnergyCost;
@@ -43,8 +55,14 @@ public class Card {
       }
     }
   }
+  /** Represents the description of a card (i.e. the part that shows on-screen.)
+   * Stored with <> tags around numbers that change color based on the current combat environment
+   * (e.g. attack numbers being green when doing more than base damage.)
+   * 
+   * @see App App.loadCards()
+   */
   private class Description {
-    private String codedDescription; //todo: Make final?
+    private String codedDescription;
     //If having performance issues, could maybe store the WStatuses desc as well, and update it less
 
     public Description(String codedDescription){
@@ -59,18 +77,18 @@ public class Card {
 
         switch(primary){
           case "Attack":
-            codedDescription += "Deal ØatkÁ" + effectPower + "ØendatkÁ damage.\n"; //Maybe make some applyStatuses()/w/e method in Combat or smth
+            codedDescription += "Deal <atk>" + effectPower + "<endatk> damage.\n"; //Maybe make some applyStatuses()/w/e method in Combat or smth
             break;
           case "AtkAll": //Uses shortened word to be separate from "Attack" (& for brevity)
-            codedDescription += "Deal ØatkÁ" + effectPower + "ØendatkÁ damage to ALL enemies.\n";
+            codedDescription += "Deal <atk>" + effectPower + "<endatk> damage to ALL enemies.\n";
             break;
           case "AtkRandom":
-            codedDescription += "Deal ØatkÁ" + effectPower + "ØendatkÁ damage to a random enemy."; //TODO: If eg 3 atks in a row, causes error if second kills the last enemy.
+            codedDescription += "Deal <atk>" + effectPower + "<endatk> damage to a random enemy."; //TODO: If eg 3 atks in a row, causes error if second kills the last enemy.
           case "SearingBlow":
-            codedDescription += "Deal ØatkÁ" + searingBlowDamage() + "ØendatkÁ damage.\nCan be upgraded any number of times.\n";
+            codedDescription += "Deal <atk>" + searingBlowDamage() + "<endatk> damage.\nCan be upgraded any number of times.\n";
             break;
           case "Block":
-            codedDescription += "Gain ØblkÁ" + effectPower + "ØendblkÁ block.\n";
+            codedDescription += "Gain <blk>" + effectPower + "<endblk> block.\n";
             break;
           case "Apply":
             codedDescription += "Apply " + effectPower + " " + secondary + ".\n";
@@ -143,7 +161,7 @@ public class Card {
             codedDescription += "Ethereal.\n";
             break;
           case "HeavyAttack":
-            codedDescription += "Deal ØatkÁ14ØendatkÁ damage.\nStrength affects this card " + effectPower + " times.\n";
+            codedDescription += "Deal <atk>14<endatk> damage.\nStrength affects this card " + effectPower + " times.\n";
             break;
           case "GainToDraw":
             codedDescription += "Shuffle a " + secondary + " into your draw pile.\n";
@@ -166,10 +184,10 @@ public class Card {
     }
     public String getBaseDescription(){
       String res = codedDescription;
-      res = res.replaceAll("ØatkÁ", "");
-      res = res.replaceAll("ØblkÁ", "");
-      res = res.replaceAll("ØendatkÁ", "");
-      res = res.replaceAll("ØendblkÁ", "");
+      res = res.replaceAll("<atk>", "");
+      res = res.replaceAll("<blk>", "");
+      res = res.replaceAll("<endatk>", "");
+      res = res.replaceAll("<endblk>", "");
       return res;
     }
     public String getBaseDescriptionWONLs(){
@@ -188,9 +206,9 @@ public class Card {
      */
     public String getDescriptionWStatuses(Combat combat, int strMultiplier){
       String res = codedDescription;
-      while(res.contains("ØatkÁ")){ //Updates the attack #s
-        int index = res.indexOf("ØatkÁ");
-        int endIndex = res.indexOf("ØendatkÁ");
+      while(res.contains("<atk>")){ //Updates the attack #s
+        int index = res.indexOf("<atk>");
+        int endIndex = res.indexOf("<endatk>");
         App.ASSERT(endIndex != -1);
 
         int baseDamage = Integer.parseInt(res, index + 5, endIndex, 10);
@@ -200,9 +218,9 @@ public class Card {
         if(newDamage > baseDamage){ color = Colors.upgradeGreen; }
         res = res.substring(0, index) + color + newDamage + Colors.reset + res.substring(endIndex + 8);
       }
-      while(res.contains("ØblkÁ")){ //Updates the block #s
-        int index = res.indexOf("ØblkÁ");
-        int endIndex = res.indexOf("ØendblkÁ");
+      while(res.contains("<blk>")){ //Updates the block #s
+        int index = res.indexOf("<blk>");
+        int endIndex = res.indexOf("<endblk>");
         App.ASSERT(endIndex != -1);
 
         int baseBlock = Integer.parseInt(res, index + 5, endIndex, 10);
@@ -288,7 +306,7 @@ public class Card {
     }
     upData.description = new Description(upData.effects);
   }
-  /**If card's description can be affected by str/dex, include the ØatkÁ / ØendatkÁ / ØblkÁ / ØendblkÁ around the number(s)
+  /**If card's description can be affected by str/dex, include the <atk> / <endatk> / <blk> / <endblk> around the number(s)
    */
   public Card(String name, String description, String type, int energyCost, boolean targeted, List<String> effects,
               String upDescription, int upCost, boolean upTargeted, List<String> upEffects, Rarity rarity, Color color){

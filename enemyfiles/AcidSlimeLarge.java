@@ -1,6 +1,12 @@
 package enemyfiles;
 import java.util.*;
-import app.*;
+
+import app.Card;
+import app.Colors;
+import app.Combat;
+import app.Entity;
+import app.Intent;
+import app.Intent.IntentType;
 
 public class AcidSlimeLarge extends Enemy{
 

@@ -2,6 +2,18 @@ package app;
 import enemyfiles.Enemy;
 
 public class Intent{
+  public enum IntentType{
+    ATTACK,
+    DEFEND,
+    BUFF,
+    DEBUFF,
+    ESCAPE,
+    SLEEPING,
+    STUNNED,
+    UNKNOWN,
+    BLANK
+  }
+  
   private String intentName;
   private IntentType type;
   private IntentType secondaryType;

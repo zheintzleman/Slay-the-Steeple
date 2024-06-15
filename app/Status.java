@@ -3,6 +3,16 @@ package app;
 import java.util.ArrayList;
 import java.util.List;
 
+/** The effects/powers that show up under the player's & enemies' name and HP bar.
+ * E.g. Strength, Weakened, Artifact, etc.
+ * Contains a List of StatusEffects to be activated during the appropriate event. Or, for some
+ * statuses, just if-blocks in the respective method (usually in Combat.java) instead of using a
+ * creating a whole EventManager.Event for it.
+ * 
+ * @see StatusEffect
+ * @see App App.loadStatuses()
+ * @see Entity
+ */
 public class Status{
   private String name, description;
   private int strength;

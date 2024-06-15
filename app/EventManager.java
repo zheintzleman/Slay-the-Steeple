@@ -21,7 +21,11 @@ public class EventManager {
 
   /** Singleton EventManager Instance */
   public static final EventManager em = new EventManager();
-  private EventManager(){}
+  private EventManager(){
+    if(em != null){
+      throw new IllegalStateException("Instantiating second EventManager object.");
+    }
+  }
   public static final List<Event> BANNED_CARD_EFFECTS =
     List.of(Event.ONDRAW, Event.ONDISCARD, Event.ONEXHAUST, Event.ONLOSEHP, Event.ONATKDMGDEALT);
   public static final List<Event> BANNED_STATUS_EFFECTS =

@@ -5,7 +5,7 @@ import app.Colors;
 import app.Combat;
 import app.Entity;
 import app.Intent;
-import app.IntentType;
+import app.Intent.IntentType;
 import app.Run;
 
 public class Looter extends Enemy{

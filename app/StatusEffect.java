@@ -2,6 +2,17 @@ package app;
 
 import app.EventManager.Event;
 
+/** An extension of the Effect class, specifically for effects made by status.
+ * Used for the effects statuses have on specific events (some smaller statuses "effects" instead
+ * work via just if-blocks in the respective method (usually in Combat.java), as opposed to using
+ * a StatusEffect and creating a whole EventManager.Event for it.)
+ * Stores a reference to the status holding this effect.
+ * Unable to instantiate effects from the respective blacklist in EventManager.
+ * 
+ * @see Effect
+ * @see Status
+ * @see EventManager EventManager.BANNED_Status_EFFECTS
+ */
 public class StatusEffect extends Effect {
   private Status status;
   private boolean powerIsStatusStr;

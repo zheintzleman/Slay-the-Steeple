@@ -1,3 +1,9 @@
+package app;
+
+import java.io.Serializable;
+import app.EventManager.Event;
+
+
 /**Generic class for effects that cards/statuses/etc. might have during the game.
  * Usually stored as List<Effect>, with each card/status/etc. do at least one effect. 
  * When the effect goes off is also specifies -- defaults to "OnPlay", which is only available
@@ -10,15 +16,10 @@
  *  or "Lorem Ipsum 4 Dolor" as: P = "Lorem", S = "Ipsum 4 Dolor", p = 1
  *  or "(OnExhaust) Lorem Ipsum 4 Dolor" as: P = "Lorem", S = "Ipsum 4 Dolor", p = 1, WP = ONEXHAUST
  * 
- * See Combat.playCard(), Combat.playEff(), and EventManager.
+ * @see Combat.playCard()
+ * @see Combat.playEff()
+ * @see EventManager
  */
-
-package app;
-
-import java.io.Serializable;
-
-import app.EventManager.Event;
-
 public abstract class Effect implements Serializable {
   public static final String[] ATTACK_PRIMARIES = new String[] {"Attack", "AtkAll", "BodySlam", "SearingBlow", "HeavyAttack", "AtkRandom"}; //Can remove
   public static final String[] DEFENSE_PRIMARIES = new String[] {"Blk"};
