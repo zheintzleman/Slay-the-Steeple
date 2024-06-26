@@ -3,6 +3,7 @@ import java.util.*;
 
 import app.Colors;
 import app.Combat;
+import app.Enemy;
 import app.Entity;
 import app.Intent;
 import app.Intent.IntentType;

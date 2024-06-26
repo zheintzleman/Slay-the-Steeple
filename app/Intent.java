@@ -1,5 +1,4 @@
 package app;
-import enemyfiles.Enemy;
 
 /** Contains all information needed to display the intent above an enemy's head.
  * Implementation left to the enemy's class.
