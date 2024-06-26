@@ -1,6 +1,5 @@
 package enemyfiles;
 import app.Colors;
-import app.Enemy;
 import app.Entity;
 import app.Intent;
 import app.Intent.IntentType;
