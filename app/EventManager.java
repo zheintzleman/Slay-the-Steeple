@@ -4,6 +4,15 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+/** Singleton class to provide easy access to various different points in the program, such as
+ * when a card is exhausted, when the turn ends, or when the player is hurt. Just contains
+ * appropritely-named methods which are called at the respective point in the code.
+ * Most such methods play all card/status effects associated with a specific event, so helper
+ * functions have been created to do so automatically.
+ * 
+ * @see Effect Effect / CardEffect / StatusEffect
+ * @see Combat
+ */
 public class EventManager {
   public enum Event{
     ONCARDPLAY,

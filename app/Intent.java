@@ -1,8 +1,20 @@
 package app;
 import enemyfiles.Enemy;
 
+/** Contains all information needed to display the intent above an enemy's head.
+ * Implementation left to the enemy's class.
+ * 
+ * @see Enemy
+ */
 public class Intent{
-  public enum IntentType{
+  public static final String[] defIntArt = Colors.fillColor(new String[] {"▄ ▄ ▄ ▄", "███████", "▀█████▀", "  ▀█▀  "}, Colors.blockBlue); // "▄▂▄▆▄▂▄"
+  public static final String[] atkIntArt = Colors.fillColor(new String[] { "▄▄     ", "▀██▄ ▄ ", "  ▀██▀ ", "  ▀▀ ▀▄"}, Colors.atkIntArtRed);
+  public static final String[] dbfIntArt = Colors.fillColor(new String[] {" ▄▄▄▄▄ ", "█ ▄▄ ▀█", "█ ▀ █ █", " ▀▀▀ ▄▀"}, Colors.dbfIntArtGrn);
+  public static final String[] bufIntArt = new String[] {"       ", Colors.fillColor(" ▄ █▄ ▄", Colors.bufIntArtTop), Colors.bufIntArtTop + " ▀" + Colors.fillColor("████ ", Colors.bufIntArtMid), "  " + Colors.bufIntArtMid + "▀" + Colors.fillColor("█▀  ", Colors.bufIntArtBtm)};
+  public static final String[] unkIntArt = Colors.fillColor(new String[] {"       ", "▄▀▄ ▄▀▄", " ▄▀  ▄▀", " ▄   ▄ "}, Colors.lightYellow);
+  public static final String[] escIntArt = Colors.fillColor(new String[] {"  ▄▄   ", "▄▀  ▀  ", "█   ▄▄▄", " ▀▄▄▄▀█"}, Colors.escIntArtRed);
+  public static final String[] blnkIntArt = new String[] {"       ", "       ", "       ", "       "};
+  public static enum IntentType{
     ATTACK,
     DEFEND,
     BUFF,
@@ -13,19 +25,12 @@ public class Intent{
     UNKNOWN,
     BLANK
   }
-  
+
   private String intentName;
   private IntentType type;
   private IntentType secondaryType;
   private int damage;
   private int multiattack = 1;
-  public static final String[] defIntArt = Colors.fillColor(new String[] {"▄ ▄ ▄ ▄", "███████", "▀█████▀", "  ▀█▀  "}, Colors.blockBlue); // "▄▂▄▆▄▂▄"
-  public static final String[] atkIntArt = Colors.fillColor(new String[] { "▄▄     ", "▀██▄ ▄ ", "  ▀██▀ ", "  ▀▀ ▀▄"}, Colors.atkIntArtRed);
-  public static final String[] dbfIntArt = Colors.fillColor(new String[] {" ▄▄▄▄▄ ", "█ ▄▄ ▀█", "█ ▀ █ █", " ▀▀▀ ▄▀"}, Colors.dbfIntArtGrn);
-  public static final String[] bufIntArt = new String[] {"       ", Colors.fillColor(" ▄ █▄ ▄", Colors.bufIntArtTop), Colors.bufIntArtTop + " ▀" + Colors.fillColor("████ ", Colors.bufIntArtMid), "  " + Colors.bufIntArtMid + "▀" + Colors.fillColor("█▀  ", Colors.bufIntArtBtm)};
-  public static final String[] unkIntArt = Colors.fillColor(new String[] {"       ", "▄▀▄ ▄▀▄", " ▄▀  ▄▀", " ▄   ▄ "}, Colors.lightYellow);
-  public static final String[] escIntArt = Colors.fillColor(new String[] {"  ▄▄   ", "▄▀  ▀  ", "█   ▄▄▄", " ▀▄▄▄▀█"}, Colors.escIntArtRed);
-  public static final String[] blnkIntArt = new String[] {"       ", "       ", "       ", "       "};
 
   public Intent(){
     intentName = "<Intent>";

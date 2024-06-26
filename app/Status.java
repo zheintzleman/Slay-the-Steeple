@@ -14,9 +14,8 @@ import java.util.List;
  * @see Entity
  */
 public class Status{
-  private String name, description;
+  private String name, description, image;
   private int strength;
-  private String image;
   private boolean decreasing, hasStrength;
   final private List<StatusEffect> effects;
 

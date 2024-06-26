@@ -1,9 +1,16 @@
 package app;
+
+/** A collection of public static final String's (mostly text-color escape codes), for legibility
+ * purposes.
+ * 
+ * @see Str
+ * @see App
+ */
 public class Colors {
   public static final String reset = "Ø\u001B[0mÁ";
   public static final String clearScreen = "\033[H\033[2J";
   public static final String deckBrown = "Ø\033[38;2;81;54;26mÁ";
-  //public static final String blackOnDeckBrown = "Ø\033[48;2;81;54;26mÁØ\033[30mÁ";
+  public static final String blackOnDeckBrown = "Ø\033[48;2;81;54;26mÁØ\033[30mÁ";
   public static final String whiteOnDeckBrown = "Ø\033[48;2;81;54;26mÁØ\033[37mÁ";
   public static final String energyDisplayRed = "Ø\033[38;5;52mÁ";
   public static final String veryLightRedOnEnergyDisplayRed = "Ø\033[91m\033[48;5;52mÁ";

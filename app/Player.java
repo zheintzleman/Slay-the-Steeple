@@ -1,11 +1,13 @@
 package app;
 
+/** An extension of Entity used to represent the player (e.g. The Ironclad entity)
+ * 
+ * @see Entity
+ * @see Combat Combat.player
+ */
 public class Player extends Entity {
   public Player(String name, int hp, int maxHP, String[] img){
     super("Ironclad", hp, img, maxHP);
-  }
-  public Player(Player p){
-    super(p);
   }
   
   @Override

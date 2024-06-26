@@ -1,8 +1,16 @@
 package app;
 import java.util.*;
 
-/** Represents any entity in a combat -- either the player or an enemy.
+/** Represents any entity in a combat -- either the player or an enemy. Contains methods for most
+ * basic actions an entity can perform, such as attacking, dying, changing statuses, etc.
+ * Calling createCopy() makes a (private) clone of this, to which all status changes are
+ * automatically applied. mergeCopy() then sets this' statuses to the clone's updated ones.
+ * Class is abstract; use one of the extensions (can use AbstractEntity if needed.)
  * 
+ * @see Enemy
+ * @see Player
+ * @see AbstractEntity
+ * @see Status
  */
 public abstract class Entity{
   /** Default Entity Image */
