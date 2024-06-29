@@ -84,38 +84,7 @@ public class Run{
   */
   public void play(){
     while(true){ //Runs until hp <= 0, which has a break statement below
-      Combat c;
-      double rn = Math.random();
-      double chance = 1.0/14;
-      if(rn < chance){
-        c = new Combat("Cultist");
-      }else if(rn < 2*chance){
-        c = new Combat("Jaw Worm");
-      }else if(rn < 3*chance){
-        c = new Combat("Two Louses");
-      }else if(rn < 4*chance){
-        c = new Combat("Small and Med Slime");
-      }else if(rn < 5*chance){
-        c = new Combat("Gremlin Gang");
-      }else if(rn < 6*chance){
-        c = new Combat("Large Slime");
-      }else if(rn < 7*chance){
-        c = new Combat("Lots of Slimes");
-      }else if(rn < 8*chance){
-        c = new Combat("Blue Slaver");
-      }else if(rn < 9*chance){
-        c = new Combat("Red Slaver");
-      }else if(rn < 10*chance){
-        c = new Combat("Three Louses");
-      }else if(rn < 11*chance){
-        c = new Combat("Two Fungi Beasts");
-      }else if(rn < 12*chance){
-        c = new Combat("Exordium Thugs");
-      }else if(rn < 13*chance){
-        c = new Combat("Exordium Wildlife");
-      }else{
-        c = new Combat("Looter");
-      }
+      Combat c = new Combat();
       int goldStolen = c.runCombat();
       if(hp <= 0){
         break; //Current death mechanic //global bool var for death?

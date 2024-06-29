@@ -19,7 +19,7 @@ public abstract class Str {
    * @Precondition No spaces adjacent to new lines in text; 
   */
   public static String[] makeTextBox(String text, int width){
-    return makeTextBox(text, Run.SCREENHEIGHT*3/4, width, null); 
+    return makeTextBox(text, Run.SCREENHEIGHT*3/4, width, null);
   }
   /**Constructs and returns a String[] of a box with the (now wrapped) text within. Uses default height and the entered width. Text wrapped with box of width-4.
    * @Precondition No spaces adjacent to new lines in text; 

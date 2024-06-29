@@ -42,26 +42,6 @@ public class Combat{
     eventManager = EventManager.em;
     player = new Player("Ironclad", Run.r.getHP(), Run.r.getMaxHP(), Colors.IRONCLADIMG2);
     enemies = new ArrayList<Enemy>();
-    //Defaults to a Jaw Worm combat
-    enemies.add(new JawWorm(Run.SCREENWIDTH*5/7));   
-    
-    baseEnergy = 3;
-    energy = -1;
-    combatOver = false;
-    condenseLeftHalfOfHand = false;
-    topRowOfCards = Run.SCREENHEIGHT - Card.CARDHEIGHT;
-    
-    drawPile = new ArrayList<Card>(Run.r.getDeck());
-    Collections.shuffle(drawPile);
-    discardPile = new ArrayList<Card>();
-    exhaustPile = new ArrayList<Card>();
-    hand = new ArrayList<Card>();
-  }
-  public Combat(String combatType){
-    c = this;
-    eventManager = EventManager.em;
-    player = new Player("Ironclad", Run.r.getHP(), Run.r.getMaxHP(), Colors.IRONCLADIMG2);
-    enemies = new ArrayList<Enemy>();
     baseEnergy = 3;
     energy = -1;
     combatOver = false;
@@ -80,7 +60,7 @@ public class Combat{
     // X pos (col) of the first enemy; offset between enemeies.
     // If >2 enemies, used for ensuring same gap between them all.
     int e1X, gap;
-    switch(combatType){
+    switch(pickCombat()){
       case "Jaw Worm":
         enemies.add(new JawWorm(Run.SCREENWIDTH*5/7));
         break;
@@ -153,6 +133,16 @@ public class Combat{
   public void setEnemiesToUpdate(ArrayList<Enemy> newETU){ enemiesToUpdate = newETU; }
   public Entity getPlayer(){ return player; }
   public Run getRun(){ return Run.r; }
+
+  public static String pickCombat(){
+    // Random string from list
+    String[] combatTypes = new String[] {"Cultist", "Jaw Worm", "Two Louses",
+      "Small and Med Slime", "Gremlin Gang", "Large Slime", "Lots of Slimes", "Blue Slaver",
+      "Red Slaver", "Three Louses", "Two Fungi Beasts", "Exordium Thugs", "Exordium Wildlife",
+      "Looter"};
+    int rn = (int) (Math.random()*combatTypes.length);
+    return combatTypes[rn];
+  }
 
   public ArrayList<Card> getCardsInPlay(){
     ArrayList<Card> list = new ArrayList<Card>();
