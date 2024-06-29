@@ -11,7 +11,7 @@ import app.EventManager.Event;
  * 
  * @see Effect
  * @see Status
- * @see EventManager EventManager.BANNED_Status_EFFECTS
+ * @see EventManager EventManager.BANNED_STATUS_EFFECTS
  */
 public class StatusEffect extends Effect {
   private Status status;

@@ -12,7 +12,6 @@ import java.util.function.Predicate;
  */
 public class Run{
   private String[] screen;
-  //TODO: Put these into App.java?
   public static final int SCREENWIDTH = SettingsManager.sm.screenWidth;
   public static final int SCREENHEIGHT = SettingsManager.sm.screenHeight;
   private int hp, maxHP;
@@ -29,34 +28,20 @@ public class Run{
     gold = 99;
     deck = new ArrayList<Card>();
     App.ASSERT(new Card("Strike") != null);
-    deck.add(new Card("Void"));
-    deck.add(new Card("Void"));
-    deck.add(new Card("Slimed"));
-    deck.add(new Card("Slimed"));
-    deck.add(new Card("Slimed"));
     deck.add(new Card("Armaments"));
     deck.add(new Card("Armaments"));
     deck.add(new Card("Armaments"));
-    deck.add(new Card("Combust"));
-    deck.add(new Card("Combust"));
-    deck.add(new Card("Combust"));
-    deck.add(new Card("Burning Pact"));
-    deck.add(new Card("Burning Pact"));
-    deck.add(new Card("Burning Pact"));
+    deck.add(new Card("Armaments"));
+    deck.add(new Card("Armaments"));
     deck.add(new Card("Flex"));
     deck.add(new Card("Flex"));
     deck.add(new Card("Flex"));
     deck.add(new Card("Flex"));
-    deck.add(new Card("Dark Embrace"));
-    deck.add(new Card("Dark Embrace"));
-    deck.add(new Card("Burn"));
-    deck.add(new Card("Burn"));
-    deck.add(new Card("Burn+"));
-    deck.add(new Card("Burn+"));
-    deck.add(new Card("Blood for Blood"));
-    deck.add(new Card("Blood for Blood"));
-    // TODO: Display deck in alphabetical order or smth?
-    // Although this does show it in order obtained, actually.
+    deck.add(new Card("Flex"));
+    deck.add(new Card("Flex"));
+    deck.add(new Card("Headbutt"));
+    deck.add(new Card("Headbutt"));
+    deck.add(new Card("Headbutt"));
     if(SettingsManager.sm.debug){
       System.out.println("W: " + SCREENWIDTH);
       System.out.println("H: " + SCREENHEIGHT);
@@ -103,43 +88,43 @@ public class Run{
       double rn = Math.random();
       double chance = 1.0/14;
       if(rn < chance){
-      c = new Combat("Cultist");
-      }else if(rn < 200*chance){
-      c = new Combat("Jaw Worm");
+        c = new Combat("Cultist");
+      }else if(rn < 2*chance){
+        c = new Combat("Jaw Worm");
       }else if(rn < 3*chance){
-      c = new Combat("Two Louses");
+        c = new Combat("Two Louses");
       }else if(rn < 4*chance){
-      c = new Combat("Small and Med Slime");
+        c = new Combat("Small and Med Slime");
       }else if(rn < 5*chance){
-      c = new Combat("Gremlin Gang");
+        c = new Combat("Gremlin Gang");
       }else if(rn < 6*chance){
-      c = new Combat("Large Slime");
+        c = new Combat("Large Slime");
       }else if(rn < 7*chance){
-      c = new Combat("Lots of Slimes");
+        c = new Combat("Lots of Slimes");
       }else if(rn < 8*chance){
-      c = new Combat("Blue Slaver");
+        c = new Combat("Blue Slaver");
       }else if(rn < 9*chance){
-      c = new Combat("Red Slaver");
+        c = new Combat("Red Slaver");
       }else if(rn < 10*chance){
-      c = new Combat("Three Louses");
+        c = new Combat("Three Louses");
       }else if(rn < 11*chance){
-      c = new Combat("Two Fungi Beasts");
+        c = new Combat("Two Fungi Beasts");
       }else if(rn < 12*chance){
-      c = new Combat("Exordium Thugs");
+        c = new Combat("Exordium Thugs");
       }else if(rn < 13*chance){
-      c = new Combat("Exordium Wildlife");
+        c = new Combat("Exordium Wildlife");
       }else{
-      c = new Combat("Looter");
+        c = new Combat("Looter");
       }
       int goldStolen = c.runCombat();
       if(hp <= 0){
-        break; //Death mechanic (temporary?) //global bool var for death?
-        //todo: make it (prob in Combat) so that enemies don't show their next intent when you die?)
+        break; //Current death mechanic //global bool var for death?
       }
       combatRewards(goldStolen); //todo: move elsewhere if relevant?
       Main.scan.nextLine();
     }
-    Str.println(Colors.clearScreen);
+    if(!SettingsManager.sm.debug)
+      Str.println(Colors.clearScreen);
     System.out.println(App.GAME_OVER);
     Str.println("You got " + Colors.gold + gold + Colors.reset + " gold");
   }
@@ -184,7 +169,7 @@ public class Run{
           //Make a whole card reward method and popup and stuff.
           //(And impl. cards and everything)(Big Task!)
           break;
-        //TODO: Add potions here obv.
+        //Add potions here obv.
         default:
           break;
       }
@@ -207,19 +192,18 @@ public class Run{
 
     //Gold Reward
     int goldAmt = (int)(Math.random()*11) + 10; //Will have to change this for later w/ elites probably.
-    String goldText = goldAmt + " Gold"; //TODO: Add a symbol here, too.
+    String goldText = goldAmt + " Gold";
     CombatReward goldReward = new CombatReward(goldText, RewardType.GOLD, goldAmt);
     rewards.add(goldReward);
 
     //Card Reward
-    String cardRewardText = Colors.fillColor("░█", Colors.grayOnWhite) + Colors.whiteOnGray + "Add a card to your deck"; //TODO: make this display properly
+    String cardRewardText = Colors.fillColor("░█", Colors.grayOnWhite) + Colors.whiteOnGray + "Add a card to your deck";
     CombatReward cardReward = new CombatReward(cardRewardText, RewardType.CARD);
     rewards.add(cardReward);
-    
-    //todo: add potions
-    //(Big thing too!)
 
-    hp += 6; //todo move to some endOfCombat function? Ie that takes into account relics
+    //TODO: Potions:
+
+    hp += 6;
     if(hp > maxHP){ hp = maxHP; }
 
     //Add any additional rewards here
@@ -236,7 +220,7 @@ public class Run{
           //Changing gray to blue
           while(img.indexOf(Colors.gray) != -1) {
             int nextIndex = img.indexOf(Colors.gray);
-            img = img.substring(0, nextIndex) + Colors.blockBlue + img.substring(nextIndex + Colors.gray.length()); //TODO: Check colors; currently using block blue, but could change it (eg to light blue.)
+            img = img.substring(0, nextIndex) + Colors.blockBlue + img.substring(nextIndex + Colors.gray.length());
           }
           //Changing gray on white to blue on white
           while(img.indexOf(Colors.grayOnWhite) != -1) {
@@ -258,7 +242,6 @@ public class Run{
       int startCol = SettingsManager.sm.screenWidth/2 - App.POPUP_WIDTH/2; // == 78
       String[] screenWithAddition = Str.addStringArraysSkipEscSequences(screen, 6, startCol, Str.makeTextBox(textToPopup, App.POPUP_HEIGHT , App.POPUP_WIDTH));
       display(screenWithAddition); //Same as calling displayScreenWithAddition with the above params, but can pass this screen into input below (v)
-      //TODO: Print info message
       Str.println("<Just press enter to collect reward; navigate with q (up) and z (down)>");
 
       //Take in commands:
@@ -349,12 +332,11 @@ public class Run{
     //Deck (top right)
     String[] deckDisplay = Combat.square(3, 5, deck.size(), Colors.deckBrown, Colors.whiteOnDeckBrown);
     addToScreen(1, SCREENWIDTH-16, deckDisplay , Colors.reset + Colors.deckBrown, Colors.reset + Colors.headerBrown);
-    addToScreen(0, SCREENWIDTH-16, "Deck-D", Colors.magentaBoldOnHeaderBrown, Colors.headerBrown);
+    addToScreen(0, SCREENWIDTH-16, "Deck-D", Colors.magentaOnHeaderBrown, Colors.headerBrown);
 
     //Settings Gear
-    //todo: Change the blue color?
-    String[] gearDisplay = {"▀▄█▄▀", "█" + Colors.magentaBoldOnBlockBlue + "Esc" + Colors.blockBlueOnHeaderBrown + "█", "▄▀█▀▄"};
-    addToScreen(1, SCREENWIDTH - 7, gearDisplay, Colors.blockBlueOnHeaderBrown, Colors.reset + Colors.headerBrown);
+    String[] gearDisplay = {"▀▄█▄▀", "█" + Colors.magentaOnGearBlue + "Esc" + Colors.gearBlueOnHeaderBrown + "█", "▄▀█▀▄"};
+    addToScreen(1, SCREENWIDTH - 7, gearDisplay, Colors.gearBlueOnHeaderBrown, Colors.reset + Colors.headerBrown);
   }
 
   /**Resets the screen String[] and adds/sets basic run-wide values such as hp and the deck. Doesn't construct a new array.
@@ -400,6 +382,7 @@ public class Run{
   }
 
   /**Gets user input. If input is one of the registered codes, follows the code and repeats until any other input is entered.
+   * @param prevScreen The screen to display before returning
    * @return The first non-code value inputted by the user
   */
   public String input(String[] prevScreen){

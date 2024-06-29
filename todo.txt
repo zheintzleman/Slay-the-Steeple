@@ -1,0 +1,25 @@
+Todo List:
+
+Change all colors in Colors.java to their corresponding rgb values.
+Check whether or not statuses used to show in the order they were obtained.
+Figure out how the sts stat ordering works.
+Add headers to the files.
+Make it so the robber(s) don't "drop gold" when they run away.
+Continue writing docs (continue from Entity.java.)
+Make Jaw Worm art wider?
+Try to make the screen width/etc. update in real time by not using Run.SCREENX & using SettingsManager.x instead?
+In the statuses list (& possibly any other lists, too), change the section headers to be some different color (besides just white)
+Is there benefit to having a screen/interface class?
+OnTurnEnd shouldn't be called when you win the combat.
+From getImageWStatuses: "Enemy images are displaying weirdly; louses have 3 spaces on the left & 5 on the right, while blue slaver is 1 & 0 respectively."
+Add more assertions?
+Search the directory for other instances of "todo".
+Add a symbol for gold in the combat rewards.
+Potions, relics, etc.
+
+Stretch Goals:
+Allow for a screen width of 155
+Color changing energy cost based on if it is above or below base cost
+Put something in to make newly drawn card pop out (ie white instead of gray or smth?) so it's easier to read?
+Replace all text that appears below the screen with popups?
+Make "Select card from disc." (e.g.) show the card images and not just the text.

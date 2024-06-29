@@ -21,11 +21,6 @@ import app.EventManager.Event;
  * @see EventManager
  */
 public abstract class Effect implements Serializable {
-  public static final String[] ATTACK_PRIMARIES = new String[] {"Attack", "AtkAll", "BodySlam", "SearingBlow", "HeavyAttack", "AtkRandom"}; //Can remove
-  public static final String[] DEFENSE_PRIMARIES = new String[] {"Blk"};
-  // Primaries that affect game state outside of the current combat (i.e. that matter even after the combat ends.)
-  public static final String[] RUN_STATE_PRIMARIES = new String[] {}; //TODO: Fill out as I add them.
-
   private String primary;
   private String secondary;
   private int power;
@@ -83,29 +78,14 @@ public abstract class Effect implements Serializable {
   public void setPower(int power) { this.power = power; }
   public Event whenPlayed(){ return whenPlayed; }
 
-  public boolean isAttack(){ //TODO: Why not just make this check if the card is an attack card?
-    for(String s : ATTACK_PRIMARIES){
-      if(primary.equals(s)){
-        return true;
-      }
-    }
-    return false;
+  public boolean isAttack(){
+    return App.ATTACK_PRIMARIES.contains(primary);
   }
   public boolean isDefense(){
-    for(String s : DEFENSE_PRIMARIES){
-      if(primary.equals(s)){
-        return true;
-      }
-    }
-    return false;
+    return App.DEFENSE_PRIMARIES.contains(primary);
   }
   public boolean affectsRunState(){
-    for(String s : DEFENSE_PRIMARIES){
-      if(primary.equals(s)){
-        return true;
-      }
-    }
-    return false;
+    return App.RUN_STATE_PRIMARIES.contains(primary);
   }
   /**
    * Converts the secondary (all text between the first word & an optional last number)
@@ -126,7 +106,7 @@ public abstract class Effect implements Serializable {
       return true;
     if (obj == null)
       return false;
-    if (getClass() != obj.getClass()) //TODO: Does this automatically make CardEffects and StatusEffects not equal? Should -- if not, would need to do funky stuff w/ power below.
+    if (getClass() != obj.getClass())
       return false;
     Effect other = (Effect) obj;
 

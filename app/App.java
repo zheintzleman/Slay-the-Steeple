@@ -50,6 +50,10 @@ public abstract class App {
   public static final int MIN_SCREEN_WIDTH = 10;
   public static final int MIN_SCREEN_HEIGHT = 10;
   // TODO: Check for realistic values of MSW/MSH^
+  public static final Set<String> ATTACK_PRIMARIES = new HashSet<String>(List.of("Attack", "AtkAll", "BodySlam", "SearingBlow", "HeavyAttack", "AtkRandom"));
+  public static final Set<String> DEFENSE_PRIMARIES = new HashSet<String>(List.of("Blk"));
+  // Primaries that affect game state outside of the current combat (i.e. that matter even after the combat ends.)
+  public static final Set<String> RUN_STATE_PRIMARIES = new HashSet<String>();
 
   // Can use Card.getCard(String) and Status.getStatus(String) to easily access w/ null-checking:
   public static final HashMap<String, Card> CARDS = loadCards();
@@ -146,19 +150,6 @@ public abstract class App {
                       "At the end of your turn, lose 1 HP and deal 7 damage to ALL enemies.\n", 1, false, List.of("AppPlayer Combust 7", "IncrCombustCnt <str>"), Rarity.UNCOMMON, Color.IRONCLAD));
     cards.put("Dark Embrace", new Card("Dark Embrace", "Whenever a card is Exhausted, draw 1 card.\n", "Power", 2, false, List.of("AppPlayer Dark Embrace"),
                       "Whenever a card is Exhausted, draw 1 card.\n", 1, false, List.of("AppPlayer Dark Embrace"), Rarity.UNCOMMON, Color.IRONCLAD));
-    // Todo List:
-    // Check whether or not statuses used to show in the order they were obtained.
-    // Figure out how the sts stat ordering works.
-    // Add headers to the files.
-    // Make it so the robber(s) don't "drop gold" when they run away.
-    // Continue writing docs (continue from Entity.java.)
-    // Make Jaw Worm art wider?
-    // Try to make the screen width/etc. update in real time by not using Run.SCREENX & using SettingsManager.x instead?
-    // In the statuses list (& possibly any other lists, too), change the section headers to be some different color (besides just white)
-    // Is there benefit to having a screen/interface class?
-    // OnTurnEnd shouldn't be called when you win the combat.
-    // Add more assertions?
-    // Stretch goal: Allow for a screen width of 155
 
     // Assert that all entries in `cards` are named correctly:
     App.ASSERT(cards.entrySet().stream()

@@ -208,7 +208,7 @@ public abstract class Entity{
   public Status setStatusStrength(String name, int strength){
     if(hasCopy()){
       // While enemies doing intents, want to edit their statuses instead.
-      return copy.setStatusStrength(name, strength); //TODO: Did this break things?
+      return copy.setStatusStrength(name, strength);
     }
 
     Status s = getStatus(name);
@@ -400,7 +400,7 @@ public abstract class Entity{
    * @param strMultiplier - Multiplies the effect of strength by this; default 1. Used for Heavy Blade, etc.
    * @return int - The total amount of attack damage delt
   */
-  public int attack(List<? extends Entity> victims, int damagePreCalculations, int strMultiplier){ //TODO: Make into an event?
+  public int attack(List<? extends Entity> victims, int damagePreCalculations, int strMultiplier){
     int totalDmgDealt = 0;
     // To prevent ConcurrentModificationException's:
     List<? extends Entity> victimsCopy = List.copyOf(victims);

@@ -11,8 +11,8 @@ import java.util.*;
  * 
  * @author Zachary Heintzleman
  * @see Run
- * @see App Todo list in App.loadCards
- * (put there since my progress is slowly marked by that method growing longer.)
+ * @see README.md
+ * @see todo.txt
  */
 class Main {
   public static Scanner scan = new Scanner(System.in);

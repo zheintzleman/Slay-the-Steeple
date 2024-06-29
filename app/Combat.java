@@ -19,7 +19,7 @@ import enemyfiles.*;
 public class Combat{
   private Player player;
   private ArrayList<Enemy> enemies;
-  /** Changes to the enemy list while the enemies perform their intents go here instead of the main
+  /** All changes to the enemy list while the enemies perform their intents go here instead of the main
     * enemies list. This is then synced back to the main enemies list after all intents are done. */
   private ArrayList<Enemy> enemiesToUpdate;
   private ArrayList<Card> drawPile, discardPile, exhaustPile, hand;
@@ -231,10 +231,8 @@ public class Combat{
       
       Run.r.setHP(player.getHP());
     }
-    //TODO: Make gold stolen be updated here (both remove the gold from the player and add # to res)
-      //(Make it related to the theivery/w/e status too btw)
     display();
-    return 0;   //TODO: change (^)
+    return 0;
   }
 
   /**Inputs from the player the next action and performs it, updating the display as well.
@@ -256,7 +254,7 @@ public class Combat{
           playCard(Integer.parseInt(input.substring(5)));
           doneAction = true;
         } catch(NumberFormatException e){
-          System.out.println("Invalid input. To play a card, type \u001B[35mPlay #\u001B[0m, or just \u001B[35m#\u001B[0m, where # is the card's position in your hand.");
+          System.out.println("Invalid input. To play a card, type \u001B[35mPlay #\u001B[0m, or just \u001B[35m#\u001B[0m, where # is the card's position in your hand."); //TODO: Using esc codes< (Move to Colors.java)
         }
       }else if(input.equalsIgnoreCase("e") || input.equalsIgnoreCase("end") || input.equalsIgnoreCase("end turn")){
         doneAction = true;
@@ -388,7 +386,7 @@ public class Combat{
 
   /**Draws a card from the draw pile. Shuffles the discard into the draw pile if necessary.
   */
-  private Card drawCard(){ //TODO: Put something in to make newly drawn card pop out (ie white instead of gray or smth?) so it's easier to read?
+  private Card drawCard(){
     if(!canDraw()){
       return null;
     }
@@ -407,17 +405,8 @@ public class Combat{
     
     Card topCard = drawPile.remove(0);
     hand.add(topCard);
-    callOnDrawEffs(topCard);
+    EventManager.em.OnDraw(topCard);
     return topCard;
-  }
-  
-  public void callOnDrawEffs(Card card){
-    for(CardEffect eff : card.getEffects()){
-      if(eff.whenPlayed() == Event.ONDRAW){
-        playEffect(eff);
-      }
-    }
-    // TODO: Make into EventManager method
   }
 
   public boolean canDraw(){
@@ -712,8 +701,7 @@ public class Combat{
     if(enemies.size() == 1){
       return 1;
     }
-    System.out.println("Which enemy do you want to play this card on? (1-" + enemies.size() + "; type c to cancel)");
-    String input = input();
+    String input = input("Which enemy do you want to play this card on? (1-" + enemies.size() + "; type c to cancel)\n");
     int val = -1;
     try{
       val = Integer.parseInt(input);
@@ -728,7 +716,7 @@ public class Combat{
    * @param secondary The second word of the card effect, the meaning of which will be converted to an arraylist
    * @param current The card being currently played
    */
-  public Card[] cardTargets(String secondary, Card current){ //TODO: finish
+  public Card[] cardTargets(String secondary, Card current){
     switch (secondary) {
       case "":
       case "This":
@@ -742,21 +730,21 @@ public class Combat{
         if(hand.size() == 1) return new Card[]{hand.get(0)}; //If only 1 option, select that option
         int rng = (int) (Math.random() * hand.size());
         return new Card[]{hand.get(rng)};
-      case "Choose1FromHand": //todo: finish // it's finished already, right?
+      case "Choose1FromHand":
         if(hand.isEmpty()) return new Card[]{}; //Empty selection if hand empty
         if(hand.size() == 1) return new Card[]{hand.get(0)}; //If only 1 option, select that option
-        display(); //TODO: necessary?
+        display();
         while(true){
           try{
-            String input = input("Select the position of a card in your hand: "); //todo: make all of these kinds of text popups into on-screen things like the card rewards screen?
+            String input = input("Select the position of a card in your hand: ");
             Card c = hand.get(Integer.parseInt(input)-1);
             return new Card[] {c};
           } catch(NumberFormatException | IndexOutOfBoundsException e){}
         }
         //No break since returns above
-      case "Choose1FromDisc": //todo: finish
+      case "Choose1FromDisc":
         if(discardPile.isEmpty()) return new Card[]{}; //Empty selection if discard pile empty
-        display(); //TODO: necessary?
+        display();
         while(true){
           try{
             String str = "Your discard pile:\n"; //Text to popup
@@ -765,9 +753,9 @@ public class Combat{
             }
             Card c = null;
             while(c == null){ //Until they enter the name of a card in their discard pile
-              String input = Run.r.popupInput(str, "Select the name of a card in your discard pile"); //todo: make all of these kinds of text popups into on-screen things like the card rewards screen?
+              String input = Run.r.popupInput(str, "Select the name of a card in your discard pile");
               for(Card discardCard : discardPile){
-                if(Str.equalsIgnoreCaseSkipEscSeqs(input, discardCard.getName())){ //Checks if input is a card in the discard pile //TODO: make work w/ coloring the name; also just now I typed "flex" when (a green) "flex+" was available and it kinda broke
+                if(Str.equalsIgnoreCaseSkipEscSeqs(input, discardCard.getName())){ //Checks if input is a card in the discard pile
                   c = discardCard;
                 }
               }
@@ -790,7 +778,7 @@ public class Combat{
   */
   public String input(String prompt){
     while(true){
-      Str.print(prompt); //TODO: Call this version of input more, where I'm already effectively using it?
+      Str.print(prompt);
       String input = Run.r.input();
       String str;
       
@@ -826,7 +814,7 @@ public class Combat{
         case "stats":
         case "status":
         case "t":
-          String statuses = "Player Statuses:\n"; //TODO: Add some color to these headers
+          String statuses = "Player Statuses:\n";
           for(Status s : player.getStatuses()){
             statuses += s.toString() + "\n";
           }
@@ -849,17 +837,6 @@ public class Combat{
           condenseLeftHalfOfHand = false;
           display();
           break;
-        case "test": //TODO: REMOVE
-          // Test Cases:
-          Run.r.popup("Sus");
-          Run.r.popup("Sus2", Run.r.getScreen());
-          Run.r.popup("Sus3", 20);
-          Run.r.popup("Sus4", 12, 20);
-          Run.r.popup("Sus5", 12, 20, 10, 30);
-          Run.r.popup("Sus6", 12, 20, 10, 30, Run.r.getScreen());
-          Run.r.popupInput("Sussi 7", "Enter a letter");
-          Run.r.popupInput("Sussi8", "Be Sus:", 12, 20, 10, 30, Run.r.getScreen());
-          //FALLTHRU
         default:
           return input;
       }

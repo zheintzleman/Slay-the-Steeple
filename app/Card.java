@@ -83,7 +83,7 @@ public class Card {
             codedDescription += "Deal <atk>" + effectPower + "<endatk> damage to ALL enemies.\n";
             break;
           case "AtkRandom":
-            codedDescription += "Deal <atk>" + effectPower + "<endatk> damage to a random enemy."; //TODO: If eg 3 atks in a row, causes error if second kills the last enemy.
+            codedDescription += "Deal <atk>" + effectPower + "<endatk> damage to a random enemy.\n";
           case "SearingBlow":
             codedDescription += "Deal <atk>" + searingBlowDamage() + "<endatk> damage.\nCan be upgraded any number of times.\n";
             break;
@@ -118,7 +118,7 @@ public class Card {
                 codedDescription += "Upgrade ALL cards in your hand for the rest of combat.\n";
                 break;
               default:
-                codedDescription += "[Upgrade; Enter text in Card.java]\n";
+                codedDescription += "[Upgrade; Enter text in Card.java].\n";
                 break;
             }
             break;
@@ -131,7 +131,7 @@ public class Card {
                 codedDescription += "Put a card from your hand onto the top of your draw pile.\n";
                 break;
               default:
-                codedDescription += "[PutOnDrawPile; Enter text in Card.java]\n";
+                codedDescription += "[PutOnDrawPile; Enter text in Card.java].\n";
                 break;
             }
             break;
@@ -174,7 +174,7 @@ public class Card {
           default:
             break;
         }
-        // TODO: Make sure every description, here and in App.java, ends with ".\n".
+        App.ASSERT(codedDescription.endsWith(".\n") || codedDescription.isEmpty());
       }
     }
     //End Description Constructors
@@ -329,10 +329,12 @@ public class Card {
       upData.effects.add(new CardEffect(str, this));
     }
     upData.description = new Description(upDescription);
+
+    App.ASSERT((description.endsWith(".\n") || description.isEmpty())
+            && (upDescription.endsWith(".\n") || upDescription.isEmpty()));
   }
 
   //Getters and setters
-  // public static ArrayList<Card> availableCards(){ return availableCards; } //TODO: Remove?
   public String getName(){ return name; }
   public void setName(String newName){ name = newName; }
   public String getType(){ return type; }
@@ -341,7 +343,7 @@ public class Card {
   public void setBaseEnergyCost(int newCost){
     data.baseEnergyCost = newCost >= 0 ? newCost : 0;
   }
-  public int getEnergyCost(){ return energyCost; } //TODO: Take in combat & factor, e.g., corruption & stuff?
+  public int getEnergyCost(){ return energyCost; } //TODO: Factor in e.g. corruption & stuff?
   public void setEnergyCost(int newCost){
     energyCost = newCost >= 0 ? newCost : 0;
   }
@@ -370,7 +372,6 @@ public class Card {
   
   @Override
   public String toString(){
-    //TODO: Stretch Goal?: Color changing energy cost based on if it is above or below base cost
     // String energyCostColor = getEnergyCost() > getBaseEnergyCost() ? Colors.energyCostRed :
     //                          getEnergyCost() == getBaseEnergyCost() ? Colors.reset :
     //                                                                  Colors.upgradeGreen;
@@ -434,7 +435,7 @@ public class Card {
   /**Returns the image of the card that will be displayed on the screen.
    * Uses base descriptions if combat == null, otherwise accounts for player statuses.
   */
-  public String[] getImageWStatuses(Combat combat){ //TODO: Enemy images are displaying weirdly; louses have 3 spaces on the left & 5 on the right, while blue slaver is 1 & 0 respectively.
+  public String[] getImageWStatuses(Combat combat){
     String text = "";
     text += Str.concatArrayListWNL(Str.wrapText(name, CARDWIDTH-7));
     text += "\n " + (combat == null ? getDescription() : getDescriptionWStatuses(combat)) + "\n";
@@ -508,15 +509,9 @@ public class Card {
   }
 
   /**Puts the specified color after each space and '\n' in the text.
-  *@Precondition - Text doesn't start with a space; two spaces aren't in a row.
+  *@Precondition - Two spaces aren't in a row.
   */
-  public static String colorEveryWordBySpaces(String theText, String color){ //TODO: Used once and in a way that violates the precondition lol
-    // String[] wordsBySpaces = theText.split(" ");
-    // String text = "";
-    // for(String str : wordsBySpaces){
-    //   text += " " + color + str;
-    // }
-    // return text.substring(1); //To remove the starting " " //TODO: remove commented part
+  public static String colorEveryWordBySpaces(String theText, String color){
     String text = theText;
     for(int i=0; i < text.length(); i++){
       char c = text.charAt(i);
@@ -541,7 +536,7 @@ public class Card {
       for(Card c : App.CARDS.values()){
         Str.println("C: " + c.name);
       }
-      throw new RuntimeException("Card \"" + name + "\" not in App.CARDS.");
+      throw new NoSuchElementException("Card \"" + name + "\" not in App.CARDS.");
     }
 
     return card;

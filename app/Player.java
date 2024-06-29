@@ -26,6 +26,6 @@ public class Player extends Entity {
   }
   @Override
   public void setSplitIntent() {
-    throw new RuntimeException("Calling setSplitIntent on Player"); //TODO: Make a more specific Exception type.
+    throw new UnsupportedOperationException("Calling setSplitIntent on Player");
   }
 }

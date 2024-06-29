@@ -75,7 +75,7 @@ public class EventManager {
     if(victim == Combat.c.getPlayer()){
       OnPlayerHurt(hpLoss);
     }
-    //TODO: playStatusEffects(Event.ONLOSEHP, Collections.singletonList(victim));
+    playStatusEffects(Event.ONLOSEHP, Collections.singletonList(victim));
   }
 
   private void OnPlayerHurt(int hpLoss){
@@ -108,6 +108,11 @@ public class EventManager {
   public void OnDiscard(Card c){
     playCardEffects(Event.ONDISCARDED, c);
     playStatusEffects(Event.ONDISCARD);
+  }
+
+  public void OnDraw(Card c){
+    playCardEffects(Event.ONDRAWN, c);
+    playStatusEffects(Event.ONDRAW);
   }
 
 
@@ -157,8 +162,6 @@ public class EventManager {
       }
     }
   }
-
-  // TODO: Make a global function? Or does the need for int hpLoss/etc. make that not worth it?
   
   // Along with editing these functions for card/relic/w/e effects, can edit:
   // - Entity.calcAttackDamage / Entity.calcAtkDmgFromThisStats

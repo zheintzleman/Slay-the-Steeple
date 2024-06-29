@@ -15,9 +15,10 @@ public class Colors {
   public static final String energyDisplayRed = "Ø\033[38;5;52mÁ";
   public static final String veryLightRedOnEnergyDisplayRed = "Ø\033[91m\033[48;5;52mÁ";
   public static final String whiteOnEnergyDisplayRed = "Ø\033[37m\033[48;5;52mÁ";
-  public static final String magenta = "Ø\033[38;5;126mÁ";
+  public static final String oldMagenta = "Ø\033[38;5;126mÁ";
+  public static final String magenta = "Ø\033[38;2;210;106;185mÁ";
   public static final String headerBrown = "Ø\033[38;2;152;118;84mÁ";
-  public static final String magentaBoldOnHeaderBrown = "Ø\033[38;5;126;1m\033[48;2;152;118;84mÁ";
+  public static final String magentaOnHeaderBrown = "Ø\033[48;2;152;118;84m\033[38;2;210;106;185mÁ";
   public static final String hpRedOnHeaderBrown = "Ø\u001B[38;5;88;1mÁØ\033[48;2;152;118;84mÁ";
   public static final String hpBarRed = "Ø\u001B[38;5;124mÁ";
   public static final String backgroundHPBarRed = "Ø\u001B[48;5;124mÁ";
@@ -27,7 +28,7 @@ public class Colors {
   public static final String energyCostRed = "Ø\u001B[38;5;124mÁ";
   public static final String energyCostRedBold = "Ø\u001B[38;5;124;1mÁ";
   public static final String blockBlue = "Ø\033[38;5;33mÁ";
-  public static final String blockBlueOnHeaderBrown = "Ø\033[38;5;33m\033[48;2;152;118;84mÁ";
+  // public static final String blockBlueOnHeaderBrown = "Ø\033[38;5;33m\033[48;2;152;118;84mÁ";
   public static final String backgroundBlockBlue = "Ø\033[48;5;33mÁ";
   public static final String hpRed = "Ø\u001B[38;5;88;1mÁ";
   //public static final String backgroundHPRed = "Ø\u001B[48;5;88;1mÁ";
@@ -41,8 +42,9 @@ public class Colors {
   public static final String blockBlueOnWhite = "Ø\033[38;5;33m\033[47mÁ";
   public static final String endTurnButton = "Ø\033[38;5;23mÁ";
   public static final String whiteOnEndTurnButton = "Ø\033[37m\033[48;5;23mÁ";
-  public static final String magentaOnEndTurnButton = "Ø\033[38;5;126m\033[48;5;23mÁ";
-  public static final String magentaBoldOnBlockBlue = "Ø\033[38;5;126;1m\033[48;5;33mÁ";
+  public static final String magentaOnEndTurnButton = "Ø\033[48;2;152;118;84m\033[48;5;23mÁ";
+  public static final String magentaOnGearBlue = "Ø\033[48;2;152;118;84m\033[48;2;40;95;105mÁ";
+  public static final String gearBlueOnHeaderBrown = "Ø\033[38;2;40;95;105m\033[48;2;152;118;84mÁ";
   public static final String atkIntArtRed = "Ø\033[38;5;88mÁ";
   public static final String dbfIntArtGrn = "Ø\033[38;5;119mÁ";
   public static final String bufIntArtTop = "Ø\033[38;2;33;174;235mÁ";
