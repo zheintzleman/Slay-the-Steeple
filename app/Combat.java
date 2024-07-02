@@ -291,7 +291,8 @@ public class Combat{
     
     //Player img
     String[] playerArt = player.getArt();
-    Run.r.addToScreen(entityBottomY-playerArt.length, playerMidX-(Str.lengthIgnoringEscSeqs(playerArt[0])/2), playerArt, Colors.lightRed, Colors.reset);
+    int playerArtWidth = Str.lengthIgnoringEscSeqs(playerArt[0]);
+    Run.r.addToScreen(entityBottomY-playerArt.length, playerMidX-(playerArtWidth/2), playerArt, "", Colors.reset);
     String hpBar = player.getHPBar();
     if(player.getBlock() > 0){    //adds blocknumber to left
       String middleRow = square(1, 3, player.getBlock(), Colors.blockBlue, Colors.whiteBold + Colors.backgroundBlockBlue)[0];

@@ -8,23 +8,26 @@ package app;
  */
 public class Colors {
   public static final String reset = "Ø\u001B[0mÁ";
-  public static final String clearScreen = "\033[H\033[2J";
+  public static final String clearScreen = "Ø\033[H\033[2JÁ";
   public static final String deckBrown = "Ø\033[38;2;81;54;26mÁ";
-  public static final String blackOnDeckBrown = "Ø\033[48;2;81;54;26mÁØ\033[30mÁ";
+  // public static final String blackOnDeckBrown = "Ø\033[48;2;81;54;26mÁØ\033[30mÁ";
   public static final String whiteOnDeckBrown = "Ø\033[48;2;81;54;26mÁØ\033[37mÁ";
-  public static final String energyDisplayRed = "Ø\033[38;5;52mÁ";
-  public static final String veryLightRedOnEnergyDisplayRed = "Ø\033[91m\033[48;5;52mÁ";
+  public static final String energyDisplayRed = "Ø\033[38;2;95;0;0mÁ"; //Prev: "Ø\033[38;5;52mÁ"
+  // public static final String veryLightRedOnEnergyDisplayRed = "Ø\033[91m\033[48;5;52mÁ";
   public static final String whiteOnEnergyDisplayRed = "Ø\033[37m\033[48;5;52mÁ";
-  public static final String oldMagenta = "Ø\033[38;5;126mÁ";
+  // public static final String oldMagenta = "Ø\033[38;5;126mÁ";
   public static final String magenta = "Ø\033[38;2;210;106;185mÁ";
+  public static final String darkMagenta = "Ø\033[38;2;89;22;74mÁ";
   public static final String headerBrown = "Ø\033[38;2;152;118;84mÁ";
-  public static final String magentaOnHeaderBrown = "Ø\033[48;2;152;118;84m\033[38;2;210;106;185mÁ";
-  public static final String hpRedOnHeaderBrown = "Ø\u001B[38;5;88;1mÁØ\033[48;2;152;118;84mÁ";
-  public static final String hpBarRed = "Ø\u001B[38;5;124mÁ";
-  public static final String backgroundHPBarRed = "Ø\u001B[48;5;124mÁ";
-  public static final String lightRed = "Ø\u001B[31mÁ";
+  public static final String darkMagentaOnHeaderBrown = "Ø\033[48;2;152;118;84m\033[38;2;89;22;74mÁ";
+  public static final String energyDisplayRedOnHeaderBrown = "Ø\033[38;2;95;0;0;1m\033[48;2;152;118;84mÁ";
+  public static final String hpBarRed = "Ø\033[38;2;175;0;0mÁ";
+  public static final String backgroundHPBarRed = "Ø\033[48;2;175;0;0mÁ";
+  // public static final String lightRed = "Ø\033[31mÁ";
+  public static final String lightGray = "Ø\033[48;2;145;145;145";
   public static final String gray = "Ø\033[1;90mÁ";
-  public static final String backgroundGray = "Ø\033[1;100mÁ";
+  // public static final String backgroundGray = "Ø\033[1;100mÁ";
+  // Here v (good^)
   public static final String energyCostRed = "Ø\u001B[38;5;124mÁ";
   public static final String energyCostRedBold = "Ø\u001B[38;5;124;1mÁ";
   public static final String blockBlue = "Ø\033[38;5;33mÁ";
@@ -36,6 +39,7 @@ public class Colors {
   public static final String whiteOnWhite = "Ø\033[37m\033[47mÁ";
   public static final String whiteBold = "Ø\033[37;1mÁ";
   public static final String backgroundWhite = "Ø\033[47mÁ";
+  //                        Note: gray split meanings above^
   public static final String whiteOnGray = "Ø\033[37m\033[1;100mÁ";
   public static final String grayOnWhite = "Ø\033[1;90m\033[47mÁ";
   public static final String whiteOnBlockBlue = "Ø\033[37m\033[48;5;33mÁ";
@@ -53,12 +57,12 @@ public class Colors {
   public static final String escIntArtRed = "Ø\033[38;5;52mÁ";
   public static final String darkRed = "Ø\033[38;5;196mÁ";
   public static final String lightGreen = "Ø\033[38;5;156mÁ";
-  public static final String lightBlue = "Ø\033[38;5;116mÁ"; 
-  public static final String dexGreen = "Ø\033[38;5;119mÁ";; 
+  public static final String lightBlue = "Ø\033[38;5;116mÁ";
+  public static final String dexGreen = "Ø\033[38;5;119mÁ";
   public static final String upgradeGreen = "Ø\033[38;2;126;215;42mÁ";
   public static final String descNumBlue = "Ø\033[38;5;32mÁ";
   public static final String lightYellow = "Ø\033[38;5;228mÁ";
-  public static final String tan = "Ø\033[38;5;179mÁ"; 
+  public static final String tan = "Ø\033[38;5;179mÁ";
   public static final String tanOnICRed = "Ø\033[38;5;179m\033[48;5;88mÁ";
   public static final String ICRed = "Ø\033[38;5;88mÁ";
   public static final String ICRedOnBrown = "Ø\033[38;5;88m\033[48;2;81;54;26mÁ";
@@ -117,7 +121,7 @@ public class Colors {
                                                             "                   " + gray + "█" + fillColor("██▄█", tanOnYellow) + reset + "      " + "          ",
                                                             "                  " + tan + "▄" + tanOnGray + "▄" + brownOnGray + "▄" + fillColor("▀▀", tanOnBrown) + reset + brown + "▄" + tan + "▄" + reset + "     " + "          ",
                                                             fillColor("█▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄", gray) + fillColor("███", tan) + fillColor("██", brown) + tanOnBrown + "▄" + reset + fillColor("███", tan) + "    " + "          ",
-                                                            fillColor(" ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀", gray) + reset + fillColor("▀█", tan) + fillColor("▄▄▄▄", brownOnGray) + tanOnBrown + "▀" + reset + fillColor("██", tan) + "    " + "          ",
+                                                            fillColor(" ▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀▀",gray) + reset + fillColor("▀█", tan) + fillColor("▄▄▄▄", brownOnGray) + tanOnBrown + "▀" + reset + fillColor("██", tan) + "    " + "          ",
                                                             "                  " + fillColor("▄████▄ ", brown) + reset + tan + "▀    " + "          ",
                                                             "                  " + fillColor("██▄▄▄█", ICRedOnBrown) + reset + ICRed + "▄     " + "          ",
                                                             fillColor("                ▄█████████    ", ICRed) + "          ",

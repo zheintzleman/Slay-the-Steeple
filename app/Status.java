@@ -127,7 +127,7 @@ public class Status{
   public String getDisplay(){
     String str = image;
     if(strength != 1 || hasStrength){
-      str += Colors.gray + strength;
+      str += Colors.lightGray + strength;
     }
     return str + Colors.reset;
   }

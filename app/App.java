@@ -175,7 +175,7 @@ public abstract class App {
     statuses.put("Weak", new Status("Weak", Colors.lightGreen + "W", true, true, "Deals 25% less attack damage for the next <str> turn(s)."));
     statuses.put("Frail", new Status("Frail", Colors.lightBlue + "F", true, true, "Block gained from cards is reduced by 25% for the next <str> turn(s)."));
     //TODO: Cap at 999 (dex too)
-    statuses.put("Strength", new Status("Strength", Colors.hpBarRed + "S", false, true, "Increases attack damage by <str> (per hit)"));
+    statuses.put("Strength", new Status("Strength", Colors.energyCostRed + "S", false, true, "Increases attack damage by <str> (per hit)"));
     statuses.put("Strength Down", new Status("Strength Down", Colors.lightYellow + "s", false, true, "At the end of your turn, lose <str> Strength."));
     statuses.put("Dexterity", new Status("Dexterity", Colors.dexGreen + "D", false, true, "Increases block gained from cards by <str>."));
     statuses.put("Dexterity Down", new Status("Dexterity Down", Colors.lightYellow + "d", false, true, "At the end of your turn, lose <str> Dexterity."));

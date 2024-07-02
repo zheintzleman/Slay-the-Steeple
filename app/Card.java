@@ -214,7 +214,7 @@ public class Card {
         int baseDamage = Integer.parseInt(res, index + 5, endIndex, 10);
         int newDamage = combat.getPlayer().calcAtkDmgFromThisStats(baseDamage, strMultiplier); //todo: Display the full damage for each enemy below that enemy?
         String color = "";
-        if(newDamage < baseDamage){ color = Colors.hpBarRed; }
+        if(newDamage < baseDamage){ color = Colors.energyCostRed; }
         if(newDamage > baseDamage){ color = Colors.upgradeGreen; }
         res = res.substring(0, index) + color + newDamage + Colors.reset + res.substring(endIndex + 8);
       }
@@ -226,7 +226,7 @@ public class Card {
         int baseBlock = Integer.parseInt(res, index + 5, endIndex, 10);
         int newBlock = combat.getPlayer().calcBlockAmount(baseBlock);
         String color = "";
-        if(newBlock < baseBlock){ color = Colors.hpBarRed; }
+        if(newBlock < baseBlock){ color = Colors.energyCostRed; }
         if(newBlock > baseBlock){ color = Colors.upgradeGreen; }
         res = res.substring(0, index) + color + newBlock + Colors.reset + res.substring(endIndex + 8);
       }
@@ -375,8 +375,8 @@ public class Card {
     // String energyCostColor = getEnergyCost() > getBaseEnergyCost() ? Colors.energyCostRed :
     //                          getEnergyCost() == getBaseEnergyCost() ? Colors.reset :
     //                                                                  Colors.upgradeGreen;
-    return Colors.gray + (energyCost < 0 ? "" : "(" + Colors.energyCostRed + energyCost + Colors.gray + ") ")
-    + Colors.reset + name + colorEveryWordBySpaces(" - " + getDescriptionWONLs(), Colors.gray) + "\n" + Colors.reset;
+    return Colors.lightGray + (energyCost < 0 ? "" : "(" + Colors.energyCostRed + energyCost + Colors.lightGray + ") ")
+    + Colors.reset + name + colorEveryWordBySpaces(" - " + getDescriptionWONLs(), Colors.lightGray) + "\n" + Colors.reset;
   }
 
   /**Returns whether or not this Card has the entered effect

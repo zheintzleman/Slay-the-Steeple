@@ -187,7 +187,7 @@ public class Run{
         String img = r.getImg();
         if(i == selectedIndex){
           //Changing gray to blue
-          while(img.indexOf(Colors.gray) != -1) {
+          while(img.contains(Colors.gray)) {
             int nextIndex = img.indexOf(Colors.gray);
             img = img.substring(0, nextIndex) + Colors.blockBlue + img.substring(nextIndex + Colors.gray.length());
           }
@@ -294,14 +294,14 @@ public class Run{
     Arrays.fill(screen, 0, 5, Colors.headerBrown + lineOfBlocks + Colors.reset);
     
     String hpText =  "HP: " + this.hp;
-    addToScreen(2, SCREENWIDTH/2 - Str.lengthIgnoringEscSeqs(hpText) -2, hpText, Colors.hpRedOnHeaderBrown, Colors.reset + Colors.headerBrown);
+    addToScreen(2, SCREENWIDTH/2 - Str.lengthIgnoringEscSeqs(hpText) -2, hpText, Colors.energyDisplayRedOnHeaderBrown, Colors.reset + Colors.headerBrown);
     addToScreen(2, SCREENWIDTH/2 +1, "Gold: " + this.gold, Colors.goldOnHeaderBrown, Colors.reset + Colors.headerBrown);
     
     
     //Deck (top right)
     String[] deckDisplay = Combat.square(3, 5, deck.size(), Colors.deckBrown, Colors.whiteOnDeckBrown);
     addToScreen(1, SCREENWIDTH-16, deckDisplay , Colors.reset + Colors.deckBrown, Colors.reset + Colors.headerBrown);
-    addToScreen(0, SCREENWIDTH-16, "Deck-D", Colors.magentaOnHeaderBrown, Colors.headerBrown);
+    addToScreen(0, SCREENWIDTH-16, "Deck-D", Colors.darkMagentaOnHeaderBrown, Colors.headerBrown);
 
     //Settings Gear
     String[] gearDisplay = {"▀▄█▄▀", "█" + Colors.magentaOnGearBlue + "Esc" + Colors.gearBlueOnHeaderBrown + "█", "▄▀█▀▄"};
