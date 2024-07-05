@@ -48,7 +48,7 @@ public class Run{
       System.out.println("W: " + SettingsManager.sm.screenWidth);
       System.out.println("H: " + SettingsManager.sm.screenHeight);
 
-      Str.println(Colors.hpRed + "HP Red ");
+      Str.println(Colors.hpTextRed + "HP Text Red ");
       Str.println(Colors.hpBarRed + "HP Bar Red ");
       Str.println(Colors.ICRed + "IC Red ");
       Str.println(Colors.darkRed + "Dark Red ");
@@ -166,7 +166,7 @@ public class Run{
     rewards.add(goldReward);
 
     //Card Reward
-    String cardRewardText = Colors.fillColor("░█", Colors.grayOnWhite) + Colors.whiteOnGray + "Add a card to your deck";
+    String cardRewardText = Colors.whiteOnGray + "▓ Add a card to your deck";
     CombatReward cardReward = new CombatReward(cardRewardText, RewardType.CARD);
     rewards.add(cardReward);
 
@@ -183,7 +183,7 @@ public class Run{
       //Construct the popup text:
       for(int i=0; i < rewards.size(); i++){
         CombatReward r = rewards.get(i);
-        //Change its color
+        //Change the selected reward's color
         String img = r.getImg();
         if(i == selectedIndex){
           //Changing gray to blue
@@ -191,15 +191,10 @@ public class Run{
             int nextIndex = img.indexOf(Colors.gray);
             img = img.substring(0, nextIndex) + Colors.blockBlue + img.substring(nextIndex + Colors.gray.length());
           }
-          //Changing gray on white to blue on white
-          while(img.indexOf(Colors.grayOnWhite) != -1) {
-            int nextIndex = img.indexOf(Colors.grayOnWhite);
-            img = img.substring(0, nextIndex) + Colors.blockBlueOnWhite + img.substring(nextIndex + Colors.grayOnWhite.length());
-          }
           //Changing white on gray to white on blue
           while(img.indexOf(Colors.whiteOnGray) != -1) {
             int nextIndex = img.indexOf(Colors.whiteOnGray);
-            img = img.substring(0, nextIndex) + Colors.whiteOnBlockBlue + img.substring(nextIndex + Colors.whiteOnGray.length());
+            img = img.substring(0, nextIndex) + Colors.maxWhiteOnBlockBlue + img.substring(nextIndex + Colors.whiteOnGray.length());
           }
         }
         //Concatenate its image to the popup text
@@ -294,14 +289,14 @@ public class Run{
     Arrays.fill(screen, 0, 5, Colors.headerBrown + lineOfBlocks + Colors.reset);
     
     String hpText =  "HP: " + this.hp;
-    addToScreen(2, SCREENWIDTH/2 - Str.lengthIgnoringEscSeqs(hpText) -2, hpText, Colors.energyDisplayRedOnHeaderBrown, Colors.reset + Colors.headerBrown);
+    addToScreen(2, SCREENWIDTH/2 - Str.lengthIgnoringEscSeqs(hpText) -2, hpText, Colors.energyCounterRedOnHeaderBrown, Colors.reset + Colors.headerBrown);
     addToScreen(2, SCREENWIDTH/2 +1, "Gold: " + this.gold, Colors.goldOnHeaderBrown, Colors.reset + Colors.headerBrown);
     
     
     //Deck (top right)
     String[] deckDisplay = Combat.square(3, 5, deck.size(), Colors.deckBrown, Colors.whiteOnDeckBrown);
     addToScreen(1, SCREENWIDTH-16, deckDisplay , Colors.reset + Colors.deckBrown, Colors.reset + Colors.headerBrown);
-    addToScreen(0, SCREENWIDTH-16, "Deck-D", Colors.darkMagentaOnHeaderBrown, Colors.headerBrown);
+    addToScreen(0, SCREENWIDTH-16, "Deck-D", Colors.darkMagentaBoldOnHeaderBrown, Colors.headerBrown);
 
     //Settings Gear
     String[] gearDisplay = {"▀▄█▄▀", "█" + Colors.magentaOnGearBlue + "Esc" + Colors.gearBlueOnHeaderBrown + "█", "▄▀█▀▄"};

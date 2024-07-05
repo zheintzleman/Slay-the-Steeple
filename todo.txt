@@ -1,6 +1,10 @@
 Todo List:
 
 Change all colors in Colors.java to their corresponding rgb values.
+Make the colors into macros?
+Run.java line 188..?: Replace w/ regexes.
+Opening draw pile causes crash
+List all utilized features in the README
 Check whether or not statuses used to show in the order they were obtained.
 Figure out how the sts stat ordering works.
 Add headers to the files.

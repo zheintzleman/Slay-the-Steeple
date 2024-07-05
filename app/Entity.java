@@ -526,15 +526,14 @@ public abstract class Entity{
   private String getHPTextColor(boolean pastRedSection, boolean blueHPBar){
     String textColor = "";
     if(blueHPBar){
-      textColor += Colors.hpRed;
       if(pastRedSection){
-        textColor += Colors.backgroundWhite;
+        textColor += Colors.hpTextRed + Colors.backgroundWhite;
       }else{
-        textColor += Colors.backgroundBlockBlue;
+        textColor += Colors.energyCounterRedBold + Colors.backgroundBlockBlue;
       }
     }else{    //Red hp bar
       if(pastRedSection){
-        textColor += Colors.hpRed + Colors.backgroundWhite;
+        textColor += Colors.hpTextRed + Colors.backgroundWhite;
       }else{
         textColor += Colors.whiteBold + Colors.backgroundHPBarRed;
       }

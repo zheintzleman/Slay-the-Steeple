@@ -363,8 +363,8 @@ public class Combat{
     addHandToScreen(hand);
 
     //Energy counter:
-    String[] energyBlock = square(3, 7, energy, Colors.energyDisplayRed, Colors.whiteOnEnergyDisplayRed);
-    Run.r.addToScreen(topRowOfCards-3, energySquareX, energyBlock, Colors.reset + Colors.energyDisplayRed, Colors.reset);
+    String[] energyBlock = square(3, 7, energy, Colors.energyCounterRed, Colors.whiteOnEnergyCounterRed);
+    Run.r.addToScreen(topRowOfCards-3, energySquareX, energyBlock, Colors.reset + Colors.energyCounterRed, Colors.reset);
   }
 
   /**Reloads and displays the screen
