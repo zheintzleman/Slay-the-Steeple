@@ -48,7 +48,6 @@ public class Colors {
   // public static final String whiteOnEndTurnButton = "Ø\033[37m\033[48;5;23mÁ";
   // public static final String magentaOnEndTurnButton = "Ø\033[48;2;152;118;84m\033[48;5;23mÁ";
   public static final String magentaOnGearBlue = "Ø\033[38;2;210;106;185m\033[48;2;40;95;105mÁ";
-  // Herev^
   public static final String gearBlueOnHeaderBrown = "Ø\033[38;2;40;95;105m\033[48;2;152;118;84mÁ";
   public static final String atkIntArtRed = "Ø\033[38;5;88mÁ";
   public static final String dbfIntArtGrn = "Ø\033[38;5;119mÁ";
@@ -56,12 +55,12 @@ public class Colors {
   public static final String bufIntArtMid = "Ø\033[38;2;30;199;250mÁ";
   public static final String bufIntArtBtm = "Ø\033[38;2;36;248;255mÁ";
   public static final String escIntArtRed = "Ø\033[38;5;52mÁ";
-  public static final String darkRed = "Ø\033[38;5;196mÁ";
+  public static final String vulnRed = "Ø\033[38;5;196mÁ";
   public static final String lightGreen = "Ø\033[38;5;156mÁ";
   public static final String lightBlue = "Ø\033[38;5;116mÁ";
   public static final String dexGreen = "Ø\033[38;5;119mÁ";
   public static final String upgradeGreen = "Ø\033[38;2;126;215;42mÁ";
-  public static final String descNumBlue = "Ø\033[38;5;32mÁ";
+  public static final String descNumBlue = "Ø\033[38;2;26;147;219mÁ";
   public static final String lightYellow = "Ø\033[38;5;228mÁ";
   public static final String tan = "Ø\033[38;5;179mÁ";
   public static final String tanOnICRed = "Ø\033[38;5;179m\033[48;5;88mÁ";
@@ -75,8 +74,9 @@ public class Colors {
   public static final String tanOnGray = "Ø\033[38;5;179m\033[1;100mÁ";
   public static final String brownOnGray = "Ø\033[38;2;81;54;26m\033[1;100mÁ";
   public static final String tanOnBrown = "Ø\033[38;5;179m\033[48;2;81;54;26mÁ";
-  public static final String yellow = "Ø\033[38;5;220mÁ";
+  // public static final String yellow = "Ø\033[38;5;220mÁ";
   public static final String tanOnYellow = "Ø\033[38;5;179m\033[48;5;220mÁ";
+  // Herev^
   public static final String gold = "Ø\033[38;5;208mÁ";
   public static final String goldOnHeaderBrown = "Ø\033[38;5;208m\033[48;2;152;118;84mÁ";
   public static final String spikeSlimeColor = "Ø\033[38;5;66mÁ";

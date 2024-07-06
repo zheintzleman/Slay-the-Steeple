@@ -115,7 +115,7 @@ public class Status{
     while(hasStr){
       String start = desc.substring(0, desc.indexOf("<str>"));
       String middle = Colors.descNumBlue + str + Colors.reset;
-      String end = desc.substring(desc.indexOf("<str>")+5); 
+      String end = desc.substring(desc.indexOf("<str>")+5);
       desc = start + middle + end;
       hasStr = desc.indexOf("<str>") != -1;
     }

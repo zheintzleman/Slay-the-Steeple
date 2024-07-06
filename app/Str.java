@@ -143,6 +143,19 @@ public abstract class Str {
     return wrappedText;
   }
 
+  /**Given the width of the (entire) popup, generates a string to put in the popup text, which
+   * appears as `str`, centered, with an underline under it (taking up two lines.)
+   * 
+   * @param lineColor The (escape code) color of the underline
+   */
+  public static String header(String str, int popupWidth, String lineColor){
+    final int strLen = Str.lengthIgnoringEscSeqs(str);
+    final String alignedText = Str.repeatChar(' ', (popupWidth-4-strLen)/2) + str;
+    final String bar = lineColor + Str.repeatChar('─', strLen + 2);
+    final String alignedBar = Str.repeatChar(' ', (popupWidth-4-(strLen+2))/2) + bar;
+    return alignedText + "\n" + alignedBar + "\n";
+  }
+
 
   public static String removeEscSeqs(String input){
     return input.replaceAll("\u00D8([^\u00D8\u00C1]*)\u00C1", "");

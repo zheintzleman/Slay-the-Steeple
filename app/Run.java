@@ -42,6 +42,9 @@ public class Run{
     deck.add(new Card("Headbutt"));
     deck.add(new Card("Headbutt"));
     deck.add(new Card("Headbutt"));
+    deck.add(new Card("Bash"));
+    deck.add(new Card("Bash"));
+    deck.add(new Card("Bash"));
     if(SettingsManager.sm.debug){
       System.out.println("W: " + SCREENWIDTH);
       System.out.println("H: " + SCREENHEIGHT);
@@ -51,7 +54,7 @@ public class Run{
       Str.println(Colors.hpTextRed + "HP Text Red ");
       Str.println(Colors.hpBarRed + "HP Bar Red ");
       Str.println(Colors.ICRed + "IC Red ");
-      Str.println(Colors.darkRed + "Dark Red ");
+      Str.println(Colors.vulnRed + "Vuln Red ");
       Str.println(Colors.slaverRed + "Slaver Red ");
       Str.println(Colors.atkIntArtRed + "AtkInt Red ");
       Str.println(Colors.energyCostRed + "Energy Cost Red ");
@@ -145,11 +148,13 @@ public class Run{
     }
   }
 
-  /**Gives the popup with rewards for a normal combat
+  /**Displays the (interactable) popup with rewards for a normal combat
   */
   void combatRewards(int goldStolenBack){
     //Constants:
-    String header = Colors.lightBrown + "Rewards!" + Colors.reset + "\n\n";
+    final int popupHeight = App.POPUP_HEIGHT;
+    final int popupWidth = App.POPUP_WIDTH; //Included for ease of editing later.
+    final String header = Str.header("Rewards!", popupWidth, Colors.headerBrown) + '\n';
     ArrayList<CombatReward> rewards = new ArrayList<CombatReward>();
 
     //Gold stolen back
@@ -166,8 +171,7 @@ public class Run{
     rewards.add(goldReward);
 
     //Card Reward
-    String cardRewardText = Colors.whiteOnGray + "▓ Add a card to your deck";
-    CombatReward cardReward = new CombatReward(cardRewardText, RewardType.CARD);
+    CombatReward cardReward = new CombatReward(Colors.whiteOnGray + "▓ Add a card to your deck", RewardType.CARD);
     rewards.add(cardReward);
 
     //TODO: Potions:
@@ -203,8 +207,8 @@ public class Run{
       
       //Display the popup:
       //Effectively 'popup(textToPopup);', except I can actually look at what the input is:
-      int startCol = SettingsManager.sm.screenWidth/2 - App.POPUP_WIDTH/2; // == 78
-      String[] screenWithAddition = Str.addStringArraysSkipEscSequences(screen, 6, startCol, Str.makeTextBox(textToPopup, App.POPUP_HEIGHT , App.POPUP_WIDTH));
+      int startCol = SettingsManager.sm.screenWidth/2 - popupWidth/2; // == 78
+      String[] screenWithAddition = Str.addStringArraysSkipEscSequences(screen, 6, startCol, Str.makeTextBox(textToPopup, popupHeight , popupWidth));
       display(screenWithAddition); //Same as calling displayScreenWithAddition with the above params, but can pass this screen into input below (v)
       Str.println("<Just press enter to collect reward; navigate with q (up) and z (down)>");
 
@@ -456,7 +460,7 @@ public class Run{
   private void displaySettings(){
     final int popupHeight = (SCREENHEIGHT*4/5 + 6 <= SCREENHEIGHT) ? SCREENHEIGHT*4/5 : SCREENHEIGHT - 6;
     final int popupWidth = SCREENWIDTH*22/25;
-    final String settingsText = Colors.magenta + settingsHeader("Settings:", popupWidth) + 
+    final String settingsText = Colors.magenta + Str.header("Settings:", popupWidth, "") + 
                                 "Settings saved between runs.\n" + 
                                 "To change a setting, type the name of the setting and follow the given prompts.\n" + 
                                 "Type " + Colors.magenta + "reset" + Colors.reset + " to reset all settings to" +
@@ -468,17 +472,10 @@ public class Run{
                Colors.magenta + "Debug Mode: " + Colors.reset + SettingsManager.sm.debug + "\n" + 
                Colors.magenta + "Cheats: " + Colors.reset + SettingsManager.sm.cheats + "\n\n" + 
        " " + Colors.basicBlue + Str.repeatStr("═", popupWidth - 6) + Colors.reset + "\n" + 
-               Colors.magenta + settingsHeader("Instructions:", popupWidth) + 
+               Colors.magenta + Str.header("Instructions:", popupWidth, "") + 
                                 App.INSTRUCTIONS_TEXT;
     
     displayScreenWithAddition(Str.makeTextBox(settingsText, popupHeight, popupWidth), 5, SCREENWIDTH*3/50);
-  }
-  private String settingsHeader(String str, int popupWidth){
-    int strLen = Str.lengthIgnoringEscSeqs(str);
-    String alignedText = Str.repeatChar(' ', (popupWidth-4-strLen)/2) + str;
-    String bar = Str.repeatChar('─', strLen + 2);
-    String alignedBar = Str.repeatChar(' ', (popupWidth-4-(strLen+2))/2) + bar;
-    return alignedText + "\n" + alignedBar + "\n";
   }
 
   /**

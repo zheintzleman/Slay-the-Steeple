@@ -171,7 +171,7 @@ public abstract class App {
     statuses = new HashMap<String, Status>();
     
     //Name, image, isDecreasing, hasStrength, description, (Optional: Effects -- can use <str> as effect strength)
-    statuses.put("Vulnerable", new Status("Vulnerable", Colors.darkRed + "V", true, true, "Takes 50% more damage from attacks for the next <str> turn(s)."));
+    statuses.put("Vulnerable", new Status("Vulnerable", Colors.vulnRed + "V", true, true, "Takes 50% more damage from attacks for the next <str> turn(s)."));
     statuses.put("Weak", new Status("Weak", Colors.lightGreen + "W", true, true, "Deals 25% less attack damage for the next <str> turn(s)."));
     statuses.put("Frail", new Status("Frail", Colors.lightBlue + "F", true, true, "Block gained from cards is reduced by 25% for the next <str> turn(s)."));
     //TODO: Cap at 999 (dex too)
