@@ -7,7 +7,7 @@ public class SneakyGremlin extends Enemy{
 
   private Intent intent;
   public static final Intent PUNCTURE = new Intent("Puncture", 9);
-public static final String[] art = Colors.fillColor(new String[] {"    ▄▄   ▄▄  ", "     ▀███▀   ", "▄     ███    ", " ▀▄▄  ▄███▄  ", "   ▀▀▀▀████  ", "      ▄▀ █   "}, Colors.sneakyGColor);
+public static final String[] art = Colors.fillColor(new String[] {"    ▄▄   ▄▄  ", "     ▀███▀   ", "▄     ███    ", " ▀▄▄  ▄███▄  ", "   ▀▀▀▀████  ", "      ▄▀ █   "}, Colors.sneakyGPurple);
 
 
   public SneakyGremlin(int middleX){

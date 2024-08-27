@@ -527,13 +527,13 @@ public abstract class Entity{
     String textColor = "";
     if(blueHPBar){
       if(pastRedSection){
-        textColor += Colors.hpTextRed + Colors.backgroundWhite;
+        textColor += Colors.hpTextRedOnWhite;
       }else{
         textColor += Colors.energyCounterRedBold + Colors.backgroundBlockBlue;
       }
     }else{    //Red hp bar
       if(pastRedSection){
-        textColor += Colors.hpTextRed + Colors.backgroundWhite;
+        textColor += Colors.hpTextRedOnWhite;
       }else{
         textColor += Colors.whiteBold + Colors.backgroundHPBarRed;
       }

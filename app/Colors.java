@@ -10,8 +10,8 @@ public class Colors {
   public static final String reset = "Ø\u001B[0mÁ";
   public static final String clearScreen = "Ø\033[H\033[2JÁ";
   public static final String deckBrown = "Ø\033[38;2;81;54;26mÁ";
-  // public static final String blackOnDeckBrown = "Ø\033[48;2;81;54;26mÁØ\033[30mÁ";
-  public static final String whiteOnDeckBrown = "Ø\033[48;2;81;54;26mÁØ\033[37mÁ";
+  // public static final String blackOnDeckBrown = "Ø\033[48;2;81;54;26m\033[30mÁ";
+  public static final String whiteOnDeckBrown = "Ø\033[48;2;81;54;26m\033[37mÁ";
   public static final String energyCounterRed = "Ø\033[38;2;95;0;0mÁ"; //Prev: "Ø\033[38;5;52mÁ"
   public static final String energyCounterRedBold = "Ø\033[38;2;95;0;0;1mÁ";
   // public static final String veryLightRedOnEnergyCounterRed = "Ø\033[91m\033[48;5;52mÁ";
@@ -21,6 +21,7 @@ public class Colors {
   // public static final String darkMagenta = "Ø\033[38;2;89;22;74mÁ";
   public static final String headerBrown = "Ø\033[38;2;152;118;84mÁ";
   public static final String darkMagentaBoldOnHeaderBrown = "Ø\033[48;2;152;118;84m\033[38;2;89;22;74;1mÁ";
+  // public static final String magentaOnDeckBrown = "Ø\033[38;2;210;106;185m\033[48;2;81;54;26mÁ";
   public static final String energyCounterRedOnHeaderBrown = "Ø\033[38;2;95;0;0;1m\033[48;2;152;118;84mÁ";
   public static final String hpBarRed = "Ø\033[38;2;175;0;0mÁ";
   public static final String backgroundHPBarRed = "Ø\033[48;2;175;0;0mÁ";
@@ -33,7 +34,7 @@ public class Colors {
   public static final String blockBlue = "Ø\033[38;5;33mÁ";
   // public static final String blockBlueOnHeaderBrown = "Ø\033[38;5;33m\033[48;2;152;118;84mÁ";
   public static final String backgroundBlockBlue = "Ø\033[48;5;33mÁ";
-  public static final String hpTextRed = "Ø\u001B[38;5;88;1mÁ"; //TODO: :/
+  public static final String hpTextRedOnWhite = "Ø\u001B[38;5;88;1m\033[47mÁ";
   //public static final String backgroundHPRed = "Ø\u001B[48;5;88;1mÁ";
   public static final String white = "Ø\033[37mÁ";
   // public static final String whiteOnWhite = "Ø\033[37m\033[47mÁ";
@@ -76,9 +77,8 @@ public class Colors {
   public static final String tanOnBrown = "Ø\033[38;5;179m\033[48;2;81;54;26mÁ";
   // public static final String yellow = "Ø\033[38;5;220mÁ";
   public static final String tanOnYellow = "Ø\033[38;5;179m\033[48;5;220mÁ";
-  // Herev^
   public static final String gold = "Ø\033[38;5;208mÁ";
-  public static final String goldOnHeaderBrown = "Ø\033[38;5;208m\033[48;2;152;118;84mÁ";
+  public static final String goldDisplayOnHeaderBrown = "Ø\033[38;2;77;41;0;1m\033[48;2;152;118;84mÁ";
   public static final String spikeSlimeColor = "Ø\033[38;5;66mÁ";
   public static final String slaverBlue = "Ø\033[38;5;25mÁ";
   public static final String slaverRed = "Ø\033[38;2;148;57;85mÁ";
@@ -87,7 +87,7 @@ public class Colors {
   public static final String wizardPurple = "Ø\033[38;5;61mÁ";
   public static final String madGRed = "Ø\033[38;5;160mÁ";
   public static final String shieldGPink = "Ø\033[38;5;219mÁ";
-  public static final String sneakyGColor = "Ø\033[38;2;160;62;108mÁ";
+  public static final String sneakyGPurple = "Ø\033[38;2;160;62;108mÁ";
   public static final String louseGreen = "Ø\033[38;2;155;182;86mÁ";
   public static final String louseRed = "Ø\033[38;2;215;100;109mÁ";
   public static final String jawWormBlue = "Ø\033[38;2;67;138;152mÁ";
@@ -95,7 +95,7 @@ public class Colors {
   public static final String jawWormBlueOnGray = "Ø\033[38;2;67;138;152m\033[100mÁ";
   public static final String exhGray  = "Ø\033[38;5;236mÁ";
   public static final String whiteOnExhGray  = "Ø\033[37m\033[48;5;236mÁ";
-  public static final String looterBlue = "Ø\033[38;5;74mÁ";
+  public static final String looterBlue = "Ø\033[38;2;65;103;145mÁ";
   public static final String basicBlue = "Ø\033[38;2;38;66;77mÁ";
   public static final String vigorOrange = "Ø\033[38;5;214mÁ";
   public static final String darkEmbracePurple = "Ø\033[38;2;235;160;240mÁ";

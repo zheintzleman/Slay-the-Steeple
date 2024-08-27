@@ -51,7 +51,6 @@ public class Run{
       System.out.println("W: " + SettingsManager.sm.screenWidth);
       System.out.println("H: " + SettingsManager.sm.screenHeight);
 
-      Str.println(Colors.hpTextRed + "HP Text Red ");
       Str.println(Colors.hpBarRed + "HP Bar Red ");
       Str.println(Colors.ICRed + "IC Red ");
       Str.println(Colors.vulnRed + "Vuln Red ");
@@ -154,7 +153,7 @@ public class Run{
     //Constants:
     final int popupHeight = App.POPUP_HEIGHT;
     final int popupWidth = App.POPUP_WIDTH; //Included for ease of editing later.
-    final String header = Str.header("Rewards!", popupWidth, Colors.headerBrown) + '\n';
+    final String header = Str.header("Rewards!", popupWidth, "") + '\n';
     ArrayList<CombatReward> rewards = new ArrayList<CombatReward>();
 
     //Gold stolen back
@@ -294,7 +293,7 @@ public class Run{
     
     String hpText =  "HP: " + this.hp;
     addToScreen(2, SCREENWIDTH/2 - Str.lengthIgnoringEscSeqs(hpText) -2, hpText, Colors.energyCounterRedOnHeaderBrown, Colors.reset + Colors.headerBrown);
-    addToScreen(2, SCREENWIDTH/2 +1, "Gold: " + this.gold, Colors.goldOnHeaderBrown, Colors.reset + Colors.headerBrown);
+    addToScreen(2, SCREENWIDTH/2 +1, "Gold: " + this.gold, Colors.goldDisplayOnHeaderBrown, Colors.reset + Colors.headerBrown);
     
     
     //Deck (top right)

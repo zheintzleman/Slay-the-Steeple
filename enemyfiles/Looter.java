@@ -17,7 +17,7 @@ public class Looter extends Enemy{
   public static final Intent ESCAPE = new Intent("Escape", IntentType.ESCAPE);
   private int patternNum;
   private int goldStolen;
-  public static final String[] art = Colors.fillColor(new String[] {"       ▄█▄     ", "   ▄  ▀████    ", "   ▀▄    ███   ", "▀▀▄▄██▄▄████   ", "     ▀▀▀▀████  ", "      ▄██████  ", "     ██▀  ██ ", "     ▀█   ██   ", "      ▀    █   "}, Colors.slaverBlue);
+  public static final String[] art = Colors.fillColor(new String[] {"       ▄█▄     ", "   ▄  ▀████    ", "   ▀▄    ███   ", "▀▀▄▄██▄▄████   ", "     ▀▀▀▀████  ", "      ▄██████  ", "     ██▀  ██ ", "     ▀█   ██   ", "      ▀    █   "}, Colors.looterBlue);
 
 
   public Looter(int middleX){
