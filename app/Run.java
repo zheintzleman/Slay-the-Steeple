@@ -10,7 +10,7 @@ import java.util.function.Predicate;
  * @see Str
  * @see SettingsManager
  */
-public class Run{
+public class Run {
   private String[] screen;
   public static final int SCREENWIDTH = SettingsManager.sm.screenWidth;
   public static final int SCREENHEIGHT = SettingsManager.sm.screenHeight;
@@ -82,7 +82,7 @@ public class Run{
   public int getGold(){ return gold; }
   public ArrayList<Card> getDeck(){ return deck; }
 
-  /**Plays the run
+  /** Plays the run
   */
   public void play(){
     while(true){ //Runs until hp <= 0, which has a break statement below
@@ -106,7 +106,7 @@ public class Run{
     POTION
   }
 
-  private class CombatReward{
+  private class CombatReward {
     String img;
     RewardType type;
     int data; //Stores data relevant to the reward; e.g. Gold amount, etc.
@@ -131,7 +131,7 @@ public class Run{
     private String getImg(){ return img; }
 
     private void execute(){
-      switch (type) {
+      switch(type){
         case GOLD:
           addGold(data);
           reloadScreenHeader();
@@ -147,7 +147,7 @@ public class Run{
     }
   }
 
-  /**Displays the (interactable) popup with rewards for a normal combat
+  /** Displays the (interactable) popup with rewards for a normal combat
   */
   void combatRewards(int goldStolenBack){
     //Constants:
@@ -234,7 +234,7 @@ public class Run{
     }
   }
 
-  /**Reduces the player's gold value by the entered amount.
+  /** Reduces the player's gold value by the entered amount.
    * @return int - the amount of gold actually taken away.
   */
   public int loseGold(int amount){
@@ -248,13 +248,13 @@ public class Run{
     gold += amount;
   }
 
-  /**Displays the screen. Same as calling display(screen);
+  /** Displays the screen. Same as calling display(screen);
   */
   public void display(){
     display(screen);
   }
   
-  /**Displays the entered String array.
+  /** Displays the entered String array.
   */
   public static void display(String[] arr){
     if(!SettingsManager.sm.debug)
@@ -265,14 +265,14 @@ public class Run{
     }
   }
 
-  /**Displays the screen with an addition on top of it.
+  /** Displays the screen with an addition on top of it.
   */
   public void displayScreenWithAddition(String[] newArray, int topRow, int startCol){
     String[] combinedScreen = Str.addStringArraysSkipEscSequences(screen, topRow, startCol, newArray);
     display(combinedScreen);
   }
   
-  /**Constructs the screen String[] and adds/sets basic run-wide values to the screen such as hp and the deck
+  /** Constructs the screen String[] and adds/sets basic run-wide values to the screen such as hp and the deck
   */
   private void constructScreen(){
     screen = new String[SCREENHEIGHT];
@@ -283,7 +283,7 @@ public class Run{
     Arrays.fill(screen, 5, SCREENHEIGHT, Colors.reset + lineOfSpaces + Colors.reset);
   }
 
-  /**Sets basic run-wide values such as hp and the deck. Doesn't construct a new array.
+  /** Sets basic run-wide values such as hp and the deck. Doesn't construct a new array.
   */
   public void reloadScreenHeader(){
     String lineOfBlocks = Str.repeatChar('█', SCREENWIDTH);
@@ -306,7 +306,7 @@ public class Run{
     addToScreen(1, SCREENWIDTH - 7, gearDisplay, Colors.gearBlueOnHeaderBrown, Colors.reset + Colors.headerBrown);
   }
 
-  /**Resets the screen String[] and adds/sets basic run-wide values such as hp and the deck. Doesn't construct a new array.
+  /** Resets the screen String[] and adds/sets basic run-wide values such as hp and the deck. Doesn't construct a new array.
   */
   public void reloadScreen(){
     reloadScreenHeader();
@@ -315,25 +315,25 @@ public class Run{
     Arrays.fill(screen, 5, SCREENHEIGHT, Colors.reset + lineOfSpaces);
   }
 
-  /**Adds the specified string to the screen array at the row and column
+  /** Adds the specified string to the screen array at the row and column
   */
   public void addToScreen(int row, int startCol, String str){
     screen[row] = Str.addStringsSkipEscSequences(screen[row], startCol, str); 
   }
-  /**Adds the specified string to the screen array at the specified rown and column. Starts with color and ends with colorReset.
+  /** Adds the specified string to the screen array at the specified rown and column. Starts with color and ends with colorReset.
   */
   public void addToScreen(int row, int startCol, String str, String color, String colorReset){
     screen[row] = Str.addStringsSkipEscSequences(screen[row], startCol, str, color, colorReset);
   }
 
-  /**Adds the specified string[] to the screen array at the specified rown and column.
+  /** Adds the specified string[] to the screen array at the specified rown and column.
   */
   public void addToScreen(int topRow, int startCol, String[] strings){
     for(int r=topRow; r<topRow+strings.length; r++){
       screen[r] = Str.addStringsSkipEscSequences(screen[r], startCol, strings[r-topRow]);
     }
   }
-  /**Adds the specified string to the screen array at the specified rown and column. Starts with color and ends with colorReset.
+  /** Adds the specified string to the screen array at the specified rown and column. Starts with color and ends with colorReset.
   */
   public void addToScreen(int topRow, int startCol, String[] strings, String color, String colorReset){
     for(int r=topRow; r<topRow+strings.length; r++){
@@ -341,14 +341,14 @@ public class Run{
     }
   }
 
-  /**Gets user input. If input is one of the registered codes, follows the code and repeats until any other input is entered.
+  /** Gets user input. If input is one of the registered codes, follows the code and repeats until any other input is entered.
    * @return The first non-code value inputted by the user
   */
   public String input(){
     return input(screen);
   }
 
-  /**Gets user input. If input is one of the registered codes, follows the code and repeats until any other input is entered.
+  /** Gets user input. If input is one of the registered codes, follows the code and repeats until any other input is entered.
    * @param prevScreen The screen to display before returning
    * @return The first non-code value inputted by the user
   */
@@ -392,7 +392,7 @@ public class Run{
       displaySettings();
       Str.print("<Press enter to exit, or type the name of a setting to change it>\n");
       String input = Main.scan.nextLine();
-      switch (input.toLowerCase()) {
+      switch(input.toLowerCase()){
         case "name":
           Str.print("Enter the new name (Just press enter to cancel:)\n");
           String s = Main.scan.nextLine();
@@ -427,7 +427,7 @@ public class Run{
           try{
             SettingsManager.sm.debug = parseBoolInput();
             SettingsManager.sm.save();
-          } catch (NumberFormatException E){}
+          } catch(NumberFormatException E){}
           break;
         case "cheats":
         case "cheat":
@@ -435,7 +435,7 @@ public class Run{
           try{
             SettingsManager.sm.cheats = parseBoolInput();
             SettingsManager.sm.save();
-          } catch (NumberFormatException E){}
+          } catch(NumberFormatException E){}
           break;
         case "reset":
         case "default":
@@ -489,7 +489,7 @@ public class Run{
     while(true){
       try {
         inputInt = Integer.parseInt(Main.scan.nextLine());
-      } catch (NumberFormatException E) {
+      } catch(NumberFormatException E) {
         System.out.println("Please enter an integer");
         continue;
       }
@@ -502,7 +502,7 @@ public class Run{
 
   private boolean parseBoolInput() throws NumberFormatException{
     String s = Main.scan.nextLine();
-    switch (s.toLowerCase()) {
+    switch(s.toLowerCase()){
       case "true":
       case "1":
       case "y":
@@ -518,21 +518,21 @@ public class Run{
     }
   }
 
-  /**Displays the screen with a text box of the entered text.
+  /** Displays the screen with a text box of the entered text.
    * Player presses enter to close it. Text wrapped with box of h=30, w=43.
    * @Precondition No spaces adjacent to new lines in text; 
    */
   public void popup(String text){
     popup(text, 30, 43, 6, 78);
   }
-  /**Displays the screen with a text box of the entered text.
+  /** Displays the screen with a text box of the entered text.
    * Player presses enter to close it. Text wrapped with box of h=30, w=43.
    * @Precondition No spaces adjacent to new lines in text; 
    */
   public void popup(String text, String[] prevScreen){
     popup(text, 30, 43, 6, 78, prevScreen);
   }
-  /**Displays the screen with a text box of the entered text, with the specific width.
+  /** Displays the screen with a text box of the entered text, with the specific width.
    * Player presses enter to close it. Text wrapped with box of width-4.
    * @Precondition No spaces adjacent to new lines in theText; 
    * @Precondition width <= SCREENWIDTH;
@@ -542,7 +542,7 @@ public class Run{
     
     popup(text, 30, width, 6, (SCREENWIDTH-width)/2);
   }
-  /**Displays the screen with a text box of the entered text, with the specific width.
+  /** Displays the screen with a text box of the entered text, with the specific width.
    * Player presses enter to close it. Text wrapped with box of width-4.
    * @Precondition No spaces adjacent to new lines in theText; 
    * @Precondition width <= SCREENWIDTH;
@@ -554,7 +554,7 @@ public class Run{
 
     popup(text, height, width, (SCREENHEIGHT-height)/2, (SCREENWIDTH-width)/2);
   }
-  /**Displays the screen with a text box of the entered text, with the specific width.
+  /** Displays the screen with a text box of the entered text, with the specific width.
    * Player presses enter to close it. Text wrapped with box of width-4.
    * @Precondition No spaces adjacent to new lines in theText; 
    * @Precondition 5 <= height;
@@ -568,7 +568,7 @@ public class Run{
   public void popup(String text, int height, int width, int startRow, int startCol){
     popup(text, height, width, startRow, startCol, screen);
   }
-  /**Displays the screen with a text box of the entered text, with the specific width.
+  /** Displays the screen with a text box of the entered text, with the specific width.
    * Player presses enter to close it and call display(prevScreen), returning their input
    * if it wasn't a q or z. Text wrapped with box of width-4.
    * @Precondition No spaces adjacent to new lines in theText; 
@@ -584,14 +584,14 @@ public class Run{
     popupInput(text, "Press enter to exit this popup",
                height, width, startRow, startCol, prevScreen);
   }
-  /**Displays the screen with a text box of the entered text.
+  /** Displays the screen with a text box of the entered text.
    * Player presses gives input other than q/z to close it. Text wrapped with box of h=30, w=43.
    * @Precondition No spaces adjacent to new lines in text; 
    */
   public String popupInput(String text, String popupPrompt){
     return popupInput(text, popupPrompt, 30, 43, 6, 78, screen);
   }
-  /**Displays the screen with a text box of the entered text, with the specific width.
+  /** Displays the screen with a text box of the entered text, with the specific width.
    * Player presses enter to close it and call display(prevScreen), returning their input
    * if it wasn't a q or z. Text wrapped with box of width-4.
    * @Precondition No spaces adjacent to new lines in theText; 
@@ -635,7 +635,7 @@ public class Run{
     while(true){
       Str.print("<" + popupPrompt + "; navigate with q (up) and z (down)> ");
       String input = Main.scan.nextLine();
-      switch (input.toLowerCase()) {
+      switch(input.toLowerCase()){
         case "q":
           if(pageIndex > 0) pageIndex--;
           break;

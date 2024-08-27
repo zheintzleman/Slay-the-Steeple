@@ -16,7 +16,7 @@ import enemyfiles.*;
  * @see Effect Effect / CardEffect / StatusEffect
  * @see EventManager
  */
-public class Combat{
+public class Combat {
   private Player player;
   private ArrayList<Enemy> enemies;
   /** All changes to the enemy list while the enemies perform their intents go here instead of the main
@@ -60,7 +60,8 @@ public class Combat{
     // X pos (col) of the first enemy; offset between enemeies.
     // If >2 enemies, used for ensuring same gap between them all.
     int e1X, gap;
-    switch(pickCombat()){
+    String combatName = pickCombat();
+    switch(combatName){
       case "Jaw Worm":
         enemies.add(new JawWorm(Run.SCREENWIDTH*5/7));
         break;
@@ -134,11 +135,12 @@ public class Combat{
   public Entity getPlayer(){ return player; }
   public Run getRun(){ return Run.r; }
 
+
   public static String pickCombat(){
     // Random string from list
     String[] combatTypes = new String[] {"Cultist", "Jaw Worm", "Two Louses",
-      "Small and Med Slime", "Gremlin Gang", "Large Slime", "Lots of Slimes", "Blue Slaver",
-      "Red Slaver", "Three Louses", "Two Fungi Beasts", "Exordium Thugs", "Exordium Wildlife",
+      // "Small and Med Slime", "Gremlin Gang", "Large Slime", "Lots of Slimes", "Blue Slaver",
+      // "Red Slaver", "Three Louses", "Two Fungi Beasts", "Exordium Thugs", "Exordium Wildlife",
       "Looter"};
     int rn = (int) (Math.random()*combatTypes.length);
     return combatTypes[rn];
@@ -160,17 +162,17 @@ public class Combat{
   }
 
 
-  /**Adds the enemy to the arraylist of enemies
+  /** Adds the enemy to the arraylist of enemies
   */
   public void addEnemy(Enemy e){
     enemies.add(e);
   }
-  /**Adds the enemy to the arraylist of enemies at the specified index
+  /** Adds the enemy to the arraylist of enemies at the specified index
   */
   public void addEnemy(int index, Enemy e){
     enemies.add(index, e);
   }
-  /**Removes the enemy from the arraylist of enemies
+  /** Removes the enemy from the arraylist of enemies
   */
   public void removeEnemy(Enemy e){
     for(int i=0; i<enemies.size(); i++){
@@ -180,14 +182,14 @@ public class Combat{
       }
     }
   }
-  /**Removes the enemy at the specified index from the arraylist of enemies
+  /** Removes the enemy at the specified index from the arraylist of enemies
   */
   public Enemy removeEnemy(int index){
     return enemies.remove(index);
   }
   
 
-  /**Performs the combat.
+  /** Performs the combat.
    * @return The amount of gold stolen (by Mugger/Looter)
   */
   public int runCombat(){
@@ -225,7 +227,7 @@ public class Combat{
     return 0;
   }
 
-  /**Inputs from the player the next action and performs it, updating the display as well.
+  /** Inputs from the player the next action and performs it, updating the display as well.
   *@return boolean - Returns true if the action should end the turn, false otherwise
   */
   public boolean doNextAction(){
@@ -261,7 +263,7 @@ public class Combat{
     return combatOver; //False if combat is not over, true if it is
   }
 
-  /**Ends the turn, discarding the hand and calling OnTurnEnd events */
+  /** Ends the turn, discarding the hand and calling OnTurnEnd events */
   public void endTurn(){
     eventManager.OnTurnEnd();
   }
@@ -281,7 +283,7 @@ public class Combat{
     Entity.mergeCopies();
   }
 
-  /**Sets the screen to accurate values/images
+  /** Sets the screen to accurate values/images
   */
   public void setUpCombatDisplay(){
     Run.r.reloadScreen();
@@ -367,7 +369,7 @@ public class Combat{
     Run.r.addToScreen(topRowOfCards-3, energySquareX, energyBlock, Colors.reset + Colors.energyCounterRed, Colors.reset);
   }
 
-  /**Reloads and displays the screen
+  /** Reloads and displays the screen
   */
   public void display(){
     setUpCombatDisplay(); //Actually just save the screen as a variable like in Run, if I'm having speed issues
@@ -375,7 +377,7 @@ public class Combat{
   }
   
 
-  /**Draws a card from the draw pile. Shuffles the discard into the draw pile if necessary.
+  /** Draws a card from the draw pile. Shuffles the discard into the draw pile if necessary.
   */
   private Card drawCard(){
     if(!canDraw()){
@@ -416,13 +418,13 @@ public class Combat{
     return true;
   }
 
-  /**Removes card from all piles and adds it to the exhaust pile */
+  /** Removes card from all piles and adds it to the exhaust pile */
   public void exhaust(Card card){
     removeFromAllPiles(card);
     exhaustPile.add(card);
     EventManager.em.OnExhaust(card);
   }
-  /**Removes the card from all piles & adds it to the discard pile.
+  /** Removes the card from all piles & adds it to the discard pile.
    * @param c The card to discard
    * @param callOnDiscard Whether or not to call the OnDiscard method, i.e. whether or not the card
    * discarded naturally (false) vs. if it was discarded by some effect like another card.
@@ -442,7 +444,7 @@ public class Combat{
     discardPile.remove(card);
   }
 
-  /**Attemps to play the card at the selected index in hand.
+  /** Attemps to play the card at the selected index in hand.
   *@param index - The index in hand of the card being played
   *@return boolean - Whether or not a card was played. Returns false if index is not valid, if player has too little energy, or if card is `unplayable`.
   */
@@ -468,7 +470,7 @@ public class Combat{
     return(cardPlayed);
   }
 
-  /**Attemps to play the card.
+  /** Attemps to play the card.
   *@return boolean - Whether or not the card was played. Returns false if player has too little energy, or if card is `unplayable`.
   */
   public boolean playCard(Card card){
@@ -568,7 +570,7 @@ public class Combat{
     return true;
   }
 
-  /**Plays an effect that does not target a specific enemy.
+  /** Plays an effect that does not target a specific enemy.
    * 
    * @return Whether the card should still be discarded normally after play
    * (e.g. if the effect puts the card on top of the deck, it should no longer
@@ -583,7 +585,7 @@ public class Combat{
     int power = eff.getPower();
     Card card = (eff instanceof CardEffect) ? ((CardEffect) eff).getCard() : null;
 
-    switch (eff.getPrimary()) {
+    switch(eff.getPrimary()){
       case "Block":
         player.block(power);
         break;
@@ -622,7 +624,7 @@ public class Combat{
         }
         break;
       case "Upgrade":
-        for (Card c : cardTargets(secondary, card)){
+        for(Card c : cardTargets(secondary, card)){
           c.upgrade();
         }
         break;
@@ -686,7 +688,7 @@ public class Combat{
     return shouldDiscard;
   }
 
-  /**Prompts the user for the target and returns their response. Returns -1 if card play is cancelled (no possible target selected)
+  /** Prompts the user for the target and returns their response. Returns -1 if card play is cancelled (no possible target selected)
   */
   public int getTarget(){
     if(enemies.size() == 1){
@@ -703,12 +705,12 @@ public class Combat{
     return -1;
   }
 
-  /**Returns an arraylist of the card represented by the expression in secondary
+  /** Returns an arraylist of the card represented by the expression in secondary
    * @param secondary The second word of the card effect, the meaning of which will be converted to an arraylist
    * @param current The card being currently played
    */
   public Card[] cardTargets(String secondary, Card current){
-    switch (secondary) {
+    switch(secondary){
       case "":
       case "This":
         return new Card[] {current};
@@ -765,7 +767,7 @@ public class Combat{
     return input("");
   }
 
-  /**Prompts the user for an input until they enter something that is not one of the popup commands. For each that is a command, does that command.
+  /** Prompts the user for an input until they enter something that is not one of the popup commands. For each that is a command, does that command.
   */
   public String input(String prompt){
     while(true){
@@ -773,7 +775,7 @@ public class Combat{
       String input = Run.r.input();
       String str;
       
-      switch (input.toLowerCase()) {
+      switch(input.toLowerCase()){
         case "draw":
         case "a":
           ArrayList<Card> sortedDrawPile = sortedList(drawPile);
@@ -835,7 +837,7 @@ public class Combat{
     
   }
   
-  /**Adds the player's hand to the screen.
+  /** Adds the player's hand to the screen.
    * Updates CardEffects and uses eff.power description instead of eff.basePower description
   */
   public void addHandToScreen(ArrayList<Card> cards){
@@ -869,7 +871,7 @@ public class Combat{
       final int numCardsPrintedNormally = numCards - numCardsSquished;
       int nextCol;
       final int squishedWidth = (Card.CARDWIDTH + 1)/2;
-      if (condenseLeftHalfOfHand) {
+      if(condenseLeftHalfOfHand){
         // Cuts off the last CARDWIDTH/2 chars from the images of the rightmost cards. //11 cols wide
         nextCol = addHandCardsToScreen(cards.subList(0, numCardsSquished), leftmostCol, 1, 0, 0, squishedWidth);
         addHandCardsToScreen(cards.subList(numCardsSquished, numCards), nextCol, numCardsSquished+1);
@@ -897,7 +899,7 @@ public class Combat{
    * @return The column to the right of the rightmost printed card.
    */
   int addHandCardsToScreen(List<Card> cards, int leftmostCol, int cardIndex, int gap, int startCutoff, int endCutoff){
-    if (cards.size() == 0) {
+    if(cards.size() == 0) {
       return leftmostCol-1;
     } else if(cardIndex == 10){
       cardIndex = 0;
@@ -906,7 +908,7 @@ public class Combat{
     String[] cardArt0 = cards.get(0).getImageWStatuses(this);
     // Map substringIgnoringEscSequences to each string of cardArt0
     if(startCutoff > 0 || endCutoff < Card.CARDWIDTH){
-      for (int i=0; i < cardArt0.length; i++) {
+      for(int i=0; i < cardArt0.length; i++) {
         cardArt0[i] = Str.substringIgnoringEscSequences(cardArt0[i], startCutoff, endCutoff);
       }
       // cardArt0 = Stream.of(cardArt0).map(s -> Str.substringIgnoringEscSequences(s, startCutoff, endCutoff)).toArray(String[]::new); //Stream Implementation
@@ -918,7 +920,7 @@ public class Combat{
     return addHandCardsToScreen(cards.subList(1, cards.size()), leftmostCol + endCutoff - startCutoff + gap, cardIndex+1, gap, startCutoff, endCutoff);
   }
 
-  /**Creates a box of ascii characters with a number in the center (ie the energy counter box). color is added only after the number in the middle line. textColor is the color of the number in the middle line.
+  /** Creates a box of ascii characters with a number in the center (ie the energy counter box). color is added only after the number in the middle line. textColor is the color of the number in the middle line.
    * valInCenter must be in [0,99]
   */
   public static String[] square(int height, int minWidth, int valInCenter, String color, String textColor){
@@ -963,7 +965,7 @@ public class Combat{
     return square;
   }
 
-  /**Creates a box of ascii characters with a text in the center (ie the energy counter box). color is added only after the text in the middle line. textColor is the color of the text in the middle line.
+  /** Creates a box of ascii characters with a text in the center (ie the energy counter box). color is added only after the text in the middle line. textColor is the color of the text in the middle line.
   */
   public static String[] square(int height, int width, String textInCenter, String color, String textColor){
     String[] square = new String[height];
@@ -995,7 +997,7 @@ public class Combat{
 
 
   
-  /**Returns a new ArrayList<Card> which containes the contents of the parameter ArrayList<Card> sorted alphabetically by name.
+  /** Returns a new ArrayList<Card> which containes the contents of the parameter ArrayList<Card> sorted alphabetically by name.
   *@return ArrayList<Card> - A new ArrayList<Card> of the sorted parameter list values
   *@param list - The list to make a sorted version of
   */
@@ -1015,7 +1017,7 @@ public class Combat{
     return sortedList;
   }
 
-  /**Constructs and returns a louse of a random color
+  /** Constructs and returns a louse of a random color
   */
   public Enemy createLouse(int midX){
     if(Math.random() < 0.5){
@@ -1023,7 +1025,7 @@ public class Combat{
     }
     return new GreenLouse(midX);
   }
-  /**Constructs and returns a slime of the specified size and a random type
+  /** Constructs and returns a slime of the specified size and a random type
   *@Precondition - 0 >= size >= 2
   */
   public Enemy createSlime(int midX, int size){
@@ -1050,7 +1052,7 @@ public class Combat{
     return null;
   }
 
-  /**Constructs the enemies for Gremlin Gang combat and adds them to the enemy list
+  /** Constructs the enemies for Gremlin Gang combat and adds them to the enemy list
   */
   public void constructGremlinGang(){
     List<String> gremlins = new ArrayList<String>();
@@ -1092,7 +1094,7 @@ public class Combat{
     }
   }
 
-  /**Constructs the enemies for Exordium Thugs combat and adds them to the enemy list
+  /** Constructs the enemies for Exordium Thugs combat and adds them to the enemy list
   */
   public void constructThugs(){
     double rn = Math.random();
@@ -1113,7 +1115,7 @@ public class Combat{
     }
   }
 
-  /**Constructs the enemies for Exordium Wildlife combat and adds them to the enemy list
+  /** Constructs the enemies for Exordium Wildlife combat and adds them to the enemy list
   */
   public void constructWildlife(){
     double rn = Math.random();
@@ -1130,7 +1132,7 @@ public class Combat{
     }
   }
 
-  /**Randomizes the list of enemies and their positions.
+  /** Randomizes the list of enemies and their positions.
   */
   public void shuffleEnemies(){
     ArrayList<Integer> positions = new ArrayList<Integer>();
@@ -1144,7 +1146,7 @@ public class Combat{
     }
   }
 
-  /**Sets combatOver to true
+  /** Sets combatOver to true
   */
   public void endCombat(){
     combatOver = true;

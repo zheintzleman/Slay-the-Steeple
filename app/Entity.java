@@ -177,7 +177,7 @@ public abstract class Entity{
     return copy != null;
   }
   
-  /**Returns this entity's status with the specified name, or null if none is present.
+  /** Returns this entity's status with the specified name, or null if none is present.
   */
   public Status getStatus(String name){
     for(Status s : statuses){
@@ -187,7 +187,7 @@ public abstract class Entity{
     }
     return null;
   }
-  /**Returns this entity's strength of the status with the specified name.
+  /** Returns this entity's strength of the status with the specified name.
   */
   public int getStatusStrength(String name){
     Status s = getStatus(name);
@@ -198,7 +198,7 @@ public abstract class Entity{
       return 0;
     }
   }
-  /**Sets this entity's status (with the specified name) to have the given strength.
+  /** Sets this entity's status (with the specified name) to have the given strength.
    * If status not present, creates one.
    * If `strength` == 0, removes status from the status list.
    * If during turn-end, sets the status in the entity copy instead.
@@ -229,7 +229,7 @@ public abstract class Entity{
     }
     return s;
   }
-  /**Adds strength to this entity's status (with the specified name.)
+  /** Adds strength to this entity's status (with the specified name.)
    * If status not present, creates one.
    * If new strength is 0, removes status from the status list.
    * If during turn-end, add status to the entity copy instead.
@@ -256,7 +256,7 @@ public abstract class Entity{
     }
     return s;
   }
-  /**Subtracts strength from this entity's status (with the specified name.)
+  /** Subtracts strength from this entity's status (with the specified name.)
    * If status not present, creates one.
    * If new strength is 0, removes status from the status list.
    * If during turn-end, subtracts status from the entity copy instead.
@@ -268,7 +268,7 @@ public abstract class Entity{
   public Status subtractStatusStrength(String name, int strength){
     return addStatusStrength(name, -strength);
   }
-  /**Returns whether or not this enemy has the status in any strength, besides 0.
+  /** Returns whether or not this enemy has the status in any strength, besides 0.
    * @NOTE Returns true for negative status strength.
   */
   public boolean hasStatus(String name){
@@ -276,7 +276,7 @@ public abstract class Entity{
   }
 
   
-  /**Damages the entity the specified amount; taking from its block then its hp. If hp is 0 or less, it dies.
+  /** Damages the entity the specified amount; taking from its block then its hp. If hp is 0 or less, it dies.
   *@return int - the amount of damage delt
   */
   public int damage(int dmg){
@@ -290,7 +290,7 @@ public abstract class Entity{
       return dmg;
     }
   }
-  /**Subtracts the entity's hp the specified amount. If hp is 0 or less, it dies.
+  /** Subtracts the entity's hp the specified amount. If hp is 0 or less, it dies.
   */
   public void subtractHP(int dmg){
     EventManager.em.OnLoseHP(this, dmg);
@@ -303,7 +303,7 @@ public abstract class Entity{
       this.setSplitIntent();
     }
   }
-  /**Increases the entity's health the specified amount, up to its max health.
+  /** Increases the entity's health the specified amount, up to its max health.
   */
   public void heal(int heal){
     hp += heal;
@@ -311,7 +311,7 @@ public abstract class Entity{
       hp = maxHP;
     }
   }
-  /**Increases the entity's block the specified amount, up to 999. Does not account for frail or dexterity.
+  /** Increases the entity's block the specified amount, up to 999. Does not account for frail or dexterity.
   */
   public void addBlock(int blk){
     block += blk;
@@ -319,19 +319,19 @@ public abstract class Entity{
       block = 999;
     }
   }
-  /**Increases the entity's start of turn block the specified amount. Does not account for frail or dexterity.
+  /** Increases the entity's start of turn block the specified amount. Does not account for frail or dexterity.
   */
   public void addStartOfTurnBlock(int blk){
     startOfTurnBlock += blk;
   }
-  /**Gives the entity the appropriate amount of block, taking into account relevent status effects.
+  /** Gives the entity the appropriate amount of block, taking into account relevent status effects.
   *@param blockPreCalculations - The amount of defence the card/intent does (ie. 5 for an unupgraded Defend)
   */
   public void block(int blockPreCalculations){
     int blk = calcBlockAmount(blockPreCalculations);
     this.addBlock(blk);
   }
-  /**Gives the receiving entity the appropriate amount of block, taking into account relevent status effects (largely, if not entirely, on this entity).
+  /** Gives the receiving entity the appropriate amount of block, taking into account relevent status effects (largely, if not entirely, on this entity).
   *@param receiver - The entity to receive the block
   *@param blockPreCalculations - The amount of defence the card/intent does (ie. 5 for an unupgraded Defend)
   */
@@ -339,7 +339,7 @@ public abstract class Entity{
     int blk = calcBlockAmount(blockPreCalculations);
     receiver.addBlock(blk);
   }
-  /**Calculates the amount a block card with the entered amount would block for, taking into account relevent status effects.
+  /** Calculates the amount a block card with the entered amount would block for, taking into account relevent status effects.
   *@param blockPreCalculations - The amount the base card would say (ie. 5 for an unupgraded Defend)
   *@return int - The amount of block that would be gained by playing such a card, taking into account dexterity and frail.
   */
@@ -350,14 +350,14 @@ public abstract class Entity{
     }
     return (int)(blk + 0.00000001); //In case of floating point errors
   }
-  /**Increases the startOfTurnBlock variable according to relevent status effects
+  /** Increases the startOfTurnBlock variable according to relevent status effects
   *@param blockPreCalculations - The amount of defence the card/intent does (ie. 5 for an unupgraded Defend)
   */
   public void blockAfterTurn(int blockPreCalculations){
     int blk = calcBlockAmount(blockPreCalculations);
     addStartOfTurnBlock(blk);
   }
-  /**Increases the receiving entity's startOfTurnBlock variable according to relevent status effects (largely, if not entirely, on this entity)
+  /** Increases the receiving entity's startOfTurnBlock variable according to relevent status effects (largely, if not entirely, on this entity)
   *@param receiver - The entity to receive the future block
   *@param blockPreCalculations - The amount of defence the card/intent does (ie. 5 for an unupgraded Defend)
   */
@@ -365,7 +365,7 @@ public abstract class Entity{
     int blk = calcBlockAmount(blockPreCalculations);
     receiver.addStartOfTurnBlock(blk);
   }
-  /**Attacks the victim entity for the specified amount. Takes into account relevent status effects.
+  /** Attacks the victim entity for the specified amount. Takes into account relevent status effects.
    * Takes from the victim's block, then its hp.
    * @param victim - The entity being attacked by the entity calling this method
    * @param damagePreCalculations - The amount of damage the base card does (ie. 6 for an unupgraded Strike)
@@ -374,7 +374,7 @@ public abstract class Entity{
   public int attack(Entity victim, int damagePreCalculations){
     return attack(Collections.singletonList(victim), damagePreCalculations, 1);
   }
-  /**Attacks the victims for the specified amount each. Takes into account relevent status effects.
+  /** Attacks the victims for the specified amount each. Takes into account relevent status effects.
    * Takes from the victims' block, then their hp. Doesn't update statuses until all attacks completed.
    * @param victims - The entities being attacked by the entity calling this method
    * @param damagePreCalculations - The amount of damage the base card does (ie. 6 for an unupgraded Strike)
@@ -383,7 +383,7 @@ public abstract class Entity{
   public int attack(List<? extends Entity> victims, int damagePreCalculations){
     return attack(victims, damagePreCalculations, 1);
   }
-  /**Attacks the victim entity for the specified amount. Takes into account relevent status effects.
+  /** Attacks the victim entity for the specified amount. Takes into account relevent status effects.
    * Takes from the victim's block, then its hp.
    * @param victim - The entity being attacked by the entity calling this method
    * @param damagePreCalculations - The amount of damage the base card does (ie. 6 for an unupgraded Strike)
@@ -393,7 +393,7 @@ public abstract class Entity{
   public int attack(Entity victim, int damagePreCalculations, int strMultiplier){
     return attack(Collections.singletonList(victim), damagePreCalculations, strMultiplier);
   }
-  /**Attacks the victims for the specified amount each. Takes into account relevent status effects.
+  /** Attacks the victims for the specified amount each. Takes into account relevent status effects.
    * Takes from the victims' block, then their hp.
    * @param victims - The entities being attacked by the entity calling this method
    * @param damagePreCalculations - The amount of damage the base card does (ie. 6 for an unupgraded Strike)
@@ -414,7 +414,7 @@ public abstract class Entity{
     }
     return totalDmgDealt;
   }
-  /**Performs an attack that hits `victim` `times` times. See attack(List, int, int) for more details.
+  /** Performs an attack that hits `victim` `times` times. See attack(List, int, int) for more details.
    */
   public int multiattack(int times, Entity victim, int damagePreCalculations){
     return attack(Collections.nCopies(times, victim), damagePreCalculations, 1);
@@ -429,7 +429,7 @@ public abstract class Entity{
     return (int)(dmg + 0.00000001); //In case of floating point errors
   }
 
-  /**Calculates the attack damage damagePreCalculations would deal, just taking into
+  /** Calculates the attack damage damagePreCalculations would deal, just taking into
    * account the statuses this entity has. Useful for getting #s that show up on cards
    */
   public int calcAtkDmgFromThisStats(int damagePreCalculations, int strMultiplier){
@@ -469,10 +469,10 @@ public abstract class Entity{
 
   //For polymorphism
   public abstract void setSplitIntent();
-  /**Ends the turn of the entity. Will generally only be called on the player
+  /** Ends the turn of the entity. Will generally only be called on the player
   */
   public abstract void endTurn(Player player);
-  /**Loops over the copy's statuses (i.e. the entity's statuses after end-of-turn status changes
+  /** Loops over the copy's statuses (i.e. the entity's statuses after end-of-turn status changes
    * such as entity intents), decreasing the strength of statuses that where:
    * The status is decreasing, and it is present both in the copy and in the original.
    * */
@@ -492,7 +492,7 @@ public abstract class Entity{
 
 
 
-  /**Constructs and returns the HPBar String of this entity
+  /** Constructs and returns the HPBar String of this entity
   */
   public String getHPBar(){
     double p = ((double)hp / maxHP); //proportion of hp remaining
@@ -521,7 +521,7 @@ public abstract class Entity{
     return hpBar;
   }
 
-  /**Adds strength to this entity's with the specified name.
+  /** Adds strength to this entity's with the specified name.
   */
   private String getHPTextColor(boolean pastRedSection, boolean blueHPBar){
     String textColor = "";
@@ -595,7 +595,7 @@ public abstract class Entity{
     return str;
   }
 
-  /**Performs a deep copy of the status list. */
+  /** Performs a deep copy of the status list. */
   public static ArrayList<Status> copyStatusList(Collection<Status> ogList){
     App.ASSERT(ogList != null);
     ArrayList<Status> newList = new ArrayList<Status>(ogList.size());

@@ -97,7 +97,7 @@ public class Card {
             codedDescription += "Apply " + effectPower + " " + secondary + " to ALL enemies.\n";
             break;
           case "Exhaust":
-            switch (secondary) {
+            switch(secondary){
               case "Choose1FromHand":
                 codedDescription += "Exhaust 1 card.\n";
                 break;
@@ -270,7 +270,7 @@ public class Card {
   public Card(String name){
     this(getCard(name));
   }
-  private Card(String name, String type, int energyCost, boolean targeted, List<String> effects, Rarity rarity, Color color){
+  private Card(String name, String type, int energyCost, boolean targeted, List<String> effects, Rarity rarity, Color color) {
     this.name = name;
     this.type = type;
     upgrades = 0;
@@ -306,7 +306,7 @@ public class Card {
     }
     upData.description = new Description(upData.effects);
   }
-  /**If card's description can be affected by str/dex, include the <atk> / <endatk> / <blk> / <endblk> around the number(s)
+  /** If card's description can be affected by str/dex, include the <atk> / <endatk> / <blk> / <endblk> around the number(s)
    */
   public Card(String name, String description, String type, int energyCost, boolean targeted, List<String> effects,
               String upDescription, int upCost, boolean upTargeted, List<String> upEffects, Rarity rarity, Color color){
@@ -355,10 +355,10 @@ public class Card {
   public void setEffects(ArrayList<CardEffect> newEffects){ data.effects = newEffects; }
 
   public String getDescription(){ return data.description.getBaseDescription(); }
-  /**Description replacing \n characters with spaces (removes the terminal \n character w/o replacing it.) */
+  /** Description replacing \n characters with spaces (removes the terminal \n character w/o replacing it.) */
   public String getDescriptionWONLs(){ return data.description.getBaseDescriptionWONLs(); }
   public Description getDescriptionObject(){ return data.description; }
-  /**Takes into account the statuses of the player */
+  /** Takes into account the statuses of the player */
   public String getDescriptionWStatuses(Combat c){
     int strMultiplier = 1;
     for(CardEffect eff : getEffects()){
@@ -379,7 +379,7 @@ public class Card {
     + Colors.reset + name + colorEveryWordBySpaces(" - " + getDescriptionWONLs(), Colors.lightGray) + "\n" + Colors.reset;
   }
 
-  /**Returns whether or not this Card has the entered effect
+  /** Returns whether or not this Card has the entered effect
   *@param effect - The effect to search this Card for
   *@return boolean - true if the entered effect is in this Card's list of effects. False otherwise.
   */
@@ -391,7 +391,7 @@ public class Card {
     }
     return false;
   }
-  /**Returns whether or not this Card has an effect which contains the entered String
+  /** Returns whether or not this Card has an effect which contains the entered String
   *@param effectType - The String to search this Card's effects for
   *@return boolean - true if the entered String is in this Card's list of effects. False otherwise.
   */
@@ -404,7 +404,7 @@ public class Card {
     return false;
   }
 
-  /**Returns whether any of the card's effects have isAttack();
+  /** Returns whether any of the card's effects have isAttack();
    * effectively shows whether or not the card is affected by strength
   */
   public boolean hasAttackEffect(){
@@ -414,7 +414,7 @@ public class Card {
     }
     return false;
   }
-  /**Returns whether any of the card's effects have isDefense();
+  /** Returns whether any of the card's effects have isDefense();
    * effectively shows whether or not the card is affected by dexterity
   */
   public boolean hasDefenseEffect(){
@@ -426,13 +426,13 @@ public class Card {
   }
 
 
-  /**Returns the image of the card that will be displayed on the screen
+  /** Returns the image of the card that will be displayed on the screen
    * using the card's base description (not accounting for statuses).
   */
   public String[] getImage(){
     return getImageWStatuses(null);
   }
-  /**Returns the image of the card that will be displayed on the screen.
+  /** Returns the image of the card that will be displayed on the screen.
    * Uses base descriptions if combat == null, otherwise accounts for player statuses.
   */
   public String[] getImageWStatuses(Combat combat){
@@ -461,7 +461,7 @@ public class Card {
     return hasEffect("SearingBlow");
   }
 
-  /**Attempts to upgrade the card if isUpgradable(), applying all necessary changes. */
+  /** Attempts to upgrade the card if isUpgradable(), applying all necessary changes. */
   public void upgrade(){
     if(!isUpgradable()){
       return;
@@ -470,7 +470,7 @@ public class Card {
     Str.println("Upgrades:" + upgrades);
       
     upgrades++;
-    if(upgrades == 1) {
+    if(upgrades == 1){
       //Name:
       name += "+";
       name = Colors.fillColor(name, Colors.upgradeGreen);
@@ -503,12 +503,12 @@ public class Card {
     energyCost = upData.baseEnergyCost;
   }
   
-  /**Calculates the damage searing blow would do using the # of upgrades on the card.*/
+  /** Calculates the damage searing blow would do using the # of upgrades on the card.*/
   public int searingBlowDamage(){
     return upgrades*(upgrades+7)/2 + 12;
   }
 
-  /**Puts the specified color after each space and '\n' in the text.
+  /** Puts the specified color after each space and '\n' in the text.
   *@Precondition - Two spaces aren't in a row.
   */
   public static String colorEveryWordBySpaces(String theText, String color){
@@ -525,7 +525,7 @@ public class Card {
 
 
 
-  /**Returns the card with the entered name from the set of available cards.
+  /** Returns the card with the entered name from the set of available cards.
    *@Postcondition - Returns a card in App.CARDS -- doesn't return null
   */
   public static Card getCard(String name){

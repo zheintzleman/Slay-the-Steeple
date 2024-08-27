@@ -16,11 +16,11 @@ public class AbstractEntity extends Entity {
   }
   
   @Override
-  public void endTurn(Player player) {
+  public void endTurn(Player player){
     throw new UnsupportedOperationException("Calling endTurn function on abstract entity.");
   }
   @Override
-  public void setSplitIntent() {
+  public void setSplitIntent(){
     throw new UnsupportedOperationException("Calling setSplitIntent function on abstract entity.");
   }
 }

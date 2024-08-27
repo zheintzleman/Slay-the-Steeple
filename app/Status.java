@@ -13,7 +13,7 @@ import java.util.List;
  * @see App App.loadStatuses()
  * @see Entity
  */
-public class Status{
+public class Status {
   private String name, description, image;
   private int strength;
   private boolean decreasing, hasStrength;
@@ -40,12 +40,12 @@ public class Status{
                 .map((StatusEffect eff) -> new StatusEffect(eff, this))
                 .toList();
   }
-  /**Initializes the described status, with default strength of 1. */
+  /** Initializes the described status, with default strength of 1. */
   public Status(String name){
     this(getStatus(name));
     strength = 1;
   }
-  /**Initializes the described status with the given strength. */
+  /** Initializes the described status with the given strength. */
   public Status(String name, int strength){
     this(getStatus(name));
     this.strength = strength;
@@ -85,7 +85,7 @@ public class Status{
   public String getDescription(){ return description; }
   public boolean hasStrength(){ return hasStrength; }
   public void setHasStrength(boolean newHS){ hasStrength = newHS; }
-  public List<StatusEffect> getEffects() { return effects; }
+  public List<StatusEffect> getEffects(){ return effects; }
   
   public void setStrength(int newStrength){
     if(hasStrength){
@@ -102,12 +102,12 @@ public class Status{
     setStrength(strength - lessStr);
   }
   
-  /**Constructs and returns a String of the correctly colored and formatted status description
+  /** Constructs and returns a String of the correctly colored and formatted status description
   */
   public String getDescriptionFormatted(){
     return getDescriptionFormatted(strength);
   }
-  /**Constructs and returns a String of the correctly colored and formatted status description
+  /** Constructs and returns a String of the correctly colored and formatted status description
   */
   public String getDescriptionFormatted(int str){
     String desc = description;
@@ -122,7 +122,7 @@ public class Status{
     return desc;
   }
   
-  /**Returns the (Usually 1 or 2 char long) image for this specific status effect.
+  /** Returns the (Usually 1 or 2 char long) image for this specific status effect.
   */
   public String getDisplay(){
     String str = image;
@@ -132,7 +132,7 @@ public class Status{
     return str + Colors.reset;
   }
   
-  /**Returns the status with the entered name from the set of available statuses.
+  /** Returns the status with the entered name from the set of available statuses.
    *@Postcondition - Returns a status in App.STATUSES -- doesn't return null
   */
   private static Status getStatus(String name){
@@ -149,7 +149,7 @@ public class Status{
     return status;
   }
 
-  /**Initializes a copy of this status. Same as `new Status(this)`. */
+  /** Initializes a copy of this status. Same as `new Status(this)`. */
   public Status clone(){
     return new Status(this);
   }

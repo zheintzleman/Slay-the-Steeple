@@ -4,7 +4,7 @@ import java.io.Serializable;
 import app.EventManager.Event;
 
 
-/**Generic class for effects that cards/statuses/etc. might have during the game.
+/** Generic class for effects that cards/statuses/etc. might have during the game.
  * Usually stored as List<Effect>, with each card/status/etc. do at least one effect. 
  * When the effect goes off is also specifies -- defaults to "OnPlay", which is only available
  * for cards.
@@ -75,7 +75,7 @@ public abstract class Effect implements Serializable {
   public String getSecondary(){ return secondary; }
   public void setSecondary(String secondary){ this.secondary = secondary; }
   public int getPower(){ return power; }
-  public void setPower(int power) { this.power = power; }
+  public void setPower(int power){ this.power = power; }
   public Event whenPlayed(){ return whenPlayed; }
 
   public boolean isAttack(){
@@ -101,12 +101,12 @@ public abstract class Effect implements Serializable {
   }
 
   @Override
-  public boolean equals(Object obj) {
-    if (this == obj)
+  public boolean equals(Object obj){
+    if(this == obj)
       return true;
-    if (obj == null)
+    if(obj == null)
       return false;
-    if (getClass() != obj.getClass())
+    if(getClass() != obj.getClass())
       return false;
     Effect other = (Effect) obj;
 

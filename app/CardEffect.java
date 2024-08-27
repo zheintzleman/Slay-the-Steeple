@@ -25,8 +25,8 @@ public class CardEffect extends Effect {
     this.card = card;
     App.ASSERT(!isBanned(whenPlayed()));
   }
-  public Card getCard() { return card; }
-  public void setCard(Card card) { this.card = card; }
+  public Card getCard(){ return card; }
+  public void setCard(Card card){ this.card = card; }
 
   private static boolean isBanned(Event playEvent){
     return EventManager.BANNED_CARD_EFFECTS.contains(playEvent);

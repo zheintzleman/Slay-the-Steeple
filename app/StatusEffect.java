@@ -36,7 +36,7 @@ public class StatusEffect extends Effect {
   }
 
   public Status getStatus(){ return status; }
-  public void setStatus(Status newStatus) {status = newStatus; }
+  public void setStatus(Status newStatus){ status = newStatus; }
   
   @Override
   public int getPower(){

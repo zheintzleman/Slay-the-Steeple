@@ -135,7 +135,7 @@ public class Colors {
 
 
 
-  /**Adds the color String before every character in str.
+  /** Adds the color String before every character in str.
   *@Precondition - str must not have any escape sequences (of any type)
   */
   public static String fillColor(String str, String color){
@@ -145,7 +145,7 @@ public class Colors {
     }
     return coloredString;
   }
-  /**Adds the color String before every character in every string in the array.
+  /** Adds the color String before every character in every string in the array.
   *@Precondition - arr must not have any escape sequences (of any type)
   */
   public static String[] fillColor(String[] arr, String color){

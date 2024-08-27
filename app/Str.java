@@ -9,25 +9,25 @@ import java.util.*;
  * @see Colors
  */
 public abstract class Str {
-  /**Constructs and returns a String[] of a box with the (now wrapped) text within. Uses default sizes.
+  /** Constructs and returns a String[] of a box with the (now wrapped) text within. Uses default sizes.
    * @Precondition No spaces adjacent to new lines in text; 
   */
   public static String[] makeTextBox(String text){
     return makeTextBox(text, Run.SCREENHEIGHT*3/4, 43, null);
   }
-  /**Constructs and returns a String[] of a box with the (now wrapped) text within. Uses default height and the entered width. Text wrapped with box of width-4.
+  /** Constructs and returns a String[] of a box with the (now wrapped) text within. Uses default height and the entered width. Text wrapped with box of width-4.
    * @Precondition No spaces adjacent to new lines in text; 
   */
   public static String[] makeTextBox(String text, int width){
     return makeTextBox(text, Run.SCREENHEIGHT*3/4, width, null);
   }
-  /**Constructs and returns a String[] of a box with the (now wrapped) text within. Uses default height and the entered width. Text wrapped with box of width-4.
+  /** Constructs and returns a String[] of a box with the (now wrapped) text within. Uses default height and the entered width. Text wrapped with box of width-4.
    * @Precondition No spaces adjacent to new lines in text; 
   */
   public static String[] makeTextBox(String text, int height, int width){
     return makeTextBox(text, height, width, null); 
   }
-  /**Constructs and returns a String[] of a box with the (now wrapped) text within. Uses entered height and width. Text wrapped with box of width-4.
+  /** Constructs and returns a String[] of a box with the (now wrapped) text within. Uses entered height and width. Text wrapped with box of width-4.
    * @Precondition No spaces adjacent to new lines in text;
    * @param extraOut (Output) Replaces extraOut with a list of any lines of the wrapped text that overflow the text box
   */
@@ -69,12 +69,12 @@ public abstract class Str {
 
   }
 
-  /**Constructs and returns a String[] of a box with the (now wrapped and centered) text within. Uses default sizes.
+  /** Constructs and returns a String[] of a box with the (now wrapped and centered) text within. Uses default sizes.
   */
   public static String[] makeCenteredTextBox(String text){
     return makeCenteredTextBox(text, Run.SCREENHEIGHT*3/4, 43); 
   }
-  /**Constructs and returns a String[] of a box with the (now wrapped and centered) text within. Uses entered height and width.
+  /** Constructs and returns a String[] of a box with the (now wrapped and centered) text within. Uses entered height and width.
   */
   public static String[] makeCenteredTextBox(String text, int height, int width){
     String[] box = new String[height];
@@ -104,7 +104,7 @@ public abstract class Str {
     return box;
   }
 
-  /**Wraps the entered text to be an arraylist of String each less long than the specified width. Breaks at spaces and at each new line
+  /** Wraps the entered text to be an arraylist of String each less long than the specified width. Breaks at spaces and at each new line
    * @Precondition No spaces adjacent to new lines in theText; 
    * This condition may not be needed anymore after some refactoring, but I'm not sure.
   */
@@ -143,7 +143,7 @@ public abstract class Str {
     return wrappedText;
   }
 
-  /**Given the width of the (entire) popup, generates a string to put in the popup text, which
+  /** Given the width of the (entire) popup, generates a string to put in the popup text, which
    * appears as `str`, centered, with an underline under it (taking up two lines.)
    * 
    * @param lineColor The (escape code) color of the underline
@@ -167,7 +167,7 @@ public abstract class Str {
     return removeEscSeqs(A).equalsIgnoreCase(removeEscSeqs(B));
   }
 
-  /**Adds one String over the other at the specified index. Skips escape sequences that are marked with the O and A characters.
+  /** Adds one String over the other at the specified index. Skips escape sequences that are marked with the O and A characters.
   *@Precondition Escape sequences in mainStr are preceded by 'Ø' and succeeded by 'Á'. The characters 'Ø' and 'Á' are not used in mainStr outside of escape sequences.
   */
   public static String addStringsSkipEscSequences(String mainStr, int indexToAdd, String toAdd){
@@ -195,7 +195,7 @@ public abstract class Str {
     throw new IndexOutOfBoundsException(message);
   }
 
-  /**Adds one String over the other at the specified index. Skips escape sequences that are marked with the O and A characters. String added will start with color and ends with colorReset.
+  /** Adds one String over the other at the specified index. Skips escape sequences that are marked with the O and A characters. String added will start with color and ends with colorReset.
   *@Precondition Escape sequences in mainStr are preceded by 'Ø' and succeeded by 'Á'. The characters 'Ø' and 'Á' are not used in mainStr outside of escape sequences.
   */
   public static String addStringsSkipEscSequences(String mainStr, int indexToAdd, String toAdd, String color, String colorReset){
@@ -223,7 +223,7 @@ public abstract class Str {
     throw new IndexOutOfBoundsException(message);
   }
   
-  /**Adds the String[] over the other starting at the specified indeces. Skips escape sequences that are marked with the O and A characters.
+  /** Adds the String[] over the other starting at the specified indeces. Skips escape sequences that are marked with the O and A characters.
   *@Precondition Escape sequences in mainArr are preceded by 'Ø' and succeeded by 'Á'. The characters 'Ø' and 'Á' are not used in mainStr outside of escape sequences.
   */
   public static String[] addStringArraysSkipEscSequences(String[] mainArray, int topRow, int startCol, String[] newArray){
@@ -235,7 +235,7 @@ public abstract class Str {
     }
     return combined;
   }
-  /**Adds the String[] over the other starting at the specified indeces. Skips escape sequences that are marked with the O and A characters. color and colorReset are added at the start and end of each string, respectively
+  /** Adds the String[] over the other starting at the specified indeces. Skips escape sequences that are marked with the O and A characters. color and colorReset are added at the start and end of each string, respectively
   *@Precondition Escape sequences in mainArr are preceded by 'Ø' and succeeded by 'Á'. The characters 'Ø' and 'Á' are not used in mainStr outside of escape sequences.
   */
   public static String[] addStringArraysSkipEscSequences(String[] mainArray, int topRow, int startCol, String[] newArray, String color, String colorReset){
@@ -245,7 +245,7 @@ public abstract class Str {
     }
     return combined;
   }
-  /**Adds the String[] over the other starting at the specified indeces, not covering mainArray using spaces. Skips escape sequences that are marked with the O and A characters. color and colorReset are added at the start and end of each string, respectively, and at the end and start of any string of spaces (in newArray)
+  /** Adds the String[] over the other starting at the specified indeces, not covering mainArray using spaces. Skips escape sequences that are marked with the O and A characters. color and colorReset are added at the start and end of each string, respectively, and at the end and start of any string of spaces (in newArray)
   *@Precondition Escape sequences in mainArr are preceded by 'Ø' and succeeded by 'Á'. The characters 'Ø' and 'Á' are not used in mainStr outside of escape sequences.
   */
   public static String[] addStringArraysTransparent(String[] mainArray, int topRow, int startCol, String[] newArray, String color, String colorReset){
@@ -256,9 +256,9 @@ public abstract class Str {
     return combined;
   }
 
-  /**Returns the length of the string ignoring esc sequences that have been marked with the O and A chars
+  /** Returns the length of the string ignoring esc sequences that have been marked with the O and A chars
   */
-  public static int lengthIgnoringEscSeqs(String str){ //TODO: Optimize w/ regex (removeAll & .length) if running slowly
+  public static int lengthIgnoringEscSeqs(String str){
     int length = 0;
     boolean inEscSequence = false;
 
@@ -278,7 +278,7 @@ public abstract class Str {
     return length;
   }
 
-  /**Returns the substring of the string starting at the entered index ignoring esc sequences that have been marked with the O and A chars
+  /** Returns the substring of the string starting at the entered index ignoring esc sequences that have been marked with the O and A chars
   */
   public static String substringIgnoringEscSequences(String str, int start){
     App.ASSERT(start >= 0 && start <= lengthIgnoringEscSeqs(str));
@@ -312,7 +312,7 @@ public abstract class Str {
     }
     return "";
   }
-  /**Returns the substring of the string from the start index to the end index, ignoring esc sequences that have been marked with the O and A chars
+  /** Returns the substring of the string from the start index to the end index, ignoring esc sequences that have been marked with the O and A chars
   */
   public static String substringIgnoringEscSequences(String str, int start, int end){
     App.ASSERT(0 <= start && start <= end && end <= lengthIgnoringEscSeqs(str));
@@ -360,7 +360,7 @@ public abstract class Str {
     return "";
   }
 
-  /**Returns the last character in string, skipping escape sequences. Returns '\0' if str.isEmpty(). */
+  /** Returns the last character in string, skipping escape sequences. Returns '\0' if str.isEmpty(). */
   public static char lastCharIgnoringEscSeqs(String str){
     if(str.isEmpty()){ return '\0'; }
 
@@ -374,7 +374,7 @@ public abstract class Str {
   }
 
   
-  /**Evens spaces on either side of the text. If uneven, puts the extra space on the right side iff the
+  /** Evens spaces on either side of the text. If uneven, puts the extra space on the right side iff the
    * text is <=8 letters long & doesn't end with a comma, period or plus (then the space is added to the left)
   */
   public static String centerText(String string){
@@ -405,7 +405,7 @@ public abstract class Str {
     return centeredText;
   }
 
-  /**Short for Concatenate ArrayList
+  /** Short for Concatenate ArrayList
    * @return The Strings in list concatenated (index 0 first)
    */
   public static String concatArrayList(ArrayList<String> list){
@@ -416,7 +416,7 @@ public abstract class Str {
     return res;
   }
 
-  /**Short for Concatenate ArrayList with New Line(s)
+  /** Short for Concatenate ArrayList with New Line(s)
    * @return The Strings in list concatenated (index 0 first) with a '\n' character between them
    * (includes a '\n' after the final element)
    */
@@ -428,34 +428,34 @@ public abstract class Str {
     return res;
   }
 
-  /**Calls System.out.print() on the string, removing all special O and A characters
+  /** Calls System.out.print() on the string, removing all special O and A characters
   */
   public static void print(String string){
       // Old Code, kept for sentimental reasons:
     // String str = string;
     // //Remove Øs
     // int indexOfO = str.indexOf('Ø');
-    // while (indexOfO != -1){
+    // while(indexOfO != -1){
     //   str = str.substring(0,indexOfO) + str.substring(indexOfO+1);
     //   indexOfO = str.indexOf('Ø');
     // }
     // //Remove Ás
     // int indexOfA = str.indexOf('Á');
-    // while (indexOfA != -1){
+    // while(indexOfA != -1){
     //   str = str.substring(0,indexOfA) + str.substring(indexOfA+1);
     //   indexOfA = str.indexOf('Á');
     // }
     //Print
     System.out.print(string.replace("Ø", "").replace("Á", ""));
   }
-  /**Calls System.out.println() on the string, removing all special O and A characters
+  /** Calls System.out.println() on the string, removing all special O and A characters
   */
   public static void println(String string){
     //Print
     System.out.println(string.replace("Ø", "").replace("Á", ""));
   }
 
-  /**Returns a string composed of toRepeat repeated numRepeats times
+  /** Returns a string composed of toRepeat repeated numRepeats times
   */
   public static String repeatChar(char toRepeat, int numRepeats){
     String str = "";
@@ -464,7 +464,7 @@ public abstract class Str {
     }
     return str;
   }
-  /**Returns a string composed of toRepeat repeated numRepeats times
+  /** Returns a string composed of toRepeat repeated numRepeats times
   */
   public static String repeatStr(String toRepeat, int numRepeats){
     String str = "";
@@ -474,7 +474,7 @@ public abstract class Str {
     return str;
   }
   
-  /**Returns the lower of the two values
+  /** Returns the lower of the two values
   */
   public static int minOf(int a, int b){
     //idk why some people hate these things they're really nice imo
@@ -482,7 +482,7 @@ public abstract class Str {
     //And this is a pretty simple example, it could get much worse.
     return (a < b) ? a : b;
   }
-  /**Returns the lower positive number of the two values. If neither are positive, returns -1.
+  /** Returns the lower positive number of the two values. If neither are positive, returns -1.
   */
   public static int minPositiveOf(int a, int b){
     if(a<0 && b<0){ //Both negative
@@ -493,7 +493,7 @@ public abstract class Str {
     }
     return (a < b) ? a : b; //Min of two
   }
-  /**Returns the higher of the two values */
+  /** Returns the higher of the two values */
   public static int maxOf(int a, int b){
     return (a < b) ? b : a;
   }

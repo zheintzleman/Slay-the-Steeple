@@ -90,7 +90,7 @@ public class Intent{
   public int getDamage(){ return damage; }
   public void setDamage(int newDmg){ damage = newDmg; }
 
-  /**Returns the Intent's pixel art as a String[]
+  /** Returns the Intent's pixel art as a String[]
   */
   public String[] getImage(Enemy enemy, Entity player){
     //Update damage counter thingy
