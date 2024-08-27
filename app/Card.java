@@ -380,8 +380,8 @@ public class Card {
   }
 
   /** Returns whether or not this Card has the entered effect
-  *@param effect - The effect to search this Card for
-  *@return boolean - true if the entered effect is in this Card's list of effects. False otherwise.
+  * @param effect - The effect to search this Card for
+  * @return boolean - true if the entered effect is in this Card's list of effects. False otherwise.
   */
   public boolean hasEffect(String effect){
     for(CardEffect eff : data.effects){
@@ -392,8 +392,8 @@ public class Card {
     return false;
   }
   /** Returns whether or not this Card has an effect which contains the entered String
-  *@param effectType - The String to search this Card's effects for
-  *@return boolean - true if the entered String is in this Card's list of effects. False otherwise.
+  * @param effectType - The String to search this Card's effects for
+  * @return boolean - true if the entered String is in this Card's list of effects. False otherwise.
   */
   public boolean hasEffectWith(String primary){
     for(CardEffect eff : data.effects){
@@ -509,7 +509,7 @@ public class Card {
   }
 
   /** Puts the specified color after each space and '\n' in the text.
-  *@Precondition - Two spaces aren't in a row.
+  * @Precondition - Two spaces aren't in a row.
   */
   public static String colorEveryWordBySpaces(String theText, String color){
     String text = theText;
@@ -526,7 +526,7 @@ public class Card {
 
 
   /** Returns the card with the entered name from the set of available cards.
-   *@Postcondition - Returns a card in App.CARDS -- doesn't return null
+   * @Postcondition - Returns a card in App.CARDS -- doesn't return null
   */
   public static Card getCard(String name){
     Card card = App.CARDS.get(name);

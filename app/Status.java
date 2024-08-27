@@ -133,7 +133,7 @@ public class Status {
   }
   
   /** Returns the status with the entered name from the set of available statuses.
-   *@Postcondition - Returns a status in App.STATUSES -- doesn't return null
+   * @Postcondition - Returns a status in App.STATUSES -- doesn't return null
   */
   private static Status getStatus(String name){
     Status status = App.STATUSES.get(name);

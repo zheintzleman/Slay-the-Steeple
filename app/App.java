@@ -7,7 +7,7 @@ import app.Card.Rarity;
 
 
 /** Staticly contains and initializes various program-wide constants and data structures.
- *
+ * 
  * @see Str
  * @see Colors
  * @see Card

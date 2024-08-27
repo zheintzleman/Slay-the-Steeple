@@ -95,7 +95,7 @@ public abstract class Effect implements Serializable {
   public int getIntFromSecondary(int defaultVal){
     try{
       return Integer.parseInt(secondary);
-    } catch (NumberFormatException e) {
+    } catch(NumberFormatException e) {
       return defaultVal;
     }
   }

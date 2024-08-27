@@ -12,7 +12,7 @@ import java.util.*;
  * @see AbstractEntity
  * @see Status
  */
-public abstract class Entity{
+public abstract class Entity {
   /** Default Entity Image */
   public static final String[] RECTANGLE = new String[] {"███████", "███████", "███████", "███████", "███████", "███████"};
   private String name;
@@ -277,7 +277,7 @@ public abstract class Entity{
 
   
   /** Damages the entity the specified amount; taking from its block then its hp. If hp is 0 or less, it dies.
-  *@return int - the amount of damage delt
+  * @return int - the amount of damage delt
   */
   public int damage(int dmg){
     if(block >= dmg){
@@ -325,23 +325,23 @@ public abstract class Entity{
     startOfTurnBlock += blk;
   }
   /** Gives the entity the appropriate amount of block, taking into account relevent status effects.
-  *@param blockPreCalculations - The amount of defence the card/intent does (ie. 5 for an unupgraded Defend)
+  * @param blockPreCalculations - The amount of defence the card/intent does (ie. 5 for an unupgraded Defend)
   */
   public void block(int blockPreCalculations){
     int blk = calcBlockAmount(blockPreCalculations);
     this.addBlock(blk);
   }
   /** Gives the receiving entity the appropriate amount of block, taking into account relevent status effects (largely, if not entirely, on this entity).
-  *@param receiver - The entity to receive the block
-  *@param blockPreCalculations - The amount of defence the card/intent does (ie. 5 for an unupgraded Defend)
+  * @param receiver - The entity to receive the block
+  * @param blockPreCalculations - The amount of defence the card/intent does (ie. 5 for an unupgraded Defend)
   */
   public void giveBlock(Entity receiver, int blockPreCalculations){
     int blk = calcBlockAmount(blockPreCalculations);
     receiver.addBlock(blk);
   }
   /** Calculates the amount a block card with the entered amount would block for, taking into account relevent status effects.
-  *@param blockPreCalculations - The amount the base card would say (ie. 5 for an unupgraded Defend)
-  *@return int - The amount of block that would be gained by playing such a card, taking into account dexterity and frail.
+  * @param blockPreCalculations - The amount the base card would say (ie. 5 for an unupgraded Defend)
+  * @return int - The amount of block that would be gained by playing such a card, taking into account dexterity and frail.
   */
   public int calcBlockAmount(int blockPreCalculations){
     double blk = blockPreCalculations + this.getStatusStrength("Dexterity");
@@ -351,15 +351,15 @@ public abstract class Entity{
     return (int)(blk + 0.00000001); //In case of floating point errors
   }
   /** Increases the startOfTurnBlock variable according to relevent status effects
-  *@param blockPreCalculations - The amount of defence the card/intent does (ie. 5 for an unupgraded Defend)
+  * @param blockPreCalculations - The amount of defence the card/intent does (ie. 5 for an unupgraded Defend)
   */
   public void blockAfterTurn(int blockPreCalculations){
     int blk = calcBlockAmount(blockPreCalculations);
     addStartOfTurnBlock(blk);
   }
   /** Increases the receiving entity's startOfTurnBlock variable according to relevent status effects (largely, if not entirely, on this entity)
-  *@param receiver - The entity to receive the future block
-  *@param blockPreCalculations - The amount of defence the card/intent does (ie. 5 for an unupgraded Defend)
+  * @param receiver - The entity to receive the future block
+  * @param blockPreCalculations - The amount of defence the card/intent does (ie. 5 for an unupgraded Defend)
   */
   public void giveBlockDuringEndOfTurn(Entity receiver, int blockPreCalculations){
     int blk = calcBlockAmount(blockPreCalculations);
@@ -475,7 +475,7 @@ public abstract class Entity{
   /** Loops over the copy's statuses (i.e. the entity's statuses after end-of-turn status changes
    * such as entity intents), decreasing the strength of statuses that where:
    * The status is decreasing, and it is present both in the copy and in the original.
-   * */
+   */
   public void updateCopysDecreasingStatuses(){
     for(int i=0; i<copy.statuses.size(); i++){
       Status s = copy.statuses.get(i);

@@ -228,7 +228,7 @@ public class Combat {
   }
 
   /** Inputs from the player the next action and performs it, updating the display as well.
-  *@return boolean - Returns true if the action should end the turn, false otherwise
+  * @return boolean - Returns true if the action should end the turn, false otherwise
   */
   public boolean doNextAction(){
     boolean doneAction = false;
@@ -445,8 +445,8 @@ public class Combat {
   }
 
   /** Attemps to play the card at the selected index in hand.
-  *@param index - The index in hand of the card being played
-  *@return boolean - Whether or not a card was played. Returns false if index is not valid, if player has too little energy, or if card is `unplayable`.
+  * @param index - The index in hand of the card being played
+  * @return boolean - Whether or not a card was played. Returns false if index is not valid, if player has too little energy, or if card is `unplayable`.
   */
   public boolean playCard(int num){
     if(num%10 == 0){
@@ -471,7 +471,7 @@ public class Combat {
   }
 
   /** Attemps to play the card.
-  *@return boolean - Whether or not the card was played. Returns false if player has too little energy, or if card is `unplayable`.
+  * @return boolean - Whether or not the card was played. Returns false if player has too little energy, or if card is `unplayable`.
   */
   public boolean playCard(Card card){
     Entity target = null;
@@ -998,8 +998,8 @@ public class Combat {
 
   
   /** Returns a new ArrayList<Card> which containes the contents of the parameter ArrayList<Card> sorted alphabetically by name.
-  *@return ArrayList<Card> - A new ArrayList<Card> of the sorted parameter list values
-  *@param list - The list to make a sorted version of
+  * @return ArrayList<Card> - A new ArrayList<Card> of the sorted parameter list values
+  * @param list - The list to make a sorted version of
   */
   public static ArrayList<Card> sortedList(ArrayList<Card> list){
     //Insertion Sort
@@ -1026,7 +1026,7 @@ public class Combat {
     return new GreenLouse(midX);
   }
   /** Constructs and returns a slime of the specified size and a random type
-  *@Precondition - 0 >= size >= 2
+  * @Precondition - 0 >= size >= 2
   */
   public Enemy createSlime(int midX, int size){
     boolean isAcidSlime = Math.random() < 0.5; //50-50 chance

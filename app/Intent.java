@@ -6,7 +6,7 @@ import enemyfiles.Enemy;
  * 
  * @see Enemy
  */
-public class Intent{
+public class Intent {
   public static final String[] defIntArt = Colors.fillColor(new String[] {"▄ ▄ ▄ ▄", "███████", "▀█████▀", "  ▀█▀  "}, Colors.blockBlue); // "▄▂▄▆▄▂▄"
   public static final String[] atkIntArt = Colors.fillColor(new String[] { "▄▄     ", "▀██▄ ▄ ", "  ▀██▀ ", "  ▀▀ ▀▄"}, Colors.atkIntArtRed);
   public static final String[] dbfIntArt = Colors.fillColor(new String[] {" ▄▄▄▄▄ ", "█ ▄▄ ▀█", "█ ▀ █ █", " ▀▀▀ ▄▀"}, Colors.dbfIntArtGrn);

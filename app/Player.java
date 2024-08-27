@@ -25,7 +25,7 @@ public class Player extends Entity {
     setStatusStrength("Dexterity Down", 0);
   }
   @Override
-  public void setSplitIntent() {
+  public void setSplitIntent(){
     throw new UnsupportedOperationException("Calling setSplitIntent on Player");
   }
 }

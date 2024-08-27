@@ -168,7 +168,7 @@ public abstract class Str {
   }
 
   /** Adds one String over the other at the specified index. Skips escape sequences that are marked with the O and A characters.
-  *@Precondition Escape sequences in mainStr are preceded by 'Ø' and succeeded by 'Á'. The characters 'Ø' and 'Á' are not used in mainStr outside of escape sequences.
+  * @Precondition Escape sequences in mainStr are preceded by 'Ø' and succeeded by 'Á'. The characters 'Ø' and 'Á' are not used in mainStr outside of escape sequences.
   */
   public static String addStringsSkipEscSequences(String mainStr, int indexToAdd, String toAdd){
     int col = 0;
@@ -196,7 +196,7 @@ public abstract class Str {
   }
 
   /** Adds one String over the other at the specified index. Skips escape sequences that are marked with the O and A characters. String added will start with color and ends with colorReset.
-  *@Precondition Escape sequences in mainStr are preceded by 'Ø' and succeeded by 'Á'. The characters 'Ø' and 'Á' are not used in mainStr outside of escape sequences.
+  * @Precondition Escape sequences in mainStr are preceded by 'Ø' and succeeded by 'Á'. The characters 'Ø' and 'Á' are not used in mainStr outside of escape sequences.
   */
   public static String addStringsSkipEscSequences(String mainStr, int indexToAdd, String toAdd, String color, String colorReset){
     int col = 0;
@@ -224,7 +224,7 @@ public abstract class Str {
   }
   
   /** Adds the String[] over the other starting at the specified indeces. Skips escape sequences that are marked with the O and A characters.
-  *@Precondition Escape sequences in mainArr are preceded by 'Ø' and succeeded by 'Á'. The characters 'Ø' and 'Á' are not used in mainStr outside of escape sequences.
+  * @Precondition Escape sequences in mainArr are preceded by 'Ø' and succeeded by 'Á'. The characters 'Ø' and 'Á' are not used in mainStr outside of escape sequences.
   */
   public static String[] addStringArraysSkipEscSequences(String[] mainArray, int topRow, int startCol, String[] newArray){
     String[] combined = mainArray.clone();
@@ -236,7 +236,7 @@ public abstract class Str {
     return combined;
   }
   /** Adds the String[] over the other starting at the specified indeces. Skips escape sequences that are marked with the O and A characters. color and colorReset are added at the start and end of each string, respectively
-  *@Precondition Escape sequences in mainArr are preceded by 'Ø' and succeeded by 'Á'. The characters 'Ø' and 'Á' are not used in mainStr outside of escape sequences.
+  * @Precondition Escape sequences in mainArr are preceded by 'Ø' and succeeded by 'Á'. The characters 'Ø' and 'Á' are not used in mainStr outside of escape sequences.
   */
   public static String[] addStringArraysSkipEscSequences(String[] mainArray, int topRow, int startCol, String[] newArray, String color, String colorReset){
     String[] combined = mainArray.clone();
@@ -246,7 +246,7 @@ public abstract class Str {
     return combined;
   }
   /** Adds the String[] over the other starting at the specified indeces, not covering mainArray using spaces. Skips escape sequences that are marked with the O and A characters. color and colorReset are added at the start and end of each string, respectively, and at the end and start of any string of spaces (in newArray)
-  *@Precondition Escape sequences in mainArr are preceded by 'Ø' and succeeded by 'Á'. The characters 'Ø' and 'Á' are not used in mainStr outside of escape sequences.
+  * @Precondition Escape sequences in mainArr are preceded by 'Ø' and succeeded by 'Á'. The characters 'Ø' and 'Á' are not used in mainStr outside of escape sequences.
   */
   public static String[] addStringArraysTransparent(String[] mainArray, int topRow, int startCol, String[] newArray, String color, String colorReset){
     String[] combined = mainArray.clone();
