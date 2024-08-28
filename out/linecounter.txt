@@ -230,3 +230,125 @@ enemyfiles\SpikeSlimeMed.java, code is 60, comment is 1, blank is 9.
 enemyfiles\SpikeSlimeSmall.java, code is 24, comment is 1, blank is 8.
 README.md, code is 3, comment is 0, blank is 0.
 ===============================================================================
+===============================================================================
+EXTENSION NAME : linecounter
+EXTENSION VERSION : 0.2.7
+-------------------------------------------------------------------------------
+count time : 2024-08-27 13:37:12
+count workspace : c:\Programming\GitHub\Slay-the-Steeple
+total files : 41
+total code lines : 4535
+total comment lines : 1085
+total blank lines : 550
+
+    statistics
+   |      extension|     total code|  total comment|    total blank|percent|
+   -------------------------------------------------------------------------
+   |          .java|           4507|           1085|            547|     99|
+   |           .txt|             17|              0|              1|   0.37|
+   |            .md|              9|              0|              1|   0.20|
+   |               |              2|              0|              1|  0.044|
+   -------------------------------------------------------------------------
+.gitignore, code is 2, comment is 0, blank is 1.
+app\AbstractEntity.java, code is 14, comment is 9, blank is 3.
+app\App.java, code is 149, comment is 49, blank is 17.
+app\Card.java, code is 416, comment is 105, blank is 42.
+app\CardEffect.java, code is 20, comment is 10, blank is 4.
+app\Colors.java, code is 119, comment is 32, blank is 8.
+app\Combat.java, code is 910, comment is 196, blank is 84.
+app\Effect.java, code is 83, comment is 22, blank is 12.
+app\Entity.java, code is 423, comment is 165, blank is 30.
+app\EventManager.java, code is 107, comment is 46, blank is 18.
+app\Intent.java, code is 167, comment is 14, blank is 6.
+app\Main.java, code is 23, comment is 19, blank is 8.
+app\Player.java, code is 23, comment is 5, blank is 3.
+app\Run.java, code is 457, comment is 154, blank is 58.
+app\SettingsManager.java, code is 64, comment is 12, blank is 9.
+app\Status.java, code is 119, comment is 29, blank is 11.
+app\StatusEffect.java, code is 32, comment is 11, blank is 6.
+app\Str.java, code is 350, comment is 149, blank is 40.
+data\settings.dat, it is a binary file.
+enemyfiles\AcidSlimeLarge.java, code is 80, comment is 1, blank is 10.
+enemyfiles\AcidSlimeMed.java, code is 66, comment is 1, blank is 9.
+enemyfiles\AcidSlimeSmall.java, code is 37, comment is 2, blank is 8.
+enemyfiles\BlueSlaver.java, code is 49, comment is 1, blank is 8.
+enemyfiles\Cultist.java, code is 28, comment is 2, blank is 8.
+enemyfiles\Enemy.java, code is 99, comment is 25, blank is 18.
+enemyfiles\FatGremlin.java, code is 25, comment is 1, blank is 8.
+enemyfiles\FungiBeast.java, code is 46, comment is 2, blank is 8.
+enemyfiles\GreenLouse.java, code is 54, comment is 2, blank is 8.
+enemyfiles\GremlinWizard.java, code is 33, comment is 3, blank is 8.
+enemyfiles\JawWorm.java, code is 61, comment is 3, blank is 8.
+enemyfiles\Looter.java, code is 80, comment is 1, blank is 13.
+enemyfiles\MadGremlin.java, code is 24, comment is 1, blank is 8.
+enemyfiles\RedLouse.java, code is 54, comment is 2, blank is 8.
+enemyfiles\RedSlaver.java, code is 74, comment is 5, blank is 11.
+enemyfiles\ShieldGremlin.java, code is 47, comment is 2, blank is 12.
+enemyfiles\SneakyGremlin.java, code is 23, comment is 1, blank is 8.
+enemyfiles\SpikeSlimeLarge.java, code is 71, comment is 1, blank is 10.
+enemyfiles\SpikeSlimeMed.java, code is 57, comment is 1, blank is 9.
+enemyfiles\SpikeSlimeSmall.java, code is 23, comment is 1, blank is 8.
+README.md, code is 9, comment is 0, blank is 1.
+todo.txt, code is 17, comment is 0, blank is 1.
+===============================================================================
+===============================================================================
+EXTENSION NAME : linecounter
+EXTENSION VERSION : 0.2.7
+-------------------------------------------------------------------------------
+count time : 2024-08-27 23:45:46
+count workspace : c:\Programming\GitHub\Slay-the-Steeple
+total files : 41
+total code lines : 4525
+total comment lines : 1083
+total blank lines : 552
+
+    statistics
+   |      extension|     total code|  total comment|    total blank|percent|
+   -------------------------------------------------------------------------
+   |          .java|           4498|           1083|            549|     99|
+   |            .md|              9|              0|              1|   0.20|
+   |           .txt|             16|              0|              1|   0.35|
+   |               |              2|              0|              1|  0.044|
+   -------------------------------------------------------------------------
+.gitignore, code is 2, comment is 0, blank is 1.
+app\AbstractEntity.java, code is 14, comment is 9, blank is 3.
+app\App.java, code is 149, comment is 49, blank is 17.
+app\Card.java, code is 419, comment is 105, blank is 42.
+app\CardEffect.java, code is 20, comment is 10, blank is 4.
+app\Colors.java, code is 119, comment is 32, blank is 8.
+app\Combat.java, code is 910, comment is 196, blank is 84.
+app\Effect.java, code is 83, comment is 22, blank is 12.
+app\Entity.java, code is 423, comment is 165, blank is 30.
+app\EventManager.java, code is 107, comment is 46, blank is 18.
+app\Intent.java, code is 167, comment is 14, blank is 6.
+app\Main.java, code is 33, comment is 19, blank is 10.
+app\Player.java, code is 23, comment is 5, blank is 3.
+app\Run.java, code is 435, comment is 152, blank is 58.
+app\SettingsManager.java, code is 64, comment is 12, blank is 9.
+app\Status.java, code is 119, comment is 29, blank is 11.
+app\StatusEffect.java, code is 32, comment is 11, blank is 6.
+app\Str.java, code is 350, comment is 149, blank is 40.
+data\settings.dat, it is a binary file.
+enemyfiles\AcidSlimeLarge.java, code is 80, comment is 1, blank is 10.
+enemyfiles\AcidSlimeMed.java, code is 66, comment is 1, blank is 9.
+enemyfiles\AcidSlimeSmall.java, code is 37, comment is 2, blank is 8.
+enemyfiles\BlueSlaver.java, code is 49, comment is 1, blank is 8.
+enemyfiles\Cultist.java, code is 28, comment is 2, blank is 8.
+enemyfiles\Enemy.java, code is 99, comment is 25, blank is 18.
+enemyfiles\FatGremlin.java, code is 25, comment is 1, blank is 8.
+enemyfiles\FungiBeast.java, code is 46, comment is 2, blank is 8.
+enemyfiles\GreenLouse.java, code is 54, comment is 2, blank is 8.
+enemyfiles\GremlinWizard.java, code is 33, comment is 3, blank is 8.
+enemyfiles\JawWorm.java, code is 61, comment is 3, blank is 8.
+enemyfiles\Looter.java, code is 80, comment is 1, blank is 13.
+enemyfiles\MadGremlin.java, code is 24, comment is 1, blank is 8.
+enemyfiles\RedLouse.java, code is 54, comment is 2, blank is 8.
+enemyfiles\RedSlaver.java, code is 74, comment is 5, blank is 11.
+enemyfiles\ShieldGremlin.java, code is 47, comment is 2, blank is 12.
+enemyfiles\SneakyGremlin.java, code is 23, comment is 1, blank is 8.
+enemyfiles\SpikeSlimeLarge.java, code is 71, comment is 1, blank is 10.
+enemyfiles\SpikeSlimeMed.java, code is 57, comment is 1, blank is 9.
+enemyfiles\SpikeSlimeSmall.java, code is 23, comment is 1, blank is 8.
+README.md, code is 9, comment is 0, blank is 1.
+todo.txt, code is 16, comment is 0, blank is 1.
+===============================================================================

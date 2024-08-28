@@ -38,10 +38,22 @@ class Main {
   }
 
   private static void printTitleScreen(){
-    if(!SettingsManager.sm.debug){
-      Str.println(Colors.clearScreen);
-    } else {
+    if(SettingsManager.sm.debug){
       Str.println("CARDS: " + App.CARDS.values());
+      
+      Str.println(Colors.hpBarRed + "HP Bar Red ");
+      Str.println(Colors.ICRed + "IC Red ");
+      Str.println(Colors.vulnRed + "Vuln Red ");
+      Str.println(Colors.slaverRed + "Slaver Red ");
+      Str.println(Colors.atkIntArtRed + "AtkInt Red ");
+      Str.println(Colors.energyCostRed + "Energy Cost Red ");
+      
+      Str.println(Colors.dexGreen + "Dex Green");
+      Str.println(Colors.louseGreen + "Louse Green");
+      Str.println(Colors.fatGGreen + "FG Green");
+      Str.println(Colors.upgradeGreen + "Upgrade Green");
+    } else {
+      Str.println(Colors.clearScreen);
     }
     
     Str.println(App.TITLE);

@@ -139,8 +139,8 @@ public class Combat {
   public static String pickCombat(){
     // Random string from list
     String[] combatTypes = new String[] {"Cultist", "Jaw Worm", "Two Louses",
-      // "Small and Med Slime", "Gremlin Gang", "Large Slime", "Lots of Slimes", "Blue Slaver",
-      // "Red Slaver", "Three Louses", "Two Fungi Beasts", "Exordium Thugs", "Exordium Wildlife",
+      "Small and Med Slime", "Gremlin Gang", "Large Slime", "Lots of Slimes", "Blue Slaver",
+      "Red Slaver", "Three Louses", "Two Fungi Beasts", "Exordium Thugs", "Exordium Wildlife",
       "Looter"};
     int rn = (int) (Math.random()*combatTypes.length);
     return combatTypes[rn];

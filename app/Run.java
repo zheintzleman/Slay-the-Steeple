@@ -26,49 +26,15 @@ public class Run {
     }
     hp = maxHP = 80;
     gold = 99;
-    deck = new ArrayList<Card>();
-    App.ASSERT(new Card("Strike") != null);
-    deck.add(new Card("Armaments"));
-    deck.add(new Card("Armaments"));
-    deck.add(new Card("Armaments"));
-    deck.add(new Card("Armaments"));
-    deck.add(new Card("Armaments"));
-    deck.add(new Card("Flex"));
-    deck.add(new Card("Flex"));
-    deck.add(new Card("Flex"));
-    deck.add(new Card("Flex"));
-    deck.add(new Card("Flex"));
-    deck.add(new Card("Flex"));
-    deck.add(new Card("Headbutt"));
-    deck.add(new Card("Headbutt"));
-    deck.add(new Card("Headbutt"));
-    deck.add(new Card("Bash"));
-    deck.add(new Card("Bash"));
-    deck.add(new Card("Bash"));
+    generateStartingDeck();
+
     if(SettingsManager.sm.debug){
       System.out.println("W: " + SCREENWIDTH);
       System.out.println("H: " + SCREENHEIGHT);
       System.out.println("W: " + SettingsManager.sm.screenWidth);
       System.out.println("H: " + SettingsManager.sm.screenHeight);
-
-      Str.println(Colors.hpBarRed + "HP Bar Red ");
-      Str.println(Colors.ICRed + "IC Red ");
-      Str.println(Colors.vulnRed + "Vuln Red ");
-      Str.println(Colors.slaverRed + "Slaver Red ");
-      Str.println(Colors.atkIntArtRed + "AtkInt Red ");
-      Str.println(Colors.energyCostRed + "Energy Cost Red ");
-      
-      Str.println(Colors.dexGreen + "Dex Green");
-      Str.println(Colors.louseGreen + "Louse Green");
-      Str.println(Colors.fatGGreen + "FG Green");
-      Str.println(Colors.upgradeGreen + "Upgrade Green");
-
-      // for(Card c : Card.availableCards()){
-      //   Str.println(c.getName() + ": " + c.generateDescription() + c.getDescription()); //Doesn't work for flex
-      //   App.ASSERT(c.getDescription().equals(c.generateDescription()));
-      // }
-
     }
+
     constructScreen();
   }
 
@@ -81,6 +47,17 @@ public class Run {
   public int getMaxHP(){ return maxHP; }
   public int getGold(){ return gold; }
   public ArrayList<Card> getDeck(){ return deck; }
+
+  /** Initialize & populate the deck
+  */
+  private void generateStartingDeck(){
+    final Collection<Card> CARDS = App.CARDS.values();
+
+    deck = new ArrayList<>(CARDS.size());
+    for(Card c : CARDS){
+      deck.add(new Card(c));
+    }
+  }
 
   /** Plays the run
   */

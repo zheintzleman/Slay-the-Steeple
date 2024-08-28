@@ -68,7 +68,7 @@ public abstract class App {
    * @see Card.Description
    * @see EventManager
    */
-  public static HashMap<String, Card> loadCards(){
+  private static HashMap<String, Card> loadCards(){
     HashMap<String, Card> cards = new HashMap<String, Card>();
     // From Effect.java's javadoc:
 
@@ -150,7 +150,7 @@ public abstract class App {
                       "At the end of your turn, lose 1 HP and deal 7 damage to ALL enemies.\n", 1, false, List.of("AppPlayer Combust 7", "IncrCombustCnt <str>"), Rarity.UNCOMMON, Color.IRONCLAD));
     cards.put("Dark Embrace", new Card("Dark Embrace", "Whenever a card is Exhausted, draw 1 card.\n", "Power", 2, false, List.of("AppPlayer Dark Embrace"),
                       "Whenever a card is Exhausted, draw 1 card.\n", 1, false, List.of("AppPlayer Dark Embrace"), Rarity.UNCOMMON, Color.IRONCLAD));
-
+    
     // Assert that all entries in `cards` are named correctly:
     App.ASSERT(cards.entrySet().stream()
       .map((Map.Entry<String, Card> e) -> Str.equalsSkipEscSeqs(e.getKey(), e.getValue().getName()))
@@ -166,7 +166,7 @@ public abstract class App {
    * @see Combat Combat.playEff()
    * @see EventManager
    */
-  public static HashMap<String, Status> loadStatuses(){
+  private static HashMap<String, Status> loadStatuses(){
     HashMap<String, Status> statuses = new HashMap<String, Status>();
     statuses = new HashMap<String, Status>();
     

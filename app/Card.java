@@ -44,7 +44,7 @@ public class Card {
 
     public CardData(){}
     public CardData(CardData old, Card c){
-      this.description = old.description;
+      this.description = new Description(old.description);
       this.baseEnergyCost = old.baseEnergyCost;
       this.isTargeted = old.isTargeted;
       if(old.effects != null){
@@ -67,6 +67,9 @@ public class Card {
 
     public Description(String codedDescription){
       this.codedDescription = codedDescription;
+    }
+    public Description(Description prev){
+      this.codedDescription = prev.codedDescription;
     }
     public Description(ArrayList<CardEffect> effects){
       codedDescription = "";

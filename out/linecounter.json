@@ -1133,6 +1133,564 @@
                     "filename": "README.md"
                 }
             ]
+        },
+        {
+            "version": "0.2.7",
+            "counttime": "2024-08-27 13:37:12",
+            "filesum": 41,
+            "codesum": 4535,
+            "commentsum": 1085,
+            "blanksum": 550,
+            "statistics": {
+                ".java": {
+                    "code": 4507,
+                    "comment": 1085,
+                    "blank": 547
+                },
+                ".txt": {
+                    "code": 17,
+                    "comment": 0,
+                    "blank": 1
+                },
+                ".md": {
+                    "code": 9,
+                    "comment": 0,
+                    "blank": 1
+                },
+                "": {
+                    "code": 2,
+                    "comment": 0,
+                    "blank": 1
+                }
+            },
+            "filelist": [
+                {
+                    "blank": 1,
+                    "code": 2,
+                    "comment": 0,
+                    "filename": ".gitignore"
+                },
+                {
+                    "blank": 3,
+                    "code": 14,
+                    "comment": 9,
+                    "filename": "app\\AbstractEntity.java"
+                },
+                {
+                    "blank": 17,
+                    "code": 149,
+                    "comment": 49,
+                    "filename": "app\\App.java"
+                },
+                {
+                    "blank": 42,
+                    "code": 416,
+                    "comment": 105,
+                    "filename": "app\\Card.java"
+                },
+                {
+                    "blank": 4,
+                    "code": 20,
+                    "comment": 10,
+                    "filename": "app\\CardEffect.java"
+                },
+                {
+                    "blank": 8,
+                    "code": 119,
+                    "comment": 32,
+                    "filename": "app\\Colors.java"
+                },
+                {
+                    "blank": 84,
+                    "code": 910,
+                    "comment": 196,
+                    "filename": "app\\Combat.java"
+                },
+                {
+                    "blank": 12,
+                    "code": 83,
+                    "comment": 22,
+                    "filename": "app\\Effect.java"
+                },
+                {
+                    "blank": 30,
+                    "code": 423,
+                    "comment": 165,
+                    "filename": "app\\Entity.java"
+                },
+                {
+                    "blank": 18,
+                    "code": 107,
+                    "comment": 46,
+                    "filename": "app\\EventManager.java"
+                },
+                {
+                    "blank": 6,
+                    "code": 167,
+                    "comment": 14,
+                    "filename": "app\\Intent.java"
+                },
+                {
+                    "blank": 8,
+                    "code": 23,
+                    "comment": 19,
+                    "filename": "app\\Main.java"
+                },
+                {
+                    "blank": 3,
+                    "code": 23,
+                    "comment": 5,
+                    "filename": "app\\Player.java"
+                },
+                {
+                    "blank": 58,
+                    "code": 457,
+                    "comment": 154,
+                    "filename": "app\\Run.java"
+                },
+                {
+                    "blank": 9,
+                    "code": 64,
+                    "comment": 12,
+                    "filename": "app\\SettingsManager.java"
+                },
+                {
+                    "blank": 11,
+                    "code": 119,
+                    "comment": 29,
+                    "filename": "app\\Status.java"
+                },
+                {
+                    "blank": 6,
+                    "code": 32,
+                    "comment": 11,
+                    "filename": "app\\StatusEffect.java"
+                },
+                {
+                    "blank": 40,
+                    "code": 350,
+                    "comment": 149,
+                    "filename": "app\\Str.java"
+                },
+                {
+                    "filename": "data\\settings.dat",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "blank": 10,
+                    "code": 80,
+                    "comment": 1,
+                    "filename": "enemyfiles\\AcidSlimeLarge.java"
+                },
+                {
+                    "blank": 9,
+                    "code": 66,
+                    "comment": 1,
+                    "filename": "enemyfiles\\AcidSlimeMed.java"
+                },
+                {
+                    "blank": 8,
+                    "code": 37,
+                    "comment": 2,
+                    "filename": "enemyfiles\\AcidSlimeSmall.java"
+                },
+                {
+                    "blank": 8,
+                    "code": 49,
+                    "comment": 1,
+                    "filename": "enemyfiles\\BlueSlaver.java"
+                },
+                {
+                    "blank": 8,
+                    "code": 28,
+                    "comment": 2,
+                    "filename": "enemyfiles\\Cultist.java"
+                },
+                {
+                    "blank": 18,
+                    "code": 99,
+                    "comment": 25,
+                    "filename": "enemyfiles\\Enemy.java"
+                },
+                {
+                    "blank": 8,
+                    "code": 25,
+                    "comment": 1,
+                    "filename": "enemyfiles\\FatGremlin.java"
+                },
+                {
+                    "blank": 8,
+                    "code": 46,
+                    "comment": 2,
+                    "filename": "enemyfiles\\FungiBeast.java"
+                },
+                {
+                    "blank": 8,
+                    "code": 54,
+                    "comment": 2,
+                    "filename": "enemyfiles\\GreenLouse.java"
+                },
+                {
+                    "blank": 8,
+                    "code": 33,
+                    "comment": 3,
+                    "filename": "enemyfiles\\GremlinWizard.java"
+                },
+                {
+                    "blank": 8,
+                    "code": 61,
+                    "comment": 3,
+                    "filename": "enemyfiles\\JawWorm.java"
+                },
+                {
+                    "blank": 13,
+                    "code": 80,
+                    "comment": 1,
+                    "filename": "enemyfiles\\Looter.java"
+                },
+                {
+                    "blank": 8,
+                    "code": 24,
+                    "comment": 1,
+                    "filename": "enemyfiles\\MadGremlin.java"
+                },
+                {
+                    "blank": 8,
+                    "code": 54,
+                    "comment": 2,
+                    "filename": "enemyfiles\\RedLouse.java"
+                },
+                {
+                    "blank": 11,
+                    "code": 74,
+                    "comment": 5,
+                    "filename": "enemyfiles\\RedSlaver.java"
+                },
+                {
+                    "blank": 12,
+                    "code": 47,
+                    "comment": 2,
+                    "filename": "enemyfiles\\ShieldGremlin.java"
+                },
+                {
+                    "blank": 8,
+                    "code": 23,
+                    "comment": 1,
+                    "filename": "enemyfiles\\SneakyGremlin.java"
+                },
+                {
+                    "blank": 10,
+                    "code": 71,
+                    "comment": 1,
+                    "filename": "enemyfiles\\SpikeSlimeLarge.java"
+                },
+                {
+                    "blank": 9,
+                    "code": 57,
+                    "comment": 1,
+                    "filename": "enemyfiles\\SpikeSlimeMed.java"
+                },
+                {
+                    "blank": 8,
+                    "code": 23,
+                    "comment": 1,
+                    "filename": "enemyfiles\\SpikeSlimeSmall.java"
+                },
+                {
+                    "blank": 1,
+                    "code": 9,
+                    "comment": 0,
+                    "filename": "README.md"
+                },
+                {
+                    "blank": 1,
+                    "code": 17,
+                    "comment": 0,
+                    "filename": "todo.txt"
+                }
+            ]
+        },
+        {
+            "version": "0.2.7",
+            "counttime": "2024-08-27 23:45:46",
+            "filesum": 41,
+            "codesum": 4525,
+            "commentsum": 1083,
+            "blanksum": 552,
+            "statistics": {
+                ".java": {
+                    "code": 4498,
+                    "comment": 1083,
+                    "blank": 549
+                },
+                ".md": {
+                    "code": 9,
+                    "comment": 0,
+                    "blank": 1
+                },
+                ".txt": {
+                    "code": 16,
+                    "comment": 0,
+                    "blank": 1
+                },
+                "": {
+                    "code": 2,
+                    "comment": 0,
+                    "blank": 1
+                }
+            },
+            "filelist": [
+                {
+                    "blank": 1,
+                    "code": 2,
+                    "comment": 0,
+                    "filename": ".gitignore"
+                },
+                {
+                    "blank": 3,
+                    "code": 14,
+                    "comment": 9,
+                    "filename": "app\\AbstractEntity.java"
+                },
+                {
+                    "blank": 17,
+                    "code": 149,
+                    "comment": 49,
+                    "filename": "app\\App.java"
+                },
+                {
+                    "blank": 42,
+                    "code": 419,
+                    "comment": 105,
+                    "filename": "app\\Card.java"
+                },
+                {
+                    "blank": 4,
+                    "code": 20,
+                    "comment": 10,
+                    "filename": "app\\CardEffect.java"
+                },
+                {
+                    "blank": 8,
+                    "code": 119,
+                    "comment": 32,
+                    "filename": "app\\Colors.java"
+                },
+                {
+                    "blank": 84,
+                    "code": 910,
+                    "comment": 196,
+                    "filename": "app\\Combat.java"
+                },
+                {
+                    "blank": 12,
+                    "code": 83,
+                    "comment": 22,
+                    "filename": "app\\Effect.java"
+                },
+                {
+                    "blank": 30,
+                    "code": 423,
+                    "comment": 165,
+                    "filename": "app\\Entity.java"
+                },
+                {
+                    "blank": 18,
+                    "code": 107,
+                    "comment": 46,
+                    "filename": "app\\EventManager.java"
+                },
+                {
+                    "blank": 6,
+                    "code": 167,
+                    "comment": 14,
+                    "filename": "app\\Intent.java"
+                },
+                {
+                    "blank": 10,
+                    "code": 33,
+                    "comment": 19,
+                    "filename": "app\\Main.java"
+                },
+                {
+                    "blank": 3,
+                    "code": 23,
+                    "comment": 5,
+                    "filename": "app\\Player.java"
+                },
+                {
+                    "blank": 58,
+                    "code": 435,
+                    "comment": 152,
+                    "filename": "app\\Run.java"
+                },
+                {
+                    "blank": 9,
+                    "code": 64,
+                    "comment": 12,
+                    "filename": "app\\SettingsManager.java"
+                },
+                {
+                    "blank": 11,
+                    "code": 119,
+                    "comment": 29,
+                    "filename": "app\\Status.java"
+                },
+                {
+                    "blank": 6,
+                    "code": 32,
+                    "comment": 11,
+                    "filename": "app\\StatusEffect.java"
+                },
+                {
+                    "blank": 40,
+                    "code": 350,
+                    "comment": 149,
+                    "filename": "app\\Str.java"
+                },
+                {
+                    "filename": "data\\settings.dat",
+                    "isbinaryfile": true,
+                    "blank": 0,
+                    "code": 0,
+                    "comment": 0
+                },
+                {
+                    "blank": 10,
+                    "code": 80,
+                    "comment": 1,
+                    "filename": "enemyfiles\\AcidSlimeLarge.java"
+                },
+                {
+                    "blank": 9,
+                    "code": 66,
+                    "comment": 1,
+                    "filename": "enemyfiles\\AcidSlimeMed.java"
+                },
+                {
+                    "blank": 8,
+                    "code": 37,
+                    "comment": 2,
+                    "filename": "enemyfiles\\AcidSlimeSmall.java"
+                },
+                {
+                    "blank": 8,
+                    "code": 49,
+                    "comment": 1,
+                    "filename": "enemyfiles\\BlueSlaver.java"
+                },
+                {
+                    "blank": 8,
+                    "code": 28,
+                    "comment": 2,
+                    "filename": "enemyfiles\\Cultist.java"
+                },
+                {
+                    "blank": 18,
+                    "code": 99,
+                    "comment": 25,
+                    "filename": "enemyfiles\\Enemy.java"
+                },
+                {
+                    "blank": 8,
+                    "code": 25,
+                    "comment": 1,
+                    "filename": "enemyfiles\\FatGremlin.java"
+                },
+                {
+                    "blank": 8,
+                    "code": 46,
+                    "comment": 2,
+                    "filename": "enemyfiles\\FungiBeast.java"
+                },
+                {
+                    "blank": 8,
+                    "code": 54,
+                    "comment": 2,
+                    "filename": "enemyfiles\\GreenLouse.java"
+                },
+                {
+                    "blank": 8,
+                    "code": 33,
+                    "comment": 3,
+                    "filename": "enemyfiles\\GremlinWizard.java"
+                },
+                {
+                    "blank": 8,
+                    "code": 61,
+                    "comment": 3,
+                    "filename": "enemyfiles\\JawWorm.java"
+                },
+                {
+                    "blank": 13,
+                    "code": 80,
+                    "comment": 1,
+                    "filename": "enemyfiles\\Looter.java"
+                },
+                {
+                    "blank": 8,
+                    "code": 24,
+                    "comment": 1,
+                    "filename": "enemyfiles\\MadGremlin.java"
+                },
+                {
+                    "blank": 8,
+                    "code": 54,
+                    "comment": 2,
+                    "filename": "enemyfiles\\RedLouse.java"
+                },
+                {
+                    "blank": 11,
+                    "code": 74,
+                    "comment": 5,
+                    "filename": "enemyfiles\\RedSlaver.java"
+                },
+                {
+                    "blank": 12,
+                    "code": 47,
+                    "comment": 2,
+                    "filename": "enemyfiles\\ShieldGremlin.java"
+                },
+                {
+                    "blank": 8,
+                    "code": 23,
+                    "comment": 1,
+                    "filename": "enemyfiles\\SneakyGremlin.java"
+                },
+                {
+                    "blank": 10,
+                    "code": 71,
+                    "comment": 1,
+                    "filename": "enemyfiles\\SpikeSlimeLarge.java"
+                },
+                {
+                    "blank": 9,
+                    "code": 57,
+                    "comment": 1,
+                    "filename": "enemyfiles\\SpikeSlimeMed.java"
+                },
+                {
+                    "blank": 8,
+                    "code": 23,
+                    "comment": 1,
+                    "filename": "enemyfiles\\SpikeSlimeSmall.java"
+                },
+                {
+                    "blank": 1,
+                    "code": 9,
+                    "comment": 0,
+                    "filename": "README.md"
+                },
+                {
+                    "blank": 1,
+                    "code": 16,
+                    "comment": 0,
+                    "filename": "todo.txt"
+                }
+            ]
         }
     ]
 }
