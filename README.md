@@ -8,3 +8,21 @@ Overflow without knowing what it does. Not currently using any libraries, either
 Utilizes all of the AP Java topics (Polymorphism, Exception Handling,
 etc.), along with more advanced features such as the Java Collection framework, Streams, File IO,
 and Javadoc Comments.
+
+
+To run in VSCode (or similar IDEs):
+Open the IDE to the Slay-the-Spire directory.
+Select any of the .java files, and click the play button in the top-right corner.
+
+To run in a terminal:
+From the Slay-the-Steeple directory, run:
+$ javac -d tmp app/Main.java
+$ java -cp tmp app/Main
+
+If the screen is covered in a mess of ←[0m's, your terminal unfortunately does not support ANSI escape sequences by default. you can disable them via the following commands (entering a new line after each), but this removes all color, and prevents the screen from clearing before each frame:
+-Press enter
+-Type esc
+-Type colors
+-Type false
+
+Then zoom in/out (and adjust screen width/height in the esc panel) as desired.
