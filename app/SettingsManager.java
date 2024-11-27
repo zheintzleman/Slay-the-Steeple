@@ -23,6 +23,7 @@ public class SettingsManager {
   public int screenHeight;
   public boolean debug;
   public boolean cheats;
+  public boolean includeANSI;
   // On adding more settings, update the below functions & the xSettings methods in Run.java.
   
   /** Singleton SettingsManager Instance */
@@ -45,6 +46,7 @@ public class SettingsManager {
       os.writeInt(screenHeight);
       os.writeBoolean(debug);
       os.writeBoolean(cheats);
+      os.writeBoolean(includeANSI);
     } catch(IOException e){
       System.out.println("Error saving settings data. Press enter to continue anyway.");
       e.printStackTrace();
@@ -60,6 +62,7 @@ public class SettingsManager {
       screenHeight = is.readInt();
       debug = is.readBoolean();
       cheats = is.readBoolean();
+      includeANSI = is.readBoolean();
     } catch(IOException | ClassNotFoundException e){
       System.out.println("Error loading settings data.");
       System.out.println("Press enter to reset to default settings." + 
@@ -80,6 +83,7 @@ public class SettingsManager {
     screenHeight = App.DEFAULT_SCREEN_HEIGHT;
     debug = true;
     cheats = false;
+    includeANSI = true;
     save();
   }
 }

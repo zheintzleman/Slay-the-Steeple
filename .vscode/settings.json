@@ -1,7 +1,7 @@
 {
     "terminal.integrated.scrollback": 1000,
     "terminal.integrated.drawBoldTextInBrightColors": false,
-    "terminal.integrated.fontSize": 10,
+    "terminal.integrated.fontSize": 8,
     "terminal.integrated.minimumContrastRatio": 1,
     "FSharp.suggestGitignore": false
 }

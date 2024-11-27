@@ -6,6 +6,27 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Saluton",
+            "request": "launch",
+            "mainClass": "claire.andrea.Saluton",
+            "projectName": "Slay-the-Steeple_897354f4"
+        },
+        {
+            "type": "java",
+            "name": "Main",
+            "request": "launch",
+            "mainClass": "app.Main",
+            "projectName": "Slay-the-Steeple_897354f4"
+        },
+        {
+            "type": "java",
+            "name": "Main",
+            "request": "launch",
+            "mainClass": "app.Main",
+            "projectName": "Slay-the-Steeple_e042d204"
+        },
+        {
+            "type": "java",
             "name": "Main",
             "request": "launch",
             "mainClass": "app.Main",

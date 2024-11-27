@@ -446,13 +446,18 @@ public abstract class Str {
     //   indexOfA = str.indexOf('Á');
     // }
     //Print
-    System.out.print(string.replace("Ø", "").replace("Á", ""));
+    if(SettingsManager.sm.includeANSI){
+      System.out.print(string.replace("Ø", "").replace("Á", ""));
+    } else{
+      System.out.print(string.replaceAll("Ø[^Á]*Á", ""));
+    }
   }
   /** Calls System.out.println() on the string, removing all special O and A characters
   */
   public static void println(String string){
     //Print
-    System.out.println(string.replace("Ø", "").replace("Á", ""));
+    print(string);
+    System.out.println();
   }
 
   /** Returns a string composed of toRepeat repeated numRepeats times

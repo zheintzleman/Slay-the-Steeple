@@ -235,7 +235,7 @@ public class Run {
   */
   public static void display(String[] arr){
     if(!SettingsManager.sm.debug)
-      System.out.println(Colors.clearScreen);
+      Str.println(Colors.clearScreen);
 
     for(String str : arr){
       Str.println(str);
@@ -406,9 +406,20 @@ public class Run {
             SettingsManager.sm.save();
           } catch(NumberFormatException E){}
           break;
+        case "ansi":
+        case "includeansi":
+        case "include ansi":
+        case "color":
+        case "colors":
+          Str.println("Enter what to change colors to (Just press enter to cancel:)");
+          try{
+            SettingsManager.sm.includeANSI = parseBoolInput();
+            SettingsManager.sm.save();
+          } catch(NumberFormatException E){}
+          break;
         case "cheats":
         case "cheat":
-          Str.println("Enter what to change debug to (Just press enter to cancel:)");
+          Str.println("Enter what to change cheats to (Just press enter to cancel:)");
           try{
             SettingsManager.sm.cheats = parseBoolInput();
             SettingsManager.sm.save();
@@ -446,6 +457,7 @@ public class Run {
                Colors.magenta + "Screen Width: " + Colors.reset + SettingsManager.sm.screenWidth + "\n" + 
                Colors.magenta + "Screen Height: " + Colors.reset + SettingsManager.sm.screenHeight + "\n" + 
                Colors.magenta + "Debug Mode: " + Colors.reset + SettingsManager.sm.debug + "\n" + 
+               Colors.magenta + "Colors: " + Colors.reset + SettingsManager.sm.includeANSI + "\n" + 
                Colors.magenta + "Cheats: " + Colors.reset + SettingsManager.sm.cheats + "\n\n" + 
        " " + Colors.basicBlue + Str.repeatStr("═", popupWidth - 6) + Colors.reset + "\n" + 
                Colors.magenta + Str.header("Instructions:", popupWidth, "") + 
