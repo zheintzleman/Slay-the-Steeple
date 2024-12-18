@@ -12,11 +12,12 @@ import app.EventManager.Event;
  * Secondary: Rest of input data, apart from terminal integer
  * Power: Terminal integer, or 1 if last word not an integer
  * WhenPlayed: Defaults to ONPLAY; begin with "(OnDiscard) "/"(OnTurnEnd) "/etc. to change.
+ * Conditional: Defaults to null (ie true;) begin with "[TargetVuln]", etc. (after any WhenPlayed
+ *   signifiers) to change.
+ * 
  * e.g. Stores "Lorem Ipsum Dolor 4" as: P = "Lorem", S = "Ipsum Dolor", p = 4,
  *  or "Lorem Ipsum 4 Dolor" as: P = "Lorem", S = "Ipsum 4 Dolor", p = 1
  *  or "(OnExhaust) Lorem Ipsum 4 Door" as: P = "Lorem", S = "Ipsum 4 Door", p = 1, WP = ONEXHAUST
- * Conditional: Defaults to null (ie true;) begin with "[TargetVuln]", etc. (after any WhenPlayed
- * signifiers) to change.
  * 
  * @see Combat.playCard()
  * @see Combat.playEff()
@@ -24,6 +25,8 @@ import app.EventManager.Event;
  * @see EventManager
  */
 public abstract class Effect implements Serializable {
+  // If the conditional evaluates to false, the effect won't happen (though the card/etc can still
+  // be played. E.g. Spot Weakness.)
   private String conditional;
   private String primary;
   private String secondary;
