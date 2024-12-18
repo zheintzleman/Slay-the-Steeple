@@ -270,7 +270,7 @@ public class Combat {
 
   public void endEntityTurns(){
     enemiesToUpdate = new ArrayList<Enemy>(enemies);
-    Entity.createCopies();
+    Entity.holdAllStatuses();
     for(Enemy e : enemies){
       e.endTurn(player);
     }
@@ -280,7 +280,7 @@ public class Combat {
     enemies = enemiesToUpdate;
 
     player.endTurn(player);
-    Entity.mergeCopies();
+    Entity.resumeAllStatuses();
   }
 
   /** Sets the screen to accurate values/images
@@ -476,6 +476,7 @@ public class Combat {
   public boolean playCard(Card card){
     Entity target = null;
     boolean shouldDiscard = true;
+    boolean alreadyPlayingACard = player.statusesHeld();
 
     if(!cardPlayable(card)){
       return false;
@@ -492,7 +493,9 @@ public class Combat {
     //Doing the card's effect(s):
 
     // New statuses to the player aren't counted until we call mergeCopy.
-    Entity.createCopies();
+    if(!alreadyPlayingACard){
+      Entity.holdAllStatuses();
+    }
     
     ArrayList<CardEffect> cardEffects = card.getEffects();
     for(CardEffect eff : cardEffects){
@@ -548,7 +551,9 @@ public class Combat {
       eventManager.OnAttackFinished(player);
     }
     
-    Entity.mergeCopies();
+    if(!alreadyPlayingACard){
+      Entity.resumeAllStatuses();
+    }
 
     return true;
   }

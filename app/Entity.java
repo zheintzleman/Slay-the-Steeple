@@ -1,10 +1,12 @@
 package app;
 import java.util.*;
 
+import enemyfiles.Enemy;
+
 /** Represents any entity in a combat -- either the player or an enemy. Contains methods for most
  * basic actions an entity can perform, such as attacking, dying, changing statuses, etc.
- * Calling createCopy() makes a (private) clone of this, to which all status changes are
- * automatically applied. mergeCopy() then sets this' statuses to the clone's updated ones.
+ * Calling holdStatuses() makes a (private) clone of this, to which all status changes are
+ * automatically applied. resumeStatuses() then sets this' statuses to the clone's updated ones.
  * Class is abstract; use one of the extensions (can use AbstractEntity if needed.)
  * 
  * @see Enemy
@@ -134,29 +136,30 @@ public abstract class Entity {
 
   /** For each entity currently in play:
    * Initializes `copy` to a clone of `this`. All new status effects
-   * will go to the clone until mergeCopy() is called.
+   * will go to the clone until resumeAllStatuses() is called.
    * @Precondition: A copy is not currently created.
    */
-  public static void createCopies(){
-    // Calls createCopy on the enemies and player.
+  public static void holdAllStatuses(){
+    // Calls holdStatuses on the enemies and player.
     Combat.c.getEntities().stream()
-      .forEach(Entity::createCopy);
+      .forEach(Entity::holdStatuses);
   }
   /** For each entity currently in play:
    * Merges the statuses that have been applied to `copy` to this instead,
-   * and sets `copy` back to null.
+   * and sets `copy` back to null. (i.e. applies all attempted status changes
+   * since calling holdAllStatuses.)
    * @Precondition: A copy has been initialized.
    */
-  public static void mergeCopies(){
-    // Calls  mergeCopy on the enemies and player.
+  public static void resumeAllStatuses(){
+    // Calls resumeStatuses on the enemies and player.
     Combat.c.getEntities().stream()
-      .forEach(Entity::mergeCopy);
+      .forEach(Entity::resumeStatuses);
   }
   /** Initializes `copy` to a clone of `this`. All new status effects
-   * will go to the clone until mergeCopy() is called.
+   * will go to the clone until resumeStatuses() is called.
    * @Precondition: A copy is not currently created.
    */
-  private void createCopy(){
+  private void holdStatuses(){
     App.ASSERT(!hasCopy());
     copy = new AbstractEntity(this);
   }
@@ -164,8 +167,8 @@ public abstract class Entity {
    * and sets `copy` back to null.
    * @Precondition: A copy has been initialized.
    */
-  private void mergeCopy(){
-    // Not asserting hasCopy(), since a new enemy could have been created since createCopy,
+  private void resumeStatuses(){
+    // Not asserting hasCopy(), since a new enemy could have been created since holdStatuses,
     // and they are created w/ hasCopy() false (i.e. copy == null.)
     if(hasCopy()){
       setStatuses(copy.getStatuses());
@@ -173,8 +176,15 @@ public abstract class Entity {
     copy = null;
   }
   /** See `copy` description for more details. Returns false if called on the copy. */
-  public boolean hasCopy(){
+  private boolean hasCopy(){
     return copy != null;
+  }
+  /** Returns true if holdStatuses has been called on this entity (e.g. if holdAllStatuses was
+   * called) more recently than any call to resumeStatuses on this entity. i.e. returns true iff
+   * this entity is in a status hold.
+   * Public version of hasCopy, for abstraction purposes. */
+  public boolean statusesHeld(){
+    return hasCopy();
   }
   
   /** Returns this entity's status with the specified name, or null if none is present.

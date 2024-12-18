@@ -11,7 +11,7 @@ and Javadoc Comments.
 
 
 To run in VSCode (or similar IDEs):
-Open the IDE to the Slay-the-Spire directory.
+Open the IDE to the Slay-the-Steeple directory.
 Select any of the .java files, and click the play button in the top-right corner.
 
 To run in a terminal:
