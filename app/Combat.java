@@ -505,6 +505,9 @@ public class Combat {
       if(eff.whenPlayed() != Event.ONCARDPLAY){
         continue;
       }
+      if(!evaluateConditional(eff.getConditional(), target)){
+        continue;
+      }
       String primary = eff.getPrimary();
       String secondary = eff.getSecondary();
       int power = eff.getPower();
@@ -576,6 +579,23 @@ public class Combat {
     }
 
     return true;
+  }
+
+  /** Prompts the user for the target and returns their response. Returns -1 if card play is cancelled (no possible target selected)
+  */
+  public int getTarget(){
+    if(enemies.size() == 1){
+      return 1;
+    }
+    String input = input("Which enemy do you want to play this card on? (1-" + enemies.size() + "; type c to cancel)\n");
+    int val = -1;
+    try{
+      val = Integer.parseInt(input);
+    }catch(NumberFormatException e){}
+    if(val > 0 && val <= enemies.size()){
+      return val;
+    }
+    return -1;
   }
 
   /** Plays an effect that does not target a specific enemy.
@@ -696,23 +716,6 @@ public class Combat {
     return shouldDiscard;
   }
 
-  /** Prompts the user for the target and returns their response. Returns -1 if card play is cancelled (no possible target selected)
-  */
-  public int getTarget(){
-    if(enemies.size() == 1){
-      return 1;
-    }
-    String input = input("Which enemy do you want to play this card on? (1-" + enemies.size() + "; type c to cancel)\n");
-    int val = -1;
-    try{
-      val = Integer.parseInt(input);
-    }catch(NumberFormatException e){}
-    if(val > 0 && val <= enemies.size()){
-      return val;
-    }
-    return -1;
-  }
-
   /** Returns an arraylist of the card represented by the expression in secondary
    * @param secondary The second word of the card effect, the meaning of which will be converted to an arraylist
    * @param current The card being currently played
@@ -770,11 +773,21 @@ public class Combat {
     }
     return null;
   }
+  
+  public boolean evaluateConditional(String conditional, Entity target){
+    switch(conditional){
+      case null:
+        return true;
+      case "TargetVuln":
+        return target.getStatusStrength("Vulnerable") > 0;
+      default:
+        throw new UnsupportedOperationException(conditional + " not a valid conditional.");
+    }
+  }
 
   public String input(){
     return input("");
   }
-
   /** Prompts the user for an input until they enter something that is not one of the popup commands. For each that is a command, does that command.
   */
   public String input(String prompt){

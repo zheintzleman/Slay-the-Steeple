@@ -57,9 +57,11 @@ public class Run {
     for(Card c : CARDS){
       deck.add(new Card(c));
     }
-    deck.add(new Card("Disarm"));
-    deck.add(new Card("Disarm"));
-    deck.add(new Card("Disarm"));
+    deck.add(new Card("Flex"));
+    deck.add(new Card("Flex"));
+    deck.add(new Card("Dropkick"));
+    deck.add(new Card("Dropkick"));
+    deck.add(new Card("Armaments"));
     deck.add(new Card("Armaments"));
     deck.add(new Card("Armaments"));
     deck.add(new Card("Armaments"));
