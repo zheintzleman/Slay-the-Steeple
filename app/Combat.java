@@ -1,5 +1,6 @@
 package app;
 import java.util.*;
+import java.util.function.Predicate;
 import java.util.stream.Stream;
 
 import app.EventManager.Event;
@@ -146,6 +147,7 @@ public class Combat {
     return combatTypes[rn];
   }
 
+  /** An ArrayList of all cards in the hand, draw, disc, and exh piles */
   public ArrayList<Card> getCardsInPlay(){
     ArrayList<Card> list = new ArrayList<Card>();
     list.addAll(hand);
@@ -375,7 +377,14 @@ public class Combat {
     setUpCombatDisplay(); //Actually just save the screen as a variable like in Run, if I'm having speed issues
     Run.r.display();
   }
-  
+  /** Displays the screen, replacing the hand with `displayHand`
+  */
+  public void display(ArrayList<Card> displayHand){
+    ArrayList<Card> oldHand = hand;
+    hand = displayHand;
+    display();
+    hand = oldHand;
+  }
 
   /** Draws a card from the draw pile. Shuffles the discard into the draw pile if necessary.
   */
@@ -416,6 +425,17 @@ public class Combat {
     }
 
     return true;
+  }
+
+  /** Adds the card to the hand, or the discard if the hand is full. */
+  public void gainToHand(Card card){
+    // Assert card not currently in play:
+    App.ASSERT(!getCardsInPlay().contains(card));
+    if(hand.size() < 10){
+      hand.add(card);
+    } else {
+      discardPile.add(card);
+    }
   }
 
   /** Removes card from all piles and adds it to the exhaust pile */
@@ -563,9 +583,8 @@ public class Combat {
 
     return true;
   }
-
   public boolean cardPlayable(Card card){
-  if(card.getEnergyCost() > this.energy
+    if(card.getEnergyCost() > this.energy
     || card.hasEffectWith("Unplayable")
     || player.hasStatus("Entangled") && card.getType().equals("Attack")){
       return false;
@@ -577,10 +596,8 @@ public class Combat {
         }
       }
     }
-
     return true;
   }
-
   /** Prompts the user for the target and returns their response. Returns -1 if card play is cancelled (no possible target selected)
   */
   public int getTarget(){
@@ -606,6 +623,9 @@ public class Combat {
    * @precondition eff does not target an enemy.
    */
   public boolean playEffect(Effect eff){
+    if(!evaluateConditional(eff.getConditional(), null)){
+      return true;
+    }
     // Can make one of these which takes in a target, too, but there's no need for one right now.
     boolean shouldDiscard = true;
     String primary = eff.getPrimary();
@@ -657,12 +677,24 @@ public class Combat {
         }
         break;
       case "PutOnDrawPile":
-        Card[] cardTargets = cardTargets(secondary, card);
-        for(Card c : cardTargets){
+        for(Card c : cardTargets(secondary, card)){
           removeFromAllPiles(c);
           drawPile.add(0, c);
           if(c == card){ shouldDiscard = false; } //Don't discard if we moved card onto draw pile
         }
+        break;
+      case "CopyToHand":
+        for(Card c : cardTargets(secondary, card)){
+          for(int i=0; i < power; i++){
+            gainToHand(new Card(c));
+          }
+        }
+        break;
+      case "GainToDraw":
+        for(int i=0; i < power; i++){
+          drawPile.add(new Card(secondary));
+        }
+        Collections.shuffle(drawPile);
         break;
       case "Anger":
         discardPile.add(new Card(card));
@@ -683,10 +715,6 @@ public class Combat {
         energy += c.getEnergyCost();
         playCard(c);
         exhaust(c);
-        break;
-      case "GainToDraw":
-        drawPile.add(new Card(secondary));
-        Collections.shuffle(drawPile);
         break;
       case "LoseEnergy":
         power = -power;
@@ -716,8 +744,8 @@ public class Combat {
     return shouldDiscard;
   }
 
-  /** Returns an arraylist of the card represented by the expression in secondary
-   * @param secondary The second word of the card effect, the meaning of which will be converted to an arraylist
+  /** Returns an array of the card(s) represented by the expression in secondary
+   * @param secondary The second word of the card effect, the meaning of which will be converted to an array
    * @param current The card being currently played
    */
   public Card[] cardTargets(String secondary, Card current){
@@ -728,20 +756,33 @@ public class Combat {
       case "TopFromDeck":
         return new Card[] {drawPile.get(0)};
       case "Hand":
-        return (Card[]) hand.toArray(new Card[0]);
+        return hand.toArray(new Card[0]);
       case "RandHand":
-        if(hand.isEmpty()) return new Card[]{}; //Empty selection if hand empty
-        if(hand.size() == 1) return new Card[]{hand.get(0)}; //If only 1 option, select that option
+        if(hand.size() <= 1) return hand.toArray(new Card[0]); //If hand just 0 or 1 elts, return it
         int rng = (int) (Math.random() * hand.size());
         return new Card[]{hand.get(rng)};
       case "Choose1FromHand":
-        if(hand.isEmpty()) return new Card[]{}; //Empty selection if hand empty
-        if(hand.size() == 1) return new Card[]{hand.get(0)}; //If only 1 option, select that option
+        if(hand.size() <= 1) return hand.toArray(new Card[0]); //If hand just 0 or 1 elts, return it
         display();
         while(true){
           try{
             String input = input("Select the position of a card in your hand: ");
             Card c = hand.get(Integer.parseInt(input)-1);
+            return new Card[] {c};
+          } catch(NumberFormatException | IndexOutOfBoundsException e){}
+        }
+        //No break since returns above
+      case "Choose1AtkOrPwrFromHand":
+        Predicate<Card> notAtkOrPwr = card -> { return !(card.isAttack() || card.isPower()); };
+        ArrayList<Card> filteredHand = new ArrayList<>(hand);
+        filteredHand.removeIf(notAtkOrPwr);
+        if(filteredHand.size() <= 1) return filteredHand.toArray(new Card[0]);
+
+        display(filteredHand);
+        while(true){
+          try{
+            String input = input("Select the position of a card: ");
+            Card c = filteredHand.get(Integer.parseInt(input)-1);
             return new Card[] {c};
           } catch(NumberFormatException | IndexOutOfBoundsException e){}
         }

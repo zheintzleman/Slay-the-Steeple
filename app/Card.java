@@ -373,6 +373,15 @@ public class Card {
     return data.description.getDescriptionWStatuses(c, strMultiplier);
   }
 
+  public boolean isAttack(){
+    return type.equals("Attack");
+  }
+  public boolean isSkill(){
+    return type.equals("Skill");
+  }
+  public boolean isPower(){
+    return type.equals("Power");
+  }
   
   @Override
   public String toString(){
