@@ -57,6 +57,12 @@ public class Run {
     for(Card c : CARDS){
       deck.add(new Card(c));
     }
+    deck.add(new Card("Disarm"));
+    deck.add(new Card("Disarm"));
+    deck.add(new Card("Disarm"));
+    deck.add(new Card("Armaments"));
+    deck.add(new Card("Armaments"));
+    deck.add(new Card("Armaments"));
   }
 
   /** Plays the run
@@ -135,14 +141,14 @@ public class Run {
 
     //Gold stolen back
     if(goldStolenBack > 0){
-      String goldBackText = goldStolenBack + " Gold (Stolen Back)";
+      String goldBackText = "$ " + goldStolenBack + " Gold (Stolen Back)";
       CombatReward goldBackReward = new CombatReward(goldBackText, RewardType.GOLD, goldStolenBack);
       rewards.add(goldBackReward);
     }
 
     //Gold Reward
     int goldAmt = (int)(Math.random()*11) + 10; //Will have to change this for later w/ elites probably.
-    String goldText = goldAmt + " Gold";
+    String goldText = "$ " + goldAmt + " Gold";
     CombatReward goldReward = new CombatReward(goldText, RewardType.GOLD, goldAmt);
     rewards.add(goldReward);
 

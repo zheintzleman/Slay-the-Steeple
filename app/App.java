@@ -150,6 +150,8 @@ public abstract class App {
                       "At the end of your turn, lose 1 HP and deal 7 damage to ALL enemies.\n", 1, false, List.of("AppPlayer Combust 7", "IncrCombustCnt <str>"), Rarity.UNCOMMON, Color.IRONCLAD));
     cards.put("Dark Embrace", new Card("Dark Embrace", "Whenever a card is Exhausted, draw 1 card.\n", "Power", 2, false, List.of("AppPlayer Dark Embrace"),
                       "Whenever a card is Exhausted, draw 1 card.\n", 1, false, List.of("AppPlayer Dark Embrace"), Rarity.UNCOMMON, Color.IRONCLAD));
+    cards.put("Disarm", new Card("Disarm", "Enemy loses 2 Strength.\nExhaust.\n", "Skill", 1, true, List.of("Unapply Strength 2", "Exhaust"),
+                      "Enemy loses 3 Strength.\nExhaust.\n", 1, true, List.of("Unapply Strength 3", "Exhaust"), Rarity.UNCOMMON, Color.IRONCLAD));
     
     // Assert that all entries in `cards` are named correctly:
     App.ASSERT(cards.entrySet().stream()

@@ -535,6 +535,9 @@ public class Combat {
         case "Apply":
           target.addStatusStrength(secondary, power);
           break;
+        case "Unapply":
+          target.subtractStatusStrength(secondary, power);
+          break;
         default:
           // Other effects that are included in the playEffect function
           shouldDiscard = playEffect(eff) && shouldDiscard;
