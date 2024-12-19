@@ -156,6 +156,10 @@ public abstract class App {
                       "Deal <atk>8<endatk> damage.\nIf the enemy has Vulnerable,\ngain 1 energy and draw 1 card.\n", 1, true, List.of("Attack 8", "[TargetVuln] GainEnergy 1", "[TargetVuln] Draw 1"), Rarity.UNCOMMON, Color.IRONCLAD));
     cards.put("Dual Wield", new Card("Dual Wield", "Choose an Attack or Power card. Add a copy of that card into your hand.\n", "Skill", 1, false, List.of("CopyToHand Choose1AtkOrPwrFromHand"),
                       "Choose an Attack or Power card. Add 2 copies of that card into your hand.\n", 1, false, List.of("CopyToHand Choose1AtkOrPwrFromHand 2"), Rarity.UNCOMMON, Color.IRONCLAD));
+    cards.put("Entrench", new Card("Entrench", "Skill", 2, false, List.of("Entrench"),
+                       1, false, List.of("Entrench"), Rarity.UNCOMMON, Color.IRONCLAD));
+    cards.put("Evolve", new Card("Evolve", "Whenever you draw a Status card, draw 1 card.\n", "Power", 1, false, List.of("AppPlayer Evolve"),
+                      "Whenever you draw a Status card, draw 2 cards.\n", 1, false, List.of("AppPlayer Evolve 2"), Rarity.UNCOMMON, Color.IRONCLAD));
     
     // Assert that all entries in `cards` are named correctly:
     App.ASSERT(cards.entrySet().stream()
@@ -198,6 +202,7 @@ public abstract class App {
     statuses.put("No Draw", new Status("No Draw", Colors.lightBlue + "N", true, false, "You may not draw any more cards this turn."));
     statuses.put("Combust", new Status("Combust", Colors.vigorOrange + "C", false, true, "At the end of your turn, lose 1 HP(for each Combust played) and deal <str> damage to ALL enemies.", List.of("(OnTurnEnd) Combust <str>")));
     statuses.put("Dark Embrace", new Status("Dark Embrace", Colors.darkEmbracePurple + "D", false, true, "Whenever a card is Exhausted, draw <str> card(s).", List.of("(OnExhaust) Draw <str>")));
+    statuses.put("Evolve", new Status("Evolve", Colors.lightYellow + "E", false, true, "Whenever you draw a Status, draw <str> card(s)."));
 
     
     // Assert that all entries in `cards` are named correctly:

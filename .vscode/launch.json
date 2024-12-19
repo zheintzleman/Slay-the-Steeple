@@ -6,6 +6,13 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Main",
+            "request": "launch",
+            "mainClass": "app.Main",
+            "projectName": "Slay-the-Steeple_61a96b7f"
+        },
+        {
+            "type": "java",
             "name": "Saluton",
             "request": "launch",
             "mainClass": "claire.andrea.Saluton",

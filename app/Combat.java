@@ -387,8 +387,9 @@ public class Combat {
   }
 
   /** Draws a card from the draw pile. Shuffles the discard into the draw pile if necessary.
+   * If can't draw, doesn't.
   */
-  private Card drawCard(){
+  public Card drawCard(){
     if(!canDraw()){
       return null;
     }
@@ -568,7 +569,6 @@ public class Combat {
     }
 
     if(card.getType().equals("Power")){
-      // Note: Should already not be in any piles, but just in case:
       removeFromAllPiles(card);
     } else if(shouldDiscard){
       discard(card, false);
@@ -604,7 +604,7 @@ public class Combat {
     if(enemies.size() == 1){
       return 1;
     }
-    String input = input("Which enemy do you want to play this card on? (1-" + enemies.size() + "; type c to cancel)\n");
+    String input = input("Which enemy do you want to play this card on? (1-" + enemies.size() + "; type nothing to cancel)\n");
     int val = -1;
     try{
       val = Integer.parseInt(input);
@@ -626,7 +626,6 @@ public class Combat {
     if(!evaluateConditional(eff.getConditional(), null)){
       return true;
     }
-    // Can make one of these which takes in a target, too, but there's no need for one right now.
     boolean shouldDiscard = true;
     String primary = eff.getPrimary();
     String secondary = eff.getSecondary();
@@ -636,6 +635,9 @@ public class Combat {
     switch(eff.getPrimary()){
       case "Block":
         player.block(power);
+        break;
+      case "Entrench":
+        player.setBlock(2 * player.getBlock());
         break;
       case "AtkRandom":
         if(enemies.size() == 0) break; //Guard Clause
@@ -661,9 +663,7 @@ public class Combat {
       case "Exhaust":
         for(Card c : cardTargets(secondary, card)){
           exhaust(c);
-          if(c == card){
-            shouldDiscard = false;
-          }
+          if(c == card){ shouldDiscard = false; }
         }
         break;
       case "Draw":
@@ -814,7 +814,12 @@ public class Combat {
     }
     return null;
   }
-  
+  /** Returns whether the given encoded conditional string is true or false.
+   * For conditionals that depend on the state of some target entity, that
+   * entity is passed in as the second paramenter.
+   * 
+   * @see Effect
+   */
   public boolean evaluateConditional(String conditional, Entity target){
     switch(conditional){
       case null:

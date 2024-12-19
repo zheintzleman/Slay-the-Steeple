@@ -113,6 +113,13 @@ public class EventManager {
   public void OnDraw(Card c){
     playCardEffects(Event.ONDRAWN, c);
     playStatusEffects(Event.ONDRAW);
+
+    int evolve = Combat.c.getPlayer().getStatusStrength("Evolve");
+    if(c.isStatus()){
+      for(int i=0; i<evolve; i++){
+        Combat.c.drawCard();
+      }
+    }
   }
 
 

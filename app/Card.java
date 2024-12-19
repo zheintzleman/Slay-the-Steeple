@@ -174,6 +174,10 @@ public class Card {
             break;
           case "GainEnergy":
             codedDescription += "Gain " + effectPower + " energy.\n";
+            break;
+          case "Entrench":
+            codedDescription += "Double your block.\n";
+            break;
           default:
             break;
         }
@@ -381,6 +385,12 @@ public class Card {
   }
   public boolean isPower(){
     return type.equals("Power");
+  }
+  public boolean isStatus(){
+    return type.equals("Status");
+  }
+  public boolean isCurse(){
+    return type.equals("Curse");
   }
   
   @Override
