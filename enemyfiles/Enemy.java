@@ -74,7 +74,7 @@ public abstract class Enemy extends Entity{
     throw new RuntimeException("Calling setSplitIntent function on non-large-slime Enemy.");
   }
 
-  /**Does necessary actions for the end of the enemy's turn
+  /**Does necessary actions for the end of the enemy's turn, including their intents.
   */
   @Override
   public void endTurn(Player player){

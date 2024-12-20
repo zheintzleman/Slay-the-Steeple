@@ -479,7 +479,7 @@ public abstract class Entity {
 
   //For polymorphism
   public abstract void setSplitIntent();
-  /** Ends the turn of the entity. Will generally only be called on the player
+  /** Ends the turn of the entity.
   */
   public abstract void endTurn(Player player);
   /** Loops over the copy's statuses (i.e. the entity's statuses after end-of-turn status changes

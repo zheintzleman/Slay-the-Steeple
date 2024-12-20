@@ -160,6 +160,8 @@ public abstract class App {
                        1, false, List.of("Entrench"), Rarity.UNCOMMON, Color.IRONCLAD));
     cards.put("Evolve", new Card("Evolve", "Whenever you draw a Status card, draw 1 card.\n", "Power", 1, false, List.of("AppPlayer Evolve"),
                       "Whenever you draw a Status card, draw 2 cards.\n", 1, false, List.of("AppPlayer Evolve 2"), Rarity.UNCOMMON, Color.IRONCLAD));
+    cards.put("Feel No Pain", new Card("Feel No Pain", "Whenever a card is Exhausted, gain 3 block.\n", "Power", 1, false, List.of("AppPlayer Feel No Pain 3"),
+                      "Whenever a card is Exhausted, gain 4 block.\n", 1, false, List.of("AppPlayer Feel No Pain 4"), Rarity.UNCOMMON, Color.IRONCLAD));
     
     // Assert that all entries in `cards` are named correctly:
     App.ASSERT(cards.entrySet().stream()
@@ -203,6 +205,7 @@ public abstract class App {
     statuses.put("Combust", new Status("Combust", Colors.vigorOrange + "C", false, true, "At the end of your turn, lose 1 HP(for each Combust played) and deal <str> damage to ALL enemies.", List.of("(OnTurnEnd) Combust <str>")));
     statuses.put("Dark Embrace", new Status("Dark Embrace", Colors.darkEmbracePurple + "D", false, true, "Whenever a card is Exhausted, draw <str> card(s).", List.of("(OnExhaust) Draw <str>")));
     statuses.put("Evolve", new Status("Evolve", Colors.lightYellow + "E", false, true, "Whenever you draw a Status, draw <str> card(s)."));
+    statuses.put("Feel No Pain", new Status("Feel No Pain", Colors.energyCostRed + "F", false, true, "Whenever a card is Exhausted, gain <str> block.", List.of("(OnExhaust) Block <str>")));
 
     
     // Assert that all entries in `cards` are named correctly:

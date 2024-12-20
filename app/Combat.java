@@ -273,6 +273,7 @@ public class Combat {
   public void endEntityTurns(){
     enemiesToUpdate = new ArrayList<Enemy>(enemies);
     Entity.holdAllStatuses();
+    
     for(Enemy e : enemies){
       e.endTurn(player);
     }
