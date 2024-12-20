@@ -83,6 +83,16 @@ public class EventManager {
     playStatusEffects(Event.ONPLAYERLOSEHP);
   }
 
+  public void OnAttack(Entity attacker, Entity victim, int damage){
+    if(victim.hasStatus("Flame Barrier")){
+      attacker.damage(victim.getStatusStrength("Flame Barrier"));
+    }
+
+    if(damage > 0){
+      OnAtkDmgDealt(victim, damage);
+    }
+  }
+
   public void OnAtkDmgDealt(Entity victim, int damage){
     if(victim.hasStatus("Curl Up")){ //Curl Up
       victim.addBlock(victim.getStatusStrength("Curl Up"));
@@ -90,7 +100,6 @@ public class EventManager {
     }
     if(victim.hasStatus("Angry")){
       victim.addStatusStrength("Strength", victim.getStatusStrength("Angry"));
-      System.out.println("Victim Anger: " + victim.getStatusStrength("Angry"));
     }
   }
 

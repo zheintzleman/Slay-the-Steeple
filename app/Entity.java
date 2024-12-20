@@ -418,9 +418,7 @@ public abstract class Entity {
       int dmg = calcAttackDamage(victim, damagePreCalculations, strMultiplier);
       int dmgDealt = victim.damage(dmg);
       totalDmgDealt += dmgDealt;
-      if(dmgDealt > 0){
-        EventManager.em.OnAtkDmgDealt(victim, dmgDealt);
-      }
+      EventManager.em.OnAttack(this, victim, dmgDealt);
     }
     return totalDmgDealt;
   }
