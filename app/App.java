@@ -141,8 +141,8 @@ public abstract class App {
                       List.of("Attack 17", "GainToDraw Wound"), Rarity.COMMON, Color.IRONCLAD));
     cards.put("Battle Trance", new Card("Battle Trance", "Draw 3 cards.\nYou cannot draw additional cards this turn.\n", "Skill", 0, false, List.of("Draw 3", "AppPlayer No Draw"),
                       "Draw 4 cards.\nYou cannot draw additional cards this turn.\n", 0, false, List.of("Draw 4", "AppPlayer No Draw"), Rarity.UNCOMMON, Color.IRONCLAD));
-    cards.put("Blood for Blood", new Card("Blood for Blood", "Costs 1 less energy for each time you lose HP this combat.\nDeal <atk>18<endatk> damage.\n", "Attack", 4, true, List.of("(OnPlayerHurt) ChangeCost -1", "Attack 18"),
-                      "Costs 1 less energy for each time you lose HP this combat.\nDeal <atk>22<endatk> damage.\n", 3, true, List.of("(OnPlayerHurt) ChangeCost -1", "Attack 22"), Rarity.UNCOMMON, Color.IRONCLAD));
+    cards.put("Blood for Blood", new Card("Blood for Blood", "Costs 1 less energy for each time you lose HP this combat.\nDeal <atk>18<endatk> damage.\n", "Attack", 4, true, List.of("(OnPlayerLoseHP) ChangeCost -1", "Attack 18"),
+                      "Costs 1 less energy for each time you lose HP this combat.\nDeal <atk>22<endatk> damage.\n", 3, true, List.of("(OnPlayerLoseHP) ChangeCost -1", "Attack 22"), Rarity.UNCOMMON, Color.IRONCLAD));
     cards.put("Bloodletting", new Card("Bloodletting", "Skill", 0, false, List.of("LoseHP 3", "GainEnergy 2"), List.of("LoseHP 3", "GainEnergy 3"), Rarity.UNCOMMON, Color.IRONCLAD));
     cards.put("Burning Pact", new Card("Burning Pact", "Skill", 1, false, List.of("Exhaust Choose1FromHand", "Draw 2"), List.of("Exhaust Choose1FromHand", "Draw 3"), Rarity.UNCOMMON, Color.IRONCLAD));
     cards.put("Carnage", new Card("Carnage", "Attack", 2, true, List.of("Ethereal", "Attack 20"), List.of("Ethereal", "Attack 28"), Rarity.UNCOMMON, Color.IRONCLAD));
@@ -160,8 +160,12 @@ public abstract class App {
                        1, false, List.of("Entrench"), Rarity.UNCOMMON, Color.IRONCLAD));
     cards.put("Evolve", new Card("Evolve", "Whenever you draw a Status card, draw 1 card.\n", "Power", 1, false, List.of("AppPlayer Evolve"),
                       "Whenever you draw a Status card, draw 2 cards.\n", 1, false, List.of("AppPlayer Evolve 2"), Rarity.UNCOMMON, Color.IRONCLAD));
-    cards.put("Feel No Pain", new Card("Feel No Pain", "Whenever a card is Exhausted, gain 3 block.\n", "Power", 1, false, List.of("AppPlayer Feel No Pain 3"),
-                      "Whenever a card is Exhausted, gain 4 block.\n", 1, false, List.of("AppPlayer Feel No Pain 4"), Rarity.UNCOMMON, Color.IRONCLAD));
+    cards.put("Feel No Pain", new Card("Feel No Pain", "Whenever a card is Exhausted,\ngain 3 block.\n", "Power", 1, false, List.of("AppPlayer Feel No Pain 3"),
+                      "Whenever a card is Exhausted,\ngain 4 block.\n", 1, false, List.of("AppPlayer Feel No Pain 4"), Rarity.UNCOMMON, Color.IRONCLAD));
+    cards.put("Fire Breathing", new Card("Fire Breathing", "Whenever you draw a Status or Curse card, deal 6 damage to ALL enemies.\n", "Power", 1, false, List.of("AppPlayer Fire Breathing 6"),
+                      "Whenever you draw a Status or Curse card, deal 10 damage to ALL enemies.\n", 1, false, List.of("AppPlayer Fire Breathing 10"), Rarity.UNCOMMON, Color.IRONCLAD));
+    cards.put("Flame Barrier", new Card("Flame Barrier", "Gain 12 block.\nWhenever you are attacked this turn, deal 4 damage back.\n", "Skill", 2, false, List.of("Block 12", "AppPlayer Flame Barrier 4"),
+                      "Gain 16 block.\nWhenever you are attacked this turn, deal 6 damage back.\n", 2, false, List.of("Block 16", "AppPlayer Flame Barrier 6"), Rarity.UNCOMMON, Color.IRONCLAD));
     
     // Assert that all entries in `cards` are named correctly:
     App.ASSERT(cards.entrySet().stream()
@@ -205,7 +209,9 @@ public abstract class App {
     statuses.put("Combust", new Status("Combust", Colors.vigorOrange + "C", false, true, "At the end of your turn, lose 1 HP(for each Combust played) and deal <str> damage to ALL enemies.", List.of("(OnTurnEnd) Combust <str>")));
     statuses.put("Dark Embrace", new Status("Dark Embrace", Colors.darkEmbracePurple + "D", false, true, "Whenever a card is Exhausted, draw <str> card(s).", List.of("(OnExhaust) Draw <str>")));
     statuses.put("Evolve", new Status("Evolve", Colors.lightYellow + "E", false, true, "Whenever you draw a Status, draw <str> card(s)."));
-    statuses.put("Feel No Pain", new Status("Feel No Pain", Colors.energyCostRed + "F", false, true, "Whenever a card is Exhausted, gain <str> block.", List.of("(OnExhaust) Block <str>")));
+    statuses.put("Feel No Pain", new Status("Feel No Pain", Colors.hpBarRed + "F", false, true, "Whenever a card is Exhausted, gain <str> block.", List.of("(OnExhaust) Block <str>")));
+    statuses.put("Fire Breathing", new Status("Fire Breathing", Colors.vulnRed + "F", false, true, "Whenever you draw a Status or Curse card, deal <str> damage to ALL enemies."));
+    statuses.put("Flame Barrier", new Status("Flame Barrier", Colors.vulnRed + "B", false, true, "When attacked, deals <str> damage back. (Wears off at the end of your turn)"));
 
     
     // Assert that all entries in `cards` are named correctly:

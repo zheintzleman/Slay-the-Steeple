@@ -133,7 +133,7 @@ public class Combat {
   public ArrayList<Enemy> getEnemies(){ return enemies; }
   public ArrayList<Enemy> getEnemiesToUpdate(){ return enemiesToUpdate; }
   public void setEnemiesToUpdate(ArrayList<Enemy> newETU){ enemiesToUpdate = newETU; }
-  public Entity getPlayer(){ return player; }
+  public Player getPlayer(){ return player; }
   public Run getRun(){ return Run.r; }
 
 

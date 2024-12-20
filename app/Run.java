@@ -57,10 +57,10 @@ public class Run {
     for(Card c : CARDS){
       deck.add(new Card(c));
     }
-    deck.add(new Card("Feel No Pain"));
-    deck.add(new Card("Feel No Pain"));
-    deck.add(new Card("Feel No Pain"));
-    deck.add(new Card("Feel No Pain"));
+    deck.add(new Card("Fire Breathing"));
+    deck.add(new Card("Fire Breathing"));
+    deck.add(new Card("Fire Breathing"));
+    deck.add(new Card("Fire Breathing"));
     deck.add(new Card("Armaments"));
     deck.add(new Card("Armaments"));
     deck.add(new Card("Armaments"));

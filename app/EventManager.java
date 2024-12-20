@@ -24,7 +24,7 @@ public class EventManager {
     ONDRAWN,
     ONTURNEND,
     ONLOSEHP,
-    ONPLAYERHURT,
+    ONPLAYERLOSEHP,
     ONATKDMGDEALT
   }
 
@@ -73,14 +73,14 @@ public class EventManager {
   public void OnLoseHP(Entity victim, int hpLoss){
     // Note: If entity killed, hpLoss parameter not appropriately decreased.
     if(victim == Combat.c.getPlayer()){
-      OnPlayerHurt(hpLoss);
+      OnPlayerLoseHP(hpLoss);
     }
     playStatusEffects(Event.ONLOSEHP, Collections.singletonList(victim));
   }
 
-  private void OnPlayerHurt(int hpLoss){
-    playCardEffects(Event.ONPLAYERHURT, Combat.c.getCardsInPlay());
-    playStatusEffects(Event.ONPLAYERHURT);
+  private void OnPlayerLoseHP(int hpLoss){
+    playCardEffects(Event.ONPLAYERLOSEHP, Combat.c.getCardsInPlay());
+    playStatusEffects(Event.ONPLAYERLOSEHP);
   }
 
   public void OnAtkDmgDealt(Entity victim, int damage){
@@ -113,11 +113,18 @@ public class EventManager {
   public void OnDraw(Card c){
     playCardEffects(Event.ONDRAWN, c);
     playStatusEffects(Event.ONDRAW);
+    Player player = Combat.c.getPlayer();
 
-    int evolve = Combat.c.getPlayer().getStatusStrength("Evolve");
     if(c.isStatus()){
+      int evolve = player.getStatusStrength("Evolve");
       for(int i=0; i<evolve; i++){
         Combat.c.drawCard();
+      }
+    }
+    if(c.isStatus() || c.isCurse()){
+      int fireBreathing = player.getStatusStrength("Fire Breathing");
+      for(Entity enemy : Combat.c.getEnemies()){
+        enemy.damage(fireBreathing);
       }
     }
   }
