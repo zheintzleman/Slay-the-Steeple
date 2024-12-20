@@ -166,6 +166,10 @@ public abstract class App {
                       "Whenever you draw a Status or Curse card, deal 10 damage to ALL enemies.\n", 1, false, List.of("AppPlayer Fire Breathing 10"), Rarity.UNCOMMON, Color.IRONCLAD));
     cards.put("Flame Barrier", new Card("Flame Barrier", "Gain 12 block.\nWhenever you are attacked this turn, deal 4 damage back.\n", "Skill", 2, false, List.of("Block 12", "AppPlayer Flame Barrier 4"),
                       "Gain 16 block.\nWhenever you are attacked this turn, deal 6 damage back.\n", 2, false, List.of("Block 16", "AppPlayer Flame Barrier 6"), Rarity.UNCOMMON, Color.IRONCLAD));
+    cards.put("Ghostly Armor", new Card("Ghostly Armor", "Skill", 1, false, List.of("Ethereal", "Block 10"),
+                       1, false, List.of("Ethereal", "Block 13"), Rarity.UNCOMMON, Color.IRONCLAD));
+    cards.put("Hemokenesis", new Card("Hemokenesis", "Attack", 1, true, List.of("LoseHP 2", "Attack 15"),
+                       1, true, List.of("LoseHP 2", "Attack 20"), Rarity.UNCOMMON, Color.IRONCLAD));
     
     // Assert that all entries in `cards` are named correctly:
     App.ASSERT(cards.entrySet().stream()
