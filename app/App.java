@@ -87,7 +87,7 @@ public abstract class App {
                       "", -1, false, List.of(), Rarity.COMMON, Color.NEUTRAL));
     cards.put("Dazed", new Card("Dazed", "Status", -1, false, List.of("Unplayable", "Ethereal"), List.of(), Rarity.COMMON, Color.NEUTRAL));
     cards.put("Slimed", new Card("Slimed", "Status", 1, false, List.of("Exhaust"), List.of(), Rarity.COMMON, Color.NEUTRAL));
-    cards.put("Void", new Card("Void", "Unplayable.\nEthereal.\nWhenever this card is drawn, lose 1 Energy.\n", "Status", -1, false, List.of("Unplayable", "Ethereal", "(OnDrawn) ChangeEnergy -1"),
+    cards.put("Void", new Card("Void", "Unplayable.\nEthereal.\nWhenever this card is drawn, lose 1 Energy.\n", "Status", -1, false, List.of("Unplayable", "Ethereal", "(OnDrawn) GainEnergy -1"),
                       "", -1, false, List.of(), Rarity.COMMON, Color.NEUTRAL));
     cards.put("Wound", new Card("Wound", "Status", -1, false, List.of("Unplayable"), List.of(), Rarity.COMMON, Color.NEUTRAL));
 
@@ -141,8 +141,8 @@ public abstract class App {
                       List.of("Attack 17", "GainToDraw Wound"), Rarity.COMMON, Color.IRONCLAD));
     cards.put("Battle Trance", new Card("Battle Trance", "Draw 3 cards.\nYou cannot draw additional cards this turn.\n", "Skill", 0, false, List.of("Draw 3", "AppPlayer No Draw"),
                       "Draw 4 cards.\nYou cannot draw additional cards this turn.\n", 0, false, List.of("Draw 4", "AppPlayer No Draw"), Rarity.UNCOMMON, Color.IRONCLAD));
-    cards.put("Blood for Blood", new Card("Blood for Blood", "Costs 1 less energy for each time you lose HP this combat.\nDeal <atk>18<endatk> damage.\n", "Attack", 4, true, List.of("(OnPlayerLoseHP) ChangeCost -1", "Attack 18"),
-                      "Costs 1 less energy for each time you lose HP this combat.\nDeal <atk>22<endatk> damage.\n", 3, true, List.of("(OnPlayerLoseHP) ChangeCost -1", "Attack 22"), Rarity.UNCOMMON, Color.IRONCLAD));
+    cards.put("Blood for Blood", new Card("Blood for Blood", "Costs 1 less energy for each time you lose HP this combat.\nDeal <atk>18<endatk> damage.\n", "Attack", 4, true, List.of("(OnPlayerLoseHP) AddCost -1", "Attack 18"),
+                      "Costs 1 less energy for each time you lose HP this combat.\nDeal <atk>22<endatk> damage.\n", 3, true, List.of("(OnPlayerLoseHP) AddCost -1", "Attack 22"), Rarity.UNCOMMON, Color.IRONCLAD));
     cards.put("Bloodletting", new Card("Bloodletting", "Skill", 0, false, List.of("LoseHP 3", "GainEnergy 2"), List.of("LoseHP 3", "GainEnergy 3"), Rarity.UNCOMMON, Color.IRONCLAD));
     cards.put("Burning Pact", new Card("Burning Pact", "Skill", 1, false, List.of("Exhaust Choose1FromHand", "Draw 2"), List.of("Exhaust Choose1FromHand", "Draw 3"), Rarity.UNCOMMON, Color.IRONCLAD));
     cards.put("Carnage", new Card("Carnage", "Attack", 2, true, List.of("Ethereal", "Attack 20"), List.of("Ethereal", "Attack 28"), Rarity.UNCOMMON, Color.IRONCLAD));

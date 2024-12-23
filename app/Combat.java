@@ -468,7 +468,9 @@ public class Combat {
 
   /** Attemps to play the card at the selected index in hand.
   * @param index - The index in hand of the card being played
-  * @return boolean - Whether or not a card was played. Returns false if index is not valid, if player has too little energy, or if card is `unplayable`.
+  * @return boolean - Whether or not a card was played. Returns false if
+  * index is not valid, if player has too little energy, or if card is
+  * unplayable.
   */
   public boolean playCard(int num){
     if(num%10 == 0){
@@ -493,7 +495,8 @@ public class Combat {
   }
 
   /** Attemps to play the card.
-  * @return boolean - Whether or not the card was played. Returns false if player has too little energy, or if card is `unplayable`.
+  * @return boolean - Whether or not the card was played. Returns false if
+  * player has too little energy, or if card is unplayable.
   */
   public boolean playCard(Card card){
     Entity target = null;
@@ -586,7 +589,7 @@ public class Combat {
   }
   public boolean cardPlayable(Card card){
     if(card.getEnergyCost() > this.energy
-    || card.hasEffectWith("Unplayable")
+    || card.hasEffect("Unplayable")
     || player.hasStatus("Entangled") && card.getType().equals("Attack")){
       return false;
     }
@@ -721,12 +724,11 @@ public class Combat {
         power = -power;
         //FALLTHRU
       case "GainEnergy":
-      case "ChangeEnergy":
         energy += power;
         break;
-      case "ChangeCost":
+      case "AddCost":
         App.ASSERT(card != null);
-        card.setEnergyCost(card.getEnergyCost() + power);
+        card.setBaseEnergyCost(card.getBaseEnergyCost() + power);
         break;
       case "IncrCombustCnt":
         combusts++;

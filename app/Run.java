@@ -57,10 +57,17 @@ public class Run {
     for(Card c : CARDS){
       deck.add(new Card(c));
     }
-    deck.add(new Card("Hemokenesis"));
-    deck.add(new Card("Hemokenesis"));
-    deck.add(new Card("Hemokenesis"));
-    deck.add(new Card("Hemokenesis"));
+    deck.add(new Card("Blood for Blood"));
+    deck.add(new Card("Blood for Blood"));
+    deck.add(new Card("Blood for Blood"));
+    deck.add(new Card("Entrench"));
+    deck.add(new Card("Entrench"));
+    deck.add(new Card("Havoc"));
+    deck.add(new Card("Havoc"));
+    deck.add(new Card("Body Slam"));
+    deck.add(new Card("Body Slam"));
+    deck.add(new Card("Armaments"));
+    deck.add(new Card("Armaments"));
     deck.add(new Card("Armaments"));
     deck.add(new Card("Armaments"));
     deck.add(new Card("Armaments"));

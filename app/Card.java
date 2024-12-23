@@ -37,8 +37,10 @@ public class Card {
    */
   private class CardData {
     private Description description;
+    //Could be an Integer to include null for the X cost cards
+    //Or could store a boolean indicating whether it's X-cost.
+    //Less than 0 means unplayable (e.g. statuses/curses.)
     private int baseEnergyCost;
-    private int energyCost; //Could be an Integer to include null for the X cost cards
     private boolean isTargeted;
     private ArrayList<CardEffect> effects; //Implemented in Combat.java
 
@@ -245,11 +247,16 @@ public class Card {
   //~~~~~~~~~~~~~~~~~~~~~  Card Class Begins  ~~~~~~~~~~~~~~~~~~~~~
 
   private String name, type;
-  private int energyCost, upgrades;
+  private int upgrades;
   private Rarity rarity;
   private Color color;
+  private boolean costs0ThisTurn = false;
   private CardData data = new CardData();
   private CardData upData = new CardData(); //Data for the upgraded version of the card
+  // Assuming card has Unplayable iff upgrade has unplayable, and that whether
+  // a card is Unplayable never changes. Only for whether the card has the
+  // effect "Unplayable", not other effects like Clash or Entangled.
+  public final boolean ISUNPLAYABLE;
   
 
   public Card(){
@@ -257,22 +264,23 @@ public class Card {
     type = "Skill";
     upgrades = 0;
     data.description = new Description("");
-    data.baseEnergyCost = energyCost = -1;
+    data.baseEnergyCost = -1;
     data.isTargeted = false;
     rarity = Rarity.COMMON;
     color = Color.NEUTRAL;
     data.effects = new ArrayList<CardEffect>();
     upData = new CardData(data, this);
+    ISUNPLAYABLE = this.hasEffect("Unplayable");
   }
   public Card(Card old){
     name = old.name;
     type = old.type;
     upgrades = 0;
-    energyCost = old.energyCost;
     rarity = old.rarity;
     color = old.color;
     data = new CardData(old.data, this);
     upData = new CardData(old.upData, this);
+    ISUNPLAYABLE = this.hasEffect("Unplayable");
   }
   public Card(String name){
     this(getCard(name));
@@ -283,13 +291,14 @@ public class Card {
     upgrades = 0;
     this.rarity = rarity;
     this.color = color;
-    data.baseEnergyCost = this.energyCost = energyCost;
+    data.baseEnergyCost = energyCost;
     data.isTargeted = targeted;
     data.effects = new ArrayList<CardEffect>();
     for(String str : effects){
       data.effects.add(new CardEffect(str, this));
     }
     data.description = new Description(data.effects);
+    ISUNPLAYABLE = this.hasEffect("Unplayable");
   }
   public Card(String name, String type, int energyCost, boolean targeted, List<String> effects,
               List<String> upEffects, Rarity rarity, Color color){
@@ -347,20 +356,37 @@ public class Card {
   public void setName(String newName){ name = newName; }
   public String getType(){ return type; }
   public void setType(String newType){ type = newType; }
-  public int getBaseEnergyCost(){ return data.baseEnergyCost; }
-  public void setBaseEnergyCost(int newCost){
-    data.baseEnergyCost = newCost >= 0 ? newCost : 0;
-  }
-  public int getEnergyCost(){ return energyCost; } //TODO: Factor in e.g. corruption & stuff?
-  public void setEnergyCost(int newCost){
-    energyCost = newCost >= 0 ? newCost : 0;
-  }
   public int getUpgrades(){ return upgrades; }
   public void setUpgrades(int newUpgrades){ upgrades = newUpgrades; }
   public boolean isTargeted(){ return data.isTargeted; }
   public void setIsTargeted(boolean newIsTargeted){ data.isTargeted = newIsTargeted; }
   public ArrayList<CardEffect> getEffects(){ return data.effects; }
   public void setEffects(ArrayList<CardEffect> newEffects){ data.effects = newEffects; }
+  /** Returns the base energy cost of the card. Includes any permanent effects
+   * on the card's energy cost (e.g. Confusion). Returns 0 for unplayable cards.
+   * 
+   * @Postcondition Return value >= 0
+   */
+  public int getBaseEnergyCost(){
+    return data.baseEnergyCost >= 0 ? data.baseEnergyCost : 0;
+  }
+  public void setBaseEnergyCost(int newCost){
+    data.baseEnergyCost = newCost >= 0 ? newCost : 0;
+  }
+  /** Returns the effective cost of the card (i.e. the amount energy should
+   * drop on playing the card.) Factors in Corruption, free-this-turn effects,
+   * etc.
+   * Allows for situations such as costs0ThisTurn effects which have temporary
+   * effects on a card's energy cost.
+   * 
+   * @Postcondition Return value >= 0
+   */
+  public int getEnergyCost(){
+    if(costs0ThisTurn){
+      return 0;
+    }
+    return getBaseEnergyCost();
+  }
 
   public String getDescription(){ return data.description.getBaseDescription(); }
   /** Description replacing \n characters with spaces (removes the terminal \n character w/o replacing it.) */
@@ -398,7 +424,7 @@ public class Card {
     // String energyCostColor = getEnergyCost() > getBaseEnergyCost() ? Colors.energyCostRed :
     //                          getEnergyCost() == getBaseEnergyCost() ? Colors.reset :
     //                                                                  Colors.upgradeGreen;
-    return Colors.lightGray + (energyCost < 0 ? "" : "(" + Colors.energyCostRed + energyCost + Colors.lightGray + ") ")
+    return Colors.lightGray + (ISUNPLAYABLE ? "" : "(" + Colors.energyCostRed + getEnergyCost() + Colors.lightGray + ") ")
     + Colors.reset + name + colorEveryWordBySpaces(" - " + getDescriptionWONLs(), Colors.lightGray) + "\n" + Colors.reset;
   }
 
@@ -464,8 +490,8 @@ public class Card {
     text += "\n " + (combat == null ? getDescription() : getDescriptionWStatuses(combat)) + "\n";
     
     String[] image = Str.makeCenteredTextBox(text, CARDHEIGHT, CARDWIDTH); //Can make them up to 18 wide with width = 200; Up to 12 wide iirc with width = 150. 12 can work to fit long texts but the cards are really vertical.
-
-    String energyCostString = energyCost < 0 ? "" : "" + energyCost;
+    
+    String energyCostString = ISUNPLAYABLE ? "" : "" + getEnergyCost();
     image[1] = Str.addStringsSkipEscSequences(image[1], 2, energyCostString, Colors.energyCostRedBold, Colors.reset);
     
     return image;
@@ -497,33 +523,24 @@ public class Card {
       //Name:
       name += "+";
       name = Colors.fillColor(name, Colors.upgradeGreen);
-      //Cost:=
-      changeCostOnUpgrade();
+      // //Cost:=
+      // changeCostOnUpgrade();
       //Data:
       CardData temp = data;   //Swap data and upData
       data = upData;
       upData = temp;
+      //This one card functions differently for some reason. As far as I can
+      //tell the original devs just added a bunch of hard coded exceptions for
+      //it. If card is Blood for Blood, decreases cost by 1 on upgrade instead
+      //of setting it to the upgraded version's cost.
+      if(name.contains("Blood for Blood")){
+        setBaseEnergyCost(upData.baseEnergyCost - 1);
+      }
     }else{ //More than 1 upgrade (Searing Blow later upgrades:)
-      App.ASSERT(name.lastIndexOf("+") != -1);
-      name = name.substring(0, name.lastIndexOf("+")+1) + upgrades;                   //Changes the Name's #
+      App.ASSERT(name.contains("+"));
+      name = name.substring(0, name.lastIndexOf("+")+1) + upgrades;    //Changes the Name's #
       data.description = new Description(data.effects);
     }
-  }
-
-  public void changeCostOnUpgrade(){
-    //If card costs 0
-    if(energyCost < 0 || data.baseEnergyCost == upData.baseEnergyCost){
-      return;
-    }
-    //This one card functions differently for some reason. As far as I can tell the
-    //original devs just added a bunch of hard coded exceptions for it.
-    if(Str.equalsSkipEscSeqs(name, "Blood for Blood")
-    || Str.equalsSkipEscSeqs(name, "Blood for Blood+")){
-      setEnergyCost(energyCost-1);
-      return;
-    }
-
-    energyCost = upData.baseEnergyCost;
   }
   
   /** Calculates the damage searing blow would do using the # of upgrades on the card.*/
