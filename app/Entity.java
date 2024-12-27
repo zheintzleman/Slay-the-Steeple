@@ -336,43 +336,51 @@ public abstract class Entity {
   }
   /** Gives the entity the appropriate amount of block, taking into account relevent status effects.
   * @param blockPreCalculations - The amount of defence the card/intent does (ie. 5 for an unupgraded Defend)
+  * @param fromCard - Whether or not a card is causing the block. Used to determine, e.g., whether to account for frail.
   */
-  public void block(int blockPreCalculations){
-    int blk = calcBlockAmount(blockPreCalculations);
+  public void block(int blockPreCalculations, boolean fromCard){
+    int blk = calcBlockAmount(blockPreCalculations, fromCard);
     this.addBlock(blk);
   }
-  /** Gives the receiving entity the appropriate amount of block, taking into account relevent status effects (largely, if not entirely, on this entity).
+  /** Gives the receiving entity the appropriate amount of block, taking into account relevent status effects (on this entity).
   * @param receiver - The entity to receive the block
   * @param blockPreCalculations - The amount of defence the card/intent does (ie. 5 for an unupgraded Defend)
+  *
+  * @Precondition Not being called on the player.
   */
   public void giveBlock(Entity receiver, int blockPreCalculations){
-    int blk = calcBlockAmount(blockPreCalculations);
+    int blk = calcBlockAmount(blockPreCalculations, false);
     receiver.addBlock(blk);
   }
   /** Calculates the amount a block card with the entered amount would block for, taking into account relevent status effects.
   * @param blockPreCalculations - The amount the base card would say (ie. 5 for an unupgraded Defend)
+  * @param fromCard - Whether or not a card is causing the block. Used to determine, e.g., whether to account for frail.
   * @return int - The amount of block that would be gained by playing such a card, taking into account dexterity and frail.
   */
-  public int calcBlockAmount(int blockPreCalculations){
+  public int calcBlockAmount(int blockPreCalculations, boolean fromCard){
     double blk = blockPreCalculations + this.getStatusStrength("Dexterity");
-    if(this.getStatusStrength("Frail") > 0){
+    if(fromCard && this.getStatusStrength("Frail") > 0){
       blk *= 0.75;
     }
     return (int)(blk + 0.00000001); //In case of floating point errors
   }
   /** Increases the startOfTurnBlock variable according to relevent status effects
   * @param blockPreCalculations - The amount of defence the card/intent does (ie. 5 for an unupgraded Defend)
+  * 
+  * @Precondition Not being called on the player.
   */
   public void blockAfterTurn(int blockPreCalculations){
-    int blk = calcBlockAmount(blockPreCalculations);
+    int blk = calcBlockAmount(blockPreCalculations, false);
     addStartOfTurnBlock(blk);
   }
-  /** Increases the receiving entity's startOfTurnBlock variable according to relevent status effects (largely, if not entirely, on this entity)
+  /** Increases the receiving entity's startOfTurnBlock variable according to relevent status effects (on this entity)
   * @param receiver - The entity to receive the future block
   * @param blockPreCalculations - The amount of defence the card/intent does (ie. 5 for an unupgraded Defend)
+  * 
+  * @Precondition Not being called on the player.
   */
   public void giveBlockDuringEndOfTurn(Entity receiver, int blockPreCalculations){
-    int blk = calcBlockAmount(blockPreCalculations);
+    int blk = calcBlockAmount(blockPreCalculations, false);
     receiver.addStartOfTurnBlock(blk);
   }
   /** Attacks the victim entity for the specified amount. Takes into account relevent status effects.

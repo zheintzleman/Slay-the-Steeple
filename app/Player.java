@@ -28,4 +28,16 @@ public class Player extends Entity {
   public void setSplitIntent(){
     throw new UnsupportedOperationException("Calling setSplitIntent on Player");
   }
+  @Override
+  public void giveBlock(Entity receiver, int blockPreCalculations){
+    throw new UnsupportedOperationException("Calling giveBlock from Player.");
+  }
+  @Override
+  public void blockAfterTurn(int blockPreCalculations){
+    throw new UnsupportedOperationException("Calling blockAfterTurn on Player.");
+  }
+  @Override
+  public void giveBlockDuringEndOfTurn(Entity receiver, int blockPreCalculations){
+    throw new UnsupportedOperationException("Calling giveBlockDuringEndOfTurn from Player.");
+  }
 }

@@ -212,12 +212,11 @@ public class Card {
      * Returns the card's description, with atk & blk amounts changed based on
      * the current statuses & other combat information. Does not change
      * underlying card description.
-     * @param combat
      * @param strMultiplier The amount of times to multiply strength by (for
      *  heavy blade.) By default 1.
      * @return The formatted card description
      */
-    public String getDescriptionWStatuses(Combat combat, int strMultiplier){
+    public String getDescriptionWStatuses(int strMultiplier){
       String res = codedDescription;
       while(res.contains("<atk>")){ //Updates the attack #s
         int index = res.indexOf("<atk>");
@@ -225,7 +224,7 @@ public class Card {
         App.ASSERT(endIndex != -1);
 
         int baseDamage = Integer.parseInt(res, index + 5, endIndex, 10);
-        int newDamage = combat.getPlayer().calcAtkDmgFromThisStats(baseDamage, strMultiplier); //todo: Display the full damage for each enemy below that enemy?
+        int newDamage = Combat.c.getPlayer().calcAtkDmgFromThisStats(baseDamage, strMultiplier); //todo: Display the full damage for each enemy below that enemy?
         String color = "";
         if(newDamage < baseDamage){ color = Colors.energyCostRed; }
         if(newDamage > baseDamage){ color = Colors.upgradeGreen; }
@@ -237,7 +236,7 @@ public class Card {
         App.ASSERT(endIndex != -1);
 
         int baseBlock = Integer.parseInt(res, index + 5, endIndex, 10);
-        int newBlock = combat.getPlayer().calcBlockAmount(baseBlock);
+        int newBlock = Combat.c.getPlayer().calcBlockAmount(baseBlock, true);
         String color = "";
         if(newBlock < baseBlock){ color = Colors.energyCostRed; }
         if(newBlock > baseBlock){ color = Colors.upgradeGreen; }
@@ -402,14 +401,14 @@ public class Card {
   public String getDescriptionWONLs(){ return data.description.getBaseDescriptionWONLs(); }
   public Description getDescriptionObject(){ return data.description; }
   /** Takes into account the statuses of the player */
-  public String getDescriptionWStatuses(Combat c){
+  public String getDescriptionWStatuses(){
     int strMultiplier = 1;
     for(CardEffect eff : getEffects()){
       if(eff.getPrimary().equals("HeavyAttack")){
         strMultiplier = eff.getPower();
       }
     }
-    return data.description.getDescriptionWStatuses(c, strMultiplier);
+    return data.description.getDescriptionWStatuses(strMultiplier);
   }
 
   public boolean isAttack(){
@@ -488,17 +487,18 @@ public class Card {
    * using the card's base description (not accounting for statuses).
   */
   public String[] getImage(){
-    return getImageWStatuses(null);
+    return getImage(false);
   }
   /** Returns the image of the card that will be displayed on the screen.
-   * Uses base descriptions if combat == null, otherwise accounts for player statuses.
+   * Uses base descriptions if inclStatuses is false, otherwise accounts for player statuses.
   */
-  public String[] getImageWStatuses(Combat combat){
+  public String[] getImage(boolean inclStatuses){
     String text = "";
     text += Str.concatArrayListWNL(Str.wrapText(name, CARDWIDTH-7));
-    text += "\n " + (combat == null ? getDescription() : getDescriptionWStatuses(combat)) + "\n";
+    text += "\n " + (inclStatuses ? getDescription() : getDescriptionWStatuses()) + "\n";
     
-    String[] image = Str.makeCenteredTextBox(text, CARDHEIGHT, CARDWIDTH); //Can make them up to 18 wide with width = 200; Up to 12 wide iirc with width = 150. 12 can work to fit long texts but the cards are really vertical.
+    //Can make them up to 18 wide with width = 200; Up to 12 wide iirc with width = 150. 12 can work to fit long texts but the cards are really vertical.
+    String[] image = Str.makeCenteredTextBox(text, CARDHEIGHT, CARDWIDTH);
     
     String energyCostString = ISUNPLAYABLE ? "" : "" + getEnergyCost();
     image[1] = Str.addStringsSkipEscSequences(image[1], 2, energyCostString, Colors.energyCostRedBold, Colors.reset);

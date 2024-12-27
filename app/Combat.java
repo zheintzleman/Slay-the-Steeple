@@ -278,7 +278,7 @@ public class Combat {
       e.endTurn(player);
     }
     for(Enemy e : enemies){
-      e.block(e.getStartOfTurnBlock());
+      e.block(e.getStartOfTurnBlock(), false);
     }
     enemies = enemiesToUpdate;
 
@@ -640,7 +640,7 @@ public class Combat {
 
     switch(eff.getPrimary()){
       case "Block":
-        player.block(power);
+        player.block(power, eff instanceof CardEffect);
         break;
       case "Entrench":
         player.setBlock(2 * player.getBlock());
@@ -992,7 +992,7 @@ public class Combat {
       cardIndex = 0;
     }
     // int numCards = cards.size();
-    String[] cardArt0 = cards.get(0).getImageWStatuses(this);
+    String[] cardArt0 = cards.get(0).getImage(true);
     // Map substringIgnoringEscSequences to each string of cardArt0
     if(startCutoff > 0 || endCutoff < Card.CARDWIDTH){
       for(int i=0; i < cardArt0.length; i++) {

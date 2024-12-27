@@ -177,6 +177,8 @@ public abstract class App {
                        1, false, List.of("AppPlayer Strength 3"), Rarity.UNCOMMON, Color.IRONCLAD));
     cards.put("Intimidate", new Card("Intimidate", "Skill", 0, false, List.of("AppAll Weak 1", "Exhaust"),
                        0, false, List.of("AppAll Weak 2", "Exhaust"), Rarity.UNCOMMON, Color.IRONCLAD));
+    cards.put("Metallicize", new Card("Metallicize", "At the end of your turn, gain 3 block.\n", "Power", 1, false, List.of("AppPlayer Metallicize 3"),
+                      "At the end of your turn, gain 4 block.\n", 1, false, List.of("AppPlayer Metallicize 4"), Rarity.UNCOMMON, Color.IRONCLAD));
     
     // Assert that all entries in `cards` are named correctly:
     App.ASSERT(cards.entrySet().stream()
@@ -223,6 +225,7 @@ public abstract class App {
     statuses.put("Feel No Pain", new Status("Feel No Pain", Colors.hpBarRed + "F", false, true, "Whenever a card is Exhausted, gain <str> block.", List.of("(OnExhaust) Block <str>")));
     statuses.put("Fire Breathing", new Status("Fire Breathing", Colors.vulnRed + "F", false, true, "Whenever you draw a Status or Curse card, deal <str> damage to ALL enemies."));
     statuses.put("Flame Barrier", new Status("Flame Barrier", Colors.vulnRed + "B", false, true, "When attacked, deals <str> damage back. (Wears off at the end of your turn)"));
+    statuses.put("Metallicize", new Status("Metallicize", Colors.lightBlue + "M", false, true, "At the end of your turn, gain <str> block.", List.of("(OnTurnEnd) Block <str>")));
 
     
     // Assert that all entries in `cards` are named correctly:
