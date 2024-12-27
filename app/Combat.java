@@ -758,7 +758,9 @@ public class Combat {
     return shouldDiscard;
   }
 
-  /** Returns an array of the card(s) represented by the expression in secondary
+  /** Returns an array of the card(s) represented by the expression in secondary.
+   * Secondary can be one of the keywords in the below switch statement, or the name of a card.
+   * If a card name, returns a new clone of that card (else returns direct reference(s) to the relevant card(s).)
    * @param secondary The second word of the card effect, the meaning of which will be converted to an array
    * @param current The card being currently played
    */
@@ -830,9 +832,12 @@ public class Combat {
         }
         //No break since returns above
       default:
-        break;
+        try{
+          return new Card[] {new Card(Card.getCard(secondary))};
+        } catch (NoSuchElementException e) {
+          throw new UnsupportedOperationException(secondary + " not a valid card Target.");
+        }
     }
-    return null;
   }
   /** Returns whether the given encoded conditional string is true or false.
    * For conditionals that depend on the state of some target entity, that

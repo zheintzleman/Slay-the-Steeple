@@ -179,6 +179,8 @@ public abstract class App {
                        0, false, List.of("AppAll Weak 2", "Exhaust"), Rarity.UNCOMMON, Color.IRONCLAD));
     cards.put("Metallicize", new Card("Metallicize", "At the end of your turn, gain 3 block.\n", "Power", 1, false, List.of("AppPlayer Metallicize 3"),
                       "At the end of your turn, gain 4 block.\n", 1, false, List.of("AppPlayer Metallicize 4"), Rarity.UNCOMMON, Color.IRONCLAD));
+    cards.put("Power Through", new Card("Power Through", "Add 2 Wounds into your hand.\nGain 15 block.\n", "Skill", 1, false, List.of("CopyToHand Wound 2", "Block 15"),
+                      "Add 2 Wounds into your hand.\nGain 20 block.\n", 1, false, List.of("CopyToHand Wound 2", "Block 20"), Rarity.UNCOMMON, Color.IRONCLAD));
     
     // Assert that all entries in `cards` are named correctly:
     App.ASSERT(cards.entrySet().stream()
