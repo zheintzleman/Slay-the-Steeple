@@ -57,23 +57,8 @@ public class Run {
     // for(Card c : CARDS){
     //   deck.add(new Card(c));
     // }
-    deck.add(new Card("Infernal Blade"));
-    deck.add(new Card("Infernal Blade"));
-    deck.add(new Card("Infernal Blade"));
-    deck.add(new Card("Infernal Blade"));
-    deck.add(new Card("Infernal Blade"));
-    deck.add(new Card("Infernal Blade"));
-    deck.add(new Card("Infernal Blade"));
-    deck.add(new Card("Infernal Blade"));
-    deck.add(new Card("Infernal Blade"));
-    deck.add(new Card("Infernal Blade"));
-    deck.add(new Card("Infernal Blade"));
-    deck.add(new Card("Infernal Blade"));
-    deck.add(new Card("Infernal Blade"));
-    deck.add(new Card("Infernal Blade"));
-    deck.add(new Card("Infernal Blade"));
-    deck.add(new Card("Armaments"));
-    deck.add(new Card("Armaments"));
+    deck.add(new Card("Intimidate"));
+    deck.add(new Card("Intimidate"));
     deck.add(new Card("Armaments"));
     deck.add(new Card("Armaments"));
     deck.add(new Card("Armaments"));

@@ -173,6 +173,10 @@ public abstract class App {
                        1, true, List.of("LoseHP 2", "Attack 20"), Rarity.UNCOMMON, Color.IRONCLAD));
     cards.put("Infernal Blade", new Card("Infernal Blade", "Add a random Attack into your hand. It costs 0 this turn.\nExhaust.\n", "Skill", 1, false, List.of("CopyToHandFree RandAtk", "Exhaust"),
                       "Add a random Attack into your hand. It costs 0 this turn.\nExhaust.\n", 0, false, List.of("CopyToHandFree RandAtk", "Exhaust"), Rarity.UNCOMMON, Color.IRONCLAD));
+    cards.put("Inflame", new Card("Inflame", "Power", 1, false, List.of("AppPlayer Strength 2"),
+                       1, false, List.of("AppPlayer Strength 3"), Rarity.UNCOMMON, Color.IRONCLAD));
+    cards.put("Intimidate", new Card("Intimidate", "Skill", 0, false, List.of("AppAll Weak 1", "Exhaust"),
+                       0, false, List.of("AppAll Weak 2", "Exhaust"), Rarity.UNCOMMON, Color.IRONCLAD));
     
     // Assert that all entries in `cards` are named correctly:
     App.ASSERT(cards.entrySet().stream()

@@ -99,6 +99,9 @@ public class Card {
           case "Apply":
             codedDescription += "Apply " + effectPower + " " + secondary + ".\n";
             break;
+          case "AppPlayer":
+            codedDescription += "Gain " + effectPower + " " + secondary + ".\n";
+            break;
           case "AppAll":
             codedDescription += "Apply " + effectPower + " " + secondary + " to ALL enemies.\n";
             break;
