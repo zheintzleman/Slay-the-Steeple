@@ -136,11 +136,12 @@ public class Status {
    * @Postcondition - Returns a status in App.STATUSES -- doesn't return null
   */
   private static Status getStatus(String name){
-    Status status = App.STATUSES.get(name);
+    Status status = App.STATUSSET.get(name);
 
+    //Exception case:
     if(status == null){
       System.out.println("Status \"" + name + "\" not found. Status list:");
-      for(Status s : App.STATUSES.values()){
+      for(Status s : App.STATUSSET.values()){
         Str.println("S: " + s.getName());
       }
       throw new RuntimeException("Status \"" + name + "\" not in App.STATUSES.");

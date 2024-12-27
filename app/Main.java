@@ -39,7 +39,7 @@ class Main {
 
   private static void printTitleScreen(){
     if(SettingsManager.sm.debug){
-      Str.println("CARDS: " + App.CARDS.values());
+      Str.println("CARDS: " + App.CARDS);
       
       Str.println(Colors.hpBarRed + "HP Bar Red ");
       Str.println(Colors.ICRed + "IC Red ");

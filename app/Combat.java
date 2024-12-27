@@ -441,10 +441,11 @@ public class Combat {
   }
 
   /** Removes card from all piles and adds it to the exhaust pile */
-  public void exhaust(Card card){
-    removeFromAllPiles(card);
-    exhaustPile.add(card);
-    EventManager.em.OnExhaust(card);
+  public void exhaust(Card c){
+    removeFromAllPiles(c);
+    c.setCosts0ThisTurn(false);
+    exhaustPile.add(c);
+    EventManager.em.OnExhaust(c);
   }
   /** Removes the card from all piles & adds it to the discard pile.
    * @param c The card to discard
@@ -453,6 +454,7 @@ public class Combat {
   */
   public void discard(Card c, boolean callOnDiscard){
     removeFromAllPiles(c);
+    c.setCosts0ThisTurn(false);
     if(callOnDiscard){
       EventManager.em.OnDiscard(c);
     }
@@ -694,6 +696,15 @@ public class Combat {
           }
         }
         break;
+      case "CopyToHandFree":
+        for(Card c : cardTargets(secondary, card)){
+          for(int i=0; i < power; i++){
+            Card copy = new Card(c);
+            copy.setCosts0ThisTurn(true);
+            gainToHand(copy);
+          }
+        }
+        break;
       case "GainToDraw":
         for(int i=0; i < power; i++){
           drawPile.add(new Card(secondary));
@@ -758,11 +769,17 @@ public class Combat {
         return new Card[] {current};
       case "TopFromDeck":
         return new Card[] {drawPile.get(0)};
+      case "RandAtk":
+        ArrayList<Card> attacks = new ArrayList<>(App.CARDS);
+        attacks.removeIf(Predicate.not(Card::isAttack));
+        int rng = (int) (Math.random() * attacks.size());
+        Str.println("# of attacks: " + attacks.size() + ", rng: " + rng);
+        return new Card[]{attacks.get(rng)};
       case "Hand":
         return hand.toArray(new Card[0]);
       case "RandHand":
         if(hand.size() <= 1) return hand.toArray(new Card[0]); //If hand just 0 or 1 elts, return it
-        int rng = (int) (Math.random() * hand.size());
+        rng = (int) (Math.random() * hand.size());
         return new Card[]{hand.get(rng)};
       case "Choose1FromHand":
         if(hand.size() <= 1) return hand.toArray(new Card[0]); //If hand just 0 or 1 elts, return it

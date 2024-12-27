@@ -1,5 +1,6 @@
 package app;
 import java.util.*;
+import java.util.function.Predicate;
 
 /** Class for cards that the player (usually) plays on their turn, that make up the deck, etc.
  * Also contains related public enums and private classes.
@@ -250,6 +251,9 @@ public class Card {
   private int upgrades;
   private Rarity rarity;
   private Color color;
+  /** Temporarily sets the cost to play the card (i.e. when calling
+   * getEnergyCost()) to 0. Set to false on discard/exhaust.
+   */
   private boolean costs0ThisTurn = false;
   private CardData data = new CardData();
   private CardData upData = new CardData(); //Data for the upgraded version of the card
@@ -360,6 +364,8 @@ public class Card {
   public void setUpgrades(int newUpgrades){ upgrades = newUpgrades; }
   public boolean isTargeted(){ return data.isTargeted; }
   public void setIsTargeted(boolean newIsTargeted){ data.isTargeted = newIsTargeted; }
+  // public boolean costs0ThisTurn(){ return costs0ThisTurn; }
+  public void setCosts0ThisTurn(boolean newVal){ costs0ThisTurn = newVal; }
   public ArrayList<CardEffect> getEffects(){ return data.effects; }
   public void setEffects(ArrayList<CardEffect> newEffects){ data.effects = newEffects; }
   /** Returns the base energy cost of the card. Includes any permanent effects
@@ -418,15 +424,6 @@ public class Card {
   public boolean isCurse(){
     return type.equals("Curse");
   }
-  
-  @Override
-  public String toString(){
-    // String energyCostColor = getEnergyCost() > getBaseEnergyCost() ? Colors.energyCostRed :
-    //                          getEnergyCost() == getBaseEnergyCost() ? Colors.reset :
-    //                                                                  Colors.upgradeGreen;
-    return Colors.lightGray + (ISUNPLAYABLE ? "" : "(" + Colors.energyCostRed + getEnergyCost() + Colors.lightGray + ") ")
-    + Colors.reset + name + colorEveryWordBySpaces(" - " + getDescriptionWONLs(), Colors.lightGray) + "\n" + Colors.reset;
-  }
 
   /** Returns whether or not this Card has the entered effect
   * @param effect - The effect to search this Card for
@@ -474,6 +471,15 @@ public class Card {
     return false;
   }
 
+  
+  @Override
+  public String toString(){
+    // String energyCostColor = getEnergyCost() > getBaseEnergyCost() ? Colors.energyCostRed :
+    //                          getEnergyCost() == getBaseEnergyCost() ? Colors.reset :
+    //                                                                  Colors.upgradeGreen;
+    return Colors.lightGray + (ISUNPLAYABLE ? "" : "(" + Colors.energyCostRed + getEnergyCost() + Colors.lightGray + ") ")
+    + Colors.reset + name + colorEveryWordBySpaces(" - " + getDescriptionWONLs(), Colors.lightGray) + "\n" + Colors.reset;
+  }
 
   /** Returns the image of the card that will be displayed on the screen
    * using the card's base description (not accounting for statuses).
@@ -569,11 +575,11 @@ public class Card {
    * @Postcondition - Returns a card in App.CARDS -- doesn't return null
   */
   public static Card getCard(String name){
-    Card card = App.CARDS.get(name);
+    Card card = App.CARDSET.get(name);
 
     if(card == null){
       System.out.println("Card \"" + name + "\" not found. Card list:");
-      for(Card c : App.CARDS.values()){
+      for(Card c : App.CARDS){
         Str.println("C: " + c.name);
       }
       throw new NoSuchElementException("Card \"" + name + "\" not in App.CARDS.");

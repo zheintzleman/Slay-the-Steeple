@@ -51,22 +51,27 @@ public class Run {
   /** Initialize & populate the deck
   */
   private void generateStartingDeck(){
-    final Collection<Card> CARDS = App.CARDS.values();
+    final Collection<Card> CARDS = App.CARDS;
 
     deck = new ArrayList<>(CARDS.size());
-    for(Card c : CARDS){
-      deck.add(new Card(c));
-    }
-    deck.add(new Card("Blood for Blood"));
-    deck.add(new Card("Blood for Blood"));
-    deck.add(new Card("Blood for Blood"));
-    deck.add(new Card("Entrench"));
-    deck.add(new Card("Entrench"));
-    deck.add(new Card("Havoc"));
-    deck.add(new Card("Havoc"));
-    deck.add(new Card("Body Slam"));
-    deck.add(new Card("Body Slam"));
-    deck.add(new Card("Armaments"));
+    // for(Card c : CARDS){
+    //   deck.add(new Card(c));
+    // }
+    deck.add(new Card("Infernal Blade"));
+    deck.add(new Card("Infernal Blade"));
+    deck.add(new Card("Infernal Blade"));
+    deck.add(new Card("Infernal Blade"));
+    deck.add(new Card("Infernal Blade"));
+    deck.add(new Card("Infernal Blade"));
+    deck.add(new Card("Infernal Blade"));
+    deck.add(new Card("Infernal Blade"));
+    deck.add(new Card("Infernal Blade"));
+    deck.add(new Card("Infernal Blade"));
+    deck.add(new Card("Infernal Blade"));
+    deck.add(new Card("Infernal Blade"));
+    deck.add(new Card("Infernal Blade"));
+    deck.add(new Card("Infernal Blade"));
+    deck.add(new Card("Infernal Blade"));
     deck.add(new Card("Armaments"));
     deck.add(new Card("Armaments"));
     deck.add(new Card("Armaments"));

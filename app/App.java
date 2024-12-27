@@ -56,8 +56,9 @@ public abstract class App {
   public static final Set<String> RUN_STATE_PRIMARIES = new HashSet<String>();
 
   // Can use Card.getCard(String) and Status.getStatus(String) to easily access w/ null-checking:
-  public static final HashMap<String, Card> CARDS = loadCards();
-  public static final HashMap<String, Status> STATUSES = loadStatuses();
+  public static final HashMap<String, Card> CARDSET = loadCards();
+  public static final ArrayList<Card> CARDS = new ArrayList<>(CARDSET.values());
+  public static final HashMap<String, Status> STATUSSET = loadStatuses();
 
   /** Generates the final hashmap containing all cards in the game.
    * 
@@ -170,6 +171,8 @@ public abstract class App {
                        1, false, List.of("Ethereal", "Block 13"), Rarity.UNCOMMON, Color.IRONCLAD));
     cards.put("Hemokenesis", new Card("Hemokenesis", "Attack", 1, true, List.of("LoseHP 2", "Attack 15"),
                        1, true, List.of("LoseHP 2", "Attack 20"), Rarity.UNCOMMON, Color.IRONCLAD));
+    cards.put("Infernal Blade", new Card("Infernal Blade", "Add a random Attack into your hand. It costs 0 this turn.\nExhaust.\n", "Skill", 1, false, List.of("CopyToHandFree RandAtk", "Exhaust"),
+                      "Add a random Attack into your hand. It costs 0 this turn.\nExhaust.\n", 0, false, List.of("CopyToHandFree RandAtk", "Exhaust"), Rarity.UNCOMMON, Color.IRONCLAD));
     
     // Assert that all entries in `cards` are named correctly:
     App.ASSERT(cards.entrySet().stream()
@@ -225,7 +228,6 @@ public abstract class App {
 
     return statuses;
   }
-
 
   public static void ASSERT(boolean condition){
     if(/*settingsManager.debug == true && */!condition){ //TODO: Optimize if having performace issues.
