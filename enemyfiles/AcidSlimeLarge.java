@@ -21,7 +21,7 @@ public class AcidSlimeLarge extends Enemy{
 
 
   public AcidSlimeLarge(int middleX){
-    super("Acid Slime (L)", (int)(Math.random()*5)+65, false, middleX, 41, art);
+    super(" Acid Slime (L)", (int)(Math.random()*5)+65, false, middleX, 41, art);
     setStatusStrength("Split", 1);
     setNextIntent();
   }

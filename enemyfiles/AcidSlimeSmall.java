@@ -13,7 +13,7 @@ public class AcidSlimeSmall extends Enemy{
 
 
   public AcidSlimeSmall(int middleX){
-    super("Acid Slime (S)", (int)(Math.random()*5)+8, false, middleX, 11, art);
+    super(" Acid Slime (S)", (int)(Math.random()*5)+8, false, middleX, 11, art);
     if(Math.random() < 0.5){
       intent = TACKLE;
     }else{

@@ -20,11 +20,11 @@ public class AcidSlimeMed extends Enemy{
 
 
   public AcidSlimeMed(int middleX){
-    super("Acid Slime (M)", (int)(Math.random()*5)+28, false, middleX, 17, art);
+    super(" Acid Slime (M)", (int)(Math.random()*5)+28, false, middleX, 17, art);
     setNextIntent();
   }
   public AcidSlimeMed(AcidSlimeLarge lSlime, int middleX){
-    super("Acid Slime (M)", lSlime.getHP(), false, middleX, 17, art);
+    super(" Acid Slime (M)", lSlime.getHP(), false, middleX, 17, art);
     setNextIntent();
   }
 
