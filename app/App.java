@@ -187,6 +187,8 @@ public abstract class App {
                       "Whenever you play an Attack this turn, gain 4 block.\n", 0, false, List.of("AppPlayer Rage 4"), Rarity.UNCOMMON, Color.IRONCLAD));
     cards.put("Rampage", new Card("Rampage", "Attack", 1, true, List.of("Attack 8", "Rampage 5"),
                        1, true, List.of("Attack 8", "Rampage 8"), Rarity.UNCOMMON, Color.IRONCLAD));
+    cards.put("Reckless Charge", new Card("Reckless Charge", "Attack", 0, true, List.of("Attack 7", "GainToDraw Dazed"),
+                      List.of("Attack 10", "GainToDraw Dazed"), Rarity.UNCOMMON, Color.IRONCLAD));
     
     // Assert that all entries in `cards` are named correctly:
     App.ASSERT(cards.entrySet().stream()
