@@ -59,8 +59,8 @@ public class Run {
     // }
     deck.add(new Card("Rage"));
     deck.add(new Card("Pummel"));
-    deck.add(new Card("Pummel"));
-    deck.add(new Card("Flame Barrier"));
+    deck.add(new Card("Rampage"));
+    deck.add(new Card("Inflame"));
     deck.add(new Card("Armaments"));
   }
 

@@ -75,7 +75,12 @@ public class Card {
       this.codedDescription = prev.codedDescription;
     }
     public Description(ArrayList<CardEffect> effects){
+      reconstructDescription(effects);
+    }
+
+    public void reconstructDescription(ArrayList<CardEffect> effects){
       codedDescription = "";
+
       for(CardEffect eff : effects) {
         String effectPower = "" + eff.getPower(); //Used to be basePower instead of eff.getPower().
         String primary = eff.getPrimary();
@@ -184,13 +189,15 @@ public class Card {
           case "Entrench":
             codedDescription += "Double your block.\n";
             break;
+          case "Rampage":
+            codedDescription += "Increase this card's damage by " + effectPower + " this combat.\n";
+            break;
           default:
             break;
         }
         App.ASSERT(codedDescription.endsWith(".\n") || codedDescription.isEmpty());
       }
     }
-    //End Description Constructors
 
     public String getCodedDescription(){
       return codedDescription;
@@ -370,7 +377,7 @@ public class Card {
   // public boolean costs0ThisTurn(){ return costs0ThisTurn; }
   public void setCosts0ThisTurn(boolean newVal){ costs0ThisTurn = newVal; }
   public ArrayList<CardEffect> getEffects(){ return data.effects; }
-  public void setEffects(ArrayList<CardEffect> newEffects){ data.effects = newEffects; }
+  public ArrayList<CardEffect> getUpEffects(){ return upData.effects; }
   /** Returns the base energy cost of the card. Includes any permanent effects
    * on the card's energy cost (e.g. Confusion). Returns 0 for unplayable cards.
    * 
@@ -505,6 +512,17 @@ public class Card {
     image[1] = Str.addStringsSkipEscSequences(image[1], 2, energyCostString, Colors.energyCostRedBold, Colors.reset);
     
     return image;
+  }
+
+  /** If the effects of a card have changed, can call this to update the card's
+   * description (both the upgraded & non-upgraded versions) accordingly.
+   * Requires that the card's description was initially constructed using the
+   * Description constructor (i.e. based on the card's effects), and was not
+   * hard-coded in.
+   */
+  public void reloadDescription(){
+    data.description.reconstructDescription(getEffects());
+    upData.description.reconstructDescription(getUpEffects());
   }
 
   public boolean isUpgradable(){

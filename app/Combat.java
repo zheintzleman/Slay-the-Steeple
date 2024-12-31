@@ -1,5 +1,6 @@
 package app;
 import java.util.*;
+import java.util.function.Consumer;
 import java.util.function.Predicate;
 import java.util.stream.Stream;
 
@@ -724,6 +725,20 @@ public class Combat {
         energy += c.getEnergyCost();
         playCard(c);
         exhaust(c);
+        break;
+      case "Rampage":
+        App.ASSERT(card != null);
+        //(int must be final to use in a lambda)
+        final int rampagePower = power;
+        //Increase the damage of this card's attacks:
+        Consumer<CardEffect> increaseDamage = (CardEffect e) -> {
+          if(e.getPrimary().equals("Attack")){
+            e.setPower(e.getPower() + rampagePower);
+          }
+        };
+        card.getEffects().stream().forEach(increaseDamage);
+        card.getUpEffects().stream().forEach(increaseDamage);
+        card.reloadDescription();
         break;
       case "LoseEnergy":
         power = -power;
