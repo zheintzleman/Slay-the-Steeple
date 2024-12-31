@@ -338,7 +338,8 @@ public class Card {
     if(!(name.equals("Twin Strike")
       || name.equals("Sword Boomerang")
       || name.equals("Blood for Blood")
-      || name.equals("Dropkick"))){ //<-Whitelist
+      || name.equals("Dropkick")
+      || name.equals("Pummel"))){ //<-Whitelist
       // To get your attention. Read the above Javadoc comment.
       for(CardEffect eff : data.effects){
         App.ASSERT(!eff.isAttack() && !eff.isDefense());

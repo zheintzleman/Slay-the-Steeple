@@ -181,6 +181,10 @@ public abstract class App {
                       "At the end of your turn, gain 4 block.\n", 1, false, List.of("AppPlayer Metallicize 4"), Rarity.UNCOMMON, Color.IRONCLAD));
     cards.put("Power Through", new Card("Power Through", "Add 2 Wounds into your hand.\nGain 15 block.\n", "Skill", 1, false, List.of("CopyToHand Wound 2", "Block 15"),
                       "Add 2 Wounds into your hand.\nGain 20 block.\n", 1, false, List.of("CopyToHand Wound 2", "Block 20"), Rarity.UNCOMMON, Color.IRONCLAD));
+    cards.put("Pummel", new Card("Pummel", "Deal <atk>2<endatk> damage 4 times.\nExhaust.\n", "Attack", 1, true, List.of("Attack 2", "Attack 2", "Attack 2", "Attack 2", "Exhaust"),
+                      "Deal <atk>2<endatk> damage 5 times.\nExhaust.\n", 1, true, List.of("Attack 2", "Attack 2", "Attack 2", "Attack 2", "Attack 2", "Exhaust"), Rarity.UNCOMMON, Color.IRONCLAD));
+    cards.put("Rage", new Card("Rage", "Whenever you play an Attack this turn, gain 3 block.\n", "Skill", 0, false, List.of("AppPlayer Rage 3"),
+                      "Whenever you play an Attack this turn, gain 4 block.\n", 0, false, List.of("AppPlayer Rage 4"), Rarity.UNCOMMON, Color.IRONCLAD));
     
     // Assert that all entries in `cards` are named correctly:
     App.ASSERT(cards.entrySet().stream()
@@ -228,6 +232,7 @@ public abstract class App {
     statuses.put("Fire Breathing", new Status("Fire Breathing", Colors.vulnRed + "F", false, true, "Whenever you draw a Status or Curse card, deal <str> damage to ALL enemies."));
     statuses.put("Flame Barrier", new Status("Flame Barrier", Colors.vulnRed + "B", false, true, "When attacked, deals <str> damage back. (Wears off at the end of your turn)"));
     statuses.put("Metallicize", new Status("Metallicize", Colors.lightBlue + "M", false, true, "At the end of your turn, gain <str> block.", List.of("(OnTurnEnd) Block <str>")));
+    statuses.put("Rage", new Status("Rage", Colors.lightYellow + "R", false, true, "Whenever you play an Attack, gain <str> block. (Wears off at the end of your turn)"));
 
     
     // Assert that all entries in `cards` are named correctly:

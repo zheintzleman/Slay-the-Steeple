@@ -57,10 +57,10 @@ public class Run {
     // for(Card c : CARDS){
     //   deck.add(new Card(c));
     // }
-    deck.add(new Card("Twin Strike"));
-    deck.add(new Card("Twin Strike"));
-    deck.add(new Card("Combust"));
-    deck.add(new Card("Armaments"));
+    deck.add(new Card("Rage"));
+    deck.add(new Card("Pummel"));
+    deck.add(new Card("Pummel"));
+    deck.add(new Card("Flame Barrier"));
     deck.add(new Card("Armaments"));
   }
 

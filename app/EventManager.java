@@ -68,6 +68,12 @@ public class EventManager {
         Combat.c.discard(card, false);
       }
     }
+
+    // Remove some statuses that s/b removed at end of turn:
+    Combat.c.getEntities().stream().forEach((Entity entity) -> {
+      entity.setStatusStrength("Flame Barrier", 0);
+      entity.setStatusStrength("Rage", 0);
+    });
   }
 
   public void OnLoseHP(Entity victim, int hpLoss){
@@ -108,6 +114,7 @@ public class EventManager {
     //Just directly reduces vigor -- the entity copy system will make it so the statuses don't
     //apply until after all of the attacks are done.
     attacker.setStatusStrength("Vigor", 0);
+    attacker.block(attacker.getStatusStrength("Rage"), false);
   }
 
   /** Activates when a card is discarded "unnaturally", i.e. not from just playing it, but from
