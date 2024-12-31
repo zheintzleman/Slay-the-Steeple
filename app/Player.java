@@ -18,7 +18,7 @@ public class Player extends Entity {
   @Override
   public void endTurn(Player player){
     setBlock(0);
-    updateCopysDecreasingStatuses();
+    updateDecreasingStatuses();
     subtractStatusStrength("Strength", getStatusStrength("Strength Down"));
     setStatusStrength("Strength Down", 0);
     subtractStatusStrength("Dexterity", getStatusStrength("Dexterity Down"));
@@ -31,13 +31,5 @@ public class Player extends Entity {
   @Override
   public void giveBlock(Entity receiver, int blockPreCalculations){
     throw new UnsupportedOperationException("Calling giveBlock from Player.");
-  }
-  @Override
-  public void blockAfterTurn(int blockPreCalculations){
-    throw new UnsupportedOperationException("Calling blockAfterTurn on Player.");
-  }
-  @Override
-  public void giveBlockDuringEndOfTurn(Entity receiver, int blockPreCalculations){
-    throw new UnsupportedOperationException("Calling giveBlockDuringEndOfTurn from Player.");
   }
 }

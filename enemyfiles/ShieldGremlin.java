@@ -46,7 +46,7 @@ public class ShieldGremlin extends Enemy{
         rn = (int)(Math.random()*allies.size());
       }
       Enemy target = allies.get(rn);
-      giveBlockDuringEndOfTurn(target, 7);
+      giveBlock(target, 7);
     }
   }
 

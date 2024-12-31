@@ -57,12 +57,9 @@ public class Run {
     // for(Card c : CARDS){
     //   deck.add(new Card(c));
     // }
-    deck.add(new Card("Power Through"));
-    deck.add(new Card("Feel No Pain"));
-    deck.add(new Card("Feel No Pain"));
-    deck.add(new Card("Slimed"));
-    deck.add(new Card("Slimed"));
-    deck.add(new Card("Armaments"));
+    deck.add(new Card("Twin Strike"));
+    deck.add(new Card("Twin Strike"));
+    deck.add(new Card("Combust"));
     deck.add(new Card("Armaments"));
     deck.add(new Card("Armaments"));
   }

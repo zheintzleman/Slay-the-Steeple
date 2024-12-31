@@ -41,7 +41,7 @@ public class Looter extends Enemy{
       attack(player, 12);
       goldStolen += Combat.c.getRun().loseGold(15);
     }else if(intent == SMOKEBOMB){
-      blockAfterTurn(6);
+      block(6, false);
     }else if(intent == ESCAPE){
       ArrayList<Enemy> enemiesToUpdate = Combat.c.getEnemiesToUpdate();
       int thisIndex = -1;

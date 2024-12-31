@@ -30,11 +30,11 @@ public class Combat {
   // For when too many cards in hand to fully print all of them
   private boolean condenseLeftHalfOfHand;
   //The highest row (of the screen) in which the hand cards are printed
-  private int topRowOfCards;
+  private final int topRowOfCards;
   /** The number of times Combust has been played this combat */
   private int combusts = 0;
   /** A reference to EventManager.er */
-  private EventManager eventManager;
+  private final EventManager eventManager;
   /** Semi-singleton Combat instance (only ever exists 1, but not final) */
   public static Combat c;
   
@@ -58,7 +58,7 @@ public class Combat {
     exhaustPile = new ArrayList<Card>();
     hand = new ArrayList<Card>();
 
-    // X pos (col) of the first enemy; offset between enemeies.
+    // X pos (col) of the first enemy; offset between enemies.
     // If >2 enemies, used for ensuring same gap between them all.
     int e1X, gap;
     String combatName = pickCombat();
@@ -199,9 +199,6 @@ public class Combat {
     while(!combatOver){
       //startOfTurn
       energy = baseEnergy;
-      for(Enemy e : enemies){
-        e.setStartOfTurnBlock(0);
-      }
       //draw new hand
       for(int i=0; i<5; i++){
         drawCard();
@@ -272,18 +269,15 @@ public class Combat {
 
   public void endEntityTurns(){
     enemiesToUpdate = new ArrayList<Enemy>(enemies);
-    Entity.holdAllStatuses();
+    Entity.hold();
     
     for(Enemy e : enemies){
       e.endTurn(player);
     }
-    for(Enemy e : enemies){
-      e.block(e.getStartOfTurnBlock(), false);
-    }
     enemies = enemiesToUpdate;
 
     player.endTurn(player);
-    Entity.resumeAllStatuses();
+    Entity.resume();
   }
 
   /** Sets the screen to accurate values/images
@@ -503,7 +497,6 @@ public class Combat {
   public boolean playCard(Card card){
     Entity target = null;
     boolean shouldDiscard = true;
-    boolean alreadyPlayingACard = player.statusesHeld();
 
     if(!cardPlayable(card)){
       return false;
@@ -520,8 +513,9 @@ public class Combat {
     //Doing the card's effect(s):
 
     // New statuses to the player aren't counted until we call mergeCopy.
-    if(!alreadyPlayingACard){
-      Entity.holdAllStatuses();
+    boolean blockAlreadyHeld = player.blockHeld();
+    if(!blockAlreadyHeld){
+      Entity.holdBlock();
     }
     
     ArrayList<CardEffect> cardEffects = card.getEffects();
@@ -583,8 +577,8 @@ public class Combat {
       eventManager.OnAttackFinished(player);
     }
     
-    if(!alreadyPlayingACard){
-      Entity.resumeAllStatuses();
+    if(!blockAlreadyHeld){
+      Entity.resumeBlock();
     }
 
     return true;
@@ -949,7 +943,7 @@ public class Combat {
     final int offsetPerCard = (Card.CARDWIDTH + 1)/2;
     //# of cards that can nicely fit on screen
     final int cardsThatFit = Run.SCREENWIDTH/Card.CARDWIDTH - 1; //8
-    final int leftmostCol = middleColPlus1 - Str.minOf(numCards, cardsThatFit) * offsetPerCard;
+    final int leftmostCol = middleColPlus1 - Integer.min(numCards, cardsThatFit) * offsetPerCard;
 
     if(numCards <= cardsThatFit){
       // If there's enough room on screen for all the cards

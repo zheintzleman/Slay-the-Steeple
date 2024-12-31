@@ -5,9 +5,6 @@ import enemyfiles.Enemy;
 
 /** Represents any entity in a combat -- either the player or an enemy. Contains methods for most
  * basic actions an entity can perform, such as attacking, dying, changing statuses, etc.
- * Calling holdStatuses() makes a (private) clone of this, to which all status changes are
- * automatically applied. resumeStatuses() then sets this' statuses to the clone's updated ones.
- * Class is abstract; use one of the extensions (can use AbstractEntity if needed.)
  * 
  * @see Enemy
  * @see Player
@@ -18,25 +15,27 @@ public abstract class Entity {
   /** Default Entity Image */
   public static final String[] RECTANGLE = new String[] {"███████", "███████", "███████", "███████", "███████", "███████"};
   private String name;
-  private int hp, maxHP, hpBarLength, block, startOfTurnBlock;
+  private int hp, maxHP, hpBarLength, block, heldBlock;
   private boolean isDead = false;
   private String[] art;
   // Could instead use a LinkedHashMap, especially given most of the use cases are with searching
   // for a specific element. The lists are relatively short, though (and this project is not
   // especially computationally demanding), so asymptotics aren't as important.
   private ArrayList<Status> statuses;
-  // While enemies are doing their intents & while a card is being played, new statuses are applied
+  // While enemies are doing their intents, new statuses are applied
   // to a copy of the entity instead of to the entity itself. They then sync at the start of the
   // next turn. Originally just for during "end-of-turn" (i.e. while enemies are doing their
-  // intents), but the use cases have since expanded.
+  // intents), but have since generalized the functionality.
   private Entity copy = null;
+  // Similar to above, but for block. While true, new block is stored in heldBlock until resumed.
+  private boolean blockHeld = false;
 
   public Entity(){
     name = "<Entity>";
     maxHP = (int)(Math.random()*10) + 45;
     hp = maxHP;
     hpBarLength = 21;
-    startOfTurnBlock = block = 0;
+    heldBlock = block = 0;
     art = RECTANGLE;
     statuses = new ArrayList<Status>();
   }
@@ -45,7 +44,7 @@ public abstract class Entity {
     this.maxHP = (int)(Math.random()*10) + 45;
     this.hp = this.maxHP;
     hpBarLength = 21;
-    startOfTurnBlock = block = 0;
+    heldBlock = block = 0;
     art = RECTANGLE;
     statuses = new ArrayList<Status>();
   }
@@ -54,7 +53,7 @@ public abstract class Entity {
     this.maxHP = hp;
     this.hp = this.maxHP;
     hpBarLength = 21;
-    startOfTurnBlock = block = 0;
+    heldBlock = block = 0;
     art = RECTANGLE;
     statuses = new ArrayList<Status>();
   }
@@ -63,7 +62,7 @@ public abstract class Entity {
     this.maxHP = hp;
     this.hp = this.maxHP;
     this.hpBarLength = hpBarLength;
-    startOfTurnBlock = block = 0;
+    heldBlock = block = 0;
     art = RECTANGLE;
     statuses = new ArrayList<Status>();
   }
@@ -72,7 +71,7 @@ public abstract class Entity {
     this.maxHP = hp;
     this.hp = this.maxHP;
     hpBarLength = 21;
-    startOfTurnBlock = block = 0;
+    heldBlock = block = 0;
     this.art = art;
     statuses = new ArrayList<Status>();
   }
@@ -81,7 +80,7 @@ public abstract class Entity {
     this.maxHP = maxHP;
     this.hp = hp;
     hpBarLength = 21;
-    startOfTurnBlock = block = 0;
+    heldBlock = block = 0;
     this.art = art;
     statuses = new ArrayList<Status>();
   }
@@ -89,7 +88,7 @@ public abstract class Entity {
     this.name = name;
     this.hp = this.maxHP = hp;
     this.hpBarLength = hpBarLength;
-    startOfTurnBlock = block = 0;
+    heldBlock = block = 0;
     this.art = art;
     statuses = new ArrayList<Status>();
   }
@@ -99,7 +98,7 @@ public abstract class Entity {
     this.hp = e.hp;
     this.hpBarLength = e.hpBarLength;
     this.block = e.block;
-    startOfTurnBlock = 0;
+    heldBlock = 0;
     this.art = e.art.clone();
     this.statuses = copyStatusList(e.statuses);
   }
@@ -111,8 +110,8 @@ public abstract class Entity {
   public void setHP(int newHP){ hp = newHP; }
   public int getMaxHP(){ return maxHP; }
   public void setMaxHP(int newMaxHP){ maxHP = newMaxHP; }
-  public int getStartOfTurnBlock(){ return startOfTurnBlock; }
-  public void setStartOfTurnBlock(int newBlock){ startOfTurnBlock = newBlock; }
+  public int getheldBlock(){ return heldBlock; }
+  public void setheldBlock(int newBlock){ heldBlock = newBlock; }
   public int getBlock(){ return block; }
   public void setBlock(int newBlock){ block = newBlock; }
   public boolean isDead(){ return isDead; }
@@ -135,57 +134,117 @@ public abstract class Entity {
   
 
   /** For each entity currently in play:
-   * Initializes `copy` to a clone of `this`. All new status effects
-   * will go to the clone until resumeAllStatuses() is called.
-   * @Precondition: A copy is not currently created.
+   * All new status effects and block will go to the clone until resume() is
+   * called.
+   * @Note Only affects calls to the block function, not other changes to block
+   * amount (such as being attacked and losing block.)
+   * @Precondition: No entities currently held.
    */
-  public static void holdAllStatuses(){
-    // Calls holdStatuses on the enemies and player.
-    Combat.c.getEntities().stream()
-      .forEach(Entity::holdStatuses);
+  public static void hold(){
+    // Calls holdThis functions on the enemies and player.
+    holdBlock();
+    holdStatuses();
   }
   /** For each entity currently in play:
-   * Merges the statuses that have been applied to `copy` to this instead,
-   * and sets `copy` back to null. (i.e. applies all attempted status changes
-   * since calling holdAllStatuses.)
-   * @Precondition: A copy has been initialized.
+   * Merges the statuses and block that have been applied since, and sets
+   * `copy` back to null. (i.e. applies all attempted status changes and block
+   * since calling hold.)
    */
-  public static void resumeAllStatuses(){
-    // Calls resumeStatuses on the enemies and player.
+  public static void resume(){
+    // Calls resumeThis functions on the enemies and player.
+    resumeBlock();
+    resumeStatuses();
+  }
+  /** For each entity currently in play:
+   * All new block will not be applied until resumeThisBlock called.
+   * @Note Only affects calls to the block function, not other changes to block
+   * amount (such as being attacked.)
+   * @Precondition No entity's block held.
+   * @Postcondition All entities' block held.
+   */
+  public static void holdBlock(){
     Combat.c.getEntities().stream()
-      .forEach(Entity::resumeStatuses);
+      .forEach(Entity::holdThisBlock);
   }
-  /** Initializes `copy` to a clone of `this`. All new status effects
-   * will go to the clone until resumeStatuses() is called.
-   * @Precondition: A copy is not currently created.
+  /** For each entity currently in play:
+   * Applies the block that has been held.
+   * @Postcondition No entity's block held.
    */
-  private void holdStatuses(){
-    App.ASSERT(!hasCopy());
+  public static void resumeBlock(){
+    // See resumeStatuses() for why we don't assert blockHeld() here.
+    Combat.c.getEntities().stream()
+      .forEach(Entity::resumeThisBlock);
+  }
+  /** For each entity currently in play:
+   * Initializes `copy` to a clone of `this`. All status changes will go to
+   * the clone until resumeThisStatuses() is called.
+   * @Precondition No entity's statuses currently held (A copy is not currently
+   * created.)
+   * @Postcondition All entity's statuses held.
+   */
+  public static void holdStatuses(){
+    Combat.c.getEntities().stream()
+      .forEach(Entity::holdThisStatuses);
+  }
+  /** For each entity currently in play:
+   * Merges the status changes that have been applied since holding them.
+   * Does nothing if this entity not currently held
+   * @Postcondition No entity's statuses held
+   */
+  public static void resumeStatuses(){
+    // Not asserting statusesHeld(), since a new enemy could have been created
+    // since holdStatuses(), and they are created w/ statusesHeld() false
+    // (i.e. copy == null.)
+    Combat.c.getEntities().stream()
+      .forEach(Entity::resumeThisStatuses);
+  }
+  private void holdThisStatuses(){
+    App.ASSERT(!statusesHeld());
     copy = new AbstractEntity(this);
+    
+    App.ASSERT(statusesHeld());
   }
-  /** Merges the statuses that have been applied to `copy` to this instead,
-   * and sets `copy` back to null.
-   * @Precondition: A copy has been initialized.
-   */
-  private void resumeStatuses(){
-    // Not asserting hasCopy(), since a new enemy could have been created since holdStatuses,
-    // and they are created w/ hasCopy() false (i.e. copy == null.)
-    if(hasCopy()){
+  private void resumeThisStatuses(){
+    if(statusesHeld()){
       setStatuses(copy.getStatuses());
+      copy = null;
     }
-    copy = null;
+    App.ASSERT(!statusesHeld());
   }
-  /** See `copy` description for more details. Returns false if called on the copy. */
-  private boolean hasCopy(){
+  private void holdThisBlock(){
+    App.ASSERT(!blockHeld());
+    blockHeld = true;
+    App.ASSERT(blockHeld());
+  }
+  private void resumeThisBlock(){
+    addBlock(heldBlock);
+    heldBlock = 0;
+    blockHeld = false;
+
+    App.ASSERT(!blockHeld());
+  }
+  /** Returns true iff this entity is currently in a status && block hold.
+   * (e.g.)
+   * Returns false if called on the copy. See `copy` description for more
+   * details.
+   */
+  public boolean fullyHeld(){
+    return statusesHeld() && blockHeld();
+  }
+  /** Returns whether or not the statuses are currently being applied to the
+   * copy (i.e. being held.)
+   */
+  public boolean statusesHeld(){
     return copy != null;
   }
-  /** Returns true if holdStatuses has been called on this entity (e.g. if holdAllStatuses was
-   * called) more recently than any call to resumeStatuses on this entity. i.e. returns true iff
-   * this entity is in a status hold.
-   * Public version of hasCopy, for abstraction purposes. */
-  public boolean statusesHeld(){
-    return hasCopy();
+  /** Returns whether new block is added to the heldBlock variable (i.e. block
+   * is being held.)
+   * If false, block is added straight to the block variable.
+   */
+  public boolean blockHeld(){
+    return blockHeld;
   }
+  
   
   /** Returns this entity's status with the specified name, or null if none is present.
   */
@@ -214,9 +273,9 @@ public abstract class Entity {
    * If during turn-end, sets the status in the entity copy instead.
    * @return The status being set (even if removed from list for being set to 0)
    * @return null, if setting a status already at 0 to 0.
-  */
+   */
   public Status setStatusStrength(String name, int strength){
-    if(hasCopy()){
+    if(statusesHeld()){
       // While enemies doing intents, want to edit their statuses instead.
       return copy.setStatusStrength(name, strength);
     }
@@ -248,7 +307,7 @@ public abstract class Entity {
   */
   public Status addStatusStrength(String name, int strength){
     if(strength == 0){ return null; }
-    if(hasCopy()){
+    if(statusesHeld()){
       return copy.addStatusStrength(name, strength);
     }
 
@@ -274,21 +333,21 @@ public abstract class Entity {
    * negative (or else that you deal with the negative case, or rewrite this function.)
    * @return The status subtracted from (even if removed from list for being set to 0)
    * @Precondition Not during turn-end, or being called by `copy` (i.e. copy == null)
-  */
+   */
   public Status subtractStatusStrength(String name, int strength){
     return addStatusStrength(name, -strength);
   }
   /** Returns whether or not this enemy has the status in any strength, besides 0.
    * @NOTE Returns true for negative status strength.
-  */
+   */
   public boolean hasStatus(String name){
     return getStatus(name) != null;
   }
 
   
   /** Damages the entity the specified amount; taking from its block then its hp. If hp is 0 or less, it dies.
-  * @return int - the amount of damage delt
-  */
+   * @return int - the amount of damage delt
+   */
   public int damage(int dmg){
     if(block >= dmg){
       block -= dmg;
@@ -321,42 +380,48 @@ public abstract class Entity {
       hp = maxHP;
     }
   }
-  /** Increases the entity's block the specified amount, up to 999. Does not account for frail or dexterity.
-  */
-  public void addBlock(int blk){
+  /** Increases the entity's block the specified amount, up to 999.
+   * Does not account for frail/dexterity/etc., or for block being held.
+   */
+  private void addBlock(int blk){
     block += blk;
-    if(block > 999){
-      block = 999;
-    }
-  }
-  /** Increases the entity's start of turn block the specified amount. Does not account for frail or dexterity.
-  */
-  public void addStartOfTurnBlock(int blk){
-    startOfTurnBlock += blk;
+    block = Integer.min(block, 999);
   }
   /** Gives the entity the appropriate amount of block, taking into account relevent status effects.
-  * @param blockPreCalculations - The amount of defence the card/intent does (ie. 5 for an unupgraded Defend)
-  * @param fromCard - Whether or not a card is causing the block. Used to determine, e.g., whether to account for frail.
-  */
+   * @param blockPreCalculations - The amount of defence the card/intent does (ie. 5 for an unupgraded Defend)
+   * @param fromCard - Whether or not a card is causing the block. Used to determine, e.g., whether to account for frail.
+   */
   public void block(int blockPreCalculations, boolean fromCard){
     int blk = calcBlockAmount(blockPreCalculations, fromCard);
-    this.addBlock(blk);
+    if(blockHeld()){
+      heldBlock += blk;
+    } else {
+      addBlock(blk);
+    }
   }
-  /** Gives the receiving entity the appropriate amount of block, taking into account relevent status effects (on this entity).
-  * @param receiver - The entity to receive the block
-  * @param blockPreCalculations - The amount of defence the card/intent does (ie. 5 for an unupgraded Defend)
-  *
-  * @Precondition Not being called on the player.
-  */
+  /** Gives the receiving entity the appropriate amount of block, taking into
+   * account relevent status effects (on this entity).
+   * @param receiver - The entity to receive the block
+   * @param blockPreCalculations - The amount of defence the card/intent does
+   * (ie. 5 for an unupgraded Defend)
+   *
+   * @Precondition Not being called from or to the player.
+   */
   public void giveBlock(Entity receiver, int blockPreCalculations){
+    App.ASSERT(receiver instanceof Enemy);
+
     int blk = calcBlockAmount(blockPreCalculations, false);
-    receiver.addBlock(blk);
+    if(receiver.blockHeld()){
+      receiver.heldBlock += blk;
+    } else {
+      receiver.addBlock(blk);
+    }
   }
   /** Calculates the amount a block card with the entered amount would block for, taking into account relevent status effects.
-  * @param blockPreCalculations - The amount the base card would say (ie. 5 for an unupgraded Defend)
-  * @param fromCard - Whether or not a card is causing the block. Used to determine, e.g., whether to account for frail.
-  * @return int - The amount of block that would be gained by playing such a card, taking into account dexterity and frail.
-  */
+   * @param blockPreCalculations - The amount the base card would say (ie. 5 for an unupgraded Defend)
+   * @param fromCard - Whether or not a card is causing the block. Used to determine, e.g., whether to account for frail.
+   * @return int - The amount of block that would be gained by playing such a card, taking into account dexterity and frail.
+   */
   public int calcBlockAmount(int blockPreCalculations, boolean fromCard){
     double blk = blockPreCalculations + this.getStatusStrength("Dexterity");
     if(fromCard && this.getStatusStrength("Frail") > 0){
@@ -364,31 +429,12 @@ public abstract class Entity {
     }
     return (int)(blk + 0.00000001); //In case of floating point errors
   }
-  /** Increases the startOfTurnBlock variable according to relevent status effects
-  * @param blockPreCalculations - The amount of defence the card/intent does (ie. 5 for an unupgraded Defend)
-  * 
-  * @Precondition Not being called on the player.
-  */
-  public void blockAfterTurn(int blockPreCalculations){
-    int blk = calcBlockAmount(blockPreCalculations, false);
-    addStartOfTurnBlock(blk);
-  }
-  /** Increases the receiving entity's startOfTurnBlock variable according to relevent status effects (on this entity)
-  * @param receiver - The entity to receive the future block
-  * @param blockPreCalculations - The amount of defence the card/intent does (ie. 5 for an unupgraded Defend)
-  * 
-  * @Precondition Not being called on the player.
-  */
-  public void giveBlockDuringEndOfTurn(Entity receiver, int blockPreCalculations){
-    int blk = calcBlockAmount(blockPreCalculations, false);
-    receiver.addStartOfTurnBlock(blk);
-  }
   /** Attacks the victim entity for the specified amount. Takes into account relevent status effects.
    * Takes from the victim's block, then its hp.
    * @param victim - The entity being attacked by the entity calling this method
    * @param damagePreCalculations - The amount of damage the base card does (ie. 6 for an unupgraded Strike)
    * @return int - The amount of attack damage delt
-  */
+   */
   public int attack(Entity victim, int damagePreCalculations){
     return attack(Collections.singletonList(victim), damagePreCalculations, 1);
   }
@@ -397,7 +443,7 @@ public abstract class Entity {
    * @param victims - The entities being attacked by the entity calling this method
    * @param damagePreCalculations - The amount of damage the base card does (ie. 6 for an unupgraded Strike)
    * @return int - The total amount of attack damage delt
-  */
+   */
   public int attack(List<? extends Entity> victims, int damagePreCalculations){
     return attack(victims, damagePreCalculations, 1);
   }
@@ -407,7 +453,7 @@ public abstract class Entity {
    * @param damagePreCalculations - The amount of damage the base card does (ie. 6 for an unupgraded Strike)
    * @param strMultiplier - Multiplies the effect of strength by this; default 1. Used for Heavy Blade, etc.
    * @return int - The amount of attack damage delt
-  */
+   */
   public int attack(Entity victim, int damagePreCalculations, int strMultiplier){
     return attack(Collections.singletonList(victim), damagePreCalculations, strMultiplier);
   }
@@ -417,7 +463,7 @@ public abstract class Entity {
    * @param damagePreCalculations - The amount of damage the base card does (ie. 6 for an unupgraded Strike)
    * @param strMultiplier - Multiplies the effect of strength by this; default 1. Used for Heavy Blade, etc.
    * @return int - The total amount of attack damage delt
-  */
+   */
   public int attack(List<? extends Entity> victims, int damagePreCalculations, int strMultiplier){
     int totalDmgDealt = 0;
     // To prevent ConcurrentModificationException's:
@@ -489,10 +535,10 @@ public abstract class Entity {
   */
   public abstract void endTurn(Player player);
   /** Loops over the copy's statuses (i.e. the entity's statuses after end-of-turn status changes
-   * such as entity intents), decreasing the strength of statuses that where:
+   * such as entity intents), decreasing the strength of statuses where:
    * The status is decreasing, and it is present both in the copy and in the original.
    */
-  public void updateCopysDecreasingStatuses(){
+  public void updateDecreasingStatuses(){
     for(int i=0; i<copy.statuses.size(); i++){
       Status s = copy.statuses.get(i);
       if(s.isDecreasing() && this.hasStatus(s.getName())){

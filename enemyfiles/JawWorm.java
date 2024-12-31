@@ -32,9 +32,9 @@ public class JawWorm extends Enemy{
       attack(player, 11);
     }else if(intent == THRASH){
       attack(player, 7);
-      blockAfterTurn(5);
+      block(5, false);
     }else if(intent == BELLOW){
-      blockAfterTurn(6);
+      block(6, false);
       addStatusStrength("Strength", 3);
     }
   }

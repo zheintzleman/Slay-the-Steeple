@@ -95,7 +95,7 @@ public class EventManager {
 
   public void OnAtkDmgDealt(Entity victim, int damage){
     if(victim.hasStatus("Curl Up")){ //Curl Up
-      victim.addBlock(victim.getStatusStrength("Curl Up"));
+      victim.block(victim.getStatusStrength("Curl Up"), false);
       victim.setStatusStrength("Curl Up", 0);
     }
     if(victim.hasStatus("Angry")){

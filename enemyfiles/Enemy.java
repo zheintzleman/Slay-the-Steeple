@@ -81,7 +81,7 @@ public abstract class Enemy extends Entity{
     //Creating a copy enemy and changing its statuses instead of the real entity's. (Still attacking with the real entity.) Then, syncs the copy's statuses to the real entity at the end of this method.
     System.out.println("About to do intent");
     this.doIntent(player);
-    updateCopysDecreasingStatuses(); //Updates said statuses in copy.
+    updateDecreasingStatuses(); //Updates said statuses in copy.
     addStatusStrength("Strength", this.getStatusStrength("Ritual")); //Only counts rituals that were there already.
     this.setBlock(0); //Could add the whole "start of turn block" system to be dealt with with the enemy copy system instead.
     this.setNextIntent();
