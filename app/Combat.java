@@ -208,6 +208,8 @@ public class Combat {
 
       //Sync enemy lists (exists so order doesn't mess things up)
       enemiesToUpdate = new ArrayList<Enemy>(enemies);
+
+      eventManager.OnTurnStart();
       
       turnOver = false;
       while(!turnOver){

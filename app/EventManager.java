@@ -22,6 +22,7 @@ public class EventManager {
     ONEXHAUSTED,
     ONDRAW,
     ONDRAWN,
+    ONTURNSTART,
     ONTURNEND,
     ONLOSEHP,
     ONPLAYERLOSEHP,
@@ -44,6 +45,10 @@ public class EventManager {
   public void OnExhaust(Card exhausted){
     playCardEffects(Event.ONEXHAUSTED, exhausted);
     playStatusEffects(Event.ONEXHAUST);
+  }
+
+  public void OnTurnStart(){
+    playStatusEffects(Event.ONTURNSTART);
   }
 
   public void OnTurnEnd(){

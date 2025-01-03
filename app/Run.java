@@ -58,8 +58,8 @@ public class Run {
     //   deck.add(new Card(c));
     // }
     deck.add(new Card("Barricade"));
-    deck.add(new Card("Barricade"));
-    deck.add(new Card("Whirlwind"));
+    deck.add(new Card("Bludgeon"));
+    deck.add(new Card("Berserk"));
     deck.add(new Card("Warcry"));
     deck.add(new Card("Armaments"));
   }
