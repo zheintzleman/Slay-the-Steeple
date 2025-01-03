@@ -57,8 +57,8 @@ public class Run {
     // for(Card c : CARDS){
     //   deck.add(new Card(c));
     // }
-    deck.add(new Card("Uppercut"));
-    deck.add(new Card("Whirlwind"));
+    deck.add(new Card("Barricade"));
+    deck.add(new Card("Barricade"));
     deck.add(new Card("Whirlwind"));
     deck.add(new Card("Warcry"));
     deck.add(new Card("Armaments"));

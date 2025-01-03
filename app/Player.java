@@ -17,7 +17,9 @@ public class Player extends Entity {
 
   @Override
   public void endTurn(Player player){
-    setBlock(0);
+    if(!player.hasStatus("Barricade")){
+      setBlock(0);
+    }
     updateDecreasingStatuses();
     subtractStatusStrength("Strength", getStatusStrength("Strength Down"));
     setStatusStrength("Strength Down", 0);

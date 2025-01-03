@@ -205,6 +205,8 @@ public abstract class App {
                       List.of("Attack 13", "Apply Weak 2", "Apply Vulnerable 2"), Rarity.UNCOMMON, Color.IRONCLAD));
     cards.put("Whirlwind", new Card("Whirlwind", "Attack", -2, false, List.of("Whirlwind 5"),
                       List.of("Whirlwind 8"), Rarity.UNCOMMON, Color.IRONCLAD));
+    cards.put("Barricade", new Card("Barricade", "Block is not removed at the start of your turn.\n", "Power", 3, false, List.of("AppPlayer Barricade"),
+                      "Block is not removed at the start of your turn.\n", 2, false, List.of("AppPlayer Barricade"), Rarity.RARE, Color.IRONCLAD));
     
     // Assert that all entries in `cards` are named correctly:
     App.ASSERT(cards.entrySet().stream()
@@ -254,6 +256,7 @@ public abstract class App {
     statuses.put("Metallicize", new Status("Metallicize", Colors.lightBlue + "M", false, true, "At the end of your turn, gain <str> block.", List.of("(OnTurnEnd) Block <str>")));
     statuses.put("Rage", new Status("Rage", Colors.lightYellow + "R", false, true, "Whenever you play an Attack, gain <str> block. (Wears off at the end of your turn)"));
     statuses.put("Rupture", new Status("Rupture", Colors.vulnRed + "R", false, true, "Whenever you lose HP from a card, gain <str> Strength.\n"));
+    statuses.put("Barricade", new Status("Barricade", Colors.lightBlue + "B", false, false, "Block is not removed at the start of your turn.\n"));
 
     
     // Assert that all entries in `cards` are named correctly:
