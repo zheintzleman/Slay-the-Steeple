@@ -59,8 +59,8 @@ public class Run {
     // }
     deck.add(new Card("Second Wind"));
     deck.add(new Card("Second Wind"));
-    deck.add(new Card("Second Wind"));
-    deck.add(new Card("Second Wind"));
+    deck.add(new Card("Sentinel"));
+    deck.add(new Card("Sentinel"));
     deck.add(new Card("Hemokenesis"));
     deck.add(new Card("Combust"));
     deck.add(new Card("Combust"));

@@ -136,14 +136,12 @@ public abstract class App {
                       "Deal <atk>7<endatk> damage twice.\n", 1, true, List.of("Attack 7", "Attack 7"), Rarity.COMMON, Color.IRONCLAD));
     cards.put("Warcry", new Card("Warcry", "Skill", 0, false, List.of("Draw 1", "PutOnDrawPile Choose1FromHand", "Exhaust"),
                       List.of("Draw 2", "PutOnDrawPile Choose1FromHand", "Exhaust"), Rarity.COMMON, Color.IRONCLAD));
-    // cards.put("Sentinel", new Card("Sentinel", "Skill", 1, false, List.of("(OnExhausted) Block 5")),
-    //                   List.of("(OnExhausted) Block 8")), Rarity.UNCOMMON)); //TODO: Remove/update to be correct eventually (just for testing rn)
     cards.put("Wild Strike", new Card("Wild Strike", "Attack", 1, true, List.of("Attack 12", "GainToDraw Wound"),
                       List.of("Attack 17", "GainToDraw Wound"), Rarity.COMMON, Color.IRONCLAD));
     cards.put("Battle Trance", new Card("Battle Trance", "Draw 3 cards.\nYou cannot draw additional cards this turn.\n", "Skill", 0, false, List.of("Draw 3", "AppPlayer No Draw"),
                       "Draw 4 cards.\nYou cannot draw additional cards this turn.\n", 0, false, List.of("Draw 4", "AppPlayer No Draw"), Rarity.UNCOMMON, Color.IRONCLAD));
-    cards.put("Blood for Blood", new Card("Blood for Blood", "Costs 1 less energy for each time you lose HP this combat.\nDeal <atk>18<endatk> damage.\n", "Attack", 4, true, List.of("(OnPlayerLoseHP) AddCost -1", "Attack 18"),
-                      "Costs 1 less energy for each time you lose HP this combat.\nDeal <atk>22<endatk> damage.\n", 3, true, List.of("(OnPlayerLoseHP) AddCost -1", "Attack 22"), Rarity.UNCOMMON, Color.IRONCLAD));
+    cards.put("Blood for Blood", new Card("Blood for Blood", "Costs 1 less Energy for each time you lose HP this combat.\nDeal <atk>18<endatk> damage.\n", "Attack", 4, true, List.of("(OnPlayerLoseHP) AddCost -1", "Attack 18"),
+                      "Costs 1 less Energy for each time you lose HP this combat.\nDeal <atk>22<endatk> damage.\n", 3, true, List.of("(OnPlayerLoseHP) AddCost -1", "Attack 22"), Rarity.UNCOMMON, Color.IRONCLAD));
     cards.put("Bloodletting", new Card("Bloodletting", "Skill", 0, false, List.of("LoseHPC 3", "GainEnergy 2"), List.of("LoseHPC 3", "GainEnergy 3"), Rarity.UNCOMMON, Color.IRONCLAD));
     cards.put("Burning Pact", new Card("Burning Pact", "Skill", 1, false, List.of("Exhaust Choose1FromHand", "Draw 2"), List.of("Exhaust Choose1FromHand", "Draw 3"), Rarity.UNCOMMON, Color.IRONCLAD));
     cards.put("Carnage", new Card("Carnage", "Attack", 2, true, List.of("Ethereal", "Attack 20"), List.of("Ethereal", "Attack 28"), Rarity.UNCOMMON, Color.IRONCLAD));
@@ -153,8 +151,8 @@ public abstract class App {
                       "Whenever a card is Exhausted, draw 1 card.\n", 1, false, List.of("AppPlayer Dark Embrace"), Rarity.UNCOMMON, Color.IRONCLAD));
     cards.put("Disarm", new Card("Disarm", "Enemy loses 2 Strength.\nExhaust.\n", "Skill", 1, true, List.of("Unapply Strength 2", "Exhaust"),
                       "Enemy loses 3 Strength.\nExhaust.\n", 1, true, List.of("Unapply Strength 3", "Exhaust"), Rarity.UNCOMMON, Color.IRONCLAD));
-    cards.put("Dropkick", new Card("Dropkick", "Deal <atk>5<endatk> damage.\nIf the enemy has Vulnerable,\ngain 1 energy and draw 1 card.\n", "Attack", 1, true, List.of("Attack 5", "[TargetVuln] GainEnergy 1", "[TargetVuln] Draw 1"),
-                      "Deal <atk>8<endatk> damage.\nIf the enemy has Vulnerable,\ngain 1 energy and draw 1 card.\n", 1, true, List.of("Attack 8", "[TargetVuln] GainEnergy 1", "[TargetVuln] Draw 1"), Rarity.UNCOMMON, Color.IRONCLAD));
+    cards.put("Dropkick", new Card("Dropkick", "Deal <atk>5<endatk> damage.\nIf the enemy has Vulnerable,\ngain 1 Energy and draw 1 card.\n", "Attack", 1, true, List.of("Attack 5", "[TargetVuln] GainEnergy 1", "[TargetVuln] Draw 1"),
+                      "Deal <atk>8<endatk> damage.\nIf the enemy has Vulnerable,\ngain 1 Energy and draw 1 card.\n", 1, true, List.of("Attack 8", "[TargetVuln] GainEnergy 1", "[TargetVuln] Draw 1"), Rarity.UNCOMMON, Color.IRONCLAD));
     cards.put("Dual Wield", new Card("Dual Wield", "Choose an Attack or Power card. Add a copy of that card into your hand.\n", "Skill", 1, false, List.of("CopyToHand Choose1AtkOrPwrFromHand"),
                       "Choose an Attack or Power card. Add 2 copies of that card into your hand.\n", 1, false, List.of("CopyToHand Choose1AtkOrPwrFromHand 2"), Rarity.UNCOMMON, Color.IRONCLAD));
     cards.put("Entrench", new Card("Entrench", "Skill", 2, false, List.of("Entrench"),
@@ -193,6 +191,10 @@ public abstract class App {
                       "Whenever you lose HP from a card,\ngain 2 Strength.\n", 1, false, List.of("AppPlayer Rupture 2"), Rarity.UNCOMMON, Color.IRONCLAD));
     cards.put("Second Wind", new Card("Second Wind", "Skill", 1, false, List.of("SecondWind 5"),
                       List.of("SecondWind 7"), Rarity.UNCOMMON, Color.IRONCLAD));
+    cards.put("Seeing Red", new Card("Seeing Red", "Skill", 1, false, List.of("GainEnergy 2", "Exhaust"),
+                      0, false, List.of("GainEnergy 2", "Exhaust"), Rarity.UNCOMMON, Color.IRONCLAD));
+    cards.put("Sentinel", new Card("Sentinel", "Gain 5 block.\nIf this card is Exhausted,\ngain 2 Energy.\n", "Skill", 1, false, List.of("Block 5", "(OnExhausted) GainEnergy 2"),
+                      "Gain 8 block.\nIf this card is Exhausted,\ngain 3 Energy.\n", 1, false, List.of("Block 8", "(OnExhausted) GainEnergy 3"), Rarity.UNCOMMON, Color.IRONCLAD));
     
     // Assert that all entries in `cards` are named correctly:
     App.ASSERT(cards.entrySet().stream()

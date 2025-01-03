@@ -184,7 +184,7 @@ public class Card {
             codedDescription += "Lose " + effectPower + " HP.\n";
             break;
           case "GainEnergy":
-            codedDescription += "Gain " + effectPower + " energy.\n";
+            codedDescription += "Gain " + effectPower + " Energy.\n";
             break;
           case "Entrench":
             codedDescription += "Double your block.\n";
