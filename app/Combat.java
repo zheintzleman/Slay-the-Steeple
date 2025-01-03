@@ -796,7 +796,7 @@ public class Combat {
       case "Unplayable":
         break; //Relevant code is earlier; included to avoid error.
       default:
-        System.out.println("(Error) Cannot compile card data: " + card + ", primary: " + primary);
+        throw new UnsupportedOperationException("Invalid effect. Card: " + card + ", primary: " + primary);
     }
     return shouldDiscard;
   }

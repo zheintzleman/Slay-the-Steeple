@@ -57,7 +57,22 @@ public class Run {
     // for(Card c : CARDS){
     //   deck.add(new Card(c));
     // }
-    deck.add(new Card("Barricade"));
+    deck.add(new Card("Brutality"));
+    deck.add(new Card("Bludgeon"));
+    deck.add(new Card("Berserk"));
+    deck.add(new Card("Warcry"));
+    deck.add(new Card("Armaments"));
+    deck.add(new Card("Brutality"));
+    deck.add(new Card("Bludgeon"));
+    deck.add(new Card("Berserk"));
+    deck.add(new Card("Warcry"));
+    deck.add(new Card("Armaments"));
+    deck.add(new Card("Brutality"));
+    deck.add(new Card("Brutality"));
+    deck.add(new Card("Brutality"));
+    deck.add(new Card("Brutality"));
+    deck.add(new Card("Brutality"));
+    deck.add(new Card("Brutality"));
     deck.add(new Card("Bludgeon"));
     deck.add(new Card("Berserk"));
     deck.add(new Card("Warcry"));

@@ -211,6 +211,8 @@ public abstract class App {
                       "Gain 1 Vulnerable.\nAt the start of your turn, gain 1 Energy.\n", 0, false, List.of("AppPlayer Vulnerable", "AppPlayer Berserk"), Rarity.RARE, Color.IRONCLAD));
     cards.put("Bludgeon", new Card("Bludgeon", "Attack", 3, true, List.of("Attack 32"),
                       List.of("Attack 42"), Rarity.RARE, Color.IRONCLAD));
+    cards.put("Brutality", new Card("Brutality", "At the start of your turn, lose 1 HP and draw 1 card.\n", "Power", 0, false, List.of("AppPlayer Brutality"),
+                      "Innate.\nAt the start of your turn, lose 1 HP and draw 1 card.\n", 0, false, List.of("Innate", "AppPlayer Brutality"), Rarity.RARE, Color.IRONCLAD));
     
     // Assert that all entries in `cards` are named correctly:
     App.ASSERT(cards.entrySet().stream()
@@ -262,6 +264,7 @@ public abstract class App {
     statuses.put("Rupture", new Status("Rupture", Colors.vulnRed + "R", false, true, "Whenever you lose HP from a card, gain <str> Strength.\n"));
     statuses.put("Barricade", new Status("Barricade", Colors.lightBlue + "B", false, false, "Block is not removed at the start of your turn.\n"));
     statuses.put("Berserk", new Status("Berserk", Colors.lightYellow + "B", false, true, "At the start of your turn, gain <str> Energy.\n", List.of("(OnTurnStart) GainEnergy <str>")));
+    statuses.put("Brutality", new Status("Brutality", Colors.brutalityPurple + "B", false, true, "At the start of your turn, lose <str> HP and draw <str> cards.\n", List.of("(OnTurnStart) LoseHPC <str>", "(OnTurnStart) Draw <str>")));
 
     
     // Assert that all entries in `cards` are named correctly:
