@@ -215,6 +215,8 @@ public abstract class App {
                       "Innate.\nAt the start of your turn, lose 1 HP and draw 1 card.\n", 0, false, List.of("Innate", "AppPlayer Brutality"), Rarity.RARE, Color.IRONCLAD));
     cards.put("Corruption", new Card("Corruption", "Skills cost 0.\nWhenever you play a Skill, Exhaust it.\n", "Power", 3, false, List.of("AppPlayer Corruption"),
                       "Skills cost 0.\nWhenever you play a Skill, Exhaust it.\n", 2, false, List.of("AppPlayer Corruption"), Rarity.RARE, Color.IRONCLAD));
+    cards.put("Demon Form", new Card("Demon Form", "At the start of your turn, gain 2 Strength.\n", "Power", 3, false, List.of("AppPlayer Demon Form 2"),
+                      "At the start of your turn, gain 2 Strength.\n", 3, false, List.of("AppPlayer Demon Form 3"), Rarity.RARE, Color.IRONCLAD));
     
     // Assert that all entries in `cards` are named correctly:
     App.ASSERT(cards.entrySet().stream()
@@ -263,11 +265,12 @@ public abstract class App {
     statuses.put("Flame Barrier", new Status("Flame Barrier", Colors.vulnRed + "B", false, true, "When attacked, deals <str> damage back. (Wears off at the end of your turn)"));
     statuses.put("Metallicize", new Status("Metallicize", Colors.lightBlue + "M", false, true, "At the end of your turn, gain <str> block.", List.of("(OnTurnEnd) Block <str>")));
     statuses.put("Rage", new Status("Rage", Colors.lightYellow + "R", false, true, "Whenever you play an Attack, gain <str> block. (Wears off at the end of your turn)"));
-    statuses.put("Rupture", new Status("Rupture", Colors.vulnRed + "R", false, true, "Whenever you lose HP from a card, gain <str> Strength.\n"));
-    statuses.put("Barricade", new Status("Barricade", Colors.lightBlue + "B", false, false, "Block is not removed at the start of your turn.\n"));
-    statuses.put("Berserk", new Status("Berserk", Colors.lightYellow + "B", false, true, "At the start of your turn, gain <str> Energy.\n", List.of("(OnTurnStart) GainEnergy <str>")));
-    statuses.put("Brutality", new Status("Brutality", Colors.purple + "B", false, true, "At the start of your turn, lose <str> HP and draw <str> cards.\n", List.of("(OnTurnStart) LoseHPC <str>", "(OnTurnStart) Draw <str>")));
-    statuses.put("Corruption", new Status("Corruption", Colors.purple + "C", false, false, "Skills cost 0.\nWhenever you play a Skill, Exhaust it.\n"));
+    statuses.put("Rupture", new Status("Rupture", Colors.vulnRed + "R", false, true, "Whenever you lose HP from a card, gain <str> Strength."));
+    statuses.put("Barricade", new Status("Barricade", Colors.lightBlue + "B", false, false, "Block is not removed at the start of your turn."));
+    statuses.put("Berserk", new Status("Berserk", Colors.lightYellow + "B", false, true, "At the start of your turn, gain <str> Energy.", List.of("(OnTurnStart) GainEnergy <str>")));
+    statuses.put("Brutality", new Status("Brutality", Colors.purple + "B", false, true, "At the start of your turn, lose <str> HP and draw <str> cards.", List.of("(OnTurnStart) LoseHPC <str>", "(OnTurnStart) Draw <str>")));
+    statuses.put("Corruption", new Status("Corruption", Colors.purple + "C", false, false, "Skills cost 0. Whenever you play a Skill, Exhaust it."));
+    statuses.put("Demon Form", new Status("Demon Form", Colors.demonFormRed + "D", false, true, "At the start of your turn, gain <str> Strength.", List.of("(OnTurnStart) AppPlayer Strength <str>")));
 
     
     // Assert that all entries in `cards` are named correctly:

@@ -47,6 +47,7 @@ class Main {
       Str.println(Colors.slaverRed + "Slaver Red ");
       Str.println(Colors.atkIntArtRed + "AtkInt Red ");
       Str.println(Colors.energyCostRed + "Energy Cost Red ");
+      Str.println(Colors.demonFormRed + "Demon Form Red ");
       
       Str.println(Colors.dexGreen + "Dex Green");
       Str.println(Colors.louseGreen + "Louse Green");

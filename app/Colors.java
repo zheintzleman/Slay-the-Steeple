@@ -100,6 +100,7 @@ public class Colors {
   public static final String vigorOrange = "Ø\033[38;5;214mÁ";
   public static final String darkEmbracePurple = "Ø\033[38;2;235;160;240mÁ";
   public static final String purple = "Ø\033[38;2;200;35;186mÁ";
+  public static final String demonFormRed = "Ø\033[38;2;252;72;58mÁ";
 
 
   public static final String[] IRONCLADIMG0 = Colors.fillColor(new String[] {"        ▄▄▄   ",
