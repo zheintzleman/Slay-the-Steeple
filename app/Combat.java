@@ -511,14 +511,9 @@ public class Combat {
     
     energy -= card.getEnergyCost();
 
-    //Doing the card's effect(s):
-
-    // New statuses to the player aren't counted until we call mergeCopy.
-    boolean blockAlreadyHeld = player.blockHeld();
-    if(!blockAlreadyHeld){
-      Entity.holdBlock();
-    }
+    Entity.holdBlock();
     
+    //Doing the card's effect(s):
     ArrayList<CardEffect> cardEffects = card.getEffects();
     for(CardEffect eff : cardEffects){
       if(combatOver && !eff.affectsRunState()){
@@ -583,9 +578,7 @@ public class Combat {
       eventManager.OnAttackFinished(player);
     }
     
-    if(!blockAlreadyHeld){
-      Entity.resumeBlock();
-    }
+    Entity.resumeBlock();
 
     return true;
   }

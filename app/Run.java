@@ -58,8 +58,8 @@ public class Run {
     //   deck.add(new Card(c));
     // }
     deck.add(new Card("Spot Weakness"));
-    deck.add(new Card("Spot Weakness"));
-    deck.add(new Card("Shockwave"));
+    deck.add(new Card("Uppercut"));
+    deck.add(new Card("Twin Strike"));
     deck.add(new Card("Combust"));
     deck.add(new Card("Armaments"));
   }

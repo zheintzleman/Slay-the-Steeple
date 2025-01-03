@@ -201,6 +201,8 @@ public abstract class App {
                       "Apply 5 Weak and Vulnerable to ALL enemies.\nExhaust.\n", 2, false, List.of("AppAll Weak 5", "AppAll Vulnerable 5", "Exhaust"), Rarity.UNCOMMON, Color.IRONCLAD));
     cards.put("Spot Weakness", new Card("Spot Weakness", "Skill", 1, true, List.of("SpotWeakness 3"),
                       List.of("SpotWeakness 4"), Rarity.UNCOMMON, Color.IRONCLAD));
+    cards.put("Uppercut", new Card("Uppercut", "Attack", 2, true, List.of("Attack 13", "Apply Weak", "Apply Vulnerable"),
+                      List.of("Attack 13", "Apply Weak 2", "Apply Vulnerable 2"), Rarity.UNCOMMON, Color.IRONCLAD));
     
     // Assert that all entries in `cards` are named correctly:
     App.ASSERT(cards.entrySet().stream()
