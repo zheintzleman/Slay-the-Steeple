@@ -197,12 +197,23 @@ public class Combat {
    * @return The amount of gold stolen (by Mugger/Looter)
   */
   public int runCombat(){
-    boolean turnOver = false;
+    boolean turnOver;
+    boolean isFirstTurn = true;
+    final int HANDSIZE = 5;
     while(!combatOver){
       //startOfTurn
       energy = baseEnergy;
       //draw new hand
-      for(int i=0; i<5; i++){
+      if(isFirstTurn){
+        for(int i=0; i < drawPile.size(); i++){
+          // Put all innate cards on top of the deck:
+          if(drawPile.get(i).hasEffect("Innate")){
+            Card card = drawPile.remove(i);
+            drawPile.add(0, card);
+          }
+        }
+      }
+      for(int i=0; i < HANDSIZE; i++){
         drawCard();
       }
 
@@ -225,6 +236,7 @@ public class Combat {
       endEntityTurns();
       
       Run.r.setHP(player.getHP());
+      isFirstTurn = false;
     }
     display();
     return 0;
@@ -794,6 +806,7 @@ public class Combat {
         break;
       case "Clash":
       case "Unplayable":
+      case "Innate":
         break; //Relevant code is earlier; included to avoid error.
       default:
         throw new UnsupportedOperationException("Invalid effect. Card: " + card + ", primary: " + primary);

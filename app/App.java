@@ -213,6 +213,8 @@ public abstract class App {
                       List.of("Attack 42"), Rarity.RARE, Color.IRONCLAD));
     cards.put("Brutality", new Card("Brutality", "At the start of your turn, lose 1 HP and draw 1 card.\n", "Power", 0, false, List.of("AppPlayer Brutality"),
                       "Innate.\nAt the start of your turn, lose 1 HP and draw 1 card.\n", 0, false, List.of("Innate", "AppPlayer Brutality"), Rarity.RARE, Color.IRONCLAD));
+    // cards.put("Corruption", new Card("Corruption", "Skills cost 0.\nWhenever you play a Skill, Exhaust it.\n", "Power", 3, false, List.of("AppPlayer Brutality"),
+    //                   "Skills cost 0.\nWhenever you play a Skill, Exhaust it.\n", 2, false, List.of("Innate", "AppPlayer Brutality"), Rarity.RARE, Color.IRONCLAD));
     
     // Assert that all entries in `cards` are named correctly:
     App.ASSERT(cards.entrySet().stream()

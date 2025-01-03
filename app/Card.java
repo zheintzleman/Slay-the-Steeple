@@ -173,6 +173,9 @@ public class Card {
           case "Ethereal":
             codedDescription += "Ethereal.\n";
             break;
+          case "Innate":
+            codedDescription += "Innate.\n";
+            break;
           case "HeavyAttack":
             codedDescription += "Deal <atk>14<endatk> damage.\nStrength affects this card " + effectPower + " times.\n";
             break;
