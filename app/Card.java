@@ -38,9 +38,8 @@ public class Card {
    */
   private class CardData {
     private Description description;
-    //Could be an Integer to include null for the X cost cards
-    //Or could store a boolean indicating whether it's X-cost.
-    //Less than 0 means unplayable (e.g. statuses/curses.)
+    //-1 means unplayable (e.g. statuses/curses.)
+    //-2 means X-cost.
     private int baseEnergyCost;
     private boolean isTargeted;
     private ArrayList<CardEffect> effects; //Implemented in Combat.java
@@ -279,6 +278,7 @@ public class Card {
   // a card is Unplayable never changes. Only for whether the card has the
   // effect "Unplayable", not other effects like Clash or Entangled.
   public final boolean ISUNPLAYABLE;
+  public final boolean ISXCOST;
   
 
   public Card(){
@@ -292,6 +292,7 @@ public class Card {
     color = Color.NEUTRAL;
     data.effects = new ArrayList<CardEffect>();
     upData = new CardData(data, this);
+    ISXCOST = false;
     ISUNPLAYABLE = this.hasEffect("Unplayable");
   }
   public Card(Card old){
@@ -302,6 +303,7 @@ public class Card {
     color = old.color;
     data = new CardData(old.data, this);
     upData = new CardData(old.upData, this);
+    ISXCOST = data.baseEnergyCost == -2;
     ISUNPLAYABLE = this.hasEffect("Unplayable");
   }
   public Card(String name){
@@ -320,6 +322,7 @@ public class Card {
       data.effects.add(new CardEffect(str, this));
     }
     data.description = new Description(data.effects);
+    ISXCOST = data.baseEnergyCost == -2;
     ISUNPLAYABLE = this.hasEffect("Unplayable");
   }
   public Card(String name, String type, int energyCost, boolean targeted, List<String> effects,
@@ -388,25 +391,36 @@ public class Card {
   public ArrayList<CardEffect> getEffects(){ return data.effects; }
   public ArrayList<CardEffect> getUpEffects(){ return upData.effects; }
   /** Returns the base energy cost of the card. Includes any permanent effects
-   * on the card's energy cost (e.g. Confusion). Returns 0 for unplayable cards.
+   * on the card's energy cost (e.g. Confusion). Returns 0 for unplayable cards
+   * and X-cost cards.
    * 
    * @Postcondition Return value >= 0
    */
   public int getBaseEnergyCost(){
-    return data.baseEnergyCost >= 0 ? data.baseEnergyCost : 0;
+    if(ISXCOST || ISUNPLAYABLE){
+      return 0;
+    }
+    App.ASSERT(data.baseEnergyCost >= 0);
+    return data.baseEnergyCost;
   }
+  /** Sets the base energy cost of the card, including any permanent effects
+   * on the card's energy cost (e.g. Confusion). Has no effect on unplayable
+   * and X-cost cards.
+   */
   public void setBaseEnergyCost(int newCost){
+    if(ISXCOST || ISUNPLAYABLE){
+      return;
+    }
     data.baseEnergyCost = newCost >= 0 ? newCost : 0;
   }
   /** Returns the effective cost of the card (i.e. the amount energy should
    * drop on playing the card.) Factors in Corruption, free-this-turn effects,
    * etc.
-   * Allows for situations such as costs0ThisTurn effects which have temporary
-   * effects on a card's energy cost.
-   * 
+   * @Precondition !ISUNPLAYABLE && !ISXCOST
    * @Postcondition Return value >= 0
    */
   public int getEnergyCost(){
+    App.ASSERT(!ISUNPLAYABLE && !ISXCOST);
     if(costs0ThisTurn){
       return 0;
     }
@@ -496,8 +510,11 @@ public class Card {
     // String energyCostColor = getEnergyCost() > getBaseEnergyCost() ? Colors.energyCostRed :
     //                          getEnergyCost() == getBaseEnergyCost() ? Colors.reset :
     //                                                                  Colors.upgradeGreen;
-    return Colors.lightGray + (ISUNPLAYABLE ? "" : "(" + Colors.energyCostRed + getEnergyCost() + Colors.lightGray + ") ")
-    + Colors.reset + name + colorEveryWordBySpaces(" - " + getDescriptionWONLs(), Colors.lightGray) + "\n" + Colors.reset;
+    String energyCostString = ISUNPLAYABLE ? "" : 
+                              ISXCOST ? "X " :
+                              "(" + Colors.energyCostRed + getEnergyCost() + Colors.lightGray + ") ";
+    return Colors.lightGray + energyCostString + Colors.reset + name
+    + colorEveryWordBySpaces(" - " + getDescriptionWONLs(), Colors.lightGray) + "\n" + Colors.reset;
   }
 
   /** Returns the image of the card that will be displayed on the screen
@@ -517,7 +534,9 @@ public class Card {
     //Can make them up to 18 wide with width = 200; Up to 12 wide iirc with width = 150. 12 can work to fit long texts but the cards are really vertical.
     String[] image = Str.makeCenteredTextBox(text, CARDHEIGHT, CARDWIDTH);
     
-    String energyCostString = ISUNPLAYABLE ? "" : "" + getEnergyCost();
+    String energyCostString = ISUNPLAYABLE ? "" : 
+                              ISXCOST ? "X" :
+                              "" + getEnergyCost();
     image[1] = Str.addStringsSkipEscSequences(image[1], 2, energyCostString, Colors.energyCostRedBold, Colors.reset);
     
     return image;

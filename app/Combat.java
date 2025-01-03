@@ -25,7 +25,8 @@ public class Combat {
     * enemies list. This is then synced back to the main enemies list after all intents are done. */
   private ArrayList<Enemy> enemiesToUpdate;
   private ArrayList<Card> drawPile, discardPile, exhaustPile, hand;
-  private int energy, baseEnergy;
+  private int energy;
+  private final int baseEnergy;
   // Combat stops running when set to true:
   private boolean combatOver;
   // For when too many cards in hand to fully print all of them
@@ -484,7 +485,7 @@ public class Combat {
     }
 
     hand.remove(index);
-    boolean cardPlayed = playCard(card);
+    boolean cardPlayed = playCard(card, false);
     if(!cardPlayed){
       hand.add(index, card);
     }
@@ -495,9 +496,11 @@ public class Combat {
   * @return boolean - Whether or not the card was played. Returns false if
   * player has too little energy, or if card is unplayable.
   */
-  public boolean playCard(Card card){
+  public boolean playCard(Card card, boolean playForFree){
     Enemy target = null;
     boolean shouldDiscard = true;
+    // For X-cost cards:
+    Integer X = null;
 
     if(!cardPlayable(card)){
       return false;
@@ -508,8 +511,15 @@ public class Combat {
       if(targetIndex == -1){ return false; }
       target = enemies.get(targetIndex-1);
     }
-    
-    energy -= card.getEnergyCost();
+
+    if(card.ISXCOST){
+      X = energy;
+      energy = 0;
+    } else if(!playForFree){
+      // If not unplayable or x-cost, and playing the card normally (i.e. not
+      // through havoc, etc.), lose energy equal to the card's cost:
+      energy -= card.getEnergyCost();
+    }
 
     Entity.holdBlock();
     
@@ -527,7 +537,7 @@ public class Combat {
       }
       String primary = eff.getPrimary();
       String secondary = eff.getSecondary();
-      int power = eff.getPower();
+      int power = card.ISXCOST ? X : eff.getPower();
       
       // Could make this into an enum for speed, but this code is only run a few times
       // each card play at most, so efficiency isn't crucial in exchange for legibility
@@ -583,8 +593,8 @@ public class Combat {
     return true;
   }
   public boolean cardPlayable(Card card){
-    if(card.getEnergyCost() > this.energy
-    || card.hasEffect("Unplayable")
+    if(card.ISUNPLAYABLE
+    || (!card.ISXCOST && card.getEnergyCost() > this.energy)
     || player.hasStatus("Entangled") && card.getType().equals("Attack")){
       return false;
     }
@@ -754,8 +764,7 @@ public class Combat {
         Str.print("Playing and Exhausting " + c.getName() + ". (Press enter)");
         Main.scan.nextLine();
         
-        energy += c.getEnergyCost();
-        playCard(c);
+        playCard(c, true);
         exhaust(c);
         break;
       case "LoseEnergy":
