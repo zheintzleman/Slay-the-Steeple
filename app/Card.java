@@ -200,6 +200,9 @@ public class Card {
           case "SpotWeakness":
             codedDescription += "If the enemy intends to attack, gain " + effectPower + " Strength.\n";
             break;
+          case "Whirlwind":
+            codedDescription += "Deal " + effectPower + " damage to ALL enemies X times.\n";
+            break;
           default:
             break;
         }

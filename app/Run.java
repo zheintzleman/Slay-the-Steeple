@@ -57,11 +57,9 @@ public class Run {
     // for(Card c : CARDS){
     //   deck.add(new Card(c));
     // }
-    deck.add(new Card("Burn+"));
-    deck.add(new Card("Slimed"));
-    deck.add(new Card("Wound"));
-    deck.add(new Card("Dazed"));
-    deck.add(new Card("Burn"));
+    deck.add(new Card("Uppercut"));
+    deck.add(new Card("Whirlwind"));
+    deck.add(new Card("Whirlwind"));
     deck.add(new Card("Warcry"));
     deck.add(new Card("Armaments"));
   }

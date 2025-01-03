@@ -537,7 +537,7 @@ public class Combat {
       }
       String primary = eff.getPrimary();
       String secondary = eff.getSecondary();
-      int power = card.ISXCOST ? X : eff.getPower();
+      int power = eff.getPower();
       
       // Could make this into an enum for speed, but this code is only run a few times
       // each card play at most, so efficiency isn't crucial in exchange for legibility
@@ -561,6 +561,11 @@ public class Combat {
           break;
         case "AtkAll": //Uses shortened word to be separate from "Attack" (& for brevity)
           player.attack(enemies, power);
+          break;
+        case "Whirlwind":
+          for(int i=0; i<X; i++){
+            player.attack(enemies, power);
+          }
           break;
         case "SpotWeakness":
           if(target.getIntent().isAttack()){

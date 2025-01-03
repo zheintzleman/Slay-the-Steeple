@@ -203,6 +203,8 @@ public abstract class App {
                       List.of("SpotWeakness 4"), Rarity.UNCOMMON, Color.IRONCLAD));
     cards.put("Uppercut", new Card("Uppercut", "Attack", 2, true, List.of("Attack 13", "Apply Weak", "Apply Vulnerable"),
                       List.of("Attack 13", "Apply Weak 2", "Apply Vulnerable 2"), Rarity.UNCOMMON, Color.IRONCLAD));
+    cards.put("Whirlwind", new Card("Whirlwind", "Attack", -2, false, List.of("Whirlwind 5"),
+                      List.of("Whirlwind 8"), Rarity.UNCOMMON, Color.IRONCLAD));
     
     // Assert that all entries in `cards` are named correctly:
     App.ASSERT(cards.entrySet().stream()
