@@ -598,12 +598,15 @@ public class Combat {
       }
     }
 
-    if(card.getType().equals("Power")){
+    if(card.isPower()){
       removeFromAllPiles(card);
+    } else if(player.hasStatus("Corruption") && card.isSkill()
+           && !exhaustPile.contains(card)){
+      exhaust(card);
     } else if(shouldDiscard){
       discard(card, false);
     }
-    if(card.getType().equals("Attack")){
+    if(card.isAttack()){
       eventManager.OnAttackFinished(player);
     }
     

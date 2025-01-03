@@ -430,6 +430,10 @@ public class Card {
     if(costs0ThisTurn){
       return 0;
     }
+    if(Combat.c != null && Combat.c.getPlayer().hasStatus("Corruption")
+    && this.isSkill()){
+      return 0;
+    }
     return getBaseEnergyCost();
   }
 
@@ -517,7 +521,7 @@ public class Card {
     //                          getEnergyCost() == getBaseEnergyCost() ? Colors.reset :
     //                                                                  Colors.upgradeGreen;
     String energyCostString = ISUNPLAYABLE ? "" : 
-                              ISXCOST ? "X " :
+                              ISXCOST ? "(" + Colors.energyCostRed + "X" + Colors.lightGray + ") " :
                               "(" + Colors.energyCostRed + getEnergyCost() + Colors.lightGray + ") ";
     return Colors.lightGray + energyCostString + Colors.reset + name
     + colorEveryWordBySpaces(" - " + getDescriptionWONLs(), Colors.lightGray) + "\n" + Colors.reset;

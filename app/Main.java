@@ -56,7 +56,7 @@ class Main {
       Str.println(Colors.wizardPurple + "Wizard Purple ");
       Str.println(Colors.sneakyGPurple + "Sneaky G Purple ");
       Str.println(Colors.darkEmbracePurple + "Dark Embrace Purple ");
-      Str.println(Colors.brutalityPurple + "Brutality Purple ");
+      Str.println(Colors.purple + "Purple ");
     } else {
       Str.println(Colors.clearScreen);
     }

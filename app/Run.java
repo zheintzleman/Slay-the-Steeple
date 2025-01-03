@@ -57,25 +57,15 @@ public class Run {
     // for(Card c : CARDS){
     //   deck.add(new Card(c));
     // }
-    deck.add(new Card("Brutality"));
+    deck.add(new Card("Power Through"));
+    deck.add(new Card("Shockwave"));
     deck.add(new Card("Bludgeon"));
-    deck.add(new Card("Berserk"));
-    deck.add(new Card("Warcry"));
+    deck.add(new Card("Corruption"));
     deck.add(new Card("Armaments"));
-    deck.add(new Card("Brutality"));
-    deck.add(new Card("Bludgeon"));
-    deck.add(new Card("Berserk"));
-    deck.add(new Card("Warcry"));
-    deck.add(new Card("Armaments"));
-    deck.add(new Card("Brutality"));
-    deck.add(new Card("Brutality"));
-    deck.add(new Card("Brutality"));
-    deck.add(new Card("Brutality"));
-    deck.add(new Card("Brutality"));
-    deck.add(new Card("Brutality"));
-    deck.add(new Card("Bludgeon"));
-    deck.add(new Card("Berserk"));
-    deck.add(new Card("Warcry"));
+    deck.add(new Card("Power Through"));
+    deck.add(new Card("Shockwave"));
+    deck.add(new Card("Flame Barrier"));
+    deck.add(new Card("Corruption"));
     deck.add(new Card("Armaments"));
   }
 
