@@ -57,12 +57,9 @@ public class Run {
     // for(Card c : CARDS){
     //   deck.add(new Card(c));
     // }
-    deck.add(new Card("Second Wind"));
-    deck.add(new Card("Second Wind"));
-    deck.add(new Card("Sentinel"));
-    deck.add(new Card("Sentinel"));
-    deck.add(new Card("Hemokenesis"));
-    deck.add(new Card("Combust"));
+    deck.add(new Card("Spot Weakness"));
+    deck.add(new Card("Spot Weakness"));
+    deck.add(new Card("Shockwave"));
     deck.add(new Card("Combust"));
     deck.add(new Card("Armaments"));
   }

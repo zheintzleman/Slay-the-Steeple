@@ -89,6 +89,10 @@ public class Intent {
   public String getName(){ return intentName; }
   public int getDamage(){ return damage; }
   public void setDamage(int newDmg){ damage = newDmg; }
+  public boolean isAttack(){
+    return type == IntentType.ATTACK
+        || secondaryType == IntentType.ATTACK;
+    }
 
   /** Returns the Intent's pixel art as a String[]
   */
@@ -108,12 +112,13 @@ public class Intent {
           img[i] = atkIntArt[i];
         }
         String lastLine;
+        // Add the number below the image:
         if(multiattack == 1){
           lastLine = (calculatedDamage + "          ").substring(0, Str.lengthIgnoringEscSeqs(atkIntArt[0]));
         }else{
           lastLine = (calculatedDamage + "x" + multiattack + "        ").substring(0, Str.lengthIgnoringEscSeqs(atkIntArt[0]));
         }
-      img[img.length - 1] = Colors.reset + Str.centerText(lastLine);
+        img[img.length - 1] = Colors.reset + Str.centerText(lastLine);
         break;
       case DEFEND:
         img = defIntArt.clone();

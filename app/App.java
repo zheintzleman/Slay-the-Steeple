@@ -189,12 +189,18 @@ public abstract class App {
                       List.of("Attack 10", "GainToDraw Dazed"), Rarity.UNCOMMON, Color.IRONCLAD));
     cards.put("Rupture", new Card("Rupture", "Whenever you lose HP from a card,\ngain 1 Strength.\n", "Power", 1, false, List.of("AppPlayer Rupture"),
                       "Whenever you lose HP from a card,\ngain 2 Strength.\n", 1, false, List.of("AppPlayer Rupture 2"), Rarity.UNCOMMON, Color.IRONCLAD));
-    cards.put("Second Wind", new Card("Second Wind", "Skill", 1, false, List.of("SecondWind 5"),
-                      List.of("SecondWind 7"), Rarity.UNCOMMON, Color.IRONCLAD));
+    cards.put("Second Wind", new Card("Second Wind", "Skill", 1, false, List.of("ExhaustNonattacks 5"),
+                      List.of("ExhaustNonattacks 7"), Rarity.UNCOMMON, Color.IRONCLAD));
     cards.put("Seeing Red", new Card("Seeing Red", "Skill", 1, false, List.of("GainEnergy 2", "Exhaust"),
                       0, false, List.of("GainEnergy 2", "Exhaust"), Rarity.UNCOMMON, Color.IRONCLAD));
     cards.put("Sentinel", new Card("Sentinel", "Gain 5 block.\nIf this card is Exhausted,\ngain 2 Energy.\n", "Skill", 1, false, List.of("Block 5", "(OnExhausted) GainEnergy 2"),
                       "Gain 8 block.\nIf this card is Exhausted,\ngain 3 Energy.\n", 1, false, List.of("Block 8", "(OnExhausted) GainEnergy 3"), Rarity.UNCOMMON, Color.IRONCLAD));
+    cards.put("Sever Soul", new Card("Sever Soul", "Attack", 2, true, List.of("ExhaustNonattacks 0", "Attack 16"),
+                      List.of("ExhaustNonattacks 0", "Attack 22"), Rarity.UNCOMMON, Color.IRONCLAD));
+    cards.put("Shockwave", new Card("Shockwave", "Apply 3 Weak and Vulnerable to ALL enemies.\nExhaust.\n", "Skill", 2, false, List.of("AppAll Weak 3", "AppAll Vulnerable 3", "Exhaust"),
+                      "Apply 5 Weak and Vulnerable to ALL enemies.\nExhaust.\n", 2, false, List.of("AppAll Weak 5", "AppAll Vulnerable 5", "Exhaust"), Rarity.UNCOMMON, Color.IRONCLAD));
+    cards.put("Spot Weakness", new Card("Spot Weakness", "Skill", 1, true, List.of("SpotWeakness 3"),
+                      List.of("SpotWeakness 4"), Rarity.UNCOMMON, Color.IRONCLAD));
     
     // Assert that all entries in `cards` are named correctly:
     App.ASSERT(cards.entrySet().stream()

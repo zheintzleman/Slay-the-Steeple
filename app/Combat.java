@@ -496,7 +496,7 @@ public class Combat {
   * player has too little energy, or if card is unplayable.
   */
   public boolean playCard(Card card){
-    Entity target = null;
+    Enemy target = null;
     boolean shouldDiscard = true;
 
     if(!cardPlayable(card)){
@@ -556,6 +556,11 @@ public class Combat {
           break;
         case "AtkAll": //Uses shortened word to be separate from "Attack" (& for brevity)
           player.attack(enemies, power);
+          break;
+        case "SpotWeakness":
+          if(target.getIntent().isAttack()){
+            player.addStatusStrength("Strength", power);
+          }
           break;
         case "Apply":
           target.addStatusStrength(secondary, power);
@@ -733,7 +738,7 @@ public class Combat {
         card.getUpEffects().stream().forEach(increaseDamage);
         card.reloadDescription();
         break;
-      case "SecondWind":
+      case "ExhaustNonattacks":
         for(int i=0; i < hand.size();){
           Card c = hand.get(i);
           if(!c.isAttack()){

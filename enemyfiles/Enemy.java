@@ -9,8 +9,6 @@ import app.Intent;
 import app.Player;
 
 public abstract class Enemy extends Entity{
-  // Would be an abstract class, but we make copies of the enemies for end-turn status purposes,
-  // and the copies are of type Enemy.
   boolean isElite;
   int middleX;
 
@@ -54,23 +52,21 @@ public abstract class Enemy extends Entity{
   }
 
   //Getters and Setters
-  public Intent getIntent(){ return null; }
+  public abstract Intent getIntent();
   public int getMiddleX(){ return middleX; }
   public void setMiddleX(int newX){ middleX = newX; }
 
 
 
-  /**Performs the enemy's intent. (Should always be overridden)
-  */
-  public void doIntent(Entity p){
-    System.out.println("Basic Enemy Intent");
-  }
-  /**Sets the enemy's next intent. (Should always be overridden)
-  */
-  public void setNextIntent(){}
+  /** Performs the enemy's intent. */
+  public abstract void doIntent(Entity p);
+  /** Sets the enemy's next intent. (Should always be overridden) */
+  public abstract void setNextIntent();
   
   @Override
   public void setSplitIntent() {
+    // Not an abstract method so that non-slime enemy classes can all inherit
+    // this same method.
     throw new RuntimeException("Calling setSplitIntent function on non-large-slime Enemy.");
   }
 

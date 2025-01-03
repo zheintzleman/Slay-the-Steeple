@@ -192,8 +192,14 @@ public class Card {
           case "Rampage":
             codedDescription += "Increase this card's damage by " + effectPower + " this combat.\n";
             break;
-          case "SecondWind":
-            codedDescription += "Exhaust all non-Attack cards in your hand.\nGain " + effectPower + " block for each card Exhausted.\n";
+          case "ExhaustNonattacks":
+            codedDescription += "Exhaust all non-Attack cards in your hand.\n";
+            if(eff.getPower() > 0){
+              codedDescription += "Gain " + effectPower + " block for each card Exhausted.\n";
+            }
+            break;
+          case "SpotWeakness":
+            codedDescription += "If the enemy intends to attack, gain " + effectPower + " Strength.\n";
             break;
           default:
             break;
