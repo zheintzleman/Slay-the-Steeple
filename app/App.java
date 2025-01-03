@@ -158,7 +158,7 @@ public abstract class App {
     cards.put("Dual Wield", new Card("Dual Wield", "Choose an Attack or Power card. Add a copy of that card into your hand.\n", "Skill", 1, false, List.of("CopyToHand Choose1AtkOrPwrFromHand"),
                       "Choose an Attack or Power card. Add 2 copies of that card into your hand.\n", 1, false, List.of("CopyToHand Choose1AtkOrPwrFromHand 2"), Rarity.UNCOMMON, Color.IRONCLAD));
     cards.put("Entrench", new Card("Entrench", "Skill", 2, false, List.of("Entrench"),
-                       1, false, List.of("Entrench"), Rarity.UNCOMMON, Color.IRONCLAD));
+                      1, false, List.of("Entrench"), Rarity.UNCOMMON, Color.IRONCLAD));
     cards.put("Evolve", new Card("Evolve", "Whenever you draw a Status card, draw 1 card.\n", "Power", 1, false, List.of("AppPlayer Evolve"),
                       "Whenever you draw a Status card, draw 2 cards.\n", 1, false, List.of("AppPlayer Evolve 2"), Rarity.UNCOMMON, Color.IRONCLAD));
     cards.put("Feel No Pain", new Card("Feel No Pain", "Whenever a card is Exhausted,\ngain 3 block.\n", "Power", 1, false, List.of("AppPlayer Feel No Pain 3"),
@@ -168,15 +168,15 @@ public abstract class App {
     cards.put("Flame Barrier", new Card("Flame Barrier", "Gain 12 block.\nWhenever you are attacked this turn, deal 4 damage back.\n", "Skill", 2, false, List.of("Block 12", "AppPlayer Flame Barrier 4"),
                       "Gain 16 block.\nWhenever you are attacked this turn, deal 6 damage back.\n", 2, false, List.of("Block 16", "AppPlayer Flame Barrier 6"), Rarity.UNCOMMON, Color.IRONCLAD));
     cards.put("Ghostly Armor", new Card("Ghostly Armor", "Skill", 1, false, List.of("Ethereal", "Block 10"),
-                       1, false, List.of("Ethereal", "Block 13"), Rarity.UNCOMMON, Color.IRONCLAD));
+                      List.of("Ethereal", "Block 13"), Rarity.UNCOMMON, Color.IRONCLAD));
     cards.put("Hemokenesis", new Card("Hemokenesis", "Attack", 1, true, List.of("LoseHPC 2", "Attack 15"),
-                       1, true, List.of("LoseHPC 2", "Attack 20"), Rarity.UNCOMMON, Color.IRONCLAD));
+                      List.of("LoseHPC 2", "Attack 20"), Rarity.UNCOMMON, Color.IRONCLAD));
     cards.put("Infernal Blade", new Card("Infernal Blade", "Add a random Attack into your hand. It costs 0 this turn.\nExhaust.\n", "Skill", 1, false, List.of("CopyToHandFree RandAtk", "Exhaust"),
                       "Add a random Attack into your hand. It costs 0 this turn.\nExhaust.\n", 0, false, List.of("CopyToHandFree RandAtk", "Exhaust"), Rarity.UNCOMMON, Color.IRONCLAD));
     cards.put("Inflame", new Card("Inflame", "Power", 1, false, List.of("AppPlayer Strength 2"),
-                       1, false, List.of("AppPlayer Strength 3"), Rarity.UNCOMMON, Color.IRONCLAD));
+                      List.of("AppPlayer Strength 3"), Rarity.UNCOMMON, Color.IRONCLAD));
     cards.put("Intimidate", new Card("Intimidate", "Skill", 0, false, List.of("AppAll Weak 1", "Exhaust"),
-                       0, false, List.of("AppAll Weak 2", "Exhaust"), Rarity.UNCOMMON, Color.IRONCLAD));
+                      List.of("AppAll Weak 2", "Exhaust"), Rarity.UNCOMMON, Color.IRONCLAD));
     cards.put("Metallicize", new Card("Metallicize", "At the end of your turn, gain 3 block.\n", "Power", 1, false, List.of("AppPlayer Metallicize 3"),
                       "At the end of your turn, gain 4 block.\n", 1, false, List.of("AppPlayer Metallicize 4"), Rarity.UNCOMMON, Color.IRONCLAD));
     cards.put("Power Through", new Card("Power Through", "Add 2 Wounds into your hand.\nGain 15 block.\n", "Skill", 1, false, List.of("CopyToHand Wound 2", "Block 15"),
@@ -186,11 +186,13 @@ public abstract class App {
     cards.put("Rage", new Card("Rage", "Whenever you play an Attack this turn, gain 3 block.\n", "Skill", 0, false, List.of("AppPlayer Rage 3"),
                       "Whenever you play an Attack this turn, gain 4 block.\n", 0, false, List.of("AppPlayer Rage 4"), Rarity.UNCOMMON, Color.IRONCLAD));
     cards.put("Rampage", new Card("Rampage", "Attack", 1, true, List.of("Attack 8", "Rampage 5"),
-                       1, true, List.of("Attack 8", "Rampage 8"), Rarity.UNCOMMON, Color.IRONCLAD));
+                      List.of("Attack 8", "Rampage 8"), Rarity.UNCOMMON, Color.IRONCLAD));
     cards.put("Reckless Charge", new Card("Reckless Charge", "Attack", 0, true, List.of("Attack 7", "GainToDraw Dazed"),
                       List.of("Attack 10", "GainToDraw Dazed"), Rarity.UNCOMMON, Color.IRONCLAD));
     cards.put("Rupture", new Card("Rupture", "Whenever you lose HP from a card,\ngain 1 Strength.\n", "Power", 1, false, List.of("AppPlayer Rupture"),
                       "Whenever you lose HP from a card,\ngain 2 Strength.\n", 1, false, List.of("AppPlayer Rupture 2"), Rarity.UNCOMMON, Color.IRONCLAD));
+    cards.put("Second Wind", new Card("Second Wind", "Skill", 1, false, List.of("SecondWind 5"),
+                      List.of("SecondWind 7"), Rarity.UNCOMMON, Color.IRONCLAD));
     
     // Assert that all entries in `cards` are named correctly:
     App.ASSERT(cards.entrySet().stream()

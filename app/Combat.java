@@ -719,23 +719,6 @@ public class Combat {
       case "Anger":
         discardPile.add(new Card(card));
         break;
-      case "Havoc":
-        if(drawPile.size() == 0){
-          break;
-        }
-        Card c = drawPile.remove(0);
-        display();
-        
-        int startRow = SettingsManager.sm.screenHeight/2 - c.getImage().length/2;
-        int startCol = SettingsManager.sm.screenWidth/2 - c.getImage()[0].length()/2;
-        Run.r.displayScreenWithAddition(c.getImage(), startRow, startCol);
-        Str.print("Playing and Exhausting " + c.getName() + ". (Press enter)");
-        Main.scan.nextLine();
-        
-        energy += c.getEnergyCost();
-        playCard(c);
-        exhaust(c);
-        break;
       case "Rampage":
         App.ASSERT(card != null);
         //(int must be final to use in a lambda)
@@ -749,6 +732,33 @@ public class Combat {
         card.getEffects().stream().forEach(increaseDamage);
         card.getUpEffects().stream().forEach(increaseDamage);
         card.reloadDescription();
+        break;
+      case "SecondWind":
+        for(int i=0; i < hand.size();){
+          Card c = hand.get(i);
+          if(!c.isAttack()){
+            exhaust(c);
+            player.block(power, true);
+          } else {
+            i++;
+          }
+        }
+        break;
+      case "Havoc":
+        if(drawPile.size() == 0){
+          break;
+        }
+        Card c = drawPile.remove(0);
+        
+        int startRow = SettingsManager.sm.screenHeight/2 - c.getImage().length/2;
+        int startCol = SettingsManager.sm.screenWidth/2 - c.getImage()[0].length()/2;
+        Run.r.displayScreenWithAddition(c.getImage(), startRow, startCol);
+        Str.print("Playing and Exhausting " + c.getName() + ". (Press enter)");
+        Main.scan.nextLine();
+        
+        energy += c.getEnergyCost();
+        playCard(c);
+        exhaust(c);
         break;
       case "LoseEnergy":
         power = -power;

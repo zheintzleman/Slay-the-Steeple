@@ -192,6 +192,9 @@ public class Card {
           case "Rampage":
             codedDescription += "Increase this card's damage by " + effectPower + " this combat.\n";
             break;
+          case "SecondWind":
+            codedDescription += "Exhaust all non-Attack cards in your hand.\nGain " + effectPower + " block for each card Exhausted.\n";
+            break;
           default:
             break;
         }
