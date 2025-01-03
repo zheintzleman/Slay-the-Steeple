@@ -81,10 +81,10 @@ public abstract class App {
     //e.g. Stores "Lorem Ipsum Dolor 4" as: P = "Lorem", S = "Ipsum Dolor", p = 4,
     // or "Lorem Ipsum 4 Dolor" as: P = "Lorem", S = "Ipsum 4 Dolor", p = 1.
     // or "(OnExhaust) Lorem Ipsum 4 Dolor" as: P = "Lorem", S = "Ipsum 4 Dolor", p = 1, WP = ONEXHAUST
-    cards.put("Burn", new Card("Burn", "Unplayable.\nAt the end of your turn, take 2 damage.\n", "Status", -1, false, List.of("Unplayable", "(OnTurnEnd) DmgPlayer 2"),
-                      "Unplayable.\nAt the end of your turn, take 4 damage.\n", -1, false, List.of("Unplayable", "(OnTurnEnd) DmgPlayer 4"), Rarity.COMMON, Color.NEUTRAL)); //TODO: Something that makes burn discard even w/ retain? Or just hard-code that in?
+    cards.put("Burn", new Card("Burn", "Unplayable.\nAt the end of your turn, take 2 damage.\n", "Status", -1, false, List.of("Unplayable", "(OnTurnEnd) DmgPlayerC 2"),
+                      "Unplayable.\nAt the end of your turn, take 4 damage.\n", -1, false, List.of("Unplayable", "(OnTurnEnd) DmgPlayerC 4"), Rarity.COMMON, Color.NEUTRAL)); //TODO: Something that makes burn discard even w/ retain? Or just hard-code that in?
     // Statuses can't be upgraded by default (incl. by apotheosis, etc.) So Burn+ is effectively its own card.
-    cards.put("Burn+", new Card(Colors.upgradeGreen + "Burn+", "Unplayable.\nAt the end of your turn, take 4 damage.\n", "Status", -1, false, List.of("Unplayable", "(OnTurnEnd) DmgPlayer 4"),
+    cards.put("Burn+", new Card(Colors.upgradeGreen + "Burn+", "Unplayable.\nAt the end of your turn, take 4 damage.\n", "Status", -1, false, List.of("Unplayable", "(OnTurnEnd) DmgPlayerC 4"),
                       "", -1, false, List.of(), Rarity.COMMON, Color.NEUTRAL));
     cards.put("Dazed", new Card("Dazed", "Status", -1, false, List.of("Unplayable", "Ethereal"), List.of(), Rarity.COMMON, Color.NEUTRAL));
     cards.put("Slimed", new Card("Slimed", "Status", 1, false, List.of("Exhaust"), List.of(), Rarity.COMMON, Color.NEUTRAL));
@@ -144,7 +144,7 @@ public abstract class App {
                       "Draw 4 cards.\nYou cannot draw additional cards this turn.\n", 0, false, List.of("Draw 4", "AppPlayer No Draw"), Rarity.UNCOMMON, Color.IRONCLAD));
     cards.put("Blood for Blood", new Card("Blood for Blood", "Costs 1 less energy for each time you lose HP this combat.\nDeal <atk>18<endatk> damage.\n", "Attack", 4, true, List.of("(OnPlayerLoseHP) AddCost -1", "Attack 18"),
                       "Costs 1 less energy for each time you lose HP this combat.\nDeal <atk>22<endatk> damage.\n", 3, true, List.of("(OnPlayerLoseHP) AddCost -1", "Attack 22"), Rarity.UNCOMMON, Color.IRONCLAD));
-    cards.put("Bloodletting", new Card("Bloodletting", "Skill", 0, false, List.of("LoseHP 3", "GainEnergy 2"), List.of("LoseHP 3", "GainEnergy 3"), Rarity.UNCOMMON, Color.IRONCLAD));
+    cards.put("Bloodletting", new Card("Bloodletting", "Skill", 0, false, List.of("LoseHPC 3", "GainEnergy 2"), List.of("LoseHPC 3", "GainEnergy 3"), Rarity.UNCOMMON, Color.IRONCLAD));
     cards.put("Burning Pact", new Card("Burning Pact", "Skill", 1, false, List.of("Exhaust Choose1FromHand", "Draw 2"), List.of("Exhaust Choose1FromHand", "Draw 3"), Rarity.UNCOMMON, Color.IRONCLAD));
     cards.put("Carnage", new Card("Carnage", "Attack", 2, true, List.of("Ethereal", "Attack 20"), List.of("Ethereal", "Attack 28"), Rarity.UNCOMMON, Color.IRONCLAD));
     cards.put("Combust", new Card("Combust", "At the end of your turn, lose 1 HP and deal 5 damage to ALL enemies.\n", "Power", 1, false, List.of("AppPlayer Combust 5", "IncrCombustCnt"),
@@ -169,8 +169,8 @@ public abstract class App {
                       "Gain 16 block.\nWhenever you are attacked this turn, deal 6 damage back.\n", 2, false, List.of("Block 16", "AppPlayer Flame Barrier 6"), Rarity.UNCOMMON, Color.IRONCLAD));
     cards.put("Ghostly Armor", new Card("Ghostly Armor", "Skill", 1, false, List.of("Ethereal", "Block 10"),
                        1, false, List.of("Ethereal", "Block 13"), Rarity.UNCOMMON, Color.IRONCLAD));
-    cards.put("Hemokenesis", new Card("Hemokenesis", "Attack", 1, true, List.of("LoseHP 2", "Attack 15"),
-                       1, true, List.of("LoseHP 2", "Attack 20"), Rarity.UNCOMMON, Color.IRONCLAD));
+    cards.put("Hemokenesis", new Card("Hemokenesis", "Attack", 1, true, List.of("LoseHPC 2", "Attack 15"),
+                       1, true, List.of("LoseHPC 2", "Attack 20"), Rarity.UNCOMMON, Color.IRONCLAD));
     cards.put("Infernal Blade", new Card("Infernal Blade", "Add a random Attack into your hand. It costs 0 this turn.\nExhaust.\n", "Skill", 1, false, List.of("CopyToHandFree RandAtk", "Exhaust"),
                       "Add a random Attack into your hand. It costs 0 this turn.\nExhaust.\n", 0, false, List.of("CopyToHandFree RandAtk", "Exhaust"), Rarity.UNCOMMON, Color.IRONCLAD));
     cards.put("Inflame", new Card("Inflame", "Power", 1, false, List.of("AppPlayer Strength 2"),
@@ -189,6 +189,8 @@ public abstract class App {
                        1, true, List.of("Attack 8", "Rampage 8"), Rarity.UNCOMMON, Color.IRONCLAD));
     cards.put("Reckless Charge", new Card("Reckless Charge", "Attack", 0, true, List.of("Attack 7", "GainToDraw Dazed"),
                       List.of("Attack 10", "GainToDraw Dazed"), Rarity.UNCOMMON, Color.IRONCLAD));
+    cards.put("Rupture", new Card("Rupture", "Whenever you lose HP from a card,\ngain 1 Strength.\n", "Power", 1, false, List.of("AppPlayer Rupture"),
+                      "Whenever you lose HP from a card,\ngain 2 Strength.\n", 1, false, List.of("AppPlayer Rupture 2"), Rarity.UNCOMMON, Color.IRONCLAD));
     
     // Assert that all entries in `cards` are named correctly:
     App.ASSERT(cards.entrySet().stream()
@@ -237,6 +239,7 @@ public abstract class App {
     statuses.put("Flame Barrier", new Status("Flame Barrier", Colors.vulnRed + "B", false, true, "When attacked, deals <str> damage back. (Wears off at the end of your turn)"));
     statuses.put("Metallicize", new Status("Metallicize", Colors.lightBlue + "M", false, true, "At the end of your turn, gain <str> block.", List.of("(OnTurnEnd) Block <str>")));
     statuses.put("Rage", new Status("Rage", Colors.lightYellow + "R", false, true, "Whenever you play an Attack, gain <str> block. (Wears off at the end of your turn)"));
+    statuses.put("Rupture", new Status("Rupture", Colors.vulnRed + "R", false, true, "Whenever you lose HP from a card, gain <str> Strength.\n"));
 
     
     // Assert that all entries in `cards` are named correctly:
@@ -245,6 +248,12 @@ public abstract class App {
       .reduce(true, Boolean::logicalAnd));
 
     return statuses;
+  
+    // Places I could edit for card/relic/w/e effects:
+    // - Combat.c.playCard / Combat.c.playEffect
+    // - EventManager
+    // - Entity.calcAttackDamage / Entity.calcAtkDmgFromThisStats
+    // - Card.Description constructor
   }
 
   public static void ASSERT(boolean condition){

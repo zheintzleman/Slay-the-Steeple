@@ -57,13 +57,13 @@ public class Run {
     // for(Card c : CARDS){
     //   deck.add(new Card(c));
     // }
-    deck.add(new Card("Rage"));
-    deck.add(new Card("Pummel"));
-    deck.add(new Card("Reckless Charge"));
-    deck.add(new Card("Reckless Charge"));
-    deck.add(new Card("Rampage"));
-    deck.add(new Card("Rampage"));
-    deck.add(new Card("Inflame"));
+    deck.add(new Card("Feel No Pain"));
+    deck.add(new Card("Flame Barrier"));
+    deck.add(new Card("Rupture"));
+    deck.add(new Card("Rupture"));
+    deck.add(new Card("Hemokenesis"));
+    deck.add(new Card("Combust"));
+    deck.add(new Card("Combust"));
     deck.add(new Card("Armaments"));
   }
 

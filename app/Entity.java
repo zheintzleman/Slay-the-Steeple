@@ -22,13 +22,15 @@ public abstract class Entity {
   // for a specific element. The lists are relatively short, though (and this project is not
   // especially computationally demanding), so asymptotics aren't as important.
   private ArrayList<Status> statuses;
-  // While enemies are doing their intents, new statuses are applied
+  // While non-null (iff statusHolds > 0), new statuses are applied
   // to a copy of the entity instead of to the entity itself. They then sync at the start of the
   // next turn. Originally just for during "end-of-turn" (i.e. while enemies are doing their
   // intents), but have since generalized the functionality.
   private Entity copy = null;
-  // Similar to above, but for block. While true, new block is stored in heldBlock until resumed.
-  private boolean blockHeld = false;
+  // Similar to above, but for block. While >0, new block is stored in heldBlock until resumed.
+  // Each call to holdThisBlock() adds one, and each call to resumeThisBlock removes one.
+  private int blockHolds = 0;
+  private int statusHolds = 0;
 
   public Entity(){
     name = "<Entity>";
@@ -134,11 +136,16 @@ public abstract class Entity {
   
 
   /** For each entity currently in play:
-   * All new status effects and block will go to the clone until resume() is
-   * called.
+   * Increases the # of status & block holds by 1.
+   * All new status effects and block will go to the clone until resumed once
+   * for each hold.
    * @Note Only affects calls to the block function, not other changes to block
    * amount (such as being attacked and losing block.)
-   * @Precondition: No entities currently held.
+   * @Note Using the numHolds system so that things can be freely held then
+   * later resumed (e.g. at the beginning/end of a function) without worrying
+   * about whether there could already be a hold. E.g. killing fungi beasts
+   * using Combust would otherwise throw exceptions whether or not the
+   * EventManager.playStatusEffects method holds.
    */
   public static void hold(){
     // Calls holdThis functions on the enemies and player.
@@ -146,9 +153,13 @@ public abstract class Entity {
     holdStatuses();
   }
   /** For each entity currently in play:
-   * Merges the statuses and block that have been applied since, and sets
+   * Decreases the # of status & block holds by 1. If now 0:
+   * Merges the statuses and/or block that have been applied since, and sets
    * `copy` back to null. (i.e. applies all attempted status changes and block
    * since calling hold.)
+   * (If only one of statuses/block holds reaches 0, only resumes that; i.e.
+   * if the status holds reach 0 but block reaches 1, only the statuses
+   * resumed) (obviously)
    */
   public static void resume(){
     // Calls resumeThis functions on the enemies and player.
@@ -156,10 +167,11 @@ public abstract class Entity {
     resumeStatuses();
   }
   /** For each entity currently in play:
-   * All new block will not be applied until resumeThisBlock called.
+   * Increases the # of status holds by 1.
+   * All new block will not be applied until resumeThisBlock is called once for
+   * each hold.
    * @Note Only affects calls to the block function, not other changes to block
    * amount (such as being attacked.)
-   * @Precondition No entity's block held.
    * @Postcondition All entities' block held.
    */
   public static void holdBlock(){
@@ -167,8 +179,8 @@ public abstract class Entity {
       .forEach(Entity::holdThisBlock);
   }
   /** For each entity currently in play:
+   * Decreases the # of block holds by 1. If now 0:
    * Applies the block that has been held.
-   * @Postcondition No entity's block held.
    */
   public static void resumeBlock(){
     // See resumeStatuses() for why we don't assert blockHeld() here.
@@ -176,10 +188,9 @@ public abstract class Entity {
       .forEach(Entity::resumeThisBlock);
   }
   /** For each entity currently in play:
+   * Increases the # of status holds by 1. If was just 0:
    * Initializes `copy` to a clone of `this`. All status changes will go to
-   * the clone until resumeThisStatuses() is called.
-   * @Precondition No entity's statuses currently held (A copy is not currently
-   * created.)
+   * the clone until resumeThisStatuses() is called once for each hold.
    * @Postcondition All entity's statuses held.
    */
   public static void holdStatuses(){
@@ -187,9 +198,9 @@ public abstract class Entity {
       .forEach(Entity::holdThisStatuses);
   }
   /** For each entity currently in play:
+   * Decreases the # of status holds by 1. If now 0:
    * Merges the status changes that have been applied since holding them.
    * Does nothing if this entity not currently held
-   * @Postcondition No entity's statuses held
    */
   public static void resumeStatuses(){
     // Not asserting statusesHeld(), since a new enemy could have been created
@@ -199,29 +210,36 @@ public abstract class Entity {
       .forEach(Entity::resumeThisStatuses);
   }
   private void holdThisStatuses(){
-    App.ASSERT(!statusesHeld());
-    copy = new AbstractEntity(this);
+    if(statusHolds == 0){
+      copy = new AbstractEntity(this);
+    }
+    statusHolds++;
     
     App.ASSERT(statusesHeld());
   }
   private void resumeThisStatuses(){
     if(statusesHeld()){
-      setStatuses(copy.getStatuses());
-      copy = null;
+      // Decrease the # of holds by 1. If now 0, actually resume it.
+      statusHolds--;
+      if(statusHolds == 0){
+        setStatuses(copy.getStatuses());
+        copy = null;
+      }
     }
-    App.ASSERT(!statusesHeld());
   }
   private void holdThisBlock(){
-    App.ASSERT(!blockHeld());
-    blockHeld = true;
+    blockHolds++;
     App.ASSERT(blockHeld());
   }
   private void resumeThisBlock(){
-    addBlock(heldBlock);
-    heldBlock = 0;
-    blockHeld = false;
-
-    App.ASSERT(!blockHeld());
+    if(blockHeld()){
+      // Decrease the # of holds by 1. If now 0, actually resume it.
+      blockHolds--;
+      if(blockHolds == 0){
+        addBlock(heldBlock);
+        heldBlock = 0;
+      }
+    }
   }
   /** Returns true iff this entity is currently in a status && block hold.
    * (e.g.)
@@ -235,14 +253,14 @@ public abstract class Entity {
    * copy (i.e. being held.)
    */
   public boolean statusesHeld(){
-    return copy != null;
+    return statusHolds > 0;
   }
   /** Returns whether new block is added to the heldBlock variable (i.e. block
    * is being held.)
    * If false, block is added straight to the block variable.
    */
   public boolean blockHeld(){
-    return blockHeld;
+    return blockHolds > 0;
   }
   
   
@@ -348,21 +366,21 @@ public abstract class Entity {
   /** Damages the entity the specified amount; taking from its block then its hp. If hp is 0 or less, it dies.
    * @return int - the amount of damage delt
    */
-  public int damage(int dmg){
+  public int damage(int dmg, boolean fromCard){
     if(block >= dmg){
       block -= dmg;
       return 0;
     }else{
       dmg -= block;
       block = 0;
-      subtractHP(dmg);
+      subtractHP(dmg, fromCard);
       return dmg;
     }
   }
   /** Subtracts the entity's hp the specified amount. If hp is 0 or less, it dies.
   */
-  public void subtractHP(int dmg){
-    EventManager.em.OnLoseHP(this, dmg);
+  public void subtractHP(int dmg, boolean fromCard){
+    EventManager.em.OnLoseHP(this, dmg, fromCard);
     hp -= dmg;
     if(hp <= 0){
       hp = 0;
@@ -470,7 +488,7 @@ public abstract class Entity {
     List<? extends Entity> victimsCopy = List.copyOf(victims);
     for(Entity victim : victimsCopy){
       int dmg = calcAttackDamage(victim, damagePreCalculations, strMultiplier);
-      int dmgDealt = victim.damage(dmg);
+      int dmgDealt = victim.damage(dmg, this instanceof Player);
       totalDmgDealt += dmgDealt;
       EventManager.em.OnAttack(this, victim, dmgDealt);
     }

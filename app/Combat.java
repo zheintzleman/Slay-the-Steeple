@@ -654,11 +654,21 @@ public class Combat {
           enemy.addStatusStrength(secondary, power);
         }
         break;
-      case "DmgPlayer":
-        player.damage(power);
+      // From a card (For Rupture)
+      case "DmgPlayerC":
+        player.damage(power, true);
         break;
-      case "LoseHP":
-        player.subtractHP(power);
+      // Not from a card
+      case "DmgPlayerNC":
+        player.damage(power, false);
+        break;
+      // From a card (For Rupture)
+      case "LoseHPC":
+        player.subtractHP(power, true);
+        break;
+      // Not from a card
+      case "LoseHPNC":
+        player.subtractHP(power, false);
         break;
       case "Ethereal": // The only thing Ethereal changes is when it is activated (OnTurnEnd); the effect is the same.
       case "Exhaust":
@@ -755,8 +765,8 @@ public class Combat {
         break;
       case "Combust":
         final int combustDamage = power;
-        player.subtractHP(combusts);
-        List.copyOf(enemies).forEach(e -> e.damage(combustDamage));
+        player.subtractHP(combusts, true);
+        List.copyOf(enemies).forEach(e -> e.damage(combustDamage, true));
         break;
       case "Clash":
       case "Unplayable":

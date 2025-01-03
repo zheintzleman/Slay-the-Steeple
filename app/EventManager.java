@@ -51,8 +51,7 @@ public class EventManager {
 
     // Calls ONTURNEND card effects from cards in hand; discards them if appropriate.
     // Each card discarded immediately after "play", for canon continuity.
-    @SuppressWarnings("unchecked")
-    ArrayList<Card> hand = (ArrayList<Card>) Combat.c.getHand().clone();
+    ArrayList<Card> hand = new ArrayList<>(Combat.c.getHand());
     for(Card card : hand){
       // Tracks whether the card has been removed from hand already or if it needs to be discarded still.
       boolean shouldDiscard = true;
@@ -76,10 +75,14 @@ public class EventManager {
     });
   }
 
-  public void OnLoseHP(Entity victim, int hpLoss){
+  public void OnLoseHP(Entity victim, int hpLoss, boolean fromCard){
     // Note: If entity killed, hpLoss parameter not appropriately decreased.
-    if(victim == Combat.c.getPlayer()){
+    Player player = Combat.c.getPlayer();
+    if(victim == player){
       OnPlayerLoseHP(hpLoss);
+    }
+    if(fromCard){
+      player.addStatusStrength("Strength", player.getStatusStrength("Rupture"));
     }
     playStatusEffects(Event.ONLOSEHP, Collections.singletonList(victim));
   }
@@ -91,7 +94,7 @@ public class EventManager {
 
   public void OnAttack(Entity attacker, Entity victim, int damage){
     if(victim.hasStatus("Flame Barrier")){
-      attacker.damage(victim.getStatusStrength("Flame Barrier"));
+      attacker.damage(victim.getStatusStrength("Flame Barrier"), true);
     }
 
     if(damage > 0){
@@ -140,7 +143,7 @@ public class EventManager {
     if(c.isStatus() || c.isCurse()){
       int fireBreathing = player.getStatusStrength("Fire Breathing");
       for(Entity enemy : Combat.c.getEnemies()){
-        enemy.damage(fireBreathing);
+        enemy.damage(fireBreathing, true);
       }
     }
   }
@@ -152,7 +155,9 @@ public class EventManager {
    * @param event The Event enum to call
    */
   private void playStatusEffects(Event event){
+    Entity.hold();
     playStatusEffects(event, Combat.c.getEntities());
+    Entity.resume();
   }
   /** Plays all status effects that were initialized with the respective event;
    * e.g. with (OnTurnEnd) for event == Event.ONTURNEND.
@@ -192,9 +197,4 @@ public class EventManager {
       }
     }
   }
-  
-  // Along with editing these functions for card/relic/w/e effects, can edit:
-  // - Entity.calcAttackDamage / Entity.calcAtkDmgFromThisStats
-  // - Combat.c.playCard / Combat.c.playEffect
-  // - Card.Description constructor
 }
