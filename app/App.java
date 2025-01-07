@@ -217,6 +217,8 @@ public abstract class App {
                       "Skills cost 0.\nWhenever you play a Skill, Exhaust it.\n", 2, false, List.of("AppPlayer Corruption"), Rarity.RARE, Color.IRONCLAD));
     cards.put("Demon Form", new Card("Demon Form", "At the start of your turn, gain 2 Strength.\n", "Power", 3, false, List.of("AppPlayer Demon Form 2"),
                       "At the start of your turn, gain 2 Strength.\n", 3, false, List.of("AppPlayer Demon Form 3"), Rarity.RARE, Color.IRONCLAD));
+    cards.put("Double Tap", new Card("Double Tap", "This turn, your next Attack is played twice.\n", "Skill", 1, false, List.of("AppPlayer Double Tap"),
+                      "This turn, your next 2 Attacks are played twice.\n", 1, false, List.of("AppPlayer Double Tap 2"), Rarity.RARE, Color.IRONCLAD));
     
     // Assert that all entries in `cards` are named correctly:
     App.ASSERT(cards.entrySet().stream()
@@ -262,15 +264,16 @@ public abstract class App {
     statuses.put("Evolve", new Status("Evolve", Colors.lightYellow + "E", false, true, "Whenever you draw a Status, draw <str> card(s)."));
     statuses.put("Feel No Pain", new Status("Feel No Pain", Colors.hpBarRed + "F", false, true, "Whenever a card is Exhausted, gain <str> block.", List.of("(OnExhaust) Block <str>")));
     statuses.put("Fire Breathing", new Status("Fire Breathing", Colors.vulnRed + "F", false, true, "Whenever you draw a Status or Curse card, deal <str> damage to ALL enemies."));
-    statuses.put("Flame Barrier", new Status("Flame Barrier", Colors.vulnRed + "B", false, true, "When attacked, deals <str> damage back. (Wears off at the end of your turn)"));
+    statuses.put("Flame Barrier", new Status("Flame Barrier", Colors.vulnRed + "B", false, true, "When attacked, deals <str> damage back. (Wears off at the start of your turn)", List.of("(OnTurnStart) ClearStatusPlayer Flame Barrier")));
     statuses.put("Metallicize", new Status("Metallicize", Colors.lightBlue + "M", false, true, "At the end of your turn, gain <str> block.", List.of("(OnTurnEnd) Block <str>")));
-    statuses.put("Rage", new Status("Rage", Colors.lightYellow + "R", false, true, "Whenever you play an Attack, gain <str> block. (Wears off at the end of your turn)"));
+    statuses.put("Rage", new Status("Rage", Colors.lightYellow + "R", false, true, "Whenever you play an Attack, gain <str> block. (Wears off at the start of your turn)", List.of("(OnTurnStart) ClearStatusPlayer Rage")));
     statuses.put("Rupture", new Status("Rupture", Colors.vulnRed + "R", false, true, "Whenever you lose HP from a card, gain <str> Strength."));
     statuses.put("Barricade", new Status("Barricade", Colors.lightBlue + "B", false, false, "Block is not removed at the start of your turn."));
     statuses.put("Berserk", new Status("Berserk", Colors.lightYellow + "B", false, true, "At the start of your turn, gain <str> Energy.", List.of("(OnTurnStart) GainEnergy <str>")));
     statuses.put("Brutality", new Status("Brutality", Colors.purple + "B", false, true, "At the start of your turn, lose <str> HP and draw <str> cards.", List.of("(OnTurnStart) LoseHPC <str>", "(OnTurnStart) Draw <str>")));
     statuses.put("Corruption", new Status("Corruption", Colors.purple + "C", false, false, "Skills cost 0. Whenever you play a Skill, Exhaust it."));
     statuses.put("Demon Form", new Status("Demon Form", Colors.demonFormRed + "D", false, true, "At the start of your turn, gain <str> Strength.", List.of("(OnTurnStart) AppPlayer Strength <str>")));
+    statuses.put("Double Tap", new Status("Double Tap", Colors.doubleTapBlue + "D", false, true, "Your next <str> Attacks this turn are played twice.", List.of("(OnTurnStart) ClearStatusPlayer Double Tap")));
 
     
     // Assert that all entries in `cards` are named correctly:

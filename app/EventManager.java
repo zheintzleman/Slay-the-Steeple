@@ -58,26 +58,16 @@ public class EventManager {
     // Each card discarded immediately after "play", for canon continuity.
     ArrayList<Card> hand = new ArrayList<>(Combat.c.getHand());
     for(Card card : hand){
-      // Tracks whether the card has been removed from hand already or if it needs to be discarded still.
-      boolean shouldDiscard = true;
-
+      //Plays any ONTURNEND card effects
       for(CardEffect eff : card.getEffects()){
         if(eff.whenPlayed() == Event.ONTURNEND){
-          //Plays any ONTURNEND card effects
-          //If the effect returns false (card should not discard), shouldDiscard set to false.
-          shouldDiscard = Combat.c.playEffect(eff) && shouldDiscard;
+          Combat.c.playEffect(eff);
         }
       }
-      if(shouldDiscard){
+      if(hand.contains(card)){
         Combat.c.discard(card, false);
       }
     }
-
-    // Remove some statuses that s/b removed at end of turn:
-    Combat.c.getEntities().stream().forEach((Entity entity) -> {
-      entity.setStatusStrength("Flame Barrier", 0);
-      entity.setStatusStrength("Rage", 0);
-    });
   }
 
   public void OnLoseHP(Entity victim, int hpLoss, boolean fromCard){
@@ -119,8 +109,8 @@ public class EventManager {
 
   public void OnAttackFinished(Entity attacker){
     //todo: If we never add anything else to this event, can change it so the attack() function
-    //Just directly reduces vigor -- the entity copy system will make it so the statuses don't
-    //apply until after all of the attacks are done.
+    //Just directly reduces vigor -- the entity hold system will make it so the statuses don't
+    //apply until after all of the attacks are done. (e.g. w/ Twin Strike.)
     attacker.setStatusStrength("Vigor", 0);
     attacker.block(attacker.getStatusStrength("Rage"), false);
   }

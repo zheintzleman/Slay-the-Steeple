@@ -57,15 +57,15 @@ public class Run {
     // for(Card c : CARDS){
     //   deck.add(new Card(c));
     // }
-    deck.add(new Card("Demon Form"));
-    deck.add(new Card("Shockwave"));
-    deck.add(new Card("Flame Barrier"));
-    deck.add(new Card("Corruption"));
+    deck.add(new Card("Double Tap"));
+    deck.add(new Card("Double Tap"));
+    deck.add(new Card("Strike"));
+    deck.add(new Card("Strike"));
+    deck.add(new Card("Whirlwind"));
+    deck.add(new Card("Whirlwind"));
+    deck.add(new Card("Havoc"));
+    deck.add(new Card("Havoc"));
     deck.add(new Card("Armaments"));
-    deck.add(new Card("Demon Form"));
-    deck.add(new Card("Fire Breathing"));
-    deck.add(new Card("Flame Barrier"));
-    deck.add(new Card("Corruption"));
     deck.add(new Card("Armaments"));
   }
 

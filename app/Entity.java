@@ -20,7 +20,7 @@ public abstract class Entity {
   private String[] art;
   // Could instead use a LinkedHashMap, especially given most of the use cases are with searching
   // for a specific element. The lists are relatively short, though (and this project is not
-  // especially computationally demanding), so asymptotics aren't as important.
+  // especially computationally demanding), so asymptotics aren't as important as clarity.
   private ArrayList<Status> statuses;
   // While non-null (iff statusHolds > 0), new statuses are applied
   // to a copy of the entity instead of to the entity itself. They then sync at the start of the

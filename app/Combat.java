@@ -251,14 +251,14 @@ public class Combat {
     while(!doneAction){
       String input = input();
       try{
-        playCard(Integer.parseInt(input));
+        playCardFromHand(Integer.parseInt(input));
         doneAction = true;
         continue;
       } catch(NumberFormatException e){}
       
       if(input.indexOf("Play")==0 || input.indexOf("play")==0){
         try{
-          playCard(Integer.parseInt(input.substring(5)));
+          playCardFromHand(Integer.parseInt(input.substring(5)));
           doneAction = true;
         } catch(NumberFormatException e){
           System.out.println("Invalid input. To play a card, type \u001B[35mPlay #\u001B[0m, or just \u001B[35m#\u001B[0m, where # is the card's position in your hand."); //TODO: Using esc codes< (Move to Colors.java)
@@ -478,13 +478,17 @@ public class Combat {
     discardPile.remove(card);
   }
 
+  public boolean isInAnyPiles(Card card){
+    return exhaustPile.contains(card)
+        || drawPile.contains(card)
+        || hand.contains(card)
+        || discardPile.contains(card);
+  }
+
   /** Attemps to play the card at the selected index in hand.
   * @param index - The index in hand of the card being played
-  * @return boolean - Whether or not a card was played. Returns false if
-  * index is not valid, if player has too little energy, or if card is
-  * unplayable.
   */
-  public boolean playCard(int num){
+  public void playCardFromHand(int num){
     if(num%10 == 0){
       num += 10;
     }
@@ -492,49 +496,86 @@ public class Combat {
     int index = num-1;
     Card card;
 
-    try{        //Gets and assigns the target if neccessary
+    //Gets and assigns the target card:
+    try{
       card = hand.get(index);
     }catch(IndexOutOfBoundsException e){
-      return false;
+      return;
     }
 
-    hand.remove(index);
-    boolean cardPlayed = playCard(card, false);
-    if(!cardPlayed){
-      hand.add(index, card);
-    }
-    return(cardPlayed);
+    playCardFromHand(card);
+    
+    return;
   }
 
-  /** Attemps to play the card.
-  * @return boolean - Whether or not the card was played. Returns false if
-  * player has too little energy, or if card is unplayable.
-  */
-  public boolean playCard(Card card, boolean playForFree){
+  /** Attemps to play the card; getting the target, reducing energy, and
+   * discarding afterwards as appropriate.
+   */
+  public void playCardFromHand(Card card){
     Enemy target = null;
-    boolean shouldDiscard = true;
     // For X-cost cards:
     Integer X = null;
 
-    if(!cardPlayable(card)){
-      return false;
-    }    
+    if(!cardPlayable(card)
+    || (!card.ISXCOST && card.getEnergyCost() > energy)){
+      return;
+    }
 
     if(card.isTargeted()){
       int targetIndex = getTarget();
-      if(targetIndex == -1){ return false; }
+      if(targetIndex == -1){ return; }
       target = enemies.get(targetIndex-1);
     }
 
     if(card.ISXCOST){
       X = energy;
       energy = 0;
-    } else if(!playForFree){
-      // If not unplayable or x-cost, and playing the card normally (i.e. not
-      // through havoc, etc.), lose energy equal to the card's cost:
+    } else {
+      // If not unplayable or x-cost, lose energy equal to the card's cost:
       energy -= card.getEnergyCost();
     }
 
+    hand.remove(card);
+
+    playCard(card, target, X);
+
+    // Double Tap duplication:
+    final int DOUBLETAPS = player.getStatusStrength("Double Tap");
+    if(card.isAttack() && DOUBLETAPS > 0){
+      //Decrease its strength by 1 (no supported easy way to do that as of now)
+      player.setStatusStrength("Double Tap", DOUBLETAPS - 1);
+      playCard(new Card(card), target, X);
+    }
+    
+    if(card.isPower()){
+      removeFromAllPiles(card);
+    } else if(player.hasStatus("Corruption") && card.isSkill()
+           && !exhaustPile.contains(card)){
+      exhaust(card);
+    } else if(!isInAnyPiles(card)){
+      discard(card, false);
+    }
+  }
+
+  private void playCard(Card card, Enemy target, Integer X){
+    if(!cardPlayable(card)){
+      return;
+    }
+    // If null, target a random enemy:
+    if(target == null && card.isTargeted()){
+      int rng = (int) (Math.random()*enemies.size());
+      target = enemies.get(rng);
+    }
+    // In case first Double-Tapped card kills enemy. This should do nothing, but
+    // just in case that would cause a bug later:
+    if(target != null && !enemies.contains(target)){
+      System.out.println("Target not in Enemies list.");
+      return;
+    }
+    if(X == null){
+      X = energy;
+    }
+    
     Entity.holdBlock();
     
     //Doing the card's effect(s):
@@ -594,29 +635,19 @@ public class Combat {
           break;
         default:
           // Other effects that are included in the playEffect function
-          shouldDiscard = playEffect(eff) && shouldDiscard;
+          playEffect(eff);
       }
     }
 
-    if(card.isPower()){
-      removeFromAllPiles(card);
-    } else if(player.hasStatus("Corruption") && card.isSkill()
-           && !exhaustPile.contains(card)){
-      exhaust(card);
-    } else if(shouldDiscard){
-      discard(card, false);
-    }
     if(card.isAttack()){
       eventManager.OnAttackFinished(player);
     }
     
     Entity.resumeBlock();
-
-    return true;
   }
+
   public boolean cardPlayable(Card card){
     if(card.ISUNPLAYABLE
-    || (!card.ISXCOST && card.getEnergyCost() > this.energy)
     || player.hasStatus("Entangled") && card.getType().equals("Attack")){
       return false;
     }
@@ -629,8 +660,9 @@ public class Combat {
     }
     return true;
   }
-  /** Prompts the user for the target and returns their response. Returns -1 if card play is cancelled (no possible target selected)
-  */
+  /** Prompts the user for the target and returns their response.
+   * Returns -1 if card play is cancelled (no possible target selected)
+   */
   public int getTarget(){
     if(enemies.size() == 1){
       return 1;
@@ -648,22 +680,18 @@ public class Combat {
 
   /** Plays an effect that does not target a specific enemy.
    * 
-   * @return Whether the card should still be discarded normally after play
-   * (e.g. if the effect puts the card on top of the deck, it should no longer
-   * be discarded, and so returns false instead of the default of true.)
    * @precondition eff does not target an enemy.
    */
-  public boolean playEffect(Effect eff){
+  public void playEffect(Effect eff){
     if(!evaluateConditional(eff.getConditional(), null)){
-      return true;
+      return;
     }
-    boolean shouldDiscard = true;
     String primary = eff.getPrimary();
     String secondary = eff.getSecondary();
     int power = eff.getPower();
     Card card = (eff instanceof CardEffect) ? ((CardEffect) eff).getCard() : null;
 
-    switch(eff.getPrimary()){
+    switch(primary){
       case "Block":
         player.block(power, eff instanceof CardEffect);
         break;
@@ -678,6 +706,9 @@ public class Combat {
         break;
       case "AppPlayer":
         player.addStatusStrength(secondary, power);
+        break;
+      case "ClearStatusPlayer":
+        player.setStatusStrength(secondary, 0);
         break;
       case "AppAll":
         for(Enemy enemy : enemies){
@@ -704,7 +735,7 @@ public class Combat {
       case "Exhaust":
         for(Card c : cardTargets(secondary, card)){
           exhaust(c);
-          if(c == card){ shouldDiscard = false; }
+          // if(c == card){ shouldDiscard = false; }
         }
         break;
       case "Draw":
@@ -721,7 +752,7 @@ public class Combat {
         for(Card c : cardTargets(secondary, card)){
           removeFromAllPiles(c);
           drawPile.add(0, c);
-          if(c == card){ shouldDiscard = false; } //Don't discard if we moved card onto draw pile
+          // if(c == card){ shouldDiscard = false; } //Don't discard if we moved card onto draw pile
         }
         break;
       case "CopyToHand":
@@ -786,8 +817,10 @@ public class Combat {
         Str.print("Playing and Exhausting " + c.getName() + ". (Press enter)");
         Main.scan.nextLine();
         
-        playCard(c, true);
-        exhaust(c);
+        playCard(c, null, null);
+        if(!c.isPower()){
+          exhaust(c);
+        }
         break;
       case "LoseEnergy":
         power = -power;
@@ -812,9 +845,8 @@ public class Combat {
       case "Innate":
         break; //Relevant code is earlier; included to avoid error.
       default:
-        throw new UnsupportedOperationException("Invalid effect. Card: " + card + ", primary: " + primary);
+        throw new UnsupportedOperationException("Invalid effect \"" + primary + "\", from card: " + card);
     }
-    return shouldDiscard;
   }
 
   /** Returns an array of the card(s) represented by the expression in secondary.
