@@ -213,6 +213,9 @@ public class Card {
           case Eff.Whirlwind:
             codedDescription += "Deal <atk>" + effectPower + "<endatk> damage to ALL enemies X times.\n";
             break;
+          case Eff.Exhume:
+            codedDescription += "Put a card from your Exhaust pile into your hand.\n";
+            break;
           default:
           break;
         }

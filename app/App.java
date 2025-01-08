@@ -220,6 +220,8 @@ public abstract class App {
                       "At the start of your turn, gain 2 Strength.\n", 3, false, List.of("AppPlayer Demon Form 3"), Rarity.RARE, Color.IRONCLAD));
     cards.put("Double Tap", new Card("Double Tap", "This turn, your next Attack is played twice.\n", CardType.SKILL, 1, false, List.of("AppPlayer Double Tap"),
                       "This turn, your next 2 Attacks are played twice.\n", 1, false, List.of("AppPlayer Double Tap 2"), Rarity.RARE, Color.IRONCLAD));
+    cards.put("Exhume", new Card("Exhume", CardType.SKILL, 1, false, List.of("Exhume", "Exhaust"),
+                      0, false, List.of("Exhume", "Exhaust"), Rarity.RARE, Color.IRONCLAD));
     
     // Assert that all entries in `cards` are named correctly:
     App.ASSERT(cards.entrySet().stream()

@@ -59,12 +59,7 @@ public class Run {
     // }
     deck.add(new Card("Double Tap"));
     deck.add(new Card("Dropkick"));
-    deck.add(new Card("Whirlwind"));
-    deck.add(new Card("Shockwave"));
-    deck.add(new Card("Armaments"));
-    deck.add(new Card("Double Tap"));
-    deck.add(new Card("Dropkick"));
-    deck.add(new Card("Whirlwind"));
+    deck.add(new Card("Exhume"));
     deck.add(new Card("Shockwave"));
     deck.add(new Card("Armaments"));
   }

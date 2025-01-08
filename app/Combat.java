@@ -818,21 +818,22 @@ public class Combat {
           }
         }
         break;
-      case Eff.Havoc:
-        if(drawPile.size() == 0){
-          break;
-        }
-        Card c = drawPile.remove(0);
-        
-        int startRow = SettingsManager.sm.screenHeight/2 - c.getImage().length/2;
-        int startCol = SettingsManager.sm.screenWidth/2 - c.getImage()[0].length()/2;
-        Run.r.displayScreenWithAddition(c.getImage(), startRow, startCol);
-        Str.print("Playing and Exhausting " + c.getName() + ". (Press enter)");
-        Main.scan.nextLine();
-        
-        playCard(c, null, null);
-        if(!c.isPower()){
-          exhaust(c);
+      case Eff.Havoc: {
+          if(drawPile.size() == 0){
+            break;
+          }
+          Card c = drawPile.remove(0);
+          
+          int startRow = SettingsManager.sm.screenHeight/2 - c.getImage().length/2;
+          int startCol = SettingsManager.sm.screenWidth/2 - c.getImage()[0].length()/2;
+          Run.r.displayScreenWithAddition(c.getImage(), startRow, startCol);
+          Str.print("Playing and Exhausting " + c.getName() + ". (Press enter)");
+          Main.scan.nextLine();
+          
+          playCard(c, null, null);
+          if(!c.isPower()){
+            exhaust(c);
+          }
         }
         break;
       case Eff.LoseEnergy:
@@ -852,6 +853,16 @@ public class Combat {
         final int combustDamage = power;
         player.subtractHP(combusts, true);
         List.copyOf(enemies).forEach(e -> e.damage(combustDamage, true));
+        break;
+      case Eff.Exhume:
+        for(Card c : cardTargets("Choose1FromExhaust", card)){
+          exhaustPile.remove(c);
+          if(hand.size() < 10){
+            hand.add(c);
+          } else {
+            discard(c, false);
+          }
+        }
         break;
       case Eff.Clash:
       case Eff.Unplayable:
@@ -928,6 +939,28 @@ public class Combat {
               for(Card discardCard : discardPile){
                 if(Str.equalsIgnoreCaseSkipEscSeqs(input, discardCard.getName())){ //Checks if input is a card in the discard pile
                   c = discardCard;
+                }
+              }
+            }
+            return new Card[] {c};
+          } catch(NumberFormatException | IndexOutOfBoundsException e){}
+        }
+        //No break since returns above
+      case "Choose1FromExhaust":
+        if(exhaustPile.isEmpty()) return new Card[]{}; //Empty selection if exhaust pile empty
+        display();
+        while(true){
+          try{
+            String str = "Your exhaust pile:\n"; //Text to popup
+            for(Card exhaustCard : exhaustPile){
+              str += exhaustCard.toString() + "\n"; //Constructing the exhaust pile text
+            }
+            Card c = null;
+            while(c == null){ //Until they enter the name of a card in their exhaust pile
+              String input = Run.r.popupInput(str, "Select the name of a card in your exhaust pile");
+              for(Card exhaustCard : exhaustPile){
+                if(Str.equalsIgnoreCaseSkipEscSeqs(input, exhaustCard.getName())){ //Checks if input is a card in the exhaust pile
+                  c = exhaustCard;
                 }
               }
             }
