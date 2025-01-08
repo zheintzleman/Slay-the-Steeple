@@ -67,7 +67,7 @@ public abstract class Enemy extends Entity{
   public void setSplitIntent() {
     // Not an abstract method so that non-slime enemy classes can all inherit
     // this same method.
-    throw new RuntimeException("Calling setSplitIntent function on non-large-slime Enemy.");
+    throw new UnsupportedOperationException("Calling setSplitIntent function on non-large-slime Enemy.");
   }
 
   /**Does necessary actions for the end of the enemy's turn, including their intents.

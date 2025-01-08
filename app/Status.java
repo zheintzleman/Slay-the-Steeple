@@ -144,7 +144,7 @@ public class Status {
       for(Status s : App.STATUSSET.values()){
         Str.println("S: " + s.getName());
       }
-      throw new RuntimeException("Status \"" + name + "\" not in App.STATUSES.");
+      throw new IllegalArgumentException("Status \"" + name + "\" not in App.STATUSES.");
     }
 
     return status;

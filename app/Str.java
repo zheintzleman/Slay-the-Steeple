@@ -481,7 +481,7 @@ public abstract class Str {
   
   /** Returns the lower positive number of the two values. If neither are positive, returns -1.
   */
-  public static int minPositiveOf(int a, int b){
+  private static int minPositiveOf(int a, int b){
     if(a<0 && b<0){ //Both negative
       return -1;
     }
