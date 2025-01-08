@@ -2,6 +2,8 @@ package app;
 import java.util.*;
 import java.util.function.Predicate;
 
+import app.Combat.CombatReturn;
+
 /** Singleton class representing the current run, along with most/all screen-related methods
  * and Settings Screen implementation.
  * 
@@ -14,7 +16,7 @@ public class Run {
   private String[] screen;
   public static final int SCREENWIDTH = SettingsManager.sm.screenWidth;
   public static final int SCREENHEIGHT = SettingsManager.sm.screenHeight;
-  private int hp, maxHP;
+  private EntityHealth health;
   private int gold;
   private ArrayList<Card> deck;
   /** Singleton run instance */
@@ -24,7 +26,7 @@ public class Run {
     if(r != null){
       throw new IllegalStateException("Instantiating second Run object.");
     }
-    hp = maxHP = 80;
+    health = new EntityHealth(80, 80);
     gold = 99;
     generateStartingDeck();
 
@@ -41,12 +43,10 @@ public class Run {
   //Getters and Setters
   public void setScreen(String[] newScreen){ screen = newScreen; }
   public String[] getScreen(){ return screen; }
-  public void setHP(int newHP){ hp = newHP; }
-  public int getHP(){ return hp; }
-  public void setMaxtHP(int newMaxHP){ maxHP = newMaxHP; }
-  public int getMaxHP(){ return maxHP; }
   public int getGold(){ return gold; }
   public ArrayList<Card> getDeck(){ return deck; }
+  // No HP methods on purpose; Just change the Player's HP, and it syncs back
+  // up after the combat's over.
 
   /** Initialize & populate the deck
   */
@@ -58,8 +58,12 @@ public class Run {
     //   deck.add(new Card(c));
     // }
     deck.add(new Card("Double Tap"));
-    deck.add(new Card("Dropkick"));
-    deck.add(new Card("Exhume"));
+    deck.add(new Card("Hemokenesis"));
+    deck.add(new Card("Feed"));
+    deck.add(new Card("Feed"));
+    deck.add(new Card("Feed"));
+    deck.add(new Card("Feed"));
+    deck.add(new Card("Feed"));
     deck.add(new Card("Shockwave"));
     deck.add(new Card("Armaments"));
   }
@@ -68,9 +72,15 @@ public class Run {
   */
   public void play(){
     while(true){ //Runs until hp <= 0, which has a break statement below
-      Combat c = new Combat();
-      int goldStolen = c.runCombat();
-      if(hp <= 0){
+      Combat c = new Combat(health);
+
+      CombatReturn results = c.runCombat();
+      // Sync hp data:
+      health.hp = results.hp();
+      health.maxHP = results.maxHP();
+      int goldStolen = results.goldStolen();
+
+      if(health.hp <= 0){
         break; //Current death mechanic //global bool var for death?
       }
       combatRewards(goldStolen); //todo: move elsewhere if relevant?
@@ -157,8 +167,8 @@ public class Run {
 
     //TODO: Potions:
 
-    hp += 6;
-    if(hp > maxHP){ hp = maxHP; }
+    health.hp += 6;
+    if(health.hp > health.maxHP){ health.hp = health.maxHP; }
 
     //Add any additional rewards here
     int selectedIndex = 0;
@@ -273,7 +283,7 @@ public class Run {
     //Fills the screen with 3 lines of gray Blocks then the rest (27) lines of spaces
     Arrays.fill(screen, 0, 5, Colors.headerBrown + lineOfBlocks + Colors.reset);
     
-    String hpText =  "HP: " + this.hp;
+    String hpText =  "HP: " + health.hp;
     addToScreen(2, SCREENWIDTH/2 - Str.lengthIgnoringEscSeqs(hpText) -2, hpText, Colors.energyCounterRedOnHeaderBrown, Colors.reset + Colors.headerBrown);
     addToScreen(2, SCREENWIDTH/2 +1, "Gold: " + this.gold, Colors.goldDisplayOnHeaderBrown, Colors.reset + Colors.headerBrown);
     

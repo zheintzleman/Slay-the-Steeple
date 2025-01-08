@@ -40,10 +40,10 @@ public class Combat {
   /** Semi-singleton Combat instance (only ever exists 1, but not final) */
   public static Combat c;
   
-  public Combat(){
+  public Combat(EntityHealth playerHealthObj){
     c = this;
     eventManager = EventManager.em;
-    player = new Player("Ironclad", Run.r.getHP(), Run.r.getMaxHP(), Colors.IRONCLADIMG2);
+    player = new Player("Ironclad", Colors.IRONCLADIMG2, playerHealthObj);
     enemies = new ArrayList<Enemy>();
     baseEnergy = 3;
     energy = -1;
@@ -193,10 +193,12 @@ public class Combat {
   }
   
 
+  public record CombatReturn(int hp, int maxHP, int goldStolen) {}
+
   /** Performs the combat.
    * @return The amount of gold stolen (by Mugger/Looter)
   */
-  public int runCombat(){
+  public CombatReturn runCombat(){
     boolean turnOver;
     boolean isFirstTurn = true;
     final int HANDSIZE = 5;
@@ -235,11 +237,10 @@ public class Combat {
       //Ends player & enemy turns
       endEntityTurns();
       
-      Run.r.setHP(player.getHP());
       isFirstTurn = false;
     }
     display();
-    return 0;
+    return new CombatReturn(player.getHP(), player.getMaxHP(), 0);
   }
 
   /** Inputs from the player the next action and performs it, updating the display as well.
@@ -544,7 +545,10 @@ public class Combat {
     if(card.isAttack() && DOUBLETAPS > 0){
       //Decrease its strength by 1 (no supported easy way to do that as of now)
       player.setStatusStrength("Double Tap", DOUBLETAPS - 1);
-      playCard(new Card(card), target, X);
+      Card clone = new Card(card);
+      playCard(clone, target, X);
+
+      App.ASSERT(!isInAnyPiles(clone));
     }
     
     if(card.isPower()){
@@ -646,6 +650,11 @@ public class Combat {
           break;
         case Eff.Unapply:
           target.subtractStatusStrength(secondary, power);
+          break;
+        case Eff.Feed:
+          if(target.isDead()){
+            player.raiseMaxHP(power);
+          }
           break;
         default:
           // Other effects that are included in the playEffect function
@@ -1205,8 +1214,6 @@ public class Combat {
 
     return square;
   }
-
-
 
 
   

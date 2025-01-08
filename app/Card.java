@@ -216,6 +216,9 @@ public class Card {
           case Eff.Exhume:
             codedDescription += "Put a card from your Exhaust pile into your hand.\n";
             break;
+          case Eff.Feed:
+            codedDescription += "If Fatal, raise your Max HP by " + effectPower + ".\n";
+            break;
           default:
           break;
         }

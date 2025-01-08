@@ -6,8 +6,8 @@ package app;
  * @see Combat Combat.player
  */
 public class Player extends Entity {
-  public Player(String name, int hp, int maxHP, String[] img){
-    super("Ironclad", hp, img, maxHP);
+  public Player(String name, String[] img, EntityHealth healthObj){
+    super("Ironclad", img, healthObj);
   }
   
   @Override

@@ -48,5 +48,6 @@ public enum Eff {
     Clash,
     Unplayable,
     Innate,
-    Exhume
+    Exhume,
+    Feed
   }

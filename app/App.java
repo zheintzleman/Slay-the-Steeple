@@ -54,7 +54,7 @@ public abstract class App {
   public static final Set<Eff> ATTACK_PRIMARIES = new HashSet<Eff>(List.of(Eff.Attack, Eff.AtkAll, Eff.BodySlam, Eff.SearingBlow, Eff.HeavyAttack, Eff.AtkRandom));
   public static final Set<Eff> DEFENSE_PRIMARIES = new HashSet<Eff>(List.of(Eff.Block));
   // Primaries that affect game state outside of the current combat (i.e. that matter even after the combat ends.)
-  public static final Set<Eff> RUN_STATE_PRIMARIES = new HashSet<Eff>();
+  public static final Set<Eff> RUN_STATE_PRIMARIES = new HashSet<Eff>(List.of(Eff.DmgPlayerC, Eff.DmgPlayerNC, Eff.LoseHPC, Eff.LoseHPNC, Eff.Feed));
 
   // Can use Card.getCard(String) and Status.getStatus(String) to easily access w/ null-checking:
   public static final HashMap<String, Card> CARDSET = loadCards();
@@ -222,6 +222,8 @@ public abstract class App {
                       "This turn, your next 2 Attacks are played twice.\n", 1, false, List.of("AppPlayer Double Tap 2"), Rarity.RARE, Color.IRONCLAD));
     cards.put("Exhume", new Card("Exhume", CardType.SKILL, 1, false, List.of("Exhume", "Exhaust"),
                       0, false, List.of("Exhume", "Exhaust"), Rarity.RARE, Color.IRONCLAD));
+    cards.put("Feed", new Card("Feed", CardType.ATTACK, 1, true, List.of("Attack 10", "Feed 3", "Exhaust"),
+                      List.of("Attack 12", "Feed 4", "Exhaust"), Rarity.RARE, Color.IRONCLAD));
     
     // Assert that all entries in `cards` are named correctly:
     App.ASSERT(cards.entrySet().stream()

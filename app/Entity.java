@@ -3,6 +3,34 @@ import java.util.*;
 
 import enemyfiles.Enemy;
 
+/** Used to store an entity's hp and maxHP. Using an object for this to sync
+ * the Player's HP with the Run's.
+ */
+class EntityHealth {
+  int hp;
+  int maxHP;
+
+  public EntityHealth(int hp, int maxHP){
+    this.hp = hp;
+    this.maxHP = maxHP;
+  }
+
+  /** Increases hp the specified amount, up to its max health.
+  */
+  public void heal(int amt){
+    hp += amt;
+    if(hp > maxHP){
+      hp = maxHP;
+    }
+  }
+  /** Increases maxHP and hp by the specified amount.
+  */
+  public void raiseMaxHP(int amt){
+    maxHP += amt;
+    heal(amt);
+  }
+}
+
 /** Represents any entity in a combat -- either the player or an enemy. Contains methods for most
  * basic actions an entity can perform, such as attacking, dying, changing statuses, etc.
  * 
@@ -15,7 +43,8 @@ public abstract class Entity {
   /** Default Entity Image */
   public static final String[] RECTANGLE = new String[] {"███████", "███████", "███████", "███████", "███████", "███████"};
   private String name;
-  private int hp, maxHP, hpBarLength, block, heldBlock;
+  private EntityHealth health;
+  private int hpBarLength, block, heldBlock;
   private boolean isDead = false;
   private String[] art;
   // Could instead use a LinkedHashMap, especially given most of the use cases are with searching
@@ -34,8 +63,8 @@ public abstract class Entity {
 
   public Entity(){
     name = "<Entity>";
-    maxHP = (int)(Math.random()*10) + 45;
-    hp = maxHP;
+    final int hp = (int)(Math.random()*10) + 45;
+    health = new EntityHealth(hp, hp);
     hpBarLength = 21;
     heldBlock = block = 0;
     art = RECTANGLE;
@@ -43,8 +72,8 @@ public abstract class Entity {
   }
   public Entity(String name){
     this.name = name;
-    this.maxHP = (int)(Math.random()*10) + 45;
-    this.hp = this.maxHP;
+    final int hp = (int)(Math.random()*10) + 45;
+    health = new EntityHealth(hp, hp);
     hpBarLength = 21;
     heldBlock = block = 0;
     art = RECTANGLE;
@@ -52,8 +81,7 @@ public abstract class Entity {
   }
   public Entity(String name, int hp){
     this.name = name;
-    this.maxHP = hp;
-    this.hp = this.maxHP;
+    health = new EntityHealth(hp, hp);
     hpBarLength = 21;
     heldBlock = block = 0;
     art = RECTANGLE;
@@ -61,8 +89,7 @@ public abstract class Entity {
   }
   public Entity(String name, int hp, int hpBarLength){
     this.name = name;
-    this.maxHP = hp;
-    this.hp = this.maxHP;
+    health = new EntityHealth(hp, hp);
     this.hpBarLength = hpBarLength;
     heldBlock = block = 0;
     art = RECTANGLE;
@@ -70,17 +97,15 @@ public abstract class Entity {
   }
   public Entity(String name, int hp, String[] art){
     this.name = name;
-    this.maxHP = hp;
-    this.hp = this.maxHP;
+    health = new EntityHealth(hp, hp);
     hpBarLength = 21;
     heldBlock = block = 0;
     this.art = art;
     statuses = new ArrayList<Status>();
   }
-  public Entity(String name, int hp, String[] art, int maxHP){
+  public Entity(String name, String[] art, EntityHealth healthObj){
     this.name = name;
-    this.maxHP = maxHP;
-    this.hp = hp;
+    health = healthObj;
     hpBarLength = 21;
     heldBlock = block = 0;
     this.art = art;
@@ -88,7 +113,7 @@ public abstract class Entity {
   }
   public Entity(String name, int hp, int hpBarLength, String[] art){
     this.name = name;
-    this.hp = this.maxHP = hp;
+    health = new EntityHealth(hp, hp);
     this.hpBarLength = hpBarLength;
     heldBlock = block = 0;
     this.art = art;
@@ -96,8 +121,7 @@ public abstract class Entity {
   }
   public Entity(Entity e){
     this.name = e.name;
-    this.maxHP = e.maxHP;
-    this.hp = e.hp;
+    health = new EntityHealth(e.health.hp, e.health.maxHP);
     this.hpBarLength = e.hpBarLength;
     this.block = e.block;
     heldBlock = 0;
@@ -108,10 +132,10 @@ public abstract class Entity {
   //Getters and Setters
   public String getName(){ return name; }
   public void setName(String newName){ name = newName; }
-  public int getHP(){ return hp; }
-  public void setHP(int newHP){ hp = newHP; }
-  public int getMaxHP(){ return maxHP; }
-  public void setMaxHP(int newMaxHP){ maxHP = newMaxHP; }
+  public int getHP(){ return health.hp; }
+  public void setHP(int newHP){ health.hp = newHP; }
+  public int getMaxHP(){ return health.maxHP; }
+  public void setMaxHP(int newMaxHP){ health.maxHP = newMaxHP; }
   public int getheldBlock(){ return heldBlock; }
   public void setheldBlock(int newBlock){ heldBlock = newBlock; }
   public int getBlock(){ return block; }
@@ -381,22 +405,24 @@ public abstract class Entity {
   */
   public void subtractHP(int dmg, boolean fromCard){
     EventManager.em.OnLoseHP(this, dmg, fromCard);
-    hp -= dmg;
-    if(hp <= 0){
-      hp = 0;
+    health.hp -= dmg;
+    if(health.hp <= 0){
+      health.hp = 0;
       this.die();
     }
-    if(this.hasStatus("Split") && hp <= (maxHP/2)){
+    if(this.hasStatus("Split") && health.hp <= (health.maxHP/2)){
       this.setSplitIntent();
     }
   }
   /** Increases the entity's health the specified amount, up to its max health.
   */
-  public void heal(int heal){
-    hp += heal;
-    if(hp > maxHP){
-      hp = maxHP;
-    }
+  public void heal(int amt){
+    health.heal(amt);
+  }
+  /** Increases the entity's max HP and health the specified amount.
+  */
+  public void raiseMaxHP(int amt){
+    health.raiseMaxHP(amt);
   }
   /** Increases the entity's block the specified amount, up to 999.
    * Does not account for frail/dexterity/etc., or for block being held.
@@ -575,7 +601,7 @@ public abstract class Entity {
   /** Constructs and returns the HPBar String of this entity
   */
   public String getHPBar(){
-    double p = ((double)hp / maxHP); //proportion of hp remaining
+    double p = ((double)health.hp / health.maxHP); //proportion of hp remaining
     int numRedBars = (int)(hpBarLength*p);
     int middleIndex = hpBarLength/2;
     boolean blueHPBar = block > 0;
@@ -636,6 +662,7 @@ public abstract class Entity {
   private String getHPTextChar(int position){
     //position should be between -1 and 1 == (i-middleIndex)
     int ch = -1;
+    final int hp = health.hp;
     if(hp < 10){
       switch(position){
         case -1:
