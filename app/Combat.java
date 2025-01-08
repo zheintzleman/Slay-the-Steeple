@@ -587,9 +587,6 @@ public class Combat {
       if(eff.whenPlayed() != Event.ONCARDPLAY){
         continue;
       }
-      if(!evaluateConditional(eff.getConditional(), target)){
-        continue;
-      }
       String primary = eff.getPrimary();
       String secondary = eff.getSecondary();
       int power = eff.getPower();
@@ -613,6 +610,14 @@ public class Combat {
         case "BodySlam":
           if(enemies.contains(target))
             player.attack(target, player.getBlock());
+          break;
+        case "Dropkick":
+          if(enemies.contains(target))
+            player.attack(target, player.getBlock());
+          if(target.hasStatus("Vulnerable")){
+            energy++;
+            drawCard();
+          }
           break;
         case "AtkAll": //Uses shortened word to be separate from "Attack" (& for brevity)
           player.attack(enemies, power);
@@ -683,9 +688,6 @@ public class Combat {
    * @precondition eff does not target an enemy.
    */
   public void playEffect(Effect eff){
-    if(!evaluateConditional(eff.getConditional(), null)){
-      return;
-    }
     String primary = eff.getPrimary();
     String secondary = eff.getSecondary();
     int power = eff.getPower();
@@ -928,22 +930,6 @@ public class Combat {
         } catch (NoSuchElementException e) {
           throw new UnsupportedOperationException(secondary + " not a valid card Target.");
         }
-    }
-  }
-  /** Returns whether the given encoded conditional string is true or false.
-   * For conditionals that depend on the state of some target entity, that
-   * entity is passed in as the second paramenter.
-   * 
-   * @see Effect
-   */
-  public boolean evaluateConditional(String conditional, Entity target){
-    switch(conditional){
-      case null:
-        return true;
-      case "TargetVuln":
-        return target.getStatusStrength("Vulnerable") > 0;
-      default:
-        throw new UnsupportedOperationException(conditional + " not a valid conditional.");
     }
   }
 

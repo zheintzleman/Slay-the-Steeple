@@ -12,8 +12,6 @@ import app.EventManager.Event;
  * Secondary: Rest of input data, apart from terminal integer
  * Power: Terminal integer, or 1 if last word not an integer
  * WhenPlayed: Defaults to ONPLAY; begin with "(OnDiscard) "/"(OnTurnEnd) "/etc. to change.
- * Conditional: Defaults to null (ie true;) begin with "[TargetVuln]", etc. (after any WhenPlayed
- *   signifiers) to change.
  * 
  * e.g. Stores "Lorem Ipsum Dolor 4" as: P = "Lorem", S = "Ipsum Dolor", p = 4,
  *  or "Lorem Ipsum 4 Dolor" as: P = "Lorem", S = "Ipsum 4 Dolor", p = 1
@@ -21,13 +19,9 @@ import app.EventManager.Event;
  * 
  * @see Combat.playCard()
  * @see Combat.playEff()
- * @see Combat.evaluateConditional()
  * @see EventManager
  */
 public abstract class Effect implements Serializable {
-  // If the conditional evaluates to false, the effect won't happen (though the card/etc can still
-  // be played. E.g. Spot Weakness.)
-  private String conditional;
   private String primary;
   private String secondary;
   private int power;
@@ -36,19 +30,12 @@ public abstract class Effect implements Serializable {
   public Effect(String data){
     String str = data;
     whenPlayed = Event.ONCARDPLAY;
-    conditional = null;
 
     if(str.startsWith("(")){
       String[] halves = str.split("[\\(\\)] ", 2);
       App.ASSERT(halves.length == 2);
       String enumName = halves[0].substring(1).toUpperCase();
       whenPlayed = Event.valueOf(enumName);
-      str = halves[1];
-    }
-    if(str.startsWith("[")){
-      String[] halves = str.split("[\\[\\]] ", 2);
-      App.ASSERT(halves.length == 2);
-      conditional = halves[0].substring(1);
       str = halves[1];
     }
     if(str.equals("Ethereal")){
@@ -77,7 +64,6 @@ public abstract class Effect implements Serializable {
     }
   }
   public Effect(Effect prev){
-    conditional = prev.conditional;
     primary = prev.primary;
     secondary = prev.secondary;
     power = prev.power;
@@ -85,8 +71,6 @@ public abstract class Effect implements Serializable {
   }
 
   //Getters and setters
-  public String getConditional(){ return conditional; }
-  public void setConditional(String conditional){ this.conditional = conditional; }
   public String getPrimary(){ return primary; }
   public void setPrimary(String primary){ this.primary = primary; }
   public String getSecondary(){ return secondary; }
