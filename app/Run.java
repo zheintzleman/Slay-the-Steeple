@@ -87,7 +87,7 @@ public class Run {
     Str.println("You got " + Colors.gold + gold + Colors.reset + " gold");
   }
 
-  private enum RewardType{
+  private enum RewardType {
     GOLD,
     CARD,
     POTION

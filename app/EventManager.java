@@ -14,7 +14,7 @@ import java.util.List;
  * @see Combat
  */
 public class EventManager {
-  public enum Event{
+  public enum Event {
     ONCARDPLAY,
     ONDISCARD,
     ONDISCARDED,

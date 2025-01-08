@@ -19,19 +19,26 @@ public class Card {
   public static final int CARDHEIGHT = 14;
   
   /** Card rarity; determines frequency a card shows up */
-  public enum Rarity{
+  public enum Rarity {
     BASIC,
     COMMON,
     UNCOMMON,
     RARE,
   }
   /** Card color (i.e. character) */
-  public enum Color{
+  public enum Color {
     IRONCLAD,
     SILENT,
     DEFECT,
     WATCHER,
     NEUTRAL
+  }
+  public enum CardType {
+    ATTACK,
+    SKILL,
+    POWER,
+    STATUS,
+    CURSE
   }
   /** Anything that could change from being upgraded.
    * Card stores two of these -- one for base values, and one for upgraded values.
@@ -82,34 +89,34 @@ public class Card {
 
       for(CardEffect eff : effects) {
         String effectPower = "" + eff.getPower(); //Used to be basePower instead of eff.getPower().
-        String primary = eff.getPrimary();
+        Eff primary = eff.getPrimary();
         String secondary = eff.getSecondary();
 
         switch(primary){
-          case "Attack":
+          case Eff.Attack:
             codedDescription += "Deal <atk>" + effectPower + "<endatk> damage.\n"; //Maybe make some applyStatuses()/w/e method in Combat or smth
             break;
-          case "AtkAll": //Uses shortened word to be separate from "Attack" (& for brevity)
+          case Eff.AtkAll: //Uses shortened word to be separate from "Attack" (& for brevity)
             codedDescription += "Deal <atk>" + effectPower + "<endatk> damage to ALL enemies.\n";
             break;
-          case "AtkRandom":
+          case Eff.AtkRandom:
             codedDescription += "Deal <atk>" + effectPower + "<endatk> damage to a random enemy.\n";
-          case "SearingBlow":
+          case Eff.SearingBlow:
             codedDescription += "Deal <atk>" + searingBlowDamage() + "<endatk> damage.\nCan be upgraded any number of times.\n";
             break;
-          case "Block":
+          case Eff.Block:
             codedDescription += "Gain <blk>" + effectPower + "<endblk> block.\n";
             break;
-          case "Apply":
+          case Eff.Apply:
             codedDescription += "Apply " + effectPower + " " + secondary + ".\n";
             break;
-          case "AppPlayer":
+          case Eff.AppPlayer:
             codedDescription += "Gain " + effectPower + " " + secondary + ".\n";
             break;
-          case "AppAll":
+          case Eff.AppAll:
             codedDescription += "Apply " + effectPower + " " + secondary + " to ALL enemies.\n";
             break;
-          case "Exhaust":
+          case Eff.Exhaust:
             switch(secondary){
               case "Choose1FromHand":
                 codedDescription += "Exhaust 1 card.\n";
@@ -119,10 +126,10 @@ public class Card {
                 break;
             }
             break;
-          case "Draw":
+          case Eff.Draw:
             codedDescription += "Draw " + effectPower + (effectPower.equals("1") ? " card.\n" : " cards.\n");
             break;
-          case "Upgrade":
+          case Eff.Upgrade:
             switch(secondary){
               case "Choose1FromHand":
                 codedDescription += "Upgrade a card in your hand for the rest of combat.\n";
@@ -135,7 +142,7 @@ public class Card {
                 break;
             }
             break;
-          case "PutOnDrawPile":
+          case Eff.PutOnDrawPile:
             switch(secondary){
               case "Choose1FromDisc":
                 codedDescription += "Put a card from your discard pile on top of your draw pile.\n";
@@ -155,59 +162,59 @@ public class Card {
             //   codedDescription += "[PutOnDrawPile; Enter text in Card.java]\n";
             //   break;
             // }
-          case "Anger":
+          case Eff.Anger:
             codedDescription += "Add a copy of this card into your discard pile.\n";
             break;
-          case "Clash":
+          case Eff.Clash:
             codedDescription += "Can only be played if every card in your hand is an Attack.\n";
             break;
-          case "BodySlam":
+          case Eff.BodySlam:
             codedDescription += "Deal damage equal to your block.\n"; //todo: Add "(deals X damage)"?
             break;
-          case "Havoc":
+          case Eff.Havoc:
             codedDescription += "Play the top card of your draw pile and Exhaust it.\n";
             break;
-          case "Unplayable":
+          case Eff.Unplayable:
             codedDescription += "Unplayable.\n";
             break;
-          case "Ethereal":
+          case Eff.Ethereal:
             codedDescription += "Ethereal.\n";
             break;
-          case "Innate":
+          case Eff.Innate:
             codedDescription += "Innate.\n";
             break;
-          case "HeavyAttack":
+          case Eff.HeavyAttack:
             codedDescription += "Deal <atk>14<endatk> damage.\nStrength affects this card " + effectPower + " times.\n";
             break;
-          case "GainToDraw":
+          case Eff.GainToDraw:
             codedDescription += "Shuffle a " + secondary + " into your draw pile.\n";
             break;
-          case "LoseHP":
+          case Eff.LoseHPC:
             codedDescription += "Lose " + effectPower + " HP.\n";
             break;
-          case "GainEnergy":
+          case Eff.GainEnergy:
             codedDescription += "Gain " + effectPower + " Energy.\n";
             break;
-          case "Entrench":
+          case Eff.Entrench:
             codedDescription += "Double your block.\n";
             break;
-          case "Rampage":
+          case Eff.Rampage:
             codedDescription += "Increase this card's damage by " + effectPower + " this combat.\n";
             break;
-          case "ExhaustNonattacks":
+          case Eff.ExhaustNonattacks:
             codedDescription += "Exhaust all non-Attack cards in your hand.\n";
             if(eff.getPower() > 0){
               codedDescription += "Gain " + effectPower + " block for each card Exhausted.\n";
             }
             break;
-          case "SpotWeakness":
+          case Eff.SpotWeakness:
             codedDescription += "If the enemy intends to attack, gain " + effectPower + " Strength.\n";
             break;
-          case "Whirlwind":
-            codedDescription += "Deal " + effectPower + " damage to ALL enemies X times.\n";
+          case Eff.Whirlwind:
+            codedDescription += "Deal <atk>" + effectPower + "<endatk> damage to ALL enemies X times.\n";
             break;
           default:
-            break;
+          break;
         }
         App.ASSERT(codedDescription.endsWith(".\n") || codedDescription.isEmpty());
       }
@@ -270,10 +277,11 @@ public class Card {
 
   //~~~~~~~~~~~~~~~~~~~~~  Card Class Begins  ~~~~~~~~~~~~~~~~~~~~~
 
-  private String name, type;
+  private String name;
   private int upgrades;
   private Rarity rarity;
   private Color color;
+  private CardType type;
   /** Temporarily sets the cost to play the card (i.e. when calling
    * getEnergyCost()) to 0. Set to false on discard/exhaust.
    */
@@ -289,7 +297,7 @@ public class Card {
 
   public Card(){
     name = "";
-    type = "Skill";
+    type = CardType.SKILL;
     upgrades = 0;
     data.description = new Description("");
     data.baseEnergyCost = -1;
@@ -315,7 +323,7 @@ public class Card {
   public Card(String name){
     this(getCard(name));
   }
-  private Card(String name, String type, int energyCost, boolean targeted, List<String> effects, Rarity rarity, Color color) {
+  private Card(String name, CardType type, int energyCost, boolean targeted, List<String> effects, Rarity rarity, Color color) {
     this.name = name;
     this.type = type;
     upgrades = 0;
@@ -331,7 +339,7 @@ public class Card {
     ISXCOST = data.baseEnergyCost == -2;
     ISUNPLAYABLE = this.hasEffect("Unplayable");
   }
-  public Card(String name, String type, int energyCost, boolean targeted, List<String> effects,
+  public Card(String name, CardType type, int energyCost, boolean targeted, List<String> effects,
               List<String> upEffects, Rarity rarity, Color color){
     this(name, type, energyCost, targeted, effects, rarity, color);
     upData.baseEnergyCost = energyCost;
@@ -342,7 +350,7 @@ public class Card {
     }
     upData.description = new Description(upData.effects);
   }
-  public Card(String name, String type, int energyCost, boolean targeted, List<String> effects,
+  public Card(String name, CardType type, int energyCost, boolean targeted, List<String> effects,
               int upCost, boolean upTargeted, List<String> upEffects, Rarity rarity, Color color){
     this(name, type, energyCost, targeted, effects, rarity, color);
     upData.baseEnergyCost = upCost;
@@ -355,16 +363,13 @@ public class Card {
   }
   /** If card's description can be affected by str/dex, include the <atk> / <endatk> / <blk> / <endblk> around the number(s)
    */
-  public Card(String name, String description, String type, int energyCost, boolean targeted, List<String> effects,
+  public Card(String name, String description, CardType type, int energyCost, boolean targeted, List<String> effects,
               String upDescription, int upCost, boolean upTargeted, List<String> upEffects, Rarity rarity, Color color){
     this(name, type, energyCost, targeted, effects, rarity, color);
     data.description = new Description(description);
 
-    if(!(name.equals("Twin Strike")
-      || name.equals("Sword Boomerang")
-      || name.equals("Blood for Blood")
-      || name.equals("Dropkick")
-      || name.equals("Pummel"))){ //<-Whitelist
+    if(!List.of("Twin Strike", "Sword Boomerang", "Blood for Blood", "Dropkick", "Pummel",
+      "True Grit", "Flame Barrier", "Power Through", "Sentinel").contains(name)){ //<-Whitelist
       // To get your attention. Read the above Javadoc comment.
       for(CardEffect eff : data.effects){
         App.ASSERT(!eff.isAttack() && !eff.isDefense());
@@ -386,8 +391,9 @@ public class Card {
   //Getters and setters
   public String getName(){ return name; }
   public void setName(String newName){ name = newName; }
-  public String getType(){ return type; }
-  public void setType(String newType){ type = newType; }
+  public CardType getType(){ return type; }
+  public void setType(String newType){ type = CardType.valueOf(newType); }
+  public void setType(CardType newType){ type = newType; }
   public int getUpgrades(){ return upgrades; }
   public void setUpgrades(int newUpgrades){ upgrades = newUpgrades; }
   public boolean isTargeted(){ return data.isTargeted; }
@@ -445,7 +451,7 @@ public class Card {
   public String getDescriptionWStatuses(){
     int strMultiplier = 1;
     for(CardEffect eff : getEffects()){
-      if(eff.getPrimary().equals("HeavyAttack")){
+      if(eff.getPrimary() == Eff.HeavyAttack){
         strMultiplier = eff.getPower();
       }
     }
@@ -453,40 +459,42 @@ public class Card {
   }
 
   public boolean isAttack(){
-    return type.equals("Attack");
+    return type == CardType.ATTACK;
   }
   public boolean isSkill(){
-    return type.equals("Skill");
+    return type == CardType.SKILL;
   }
   public boolean isPower(){
-    return type.equals("Power");
+    return type == CardType.POWER;
   }
   public boolean isStatus(){
-    return type.equals("Status");
+    return type == CardType.STATUS;
   }
   public boolean isCurse(){
-    return type.equals("Curse");
+    return type == CardType.CURSE;
   }
 
-  /** Returns whether or not this Card has the entered effect
+  /** Returns whether or not this Card has the entered effect (with no secondary)
   * @param effect - The effect to search this Card for
   * @return boolean - true if the entered effect is in this Card's list of effects. False otherwise.
   */
-  public boolean hasEffect(String effect){
+  public boolean hasEffect(String effectStr){
+    Eff effect = Eff.valueOf(effectStr);
     for(CardEffect eff : data.effects){
-      if(effect.equals(eff.getPrimary()) && eff.getSecondary().isEmpty()){
+      if(effect == eff.getPrimary() && eff.getSecondary().isEmpty()){
         return true;
       }
     }
     return false;
   }
-  /** Returns whether or not this Card has an effect which contains the entered String
+  /** Returns whether or not this Card has an effect with the entered String primary.
   * @param effectType - The String to search this Card's effects for
   * @return boolean - true if the entered String is in this Card's list of effects. False otherwise.
   */
-  public boolean hasEffectWith(String primary){
+  public boolean hasEffectWith(String primaryStr){
+    Eff primary = Eff.valueOf(primaryStr);
     for(CardEffect eff : data.effects){
-      if(primary.equals(eff.getPrimary())){
+      if(primary == eff.getPrimary()){
         return true;
       }
     }
@@ -564,10 +572,7 @@ public class Card {
   }
 
   public boolean isUpgradable(){
-    // if(name.equals("Burn")){
-    //   return true;
-    // }
-    if(type.equals("Status") || type.equals("Curse")){
+    if(isStatus() || isCurse()){
       return false;
     }
     if(upgrades == 0){

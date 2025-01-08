@@ -20,9 +20,10 @@ import app.EventManager.Event;
  * @see Combat.playCard()
  * @see Combat.playEff()
  * @see EventManager
+ * @see Eff
  */
 public abstract class Effect implements Serializable {
-  private String primary;
+  private Eff primary;
   private String secondary;
   private int power;
   private Event whenPlayed;
@@ -56,10 +57,10 @@ public abstract class Effect implements Serializable {
     
     int spaceIndex = str.indexOf(" ");
     if(spaceIndex == -1){
-      primary = str;
+      primary = Eff.valueOf(str);
       secondary = "";
     }else{
-      primary = str.substring(0, spaceIndex);
+      primary = Eff.valueOf(str.substring(0, spaceIndex));
       secondary = str.substring(spaceIndex+1);
     }
   }
@@ -71,8 +72,9 @@ public abstract class Effect implements Serializable {
   }
 
   //Getters and setters
-  public String getPrimary(){ return primary; }
-  public void setPrimary(String primary){ this.primary = primary; }
+  public Eff getPrimary(){ return primary; }
+  public void setPrimary(String primary){ this.primary = Eff.valueOf(primary); }
+  public void setPrimary(Eff primary){ this.primary = primary; }
   public String getSecondary(){ return secondary; }
   public void setSecondary(String secondary){ this.secondary = secondary; }
   public int getPower(){ return power; }
@@ -111,7 +113,7 @@ public abstract class Effect implements Serializable {
       return false;
     Effect other = (Effect) obj;
 
-    return primary.equals(other.primary)
+    return primary == other.primary
         && secondary.equals(other.secondary)
         && power == other.power;
   }

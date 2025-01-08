@@ -557,6 +557,17 @@ public class Combat {
     }
   }
 
+  /** Plays the effects of the card, with the given (nullable) target and
+   * X-value. Does not reduce energy, discard, etc.
+   * 
+   * @param target If null, targets a random enemy.
+   * @param X For X-cost cards. If null, just uses current energy. (Not an
+   * option for normal playFromHand b/c this function is called after you lose
+   * the energy, so `energy` is usually at 0 when this is called.)
+   * 
+   * @see Effect
+   * @see Eff
+   */
   private void playCard(Card card, Enemy target, Integer X){
     if(!cardPlayable(card)){
       return;
@@ -587,31 +598,29 @@ public class Combat {
       if(eff.whenPlayed() != Event.ONCARDPLAY){
         continue;
       }
-      String primary = eff.getPrimary();
+      Eff primary = eff.getPrimary();
       String secondary = eff.getSecondary();
       int power = eff.getPower();
       
-      // Could make this into an enum for speed, but this code is only run a few times
-      // each card play at most, so efficiency isn't crucial in exchange for legibility
       switch(primary){
-        case "SearingBlow":
+        case Eff.SearingBlow:
           power = card.searingBlowDamage();
           //Fallthrough
-        case "Attack":
+        case Eff.Attack:
           if(enemies.contains(target))
             player.attack(target, power);
           break;
-        case "HeavyAttack": //Alternatively, could add code into the "gain pwr from strength" code to add more if card has some heavy property. Maybe even an (OnStrUse) or smth.
+        case Eff.HeavyAttack: //Alternatively, could add code into the "gain pwr from strength" code to add more if card has some heavy property. Maybe even an (OnStrUse) or smth.
           if(enemies.contains(target)){
             int basePower = 14; //Base is 14 whether upgraded or not. If ever updated, can use secondary as an int
             player.attack(target, basePower, power);
           }
           break;
-        case "BodySlam":
+        case Eff.BodySlam:
           if(enemies.contains(target))
             player.attack(target, player.getBlock());
           break;
-        case "Dropkick":
+        case Eff.Dropkick:
           if(enemies.contains(target))
             player.attack(target, player.getBlock());
           if(target.hasStatus("Vulnerable")){
@@ -619,23 +628,23 @@ public class Combat {
             drawCard();
           }
           break;
-        case "AtkAll": //Uses shortened word to be separate from "Attack" (& for brevity)
+        case Eff.AtkAll: //Uses shortened word to be separate from "Attack" (& for brevity)
           player.attack(enemies, power);
           break;
-        case "Whirlwind":
+        case Eff.Whirlwind:
           for(int i=0; i<X; i++){
             player.attack(enemies, power);
           }
           break;
-        case "SpotWeakness":
+        case Eff.SpotWeakness:
           if(target.getIntent().isAttack()){
             player.addStatusStrength("Strength", power);
           }
           break;
-        case "Apply":
+        case Eff.Apply:
           target.addStatusStrength(secondary, power);
           break;
-        case "Unapply":
+        case Eff.Unapply:
           target.subtractStatusStrength(secondary, power);
           break;
         default:
@@ -653,12 +662,12 @@ public class Combat {
 
   public boolean cardPlayable(Card card){
     if(card.ISUNPLAYABLE
-    || player.hasStatus("Entangled") && card.getType().equals("Attack")){
+    || player.hasStatus("Entangled") && card.isAttack()){
       return false;
     }
     if(card.hasEffect("Clash")){
       for(Card c : hand){
-        if(!c.getType().equals("Attack")){
+        if(!c.isAttack()){
           return false;
         }
       }
@@ -685,86 +694,88 @@ public class Combat {
 
   /** Plays an effect that does not target a specific enemy.
    * 
-   * @precondition eff does not target an enemy.
+   * @Precondition eff does not target an enemy.
+   * @see Effect
+   * @see Eff
    */
   public void playEffect(Effect eff){
-    String primary = eff.getPrimary();
+    Eff primary = eff.getPrimary();
     String secondary = eff.getSecondary();
     int power = eff.getPower();
     Card card = (eff instanceof CardEffect) ? ((CardEffect) eff).getCard() : null;
 
     switch(primary){
-      case "Block":
+      case Eff.Block:
         player.block(power, eff instanceof CardEffect);
         break;
-      case "Entrench":
+      case Eff.Entrench:
         player.setBlock(2 * player.getBlock());
         break;
-      case "AtkRandom":
+      case Eff.AtkRandom:
         if(enemies.size() == 0) break; //Guard Clause
         int rng = (int) (Math.random() * enemies.size());
         Enemy target = enemies.get(rng);
         player.attack(target, power);
         break;
-      case "AppPlayer":
+      case Eff.AppPlayer:
         player.addStatusStrength(secondary, power);
         break;
-      case "ClearStatusPlayer":
+      case Eff.ClearStatusPlayer:
         player.setStatusStrength(secondary, 0);
         break;
-      case "AppAll":
+      case Eff.AppAll:
         for(Enemy enemy : enemies){
           enemy.addStatusStrength(secondary, power);
         }
         break;
       // From a card (For Rupture)
-      case "DmgPlayerC":
+      case Eff.DmgPlayerC:
         player.damage(power, true);
         break;
       // Not from a card
-      case "DmgPlayerNC":
+      case Eff.DmgPlayerNC:
         player.damage(power, false);
         break;
       // From a card (For Rupture)
-      case "LoseHPC":
+      case Eff.LoseHPC:
         player.subtractHP(power, true);
         break;
       // Not from a card
-      case "LoseHPNC":
+      case Eff.LoseHPNC:
         player.subtractHP(power, false);
         break;
-      case "Ethereal": // The only thing Ethereal changes is when it is activated (OnTurnEnd); the effect is the same.
-      case "Exhaust":
+      case Eff.Ethereal: // The only thing Ethereal changes is when it is activated (OnTurnEnd); the effect is the same.
+      case Eff.Exhaust:
         for(Card c : cardTargets(secondary, card)){
           exhaust(c);
           // if(c == card){ shouldDiscard = false; }
         }
         break;
-      case "Draw":
+      case Eff.Draw:
         for(int i=0; i < power; i++){
           drawCard();
         }
         break;
-      case "Upgrade":
+      case Eff.Upgrade:
         for(Card c : cardTargets(secondary, card)){
           c.upgrade();
         }
         break;
-      case "PutOnDrawPile":
+      case Eff.PutOnDrawPile:
         for(Card c : cardTargets(secondary, card)){
           removeFromAllPiles(c);
           drawPile.add(0, c);
           // if(c == card){ shouldDiscard = false; } //Don't discard if we moved card onto draw pile
         }
         break;
-      case "CopyToHand":
+      case Eff.CopyToHand:
         for(Card c : cardTargets(secondary, card)){
           for(int i=0; i < power; i++){
             gainToHand(new Card(c));
           }
         }
         break;
-      case "CopyToHandFree":
+      case Eff.CopyToHandFree:
         for(Card c : cardTargets(secondary, card)){
           for(int i=0; i < power; i++){
             Card copy = new Card(c);
@@ -773,22 +784,22 @@ public class Combat {
           }
         }
         break;
-      case "GainToDraw":
+      case Eff.GainToDraw:
         for(int i=0; i < power; i++){
           drawPile.add(new Card(secondary));
         }
         Collections.shuffle(drawPile);
         break;
-      case "Anger":
+      case Eff.Anger:
         discardPile.add(new Card(card));
         break;
-      case "Rampage":
+      case Eff.Rampage:
         App.ASSERT(card != null);
         //(int must be final to use in a lambda)
         final int rampagePower = power;
         //Increase the damage of this card's attacks:
         Consumer<CardEffect> increaseDamage = (CardEffect e) -> {
-          if(e.getPrimary().equals("Attack")){
+          if(e.getPrimary() == Eff.Attack){
             e.setPower(e.getPower() + rampagePower);
           }
         };
@@ -796,7 +807,7 @@ public class Combat {
         card.getUpEffects().stream().forEach(increaseDamage);
         card.reloadDescription();
         break;
-      case "ExhaustNonattacks":
+      case Eff.ExhaustNonattacks:
         for(int i=0; i < hand.size();){
           Card c = hand.get(i);
           if(!c.isAttack()){
@@ -807,7 +818,7 @@ public class Combat {
           }
         }
         break;
-      case "Havoc":
+      case Eff.Havoc:
         if(drawPile.size() == 0){
           break;
         }
@@ -824,27 +835,27 @@ public class Combat {
           exhaust(c);
         }
         break;
-      case "LoseEnergy":
+      case Eff.LoseEnergy:
         power = -power;
         //FALLTHRU
-      case "GainEnergy":
+      case Eff.GainEnergy:
         energy += power;
         break;
-      case "AddCost":
+      case Eff.AddCost:
         App.ASSERT(card != null);
         card.setBaseEnergyCost(card.getBaseEnergyCost() + power);
         break;
-      case "IncrCombustCnt":
+      case Eff.IncrCombustCnt:
         combusts++;
         break;
-      case "Combust":
+      case Eff.Combust:
         final int combustDamage = power;
         player.subtractHP(combusts, true);
         List.copyOf(enemies).forEach(e -> e.damage(combustDamage, true));
         break;
-      case "Clash":
-      case "Unplayable":
-      case "Innate":
+      case Eff.Clash:
+      case Eff.Unplayable:
+      case Eff.Innate:
         break; //Relevant code is earlier; included to avoid error.
       default:
         throw new UnsupportedOperationException("Invalid effect \"" + primary + "\", from card: " + card);

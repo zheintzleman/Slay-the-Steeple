@@ -14,7 +14,7 @@ public class Intent {
   public static final String[] unkIntArt = Colors.fillColor(new String[] {"       ", "▄▀▄ ▄▀▄", " ▄▀  ▄▀", " ▄   ▄ "}, Colors.lightYellow);
   public static final String[] escIntArt = Colors.fillColor(new String[] {"  ▄▄   ", "▄▀  ▀  ", "█   ▄▄▄", " ▀▄▄▄▀█"}, Colors.escIntArtRed);
   public static final String[] blnkIntArt = new String[] {"       ", "       ", "       ", "       "};
-  public static enum IntentType{
+  public static enum IntentType {
     ATTACK,
     DEFEND,
     BUFF,
