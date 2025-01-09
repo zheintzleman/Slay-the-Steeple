@@ -813,6 +813,12 @@ public class Combat {
         }
         Collections.shuffle(drawPile);
         break;
+      case Eff.GainToDisc:
+        for(int i=0; i < power; i++){
+          Card c = new Card(secondary);
+          discardPile.add(c);
+        }
+        break;
       case Eff.Anger:
         // Works, since cards with CANENTERPILES don't enter the discard from this anyway
         // (which is what we want; e.g. Double Tap-ing an Anger.)

@@ -189,6 +189,9 @@ public class Card {
           case Eff.GainToDraw:
             codedDescription += "Shuffle a " + secondary + " into your draw pile.\n";
             break;
+          case Eff.GainToDisc:
+            codedDescription += "Add a " + secondary + " into your discard pile.\n";
+            break;
           case Eff.LoseHPC:
             codedDescription += "Lose " + effectPower + " HP.\n";
             break;
@@ -220,7 +223,7 @@ public class Card {
             codedDescription += "If Fatal, raise your Max HP by " + effectPower + ".\n";
             break;
           case Eff.FiendFire:
-            codedDescription += "Exhaust all cards in your hand.\nDeal <atk>" + effectPower + "<endatk> damage for each Exhausted card.\n";
+            codedDescription += "Exhaust all cards in your hand. Deal <atk>" + effectPower + "<endatk> damage for each Exhausted card.\n";
             break;
           default:
           break;

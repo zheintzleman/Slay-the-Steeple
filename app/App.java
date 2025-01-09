@@ -226,6 +226,10 @@ public abstract class App {
                       List.of("Attack 12", "Feed 4", "Exhaust"), Rarity.RARE, Color.IRONCLAD));
     cards.put("Fiend Fire", new Card("Fiend Fire", CardType.ATTACK, 2, true, List.of("FiendFire 7", "Exhaust"),
                       List.of("FiendFire 10", "Exhaust"), Rarity.RARE, Color.IRONCLAD));
+    cards.put("Immolate", new Card("Immolate", CardType.ATTACK, 2, false, List.of("AtkAll 21", "GainToDisc Burn"),
+                      List.of("AtkAll 28", "GainToDisc Burn"), Rarity.RARE, Color.IRONCLAD));
+    cards.put("Impervious", new Card("Impervious", CardType.SKILL, 2, false, List.of("Block 30", "Exhaust"),
+                      List.of("Block 40", "Exhaust"), Rarity.RARE, Color.IRONCLAD));
     
     // Assert that all entries in `cards` are named correctly:
     App.ASSERT(cards.entrySet().stream()

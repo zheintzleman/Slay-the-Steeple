@@ -50,5 +50,6 @@ public enum Eff {
     Innate,
     Exhume,
     Feed,
-    FiendFire
+    FiendFire,
+    GainToDisc
   }
