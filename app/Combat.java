@@ -24,7 +24,7 @@ public class Combat {
   /** All changes to the enemy list while the enemies perform their intents go here instead of the main
     * enemies list. This is then synced back to the main enemies list after all intents are done. */
   private ArrayList<Enemy> enemiesToUpdate;
-  private ArrayList<Card> drawPile, discardPile, exhaustPile, hand;
+  private CardList drawPile, discardPile, exhaustPile, hand;
   private int energy;
   private final int baseEnergy;
   // Combat stops running when set to true:
@@ -51,14 +51,15 @@ public class Combat {
     condenseLeftHalfOfHand = false;
     topRowOfCards = Run.SCREENHEIGHT - Card.CARDHEIGHT;
     
-    drawPile = new ArrayList<Card>();
+    drawPile = new CardList();
     for(Card c : Run.r.getDeck()){
+      App.ASSERT(!c.INTANGIBLE);
       drawPile.add(new Card(c));    //Makes draw pile contain a copy of each card in the deck.
     }
     Collections.shuffle(drawPile);
-    discardPile = new ArrayList<Card>();
-    exhaustPile = new ArrayList<Card>();
-    hand = new ArrayList<Card>();
+    discardPile = new CardList();
+    exhaustPile = new CardList();
+    hand = new CardList();
 
     // X pos (col) of the first enemy; offset between enemies.
     // If >2 enemies, used for ensuring same gap between them all.
@@ -391,8 +392,8 @@ public class Combat {
   }
   /** Displays the screen, replacing the hand with `displayHand`
   */
-  public void display(ArrayList<Card> displayHand){
-    ArrayList<Card> oldHand = hand;
+  public void display(CardList displayHand){
+    CardList oldHand = hand;
     hand = displayHand;
     display();
     hand = oldHand;
@@ -412,13 +413,15 @@ public class Combat {
     
     //Moves cards from discard to draw pile if necessary
     if(drawPile.size() == 0){
-      while(discardPile.size() > 0){
-        drawPile.add(discardPile.remove(0));
-      }
+      // Swap draw & discard piles:
+      CardList temp = drawPile;
+      drawPile = discardPile;
+      discardPile = temp;
       Collections.shuffle(drawPile);
     }
     
     Card topCard = drawPile.remove(0);
+    App.ASSERT(!topCard.INTANGIBLE);
     hand.add(topCard);
     EventManager.em.OnDraw(topCard);
     return topCard;
@@ -440,9 +443,12 @@ public class Combat {
     return true;
   }
 
-  /** Adds the card to the hand, or the discard if the hand is full. */
+  /** Adds the card to the hand, or the discard if the hand is full.
+   * If intangible, does nothing.
+   */
   public void gainToHand(Card card){
     // Assert card not currently in play:
+    if(card.INTANGIBLE){ return; }
     App.ASSERT(!getCardsInPlay().contains(card));
     if(hand.size() < 10){
       hand.add(card);
@@ -451,8 +457,13 @@ public class Combat {
     }
   }
 
-  /** Removes card from all piles and adds it to the exhaust pile */
+  /** Removes card from all piles and adds it to the exhaust pile, if not in
+   * the exhaust pile already and not tangible.
+   */
   public void exhaust(Card c){
+    if(exhaustPile.contains(c)){ return; }
+    if(c.INTANGIBLE){ return; }
+
     removeFromAllPiles(c);
     c.setCosts0ThisTurn(false);
     exhaustPile.add(c);
@@ -464,6 +475,7 @@ public class Combat {
    * discarded naturally (false) vs. if it was discarded by some effect like another card.
   */
   public void discard(Card c, boolean callOnDiscard){
+    if(c.INTANGIBLE){ return; }
     removeFromAllPiles(c);
     c.setCosts0ThisTurn(false);
     if(callOnDiscard){
@@ -773,6 +785,7 @@ public class Combat {
       case Eff.PutOnDrawPile:
         for(Card c : cardTargets(secondary, card)){
           removeFromAllPiles(c);
+          App.ASSERT(!c.INTANGIBLE);
           drawPile.add(0, c);
           // if(c == card){ shouldDiscard = false; } //Don't discard if we moved card onto draw pile
         }
@@ -795,12 +808,15 @@ public class Combat {
         break;
       case Eff.GainToDraw:
         for(int i=0; i < power; i++){
-          drawPile.add(new Card(secondary));
+          Card c = new Card(secondary);
+          App.ASSERT(!c.INTANGIBLE);
+          drawPile.add(c);
         }
         Collections.shuffle(drawPile);
         break;
       case Eff.Anger:
-        discardPile.add(new Card(card));
+        if(!card.INTANGIBLE)
+          discardPile.add(new Card(card));
         break;
       case Eff.Rampage:
         App.ASSERT(card != null);
@@ -866,11 +882,7 @@ public class Combat {
       case Eff.Exhume:
         for(Card c : cardTargets("Choose1FromExhaust", card)){
           exhaustPile.remove(c);
-          if(hand.size() < 10){
-            hand.add(c);
-          } else {
-            discard(c, false);
-          }
+          gainToHand(c);
         }
         break;
       case Eff.Clash:
@@ -920,7 +932,7 @@ public class Combat {
         //No break since returns above
       case "Choose1AtkOrPwrFromHand":
         Predicate<Card> notAtkOrPwr = card -> { return !(card.isAttack() || card.isPower()); };
-        ArrayList<Card> filteredHand = new ArrayList<>(hand);
+        CardList filteredHand = new CardList(hand);
         filteredHand.removeIf(notAtkOrPwr);
         if(filteredHand.size() <= 1) return filteredHand.toArray(new Card[0]);
 

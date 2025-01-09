@@ -299,6 +299,10 @@ public class Card {
   // effect "Unplayable", not other effects like Clash or Entangled.
   public final boolean ISUNPLAYABLE;
   public final boolean ISXCOST;
+  /** Tangible cards can not enter the draw pile, discard pile, exhaust pile or hand.
+   * For example, the cards created by Double Tap. Should be played, then "freed".
+   */
+  public final boolean INTANGIBLE;
   
 
   public Card(){
@@ -314,8 +318,12 @@ public class Card {
     upData = new CardData(data, this);
     ISXCOST = false;
     ISUNPLAYABLE = this.hasEffect("Unplayable");
+    INTANGIBLE = false;
   }
   public Card(Card old){
+    this(old, old.INTANGIBLE);
+  }
+  public Card(Card old, boolean intangible){
     name = old.name;
     type = old.type;
     upgrades = 0;
@@ -325,6 +333,7 @@ public class Card {
     upData = new CardData(old.upData, this);
     ISXCOST = data.baseEnergyCost == -2;
     ISUNPLAYABLE = this.hasEffect("Unplayable");
+    INTANGIBLE = intangible;
   }
   public Card(String name){
     this(getCard(name));
@@ -344,6 +353,7 @@ public class Card {
     data.description = new Description(data.effects);
     ISXCOST = data.baseEnergyCost == -2;
     ISUNPLAYABLE = this.hasEffect("Unplayable");
+    INTANGIBLE = false;
   }
   public Card(String name, CardType type, int energyCost, boolean targeted, List<String> effects,
               List<String> upEffects, Rarity rarity, Color color){

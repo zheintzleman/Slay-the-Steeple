@@ -18,7 +18,7 @@ public class Run {
   public static final int SCREENHEIGHT = SettingsManager.sm.screenHeight;
   private EntityHealth health;
   private int gold;
-  private ArrayList<Card> deck;
+  private CardList deck;
   /** Singleton run instance */
   public static final Run r = new Run();
   
@@ -53,7 +53,7 @@ public class Run {
   private void generateStartingDeck(){
     final Collection<Card> CARDS = App.CARDS;
 
-    deck = new ArrayList<>(CARDS.size());
+    deck = new CardList(CARDS.size());
     // for(Card c : CARDS){
     //   deck.add(new Card(c));
     // }
@@ -61,7 +61,7 @@ public class Run {
     deck.add(new Card("Hemokenesis"));
     deck.add(new Card("Feed"));
     deck.add(new Card("Feed"));
-    deck.add(new Card("Feed"));
+    deck.add(new Card("Havoc"));
     deck.add(new Card("Feed"));
     deck.add(new Card("Feed"));
     deck.add(new Card("Shockwave"));
