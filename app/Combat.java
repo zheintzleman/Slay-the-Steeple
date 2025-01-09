@@ -661,6 +661,14 @@ public class Combat {
             player.raiseMaxHP(power);
           }
           break;
+        case Eff.FiendFire:
+          while(hand.size() != 0){
+            exhaust(hand.get(0));
+            if(enemies.contains(target)){
+              player.attack(target, power);
+            }
+          }
+          break;
         default:
           // Other effects that are included in the playEffect function
           playEffect(eff);
@@ -842,7 +850,9 @@ public class Combat {
           Card c = drawPile.removeTop();
           
           int startRow = SettingsManager.sm.screenHeight/2 - c.getImage().length/2;
-          int startCol = SettingsManager.sm.screenWidth/2 - c.getImage()[0].length()/2;
+          int startCol = SettingsManager.sm.screenWidth/2
+                       - Str.lengthIgnoringEscSeqs(c.getImage()[0])/2;
+          // setUpCombatDisplay();
           Run.r.displayScreenWithAddition(c.getImage(), startRow, startCol);
           Str.print("Playing and Exhausting " + c.getName() + ". (Press enter)");
           Main.scan.nextLine();
@@ -1270,7 +1280,7 @@ public class Combat {
   /** Constructs the enemies for Gremlin Gang combat and adds them to the enemy list
   */
   public void constructGremlinGang(){
-    List<String> gremlins = List.of("Fat", "Fat", "Sneaky", "Sneaky", "Mad", "Mad", "Shield", "Wizard");
+    List<String> gremlins = Arrays.asList("Fat", "Fat", "Sneaky", "Sneaky", "Mad", "Mad", "Shield", "Wizard");
     Collections.shuffle(gremlins);
     //Remove four:
     gremlins = gremlins.subList(0, 4);

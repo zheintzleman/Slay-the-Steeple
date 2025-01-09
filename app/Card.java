@@ -219,6 +219,9 @@ public class Card {
           case Eff.Feed:
             codedDescription += "If Fatal, raise your Max HP by " + effectPower + ".\n";
             break;
+          case Eff.FiendFire:
+            codedDescription += "Exhaust all cards in your hand.\nDeal <atk>" + effectPower + "<endatk> damage for each Exhausted card.\n";
+            break;
           default:
           break;
         }
@@ -299,7 +302,9 @@ public class Card {
   // effect "Unplayable", not other effects like Clash or Entangled.
   public final boolean ISUNPLAYABLE;
   public final boolean ISXCOST;
-  // For example, the cards created by Double Tap. Should be played, then "freed".
+  /** For example, the cards created by Double Tap. Should be played, then "freed".
+   * @see CardList
+   */
   public final boolean CANENTERPILES;
   
 

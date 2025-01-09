@@ -49,5 +49,6 @@ public enum Eff {
     Unplayable,
     Innate,
     Exhume,
-    Feed
+    Feed,
+    FiendFire
   }
