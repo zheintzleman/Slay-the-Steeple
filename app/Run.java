@@ -59,7 +59,7 @@ public class Run {
     // }
     deck.add(new Card("Double Tap"));
     deck.add(new Card("Hemokenesis"));
-    deck.add(new Card("Feed"));
+    deck.add(new Card("Anger"));
     deck.add(new Card("Feed"));
     deck.add(new Card("Havoc"));
     deck.add(new Card("Feed"));

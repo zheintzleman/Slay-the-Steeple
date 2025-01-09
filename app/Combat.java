@@ -53,7 +53,6 @@ public class Combat {
     
     drawPile = new CardList();
     for(Card c : Run.r.getDeck()){
-      App.ASSERT(!c.INTANGIBLE);
       drawPile.add(new Card(c));    //Makes draw pile contain a copy of each card in the deck.
     }
     Collections.shuffle(drawPile);
@@ -212,7 +211,7 @@ public class Combat {
           // Put all innate cards on top of the deck:
           if(drawPile.get(i).hasEffect("Innate")){
             Card card = drawPile.remove(i);
-            drawPile.add(0, card);
+            drawPile.addTop(card);
           }
         }
       }
@@ -420,8 +419,7 @@ public class Combat {
       Collections.shuffle(drawPile);
     }
     
-    Card topCard = drawPile.remove(0);
-    App.ASSERT(!topCard.INTANGIBLE);
+    Card topCard = drawPile.removeTop();
     hand.add(topCard);
     EventManager.em.OnDraw(topCard);
     return topCard;
@@ -444,11 +442,10 @@ public class Combat {
   }
 
   /** Adds the card to the hand, or the discard if the hand is full.
-   * If intangible, does nothing.
+   * If !CANENTERPILES, does nothing.
    */
   public void gainToHand(Card card){
     // Assert card not currently in play:
-    if(card.INTANGIBLE){ return; }
     App.ASSERT(!getCardsInPlay().contains(card));
     if(hand.size() < 10){
       hand.add(card);
@@ -458,30 +455,28 @@ public class Combat {
   }
 
   /** Removes card from all piles and adds it to the exhaust pile, if not in
-   * the exhaust pile already and not tangible.
+   * the exhaust pile already and CANENTERPILES true.
    */
   public void exhaust(Card c){
     if(exhaustPile.contains(c)){ return; }
-    if(c.INTANGIBLE){ return; }
 
     removeFromAllPiles(c);
     c.setCosts0ThisTurn(false);
-    exhaustPile.add(c);
-    EventManager.em.OnExhaust(c);
+    if(exhaustPile.add(c)){
+      EventManager.em.OnExhaust(c);
+    }
   }
-  /** Removes the card from all piles & adds it to the discard pile.
+  /** Removes the card from all piles & adds it to the discard pile (if CANENTERPILES.)
    * @param c The card to discard
    * @param callOnDiscard Whether or not to call the OnDiscard method, i.e. whether or not the card
    * discarded naturally (false) vs. if it was discarded by some effect like another card.
   */
   public void discard(Card c, boolean callOnDiscard){
-    if(c.INTANGIBLE){ return; }
     removeFromAllPiles(c);
     c.setCosts0ThisTurn(false);
-    if(callOnDiscard){
+    if(discardPile.add(c) && callOnDiscard){
       EventManager.em.OnDiscard(c);
     }
-    discardPile.add(0, c);
   }
 
   public void removeFromAllPiles(Card card){
@@ -557,10 +552,8 @@ public class Combat {
     if(card.isAttack() && DOUBLETAPS > 0){
       //Decrease its strength by 1 (no supported easy way to do that as of now)
       player.setStatusStrength("Double Tap", DOUBLETAPS - 1);
-      Card clone = new Card(card);
+      Card clone = new Card(card, false);
       playCard(clone, target, X);
-
-      App.ASSERT(!isInAnyPiles(clone));
     }
     
     if(card.isPower()){
@@ -785,8 +778,7 @@ public class Combat {
       case Eff.PutOnDrawPile:
         for(Card c : cardTargets(secondary, card)){
           removeFromAllPiles(c);
-          App.ASSERT(!c.INTANGIBLE);
-          drawPile.add(0, c);
+          drawPile.addTop(c);
           // if(c == card){ shouldDiscard = false; } //Don't discard if we moved card onto draw pile
         }
         break;
@@ -809,14 +801,14 @@ public class Combat {
       case Eff.GainToDraw:
         for(int i=0; i < power; i++){
           Card c = new Card(secondary);
-          App.ASSERT(!c.INTANGIBLE);
           drawPile.add(c);
         }
         Collections.shuffle(drawPile);
         break;
       case Eff.Anger:
-        if(!card.INTANGIBLE)
-          discardPile.add(new Card(card));
+        // Works, since cards with CANENTERPILES don't enter the discard from this anyway
+        // (which is what we want; e.g. Double Tap-ing an Anger.)
+        discardPile.add(new Card(card));
         break;
       case Eff.Rampage:
         App.ASSERT(card != null);
@@ -847,7 +839,7 @@ public class Combat {
           if(drawPile.size() == 0){
             break;
           }
-          Card c = drawPile.remove(0);
+          Card c = drawPile.removeTop();
           
           int startRow = SettingsManager.sm.screenHeight/2 - c.getImage().length/2;
           int startCol = SettingsManager.sm.screenWidth/2 - c.getImage()[0].length()/2;
@@ -1234,17 +1226,8 @@ public class Combat {
   * @param list - The list to make a sorted version of
   */
   public static ArrayList<Card> sortedList(ArrayList<Card> list){
-    //Insertion Sort
     ArrayList<Card> sortedList = new ArrayList<Card>(list);
-    for(int i=1; i<sortedList.size(); i++){
-      String name = sortedList.get(i).getName();
-      for(int j=0; j<i; j++){
-        if(name.compareTo(sortedList.get(j).getName()) <= 0){
-          sortedList.add(j, sortedList.remove(i));
-          break;
-        }
-      }
-    }
+    sortedList.sort((Card a, Card b) -> a.getName().compareTo(b.getName()));
 
     return sortedList;
   }
@@ -1287,15 +1270,7 @@ public class Combat {
   /** Constructs the enemies for Gremlin Gang combat and adds them to the enemy list
   */
   public void constructGremlinGang(){
-    List<String> gremlins = new ArrayList<String>();
-    gremlins.add("Fat");
-    gremlins.add("Fat");
-    gremlins.add("Sneaky");
-    gremlins.add("Sneaky");
-    gremlins.add("Mad");
-    gremlins.add("Mad");
-    gremlins.add("Shield");
-    gremlins.add("Wizard");
+    List<String> gremlins = List.of("Fat", "Fat", "Sneaky", "Sneaky", "Mad", "Mad", "Shield", "Wizard");
     Collections.shuffle(gremlins);
     //Remove four:
     gremlins = gremlins.subList(0, 4);
