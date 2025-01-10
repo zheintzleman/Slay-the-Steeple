@@ -1,11 +1,12 @@
 package app;
 
 /** The available Primaries for all Effects.
+ * See the relevant code in Combat for further documentation on what they mean.
  * 
- * @see Effect
  * @see Combat Combat.playCard()
  * @see Combat Combat.playEffect()
  * @see Card Card.Description.reconstructDescription()
+ * @see Effect
  */
 public enum Eff {
     SearingBlow,
@@ -51,5 +52,6 @@ public enum Eff {
     Exhume,
     Feed,
     FiendFire,
-    GainToDisc
+    GainToDisc,
+    LimitBreak
   }

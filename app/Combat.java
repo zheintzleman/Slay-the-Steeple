@@ -871,6 +871,9 @@ public class Combat {
           }
         }
         break;
+      case Eff.LimitBreak:
+        player.addStatusStrength("Strength", player.getStatusStrength("Strength"));
+        break;
       case Eff.LoseEnergy:
         power = -power;
         //FALLTHRU

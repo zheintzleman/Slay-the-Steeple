@@ -234,6 +234,10 @@ public abstract class App {
                       List.of("Block 40", "Exhaust"), Rarity.RARE, Color.IRONCLAD));
     cards.put("Juggernaut", new Card("Juggernaut", "Whenever you gain block, deal 5 damage to a random enemy.\n", CardType.POWER, 2, false, List.of("AppPlayer Juggernaut 5"),
                       "Whenever you gain block, deal 7 damage to a random enemy.\n", 2, false, List.of("AppPlayer Juggernaut 7"), Rarity.RARE, Color.IRONCLAD));
+    cards.put("Limit Break", new Card("Limit Break", CardType.SKILL, 1, false, List.of("LimitBreak", "Exhaust"),
+                      List.of("LimitBreak"), Rarity.RARE, Color.IRONCLAD));
+    cards.put("Offering", new Card("Offering", CardType.SKILL, 0, false, List.of("LoseHPC 6", "GainEnergy 2", "Draw 3", "Exhaust"),
+                      List.of("LoseHPC 6", "GainEnergy 2", "Draw 5", "Exhaust"), Rarity.RARE, Color.IRONCLAD));
     
     // Assert that all entries in `cards` are named correctly:
     App.ASSERT(cards.entrySet().stream()

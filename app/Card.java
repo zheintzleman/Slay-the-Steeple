@@ -229,6 +229,9 @@ public class Card {
           case Eff.FiendFire:
             codedDescription += "Exhaust all cards in your hand. Deal <atk>" + effectPower + "<endatk> damage for each Exhausted card.\n";
             break;
+          case Eff.LimitBreak:
+            codedDescription += "Double your Strength.\n";
+            break;
           default:
           break;
         }
