@@ -1,7 +1,6 @@
 package enemyfiles;
-import app.Colors;
 import app.Entity;
-import app.Intent;
+import util.Colors;
 
 public class SpikeSlimeSmall extends Enemy{
 

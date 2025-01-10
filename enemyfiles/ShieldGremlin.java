@@ -1,11 +1,10 @@
 package enemyfiles;
 import java.util.*;
 
-import app.Colors;
 import app.Combat;
 import app.Entity;
-import app.Intent;
-import app.Intent.IntentType;
+import enemyfiles.Intent.IntentType;
+import util.Colors;
 
 public class ShieldGremlin extends Enemy{
 

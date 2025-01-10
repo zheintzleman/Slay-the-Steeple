@@ -1,8 +1,7 @@
 package enemyfiles;
-import app.Colors;
 import app.Entity;
-import app.Intent;
-import app.Intent.IntentType;
+import enemyfiles.Intent.IntentType;
+import util.Colors;
 
 public class BlueSlaver extends Enemy{
   private Intent intent;

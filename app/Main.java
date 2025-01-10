@@ -2,6 +2,9 @@ package app;
 
 import java.util.*;
 
+import util.Colors;
+import util.Str;
+
 /**
  * Slay the Spire in the Console - Java                             <p></p>
  * 5/10/22 - 5/25/22 (Alpha release 0.1.0 -- APCSA final)           <p></p>

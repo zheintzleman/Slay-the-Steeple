@@ -3,6 +3,9 @@ package app;
 import java.util.ArrayList;
 import java.util.List;
 
+import util.Colors;
+import util.Str;
+
 /** The effects/powers that show up under the player's & enemies' name and HP bar.
  * E.g. Strength, Weakened, Artifact, etc.
  * Contains a List of StatusEffects to be activated during the appropriate event. Or, for some

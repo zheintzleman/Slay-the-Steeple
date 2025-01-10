@@ -5,7 +5,6 @@ import app.App;
 import app.Combat;
 import app.Entity;
 import app.EventManager;
-import app.Intent;
 import app.Player;
 
 public abstract class Enemy extends Entity{

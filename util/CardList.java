@@ -1,7 +1,10 @@
-package app;
+package util;
 
 import java.util.ArrayList;
 import java.util.Collection;
+
+import app.Card;
+import app.Combat;
 
 /** The class that the deck, hand, drawPile, discardPile, and exhaustPile all implement. Identical
  * to an ArrayList of Cards, except that it does checks of a card's CANENTERPILES value before each

@@ -6,6 +6,9 @@ import java.util.stream.Stream;
 
 import app.EventManager.Event;
 import enemyfiles.*;
+import util.CardList;
+import util.Colors;
+import util.Str;
 
 /** A semi-singleton (i.e. only 1 at a time, but can be replaced by a new one) class representing
  * the current combat -- the current fight with an enemy/group of enemies.

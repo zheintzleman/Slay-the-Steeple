@@ -2,6 +2,10 @@ package app;
 import java.util.*;
 import java.util.function.Predicate;
 
+import util.CardList;
+import util.Colors;
+import util.Str;
+
 /** Class for cards that the player (usually) plays on their turn, that make up the deck, etc.
  * Also contains related public enums and private classes.
  * 
