@@ -63,7 +63,7 @@ public class Run {
     deck.add(new Card("Double Tap"));
     deck.add(new Card("Immolate"));
     deck.add(new Card("Havoc"));
-    deck.add(new Card("Impervious"));
+    deck.add(new Card("Juggernaut"));
     deck.add(new Card("Shockwave"));
     deck.add(new Card("Armaments"));
   }

@@ -2,6 +2,7 @@ package app;
 import java.util.*;
 
 import enemyfiles.Enemy;
+import util.Colors;
 
 /** Used to store an entity's hp and maxHP. Using an object for this to sync
  * the Player's HP with the Run's.
@@ -44,18 +45,22 @@ public abstract class Entity {
   public static final String[] RECTANGLE = new String[] {"███████", "███████", "███████", "███████", "███████", "███████"};
   private String name;
   private EntityHealth health;
-  private int hpBarLength, block, heldBlock;
+  private int hpBarLength, block;
   private boolean isDead = false;
   private String[] art;
   // Could instead use a LinkedHashMap, especially given most of the use cases are with searching
   // for a specific element. The lists are relatively short, though (and this project is not
   // especially computationally demanding), so asymptotics aren't as important as clarity.
   private ArrayList<Status> statuses;
-  // While non-null (iff statusHolds > 0), new statuses are applied
-  // to a copy of the entity instead of to the entity itself. They then sync at the start of the
-  // next turn. Originally just for during "end-of-turn" (i.e. while enemies are doing their
-  // intents), but have since generalized the functionality.
+  /// While non-null (iff statusHolds > 0), new statuses are applied
+  /// to a copy of the entity instead of to the entity itself. They then sync at the start of the
+  /// next turn. Originally just for during "end-of-turn" (i.e. while enemies are doing their
+  /// intents), but have since generalized the functionality.
   private Entity copy = null;
+  /// While blockHolds > 0, new block is instead added into this ArrayList. When blockHolds goes
+  /// back to 0, they are then all applied one after the other.
+  /// Not just using an int, since cards like Juggernaut need to count the individual block gains.
+  private ArrayList<Integer> heldBlock;
   // Similar to above, but for block. While >0, new block is stored in heldBlock until resumed.
   // Each call to holdThisBlock() adds one, and each call to resumeThisBlock removes one.
   private int blockHolds = 0;
@@ -66,8 +71,9 @@ public abstract class Entity {
     final int hp = (int)(Math.random()*10) + 45;
     health = new EntityHealth(hp, hp);
     hpBarLength = 21;
-    heldBlock = block = 0;
+    block = 0;
     art = RECTANGLE;
+    heldBlock = new ArrayList<Integer>();
     statuses = new ArrayList<Status>();
   }
   public Entity(String name){
@@ -75,48 +81,54 @@ public abstract class Entity {
     final int hp = (int)(Math.random()*10) + 45;
     health = new EntityHealth(hp, hp);
     hpBarLength = 21;
-    heldBlock = block = 0;
+    block = 0;
     art = RECTANGLE;
+    heldBlock = new ArrayList<Integer>();
     statuses = new ArrayList<Status>();
   }
   public Entity(String name, int hp){
     this.name = name;
     health = new EntityHealth(hp, hp);
     hpBarLength = 21;
-    heldBlock = block = 0;
+    block = 0;
     art = RECTANGLE;
+    heldBlock = new ArrayList<Integer>();
     statuses = new ArrayList<Status>();
   }
   public Entity(String name, int hp, int hpBarLength){
     this.name = name;
     health = new EntityHealth(hp, hp);
     this.hpBarLength = hpBarLength;
-    heldBlock = block = 0;
+    block = 0;
     art = RECTANGLE;
+    heldBlock = new ArrayList<Integer>();
     statuses = new ArrayList<Status>();
   }
   public Entity(String name, int hp, String[] art){
     this.name = name;
     health = new EntityHealth(hp, hp);
     hpBarLength = 21;
-    heldBlock = block = 0;
+    block = 0;
     this.art = art;
+    heldBlock = new ArrayList<Integer>();
     statuses = new ArrayList<Status>();
   }
   public Entity(String name, String[] art, EntityHealth healthObj){
     this.name = name;
     health = healthObj;
     hpBarLength = 21;
-    heldBlock = block = 0;
+    block = 0;
     this.art = art;
+    heldBlock = new ArrayList<Integer>();
     statuses = new ArrayList<Status>();
   }
   public Entity(String name, int hp, int hpBarLength, String[] art){
     this.name = name;
     health = new EntityHealth(hp, hp);
     this.hpBarLength = hpBarLength;
-    heldBlock = block = 0;
+    block = 0;
     this.art = art;
+    heldBlock = new ArrayList<Integer>();
     statuses = new ArrayList<Status>();
   }
   public Entity(Entity e){
@@ -124,7 +136,7 @@ public abstract class Entity {
     health = new EntityHealth(e.health.hp, e.health.maxHP);
     this.hpBarLength = e.hpBarLength;
     this.block = e.block;
-    heldBlock = 0;
+    this.heldBlock = new ArrayList<Integer>();
     this.art = e.art.clone();
     this.statuses = copyStatusList(e.statuses);
   }
@@ -136,8 +148,6 @@ public abstract class Entity {
   public void setHP(int newHP){ health.hp = newHP; }
   public int getMaxHP(){ return health.maxHP; }
   public void setMaxHP(int newMaxHP){ health.maxHP = newMaxHP; }
-  public int getheldBlock(){ return heldBlock; }
-  public void setheldBlock(int newBlock){ heldBlock = newBlock; }
   public int getBlock(){ return block; }
   public void setBlock(int newBlock){ block = newBlock; }
   public boolean isDead(){ return isDead; }
@@ -260,8 +270,10 @@ public abstract class Entity {
       // Decrease the # of holds by 1. If now 0, actually resume it.
       blockHolds--;
       if(blockHolds == 0){
-        addBlock(heldBlock);
-        heldBlock = 0;
+        for(int block : heldBlock){
+          addBlock(block);
+        }
+        heldBlock.clear();
       }
     }
   }
@@ -430,6 +442,7 @@ public abstract class Entity {
   private void addBlock(int blk){
     block += blk;
     block = Integer.min(block, 999);
+    EventManager.em.OnGainBlock(this, blk);
   }
   /** Gives the entity the appropriate amount of block, taking into account relevent status effects.
    * @param blockPreCalculations - The amount of defence the card/intent does (ie. 5 for an unupgraded Defend)
@@ -438,7 +451,7 @@ public abstract class Entity {
   public void block(int blockPreCalculations, boolean fromCard){
     int blk = calcBlockAmount(blockPreCalculations, fromCard);
     if(blockHeld()){
-      heldBlock += blk;
+      heldBlock.add(blk);
     } else {
       addBlock(blk);
     }
@@ -456,7 +469,7 @@ public abstract class Entity {
 
     int blk = calcBlockAmount(blockPreCalculations, false);
     if(receiver.blockHeld()){
-      receiver.heldBlock += blk;
+      receiver.heldBlock.add(blk);
     } else {
       receiver.addBlock(blk);
     }

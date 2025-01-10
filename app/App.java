@@ -232,6 +232,8 @@ public abstract class App {
                       List.of("AtkAll 28", "GainToDisc Burn"), Rarity.RARE, Color.IRONCLAD));
     cards.put("Impervious", new Card("Impervious", CardType.SKILL, 2, false, List.of("Block 30", "Exhaust"),
                       List.of("Block 40", "Exhaust"), Rarity.RARE, Color.IRONCLAD));
+    cards.put("Juggernaut", new Card("Juggernaut", "Whenever you gain block, deal 5 damage to a random enemy.\n", CardType.POWER, 2, false, List.of("AppPlayer Juggernaut 5"),
+                      "Whenever you gain block, deal 7 damage to a random enemy.\n", 2, false, List.of("AppPlayer Juggernaut 7"), Rarity.RARE, Color.IRONCLAD));
     
     // Assert that all entries in `cards` are named correctly:
     App.ASSERT(cards.entrySet().stream()
@@ -287,6 +289,7 @@ public abstract class App {
     statuses.put("Corruption", new Status("Corruption", Colors.purple + "C", false, false, "Skills cost 0. Whenever you play a Skill, Exhaust it."));
     statuses.put("Demon Form", new Status("Demon Form", Colors.demonFormRed + "D", false, true, "At the start of your turn, gain <str> Strength.", List.of("(OnTurnStart) AppPlayer Strength <str>")));
     statuses.put("Double Tap", new Status("Double Tap", Colors.doubleTapBlue + "D", false, true, "Your next <str> Attacks this turn are played twice.", List.of("(OnTurnStart) ClearStatusPlayer Double Tap")));
+    statuses.put("Juggernaut", new Status("Juggernaut", Colors.descNumBlue + "J", false, true, "Whenever you gain block, deal <str> damage to a random enemy."));
 
     
     // Assert that all entries in `cards` are named correctly:

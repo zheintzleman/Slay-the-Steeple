@@ -4,6 +4,9 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import enemyfiles.Enemy;
+import util.Util;
+
 /** Singleton class to provide easy access to various different points in the program, such as
  * when a card is exhausted, when the turn ends, or when the player is hurt. Just contains
  * appropritely-named methods which are called at the respective point in the code.
@@ -26,7 +29,8 @@ public class EventManager {
     ONTURNEND,
     ONLOSEHP,
     ONPLAYERLOSEHP,
-    ONATKDMGDEALT
+    ONATKDMGDEALT,
+    ONGAINBLOCK
   }
 
   /** Singleton EventManager Instance */
@@ -113,6 +117,14 @@ public class EventManager {
     //apply until after all of the attacks are done. (e.g. w/ Twin Strike.)
     attacker.setStatusStrength("Vigor", 0);
     attacker.block(attacker.getStatusStrength("Rage"), false);
+  }
+
+  public void OnGainBlock(Entity entity, int blockGained){
+    final int JUGG = entity.getStatusStrength("Juggernaut");
+    if(JUGG > 0){
+      Enemy target = Util.randElt(Combat.c.getEnemies());
+      target.damage(JUGG, true);
+    }
   }
 
   /** Activates when a card is discarded "unnaturally", i.e. not from just playing it, but from
