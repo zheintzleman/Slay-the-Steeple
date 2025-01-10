@@ -9,6 +9,7 @@ import enemyfiles.*;
 import util.CardList;
 import util.Colors;
 import util.Str;
+import util.Util;
 
 /** A semi-singleton (i.e. only 1 at a time, but can be replaced by a new one) class representing
  * the current combat -- the current fight with an enemy/group of enemies.
@@ -586,8 +587,7 @@ public class Combat {
     }
     // If null, target a random enemy:
     if(target == null && card.isTargeted()){
-      int rng = (int) (Math.random()*enemies.size());
-      target = enemies.get(rng);
+      target = Util.randElt(enemies);
     }
     // In case first Double-Tapped card kills enemy. This should do nothing, but
     // just in case that would cause a bug later:
@@ -738,8 +738,7 @@ public class Combat {
         break;
       case Eff.AtkRandom:
         if(enemies.size() == 0) break; //Guard Clause
-        int rng = (int) (Math.random() * enemies.size());
-        Enemy target = enemies.get(rng);
+        Enemy target = Util.randElt(enemies);
         player.attack(target, power);
         break;
       case Eff.AppPlayer:
@@ -921,15 +920,12 @@ public class Combat {
       case "RandAtk":
         ArrayList<Card> attacks = new ArrayList<>(App.CARDS);
         attacks.removeIf(Predicate.not(Card::isAttack));
-        int rng = (int) (Math.random() * attacks.size());
-        Str.println("# of attacks: " + attacks.size() + ", rng: " + rng);
-        return new Card[]{attacks.get(rng)};
+        return new Card[]{Util.randElt(attacks)};
       case "Hand":
         return hand.toArray(new Card[0]);
       case "RandHand":
         if(hand.size() <= 1) return hand.toArray(new Card[0]); //If hand just 0 or 1 elts, return it
-        rng = (int) (Math.random() * hand.size());
-        return new Card[]{hand.get(rng)};
+        return new Card[]{Util.randElt(hand)};
       case "Choose1FromHand":
         if(hand.size() <= 1) return hand.toArray(new Card[0]); //If hand just 0 or 1 elts, return it
         display();

@@ -8,7 +8,7 @@ import app.App;
  * @see Str
  * @see App
  */
-public class Colors {
+public abstract class Colors {
   public static final String reset = "Ø\u001B[0mÁ";
   public static final String clearScreen = "Ø\033[H\033[2JÁ";
   public static final String deckBrown = "Ø\033[38;2;81;54;26mÁ";
