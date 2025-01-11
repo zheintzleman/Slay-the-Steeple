@@ -121,7 +121,7 @@ public class EventManager {
 
   public void OnGainBlock(Entity entity, int blockGained){
     final int JUGG = entity.getStatusStrength("Juggernaut");
-    if(JUGG > 0){
+    if(JUGG > 0 && !Combat.c.getEnemies().isEmpty()){
       Enemy target = Util.randElt(Combat.c.getEnemies());
       target.damage(JUGG, true);
     }

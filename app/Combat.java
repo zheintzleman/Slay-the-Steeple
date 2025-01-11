@@ -11,6 +11,8 @@ import util.Colors;
 import util.Str;
 import util.Util;
 
+class CombatOverException extends Exception {}
+
 /** A semi-singleton (i.e. only 1 at a time, but can be replaced by a new one) class representing
  * the current combat -- the current fight with an enemy/group of enemies.
  * Ties together many other classes, and contains methods for any situation that could occur
@@ -31,7 +33,7 @@ public class Combat {
   private CardList drawPile, discardPile, exhaustPile, hand;
   private int energy;
   private final int baseEnergy;
-  // Combat stops running when set to true:
+  /** Combat stops running when set to true. Value immediately set upon player/last enemy dying. */
   private boolean combatOver;
   // For when too many cards in hand to fully print all of them
   private boolean condenseLeftHalfOfHand;
@@ -140,17 +142,15 @@ public class Combat {
   public ArrayList<Enemy> getEnemiesToUpdate(){ return enemiesToUpdate; }
   public void setEnemiesToUpdate(ArrayList<Enemy> newETU){ enemiesToUpdate = newETU; }
   public Player getPlayer(){ return player; }
-  public Run getRun(){ return Run.r; }
 
 
   public static String pickCombat(){
     // Random string from list
-    String[] combatTypes = new String[] {"Cultist", "Jaw Worm", "Two Louses",
+    List<String> combatTypes = List.of("Cultist", "Jaw Worm", "Two Louses",
       "Small and Med Slime", "Gremlin Gang", "Large Slime", "Lots of Slimes", "Blue Slaver",
       "Red Slaver", "Three Louses", "Two Fungi Beasts", "Exordium Thugs", "Exordium Wildlife",
-      "Looter"};
-    int rn = (int) (Math.random()*combatTypes.length);
-    return combatTypes[rn];
+      "Looter");
+    return Util.randElt(combatTypes);
   }
 
   /** An ArrayList of all cards in the hand, draw, disc, and exh piles */
@@ -197,28 +197,28 @@ public class Combat {
   }
   
 
-  public record CombatReturn(int hp, int maxHP, int goldStolen) {}
-
-  /** Performs the combat.
+  /** Performs the combat. Sets things up, then performs an infinite loop
+   * of having the player take an action (i.e. playing a card. Could be
+   * expanded to playing potions, etc. in the future.) "Returns" by the
+   * checkCombatEnd() method throwing a CombatOverException.
    * @return The amount of gold stolen (by Mugger/Looter)
   */
-  public CombatReturn runCombat(){
+  public void runCombat() throws CombatOverException {
     boolean turnOver;
-    boolean isFirstTurn = true;
     final int HANDSIZE = 5;
-    while(!combatOver){
+    
+    // Put all innate cards on top of the deck:
+    for(int i=0; i < drawPile.size(); i++){
+      if(drawPile.get(i).hasEffect("Innate")){
+        Card card = drawPile.remove(i);
+        drawPile.addTop(card);
+      }
+    }
+
+    while(true){
       //startOfTurn
       energy = baseEnergy;
       //draw new hand
-      if(isFirstTurn){
-        for(int i=0; i < drawPile.size(); i++){
-          // Put all innate cards on top of the deck:
-          if(drawPile.get(i).hasEffect("Innate")){
-            Card card = drawPile.remove(i);
-            drawPile.addTop(card);
-          }
-        }
-      }
       for(int i=0; i < HANDSIZE; i++){
         drawCard();
       }
@@ -227,12 +227,14 @@ public class Combat {
       enemiesToUpdate = new ArrayList<Enemy>(enemies);
 
       eventManager.OnTurnStart();
+      checkCombatEnd();
       
       turnOver = false;
       while(!turnOver){
         //duringTurn
         display();
         turnOver = doNextAction();
+        checkCombatEnd();
       }
       //endOfTurn
 
@@ -241,10 +243,8 @@ public class Combat {
       //Ends player & enemy turns
       endEntityTurns();
       
-      isFirstTurn = false;
+      checkCombatEnd();
     }
-    display();
-    return new CombatReturn(player.getHP(), player.getMaxHP(), 0);
   }
 
   /** Inputs from the player the next action and performs it, updating the display as well.
@@ -280,7 +280,18 @@ public class Combat {
         return true;
       }
     }
-    return combatOver; //False if combat is not over, true if it is
+    return false; //False if combat is not over, true if it is
+  }
+
+  /** If combat over, throws a CombatOverException that cancels everything else that would have
+   * happened during this combat, immediately going to the rewards screen.
+   */
+  private void checkCombatEnd() throws CombatOverException {
+    if(combatOver){
+      // Makes the enemy disappear in the combat rewards screen:
+      setUpCombatDisplay();
+      throw new CombatOverException();
+    }
   }
 
   /** Ends the turn, discarding the hand and calling OnTurnEnd events */
@@ -583,6 +594,11 @@ public class Combat {
    */
   private void playCard(Card card, Enemy target, Integer X){
     if(!cardPlayable(card)){
+      return;
+    }
+    // Don't know if this is necessary, but it makes reasoning about later logic (specifically the
+    // possible null return value of randElt) easier.
+    if(combatOver){
       return;
     }
     // If null, target a random enemy:

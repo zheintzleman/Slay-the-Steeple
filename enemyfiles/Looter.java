@@ -35,10 +35,10 @@ public class Looter extends Enemy{
   public void doIntent(Entity player){
     if(intent == MUG){
       attack(player, 10);
-      goldStolen += Combat.c.getRun().loseGold(15);
+      goldStolen += Run.r.loseGold(15);
     }else if(intent == LUNGE){
       attack(player, 12);
-      goldStolen += Combat.c.getRun().loseGold(15);
+      goldStolen += Run.r.loseGold(15);
     }else if(intent == SMOKEBOMB){
       block(6, false);
     }else if(intent == ESCAPE){
@@ -87,7 +87,7 @@ public class Looter extends Enemy{
 
   @Override
   public void die(){
-    Run.r.addGold(goldStolen);
+    Run.r.stealGoldBack(goldStolen);
     super.die();
   }
 }

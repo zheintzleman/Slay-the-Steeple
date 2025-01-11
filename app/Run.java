@@ -2,7 +2,6 @@ package app;
 import java.util.*;
 import java.util.function.Predicate;
 
-import app.Combat.CombatReturn;
 import util.CardList;
 import util.Colors;
 import util.Str;
@@ -20,7 +19,7 @@ public class Run {
   public static final int SCREENWIDTH = SettingsManager.sm.screenWidth;
   public static final int SCREENHEIGHT = SettingsManager.sm.screenHeight;
   private EntityHealth health;
-  private int gold;
+  private int gold, goldStolenBack;
   private CardList deck;
   /** Singleton run instance */
   public static final Run r = new Run();
@@ -31,6 +30,7 @@ public class Run {
     }
     health = new EntityHealth(80, 80);
     gold = 99;
+    goldStolenBack = 0;
     generateStartingDeck();
 
     if(SettingsManager.sm.debug){
@@ -57,36 +57,30 @@ public class Run {
     final Collection<Card> CARDS = App.CARDS;
 
     deck = new CardList(CARDS.size());
-    // for(Card c : CARDS){
-    //   deck.add(new Card(c));
-    // }
-    deck.add(new Card("Flex"));
-    deck.add(new Card("Immolate"));
-    deck.add(new Card("Reaper"));
-    deck.add(new Card("Reaper"));
-    deck.add(new Card("Reaper"));
-    deck.add(new Card("Reaper"));
-    deck.add(new Card("Armaments"));
+    for(Card c : CARDS){
+      deck.add(new Card(c));
+    }
   }
 
-  /** Plays the run
+  /** Plays the run.
   */
   public void play(){
     while(true){ //Runs until hp <= 0, which has a break statement below
       Combat c = new Combat(health);
 
-      CombatReturn results = c.runCombat();
-      // Sync hp data:
-      health.hp = results.hp();
-      health.maxHP = results.maxHP();
-      int goldStolen = results.goldStolen();
+      try {
+        c.runCombat();
+      } catch (CombatOverException e) {}
 
       if(health.hp <= 0){
         break; //Current death mechanic //global bool var for death?
       }
-      combatRewards(goldStolen); //todo: move elsewhere if relevant?
+      combatRewards();
+      goldStolenBack = 0;
+      
       Main.scan.nextLine();
     }
+
     if(!SettingsManager.sm.debug)
       Str.println(Colors.clearScreen);
     System.out.println(App.GAME_OVER);
@@ -127,7 +121,6 @@ public class Run {
       switch(type){
         case GOLD:
           addGold(data);
-          reloadScreenHeader();
           break;
         case CARD:
           //Make a whole card reward method and popup and stuff.
@@ -142,12 +135,12 @@ public class Run {
 
   /** Displays the (interactable) popup with rewards for a normal combat
   */
-  void combatRewards(int goldStolenBack){
+  void combatRewards(){
     //Constants:
     final int popupHeight = App.POPUP_HEIGHT;
     final int popupWidth = App.POPUP_WIDTH; //Included for ease of editing later.
     final String header = Str.header("Rewards!", popupWidth, "") + '\n';
-    ArrayList<CombatReward> rewards = new ArrayList<CombatReward>();
+    final ArrayList<CombatReward> rewards = new ArrayList<CombatReward>();
 
     //Gold stolen back
     if(goldStolenBack > 0){
@@ -197,6 +190,7 @@ public class Run {
         textToPopup += img + "\n";
       }
       
+      reloadScreenHeader();
       //Display the popup:
       //Effectively 'popup(textToPopup);', except I can actually look at what the input is:
       int startCol = SettingsManager.sm.screenWidth/2 - popupWidth/2; // == 78
@@ -240,16 +234,23 @@ public class Run {
   public void addGold(int amount){
     gold += amount;
   }
+  /** For Looter/Mugger; On death, they call this function to add X amount of
+   * gold to the additional combat reward.
+   */
+  public void stealGoldBack(int amount){
+    goldStolenBack += amount;
+  }
 
   /** Displays the screen. Same as calling display(screen);
   */
   public void display(){
+    reloadScreenHeader();
     display(screen);
   }
   
   /** Displays the entered String array.
   */
-  public static void display(String[] arr){
+  public void display(String[] arr){
     if(!SettingsManager.sm.debug)
       Str.println(Colors.clearScreen);
 
@@ -261,6 +262,7 @@ public class Run {
   /** Displays the screen with an addition on top of it.
   */
   public void displayScreenWithAddition(String[] newArray, int topRow, int startCol){
+    reloadScreenHeader();
     String[] combinedScreen = Str.addStringArraysSkipEscSequences(screen, topRow, startCol, newArray);
     display(combinedScreen);
   }
@@ -394,6 +396,7 @@ public class Run {
             SettingsManager.sm.save();
           }
           break;
+        case "w":
         case "screen width":
         case "width":
           Str.println("Enter the new screen width, or enter 1-4 for default width options. (Just press enter to cancel:)");
@@ -405,6 +408,7 @@ public class Run {
           SettingsManager.sm.screenWidth = width;
           SettingsManager.sm.save();
           break;
+        case "h":
         case "screen height":
         case "height":
           //TODO: add a way to reset these to default?
