@@ -232,6 +232,9 @@ public class Card {
           case Eff.LimitBreak:
             codedDescription += "Double your Strength.\n";
             break;
+          case Eff.Reap:
+            codedDescription += "Deal <atk>" + effectPower + "<endatk> damage to ALL enemies.\nHeal HP equal to unblocked damage.\n";
+            break;
           default:
           break;
         }

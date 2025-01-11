@@ -81,8 +81,8 @@ public class SettingsManager {
     name = "Default";
     screenWidth = App.DEFAULT_SCREEN_WIDTH;
     screenHeight = App.DEFAULT_SCREEN_HEIGHT;
-    debug = true;
-    cheats = false;
+    debug = false;
+    cheats = true;
     includeANSI = true;
     save();
   }

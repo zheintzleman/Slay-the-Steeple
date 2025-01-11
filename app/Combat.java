@@ -643,6 +643,10 @@ public class Combat {
         case Eff.AtkAll: //Uses shortened word to be separate from "Attack" (& for brevity)
           player.attack(enemies, power);
           break;
+        case Eff.Reap:
+          final int dmg = player.attack(enemies, power);
+          player.heal(dmg);
+          break;
         case Eff.Whirlwind:
           for(int i=0; i<X; i++){
             player.attack(enemies, power);

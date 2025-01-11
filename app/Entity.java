@@ -409,22 +409,25 @@ public abstract class Entity {
     }else{
       dmg -= block;
       block = 0;
-      subtractHP(dmg, fromCard);
-      return dmg;
+      return subtractHP(dmg, fromCard);
     }
   }
   /** Subtracts the entity's hp the specified amount. If hp is 0 or less, it dies.
-  */
-  public void subtractHP(int dmg, boolean fromCard){
+   * @return int - the amount of hp actually lost (e.g. if it has 1HP left.)
+   */
+  public int subtractHP(int dmg, boolean fromCard){
     EventManager.em.OnLoseHP(this, dmg, fromCard);
     health.hp -= dmg;
     if(health.hp <= 0){
+      // Subtract off the overkill:
+      dmg += health.hp;
       health.hp = 0;
       this.die();
     }
     if(this.hasStatus("Split") && health.hp <= (health.maxHP/2)){
       this.setSplitIntent();
     }
+    return dmg;
   }
   /** Increases the entity's health the specified amount, up to its max health.
   */

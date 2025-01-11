@@ -60,17 +60,12 @@ public class Run {
     // for(Card c : CARDS){
     //   deck.add(new Card(c));
     // }
-    deck.add(new Card("Offering"));
-    deck.add(new Card("Offering"));
-    deck.add(new Card("Offering"));
     deck.add(new Card("Flex"));
-    deck.add(new Card("Feel No Pain"));
-    deck.add(new Card("Rupture"));
-    deck.add(new Card("Armaments"));
-    deck.add(new Card("Armaments"));
-    deck.add(new Card("Armaments"));
-    deck.add(new Card("Armaments"));
-    deck.add(new Card("Armaments"));
+    deck.add(new Card("Immolate"));
+    deck.add(new Card("Reaper"));
+    deck.add(new Card("Reaper"));
+    deck.add(new Card("Reaper"));
+    deck.add(new Card("Reaper"));
     deck.add(new Card("Armaments"));
   }
 

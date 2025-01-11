@@ -56,7 +56,7 @@ public abstract class App {
   public static final Set<Eff> ATTACK_PRIMARIES = new HashSet<Eff>(List.of(Eff.Attack, Eff.AtkAll, Eff.BodySlam, Eff.SearingBlow, Eff.HeavyAttack, Eff.AtkRandom));
   public static final Set<Eff> DEFENSE_PRIMARIES = new HashSet<Eff>(List.of(Eff.Block));
   // Primaries that affect game state outside of the current combat (i.e. that matter even after the combat ends.)
-  public static final Set<Eff> RUN_STATE_PRIMARIES = new HashSet<Eff>(List.of(Eff.DmgPlayerC, Eff.DmgPlayerNC, Eff.LoseHPC, Eff.LoseHPNC, Eff.Feed));
+  public static final Set<Eff> RUN_STATE_PRIMARIES = new HashSet<Eff>(List.of(Eff.DmgPlayerC, Eff.DmgPlayerNC, Eff.LoseHPC, Eff.LoseHPNC, Eff.Feed, Eff.Reap));
 
   // Can use Card.getCard(String) and Status.getStatus(String) to easily access w/ null-checking:
   public static final HashMap<String, Card> CARDSET = loadCards();
@@ -238,6 +238,8 @@ public abstract class App {
                       List.of("LimitBreak"), Rarity.RARE, Color.IRONCLAD));
     cards.put("Offering", new Card("Offering", CardType.SKILL, 0, false, List.of("LoseHPC 6", "GainEnergy 2", "Draw 3", "Exhaust"),
                       List.of("LoseHPC 6", "GainEnergy 2", "Draw 5", "Exhaust"), Rarity.RARE, Color.IRONCLAD));
+    cards.put("Reaper", new Card("Reaper", CardType.ATTACK, 2, false, List.of("Reap 4", "Exhaust"),
+                      List.of("Reap 5", "Exhaust"), Rarity.RARE, Color.IRONCLAD));
     
     // Assert that all entries in `cards` are named correctly:
     App.ASSERT(cards.entrySet().stream()

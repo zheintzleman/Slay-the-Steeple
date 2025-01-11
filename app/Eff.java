@@ -53,5 +53,6 @@ public enum Eff {
     Feed,
     FiendFire,
     GainToDisc,
-    LimitBreak
+    LimitBreak,
+    Reap
   }
