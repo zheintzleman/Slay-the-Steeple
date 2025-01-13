@@ -74,21 +74,21 @@ public class Combat {
         break;
       case "Two Louses":
         enemies.add(createLouse(Run.SCREENWIDTH*2/3));
-        enemies.add(createLouse(Run.SCREENWIDTH*4/5));
+        enemies.add(createLouse(Run.SCREENWIDTH*4/5 + 2));
         break;
       case "Cultist":
         enemies.add(new Cultist(Run.SCREENWIDTH*5/7));
         break;
       case "Small and Med Slime":
       case "Small and Medium Slime":
-        enemies.add(createSlime(Run.SCREENWIDTH*2/3, 0));
-        enemies.add(createSlime(Run.SCREENWIDTH*4/5, 1));
+        enemies.add(createSlime(Run.SCREENWIDTH*2/3 + 1, 0));
+        enemies.add(createSlime(Run.SCREENWIDTH*4/5 + 1, 1));
         break;
       case "Gremlin Gang":
         constructGremlinGang();
         break;
       case "Large Slime":
-        enemies.add(createSlime(Run.SCREENWIDTH*5/7, 2));
+        enemies.add(createSlime(Run.SCREENWIDTH*5/7 + 2, 2));
         break;
       case "Lots of Slimes":
         e1X = Run.SCREENWIDTH*11/20;
@@ -107,15 +107,15 @@ public class Combat {
         enemies.add(new RedSlaver(Run.SCREENWIDTH*5/7));
         break;
       case "Three Louses":
-        e1X = Run.SCREENWIDTH*60/100;
-        gap = Run.SCREENWIDTH*12/100;
+        e1X = Run.SCREENWIDTH*60/100 + 5;
+        gap = Run.SCREENWIDTH*12/100 + 1;
         enemies.add(createLouse(e1X));
         enemies.add(createLouse(e1X + gap));
         enemies.add(createLouse(e1X + 2*gap));
         break;
       case "Two Fungi Beasts":
         enemies.add(new FungiBeast(Run.SCREENWIDTH*2/3));
-        enemies.add(new FungiBeast(Run.SCREENWIDTH*4/5));
+        enemies.add(new FungiBeast(Run.SCREENWIDTH*4/5 + 2));
         break;
       case "Looter":
         enemies.add(new Looter(Run.SCREENWIDTH*5/7));
@@ -1337,13 +1337,13 @@ public class Combat {
     }
     rn = Math.random();
     if(rn<0.25){
-      enemies.add(new Looter(Run.SCREENWIDTH*4/5));
+      enemies.add(new Looter(Run.SCREENWIDTH*4/5 + 2));
     }else if(rn<0.5){
-      enemies.add(new Cultist(Run.SCREENWIDTH*4/5));
+      enemies.add(new Cultist(Run.SCREENWIDTH*4/5 + 2));
     }else if(rn<0.75){
-      enemies.add(new BlueSlaver(Run.SCREENWIDTH*4/5));
+      enemies.add(new BlueSlaver(Run.SCREENWIDTH*4/5 + 2));
     }else{
-      enemies.add(new RedSlaver(Run.SCREENWIDTH*4/5));
+      enemies.add(new RedSlaver(Run.SCREENWIDTH*4/5 + 2));
     }
   }
 
@@ -1358,9 +1358,9 @@ public class Combat {
     }
     rn = Math.random();
     if(rn < 0.5){
-      enemies.add(createLouse(Run.SCREENWIDTH*4/5));
+      enemies.add(createLouse(Run.SCREENWIDTH*4/5 + 2));
     }else{
-      enemies.add(createSlime(Run.SCREENWIDTH*4/5, 1));
+      enemies.add(createSlime(Run.SCREENWIDTH*4/5 + 2, 1));
     }
   }
 

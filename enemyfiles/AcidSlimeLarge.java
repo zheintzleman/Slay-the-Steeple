@@ -50,8 +50,8 @@ public class AcidSlimeLarge extends Enemy{
         }
       }
       enemiesToUpdate.remove(thisIndex);
-      enemiesToUpdate.add(thisIndex, new AcidSlimeMed(this, this.getMiddleX() + 11));
-      enemiesToUpdate.add(thisIndex, new AcidSlimeMed(this, this.getMiddleX() - 11));
+      enemiesToUpdate.add(thisIndex, new AcidSlimeMed(this, this.getMiddleX() + 12));
+      enemiesToUpdate.add(thisIndex, new AcidSlimeMed(this, this.getMiddleX() - 12));
     }
   }
 
