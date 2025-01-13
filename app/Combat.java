@@ -46,7 +46,7 @@ public class Combat {
   /** Semi-singleton Combat instance (only ever exists 1, but not final) */
   public static Combat c;
   
-  public Combat(EntityHealth playerHealthObj){
+  public Combat(EntityHealth playerHealthObj, String combatName){
     c = this;
     eventManager = EventManager.em;
     player = new Player("Ironclad", Colors.IRONCLADIMG2, playerHealthObj);
@@ -69,7 +69,6 @@ public class Combat {
     // X pos (col) of the first enemy; offset between enemies.
     // If >2 enemies, used for ensuring same gap between them all.
     int e1X, gap;
-    String combatName = pickCombat();
     switch(combatName){
       case "Jaw Worm":
         enemies.add(new JawWorm(Run.SCREENWIDTH*5/7));
@@ -143,15 +142,6 @@ public class Combat {
   public void setEnemiesToUpdate(ArrayList<Enemy> newETU){ enemiesToUpdate = newETU; }
   public Player getPlayer(){ return player; }
 
-
-  public static String pickCombat(){
-    // Random string from list
-    List<String> combatTypes = List.of("Cultist", "Jaw Worm", "Two Louses",
-      "Small and Med Slime", "Gremlin Gang", "Large Slime", "Lots of Slimes", "Blue Slaver",
-      "Red Slaver", "Three Louses", "Two Fungi Beasts", "Exordium Thugs", "Exordium Wildlife",
-      "Looter");
-    return Util.randElt(combatTypes);
-  }
 
   /** An ArrayList of all cards in the hand, draw, disc, and exh piles */
   public ArrayList<Card> getCardsInPlay(){

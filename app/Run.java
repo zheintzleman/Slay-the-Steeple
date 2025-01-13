@@ -16,11 +16,17 @@ import util.Util;
  * @see SettingsManager
  */
 public class Run {
-  private String[] screen;
   public static final int SCREENWIDTH = SettingsManager.sm.screenWidth;
   public static final int SCREENHEIGHT = SettingsManager.sm.screenHeight;
+  private final List<String> easyPool = new ArrayList<>(List.of("Cultist", "Jaw Worm",
+      "Two Louses", "Small and Med Slime"));
+  private final List<String> hardPool = new ArrayList<>(List.of("Gremlin Gang",
+      "Large Slime", "Lots of Slimes", "Blue Slaver", "Red Slaver", "Three Louses",
+      "Two Fungi Beasts", "Exordium Thugs", "Exordium Wildlife", "Looter"));
+  private String prevCombat = null;
+  private String[] screen;
   private EntityHealth health;
-  private int gold, goldStolenBack;
+  private int gold, goldStolenBack, floor;
   /// Starts at 5% & decreases by 1% per non-rare. Decreases the chance of
   /// seeing a rare card by this amount (rolling over into decreasing uncommon
   /// chance if greater than rare percentage.)
@@ -36,6 +42,7 @@ public class Run {
     health = new EntityHealth(80, 80);
     gold = 99;
     goldStolenBack = 0;
+    floor = 1;
     generateStartingDeck();
 
     if(SettingsManager.sm.debug){
@@ -52,6 +59,7 @@ public class Run {
   public void setScreen(String[] newScreen){ screen = newScreen; }
   public String[] getScreen(){ return screen; }
   public int getGold(){ return gold; }
+  public int getFloor(){ return floor; }
   public ArrayList<Card> getDeck(){ return deck; }
   // No HP methods on purpose; Just change the Player's HP, and it syncs back
   // up after the combat's over.
@@ -72,11 +80,30 @@ public class Run {
     deck.add(new Card("Bash"));
   }
 
+  /** Picks a combat from the relevant pool; removes and returns this string.
+   * Removes the previous combat, then adds it back, in order to not repeat
+   * the same combat twice in a row.
+   */
+  public String pickCombat(){
+    String res;
+    if(floor < 4){
+      boolean removed = easyPool.remove(prevCombat);
+      res = Util.randElt(easyPool);
+      if(removed){ easyPool.add(prevCombat); }
+    } else {
+      boolean removed = hardPool.remove(prevCombat);
+      res = Util.randElt(hardPool);
+      if(removed){ hardPool.add(prevCombat); }
+    }
+    return res;
+  }
+
   /** Plays the run.
   */
   public void play(){
     while(true){ //Runs until hp <= 0, which has a break statement below
-      Combat c = new Combat(health);
+      String combatName = pickCombat();
+      Combat c = new Combat(health, combatName);
 
       try {
         c.runCombat();
@@ -87,6 +114,8 @@ public class Run {
       }
       combatRewards();
       goldStolenBack = 0;
+      prevCombat = combatName;
+      floor++;
     }
 
     if(!SettingsManager.sm.debug)
