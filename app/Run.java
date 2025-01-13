@@ -501,8 +501,8 @@ public class Run {
         case "w":
         case "screen width":
         case "width":
-          Str.println("Enter the new screen width, or enter 1-4 for default width options. (Just press enter to cancel:)");
-          int width = getIntWPred(w -> (1<=w && w<=4) || (171<=w && w<=499 && w%2 == 1), "New width must be odd, and between than 171 and 499.");
+          Str.println("Enter the new screen width, or enter 1-3 for default width options, or 4 for extra-wide mode. (Just press enter to cancel:)");
+          int width = getIntWPred(w -> (1<=w && w<=4) || (177<=w && w<=499 && w%2 == 1), "New width must be odd, and between than 177 and 499.");
           
           if(1 <= width && width <= 4){
             width = 155 + 22*width;
@@ -517,7 +517,7 @@ public class Run {
           //TODO: Eventually place actually reasonable restrictions on these (+width must be odd.) //TODO: also make these actually work. (currently mostly referring to the FINAL var. Can just tell user they have to restart the game to see changes here?)
           //TODO: Make getIntWPred return an Optional?
           Str.println("Enter the new screen height (Just press enter to cancel:)");
-          SettingsManager.sm.screenHeight = getIntWPred(h -> h >= 50, "New height must be at least 50.");
+          SettingsManager.sm.screenHeight = getIntWPred(h -> h >= 50 && h <= 200, "New height must be between 50 and 200.");
           SettingsManager.sm.save();
           break;
         case "debug mode":
@@ -615,13 +615,13 @@ public class Run {
     String s = Main.scan.nextLine();
     switch(s.toLowerCase()){
       case "true":
-      case "1":
       case "y":
+      case "yes":
       case "on":
         return true;
       case "false":
-      case "0":
       case "n":
+      case "no":
       case "off":
         return false;
       default:
