@@ -21,18 +21,18 @@ public class StatusEffect extends Effect {
     super(data);
     this.status = status;
     powerIsStatusStr = false;
-    App.ASSERT(!isBanned(whenPlayed()));
+    assert !isBanned(whenPlayed());
   }
   public StatusEffect(String data, Status status, boolean powerIsStatusStr){
     this(data, status);
     this.powerIsStatusStr = powerIsStatusStr;
-    App.ASSERT(!isBanned(whenPlayed()));
+    assert !isBanned(whenPlayed());
   }
   public StatusEffect(StatusEffect prev, Status newStatus){
     super(prev);
     status = newStatus;
     powerIsStatusStr = prev.powerIsStatusStr;
-    App.ASSERT(!isBanned(whenPlayed()));
+    assert !isBanned(whenPlayed());
   }
 
   public Status getStatus(){ return status; }

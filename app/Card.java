@@ -238,7 +238,7 @@ public class Card {
           default:
           break;
         }
-        App.ASSERT(codedDescription.endsWith(".\n") || codedDescription.isEmpty());
+        assert codedDescription.endsWith(".\n") || codedDescription.isEmpty();
       }
     }
     public String getBaseDescription(){
@@ -267,7 +267,7 @@ public class Card {
       while(res.contains("<atk>")){ //Updates the attack #s
         int index = res.indexOf("<atk>");
         int endIndex = res.indexOf("<endatk>");
-        App.ASSERT(endIndex != -1);
+        assert endIndex != -1;
 
         int baseDamage = Integer.parseInt(res, index + 5, endIndex, 10);
         int newDamage = Combat.c.getPlayer().calcAtkDmgFromThisStats(baseDamage, strMultiplier); //todo: Display the full damage for each enemy below that enemy?
@@ -279,7 +279,7 @@ public class Card {
       while(res.contains("<blk>")){ //Updates the block #s
         int index = res.indexOf("<blk>");
         int endIndex = res.indexOf("<endblk>");
-        App.ASSERT(endIndex != -1);
+        assert endIndex != -1;
 
         int baseBlock = Integer.parseInt(res, index + 5, endIndex, 10);
         int newBlock = Combat.c.getPlayer().calcBlockAmount(baseBlock, true);
@@ -400,7 +400,7 @@ public class Card {
       "True Grit", "Flame Barrier", "Power Through", "Sentinel").contains(name)){ //<-Whitelist
       // To get your attention. Read the above Javadoc comment.
       for(CardEffect eff : data.effects){
-        App.ASSERT(!eff.isAttack() && !eff.isDefense());
+        assert !eff.isAttack() && !eff.isDefense();
       }
     }
 
@@ -412,8 +412,8 @@ public class Card {
     }
     upData.description = new Description(upDescription);
 
-    App.ASSERT((description.endsWith(".\n") || description.isEmpty())
-            && (upDescription.endsWith(".\n") || upDescription.isEmpty()));
+    assert (description.endsWith(".\n") || description.isEmpty())
+            && (upDescription.endsWith(".\n") || upDescription.isEmpty());
   }
 
   //Getters and setters
@@ -440,7 +440,7 @@ public class Card {
     if(ISXCOST || ISUNPLAYABLE){
       return 0;
     }
-    App.ASSERT(data.baseEnergyCost >= 0);
+    assert data.baseEnergyCost >= 0;
     return data.baseEnergyCost;
   }
   /** Sets the base energy cost of the card, including any permanent effects
@@ -460,7 +460,7 @@ public class Card {
    * @Postcondition Return value >= 0
    */
   public int getEnergyCost(){
-    App.ASSERT(!ISUNPLAYABLE && !ISXCOST);
+    assert !ISUNPLAYABLE && !ISXCOST;
     if(costs0ThisTurn){
       return 0;
     }
@@ -645,7 +645,7 @@ public class Card {
         setBaseEnergyCost(upData.baseEnergyCost - 1);
       }
     }else{ //More than 1 upgrade (Searing Blow later upgrades:)
-      App.ASSERT(name.contains("+"));
+      assert name.contains("+");
       name = name.substring(0, name.lastIndexOf("+")+1) + upgrades;    //Changes the Name's #
       data.description = new Description(data.effects);
     }

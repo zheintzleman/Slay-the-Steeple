@@ -34,7 +34,7 @@ public abstract class Effect implements Serializable {
 
     if(str.startsWith("(")){
       String[] halves = str.split("[\\(\\)] ", 2);
-      App.ASSERT(halves.length == 2);
+      assert halves.length == 2;
       String enumName = halves[0].substring(1).toUpperCase();
       whenPlayed = Event.valueOf(enumName);
       str = halves[1];

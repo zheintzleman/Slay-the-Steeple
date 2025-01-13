@@ -290,7 +290,7 @@ public abstract class Str {
   /** Returns the substring of the string starting at the entered index ignoring esc sequences that have been marked with the O and A chars
   */
   public static String substringIgnoringEscSequences(String str, int start){
-    App.ASSERT(start >= 0 && start <= lengthIgnoringEscSeqs(str));
+    assert start >= 0 && start <= lengthIgnoringEscSeqs(str);
     int col = 0;
     boolean inEscSequence = false;
 
@@ -324,7 +324,7 @@ public abstract class Str {
   /** Returns the substring of the string from the start index to the end index, ignoring esc sequences that have been marked with the O and A chars
   */
   public static String substringIgnoringEscSequences(String str, int start, int end){
-    App.ASSERT(0 <= start && start <= end && end <= lengthIgnoringEscSeqs(str));
+    assert 0 <= start && start <= end && end <= lengthIgnoringEscSeqs(str);
 
     if(end == lengthIgnoringEscSeqs(str)){
       return substringIgnoringEscSequences(str, start);
@@ -365,7 +365,7 @@ public abstract class Str {
       }
     }
     System.out.println("-" + str + "-, " + start + ", " + end);
-    App.ASSERT(str.isEmpty()); //Shouldn't be returning in this failure case unless "", I think.
+    assert str.isEmpty(); //Shouldn't be returning in this failure case unless "", I think.
     return "";
   }
 

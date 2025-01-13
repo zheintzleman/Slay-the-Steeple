@@ -133,7 +133,7 @@ public class Combat {
     // TODO: REMOVE!:
     for(Entity e : getEntities()){
       for(int i=1; i < e.getArt().length; i++){
-        App.ASSERT(Str.lengthIgnoringEscSeqs(e.getArt()[i]) == Str.lengthIgnoringEscSeqs(e.getArt()[i-1]));
+        assert Str.lengthIgnoringEscSeqs(e.getArt()[i]) == Str.lengthIgnoringEscSeqs(e.getArt()[i-1]);
       }
     }
   }
@@ -267,13 +267,21 @@ public class Combat {
       }else if(input.equalsIgnoreCase("e") || input.equalsIgnoreCase("end") || input.equalsIgnoreCase("end turn")){
         doneAction = true;
         return true;
-      }else if(SettingsManager.sm.cheats && (input.equalsIgnoreCase("/killall")
-                                          || input.equalsIgnoreCase("/ka"))){
-        while(enemies.size() > 0){
-          enemies.get(0).die();
+      }else if(SettingsManager.sm.cheats){
+        if(input.equalsIgnoreCase("/killall") || input.equalsIgnoreCase("/ka")){
+          while(enemies.size() > 0){
+            enemies.get(0).die();
+          }
+          doneAction = true;
+          return true;
+        } else if(input.equalsIgnoreCase("/fixdeck") || input.equalsIgnoreCase("/deck")){
+          ArrayList<Card> deck = Run.r.getDeck();
+          deck.clear();
+          for(Card c : App.CARDS){
+            deck.add(new Card(c));
+          }
+          display();
         }
-        doneAction = true;
-        return true;
       }
     }
     return false; //False if combat is not over, true if it is
@@ -371,7 +379,7 @@ public class Combat {
       //Enemy Statuses
       statuses = ""; //Declared above
       for(Status status : enemy.getStatuses()){
-        App.ASSERT(status.getStrength() != 0);
+        assert status.getStrength() != 0;
         statuses += status.getDisplay() + " ";
       }
       Run.r.addToScreen(entityBottomY+2, enemyMidX-(Str.lengthIgnoringEscSeqs(hpBar)/2), statuses);
@@ -457,7 +465,7 @@ public class Combat {
    */
   public void gainToHand(Card card){
     // Assert card not currently in play:
-    App.ASSERT(!getCardsInPlay().contains(card));
+    assert !getCardsInPlay().contains(card);
     if(hand.size() < 10){
       hand.add(card);
     } else {
@@ -847,7 +855,7 @@ public class Combat {
         discardPile.add(new Card(card));
         break;
       case Eff.Rampage:
-        App.ASSERT(card != null);
+        assert card != null;
         //(int must be final to use in a lambda)
         final int rampagePower = power;
         //Increase the damage of this card's attacks:
@@ -901,7 +909,7 @@ public class Combat {
         energy += power;
         break;
       case Eff.AddCost:
-        App.ASSERT(card != null);
+        assert card != null;
         card.setBaseEnergyCost(card.getBaseEnergyCost() + power);
         break;
       case Eff.IncrCombustCnt:

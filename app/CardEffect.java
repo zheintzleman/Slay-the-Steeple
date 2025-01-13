@@ -18,12 +18,12 @@ public class CardEffect extends Effect {
   public CardEffect(String data, Card card){
     super(data);
     this.card = card;
-    App.ASSERT(!isBanned(whenPlayed()));
+    assert !isBanned(whenPlayed());
   }
   public CardEffect(CardEffect eff, Card card){
     super(eff);
     this.card = card;
-    App.ASSERT(!isBanned(whenPlayed()));
+    assert !isBanned(whenPlayed());
   }
   public Card getCard(){ return card; }
   public void setCard(Card card){ this.card = card; }

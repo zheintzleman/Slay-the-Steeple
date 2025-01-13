@@ -649,7 +649,7 @@ public class Run {
    * @Precondition width <= SCREENWIDTH;
    */
   public void popup(String text, int width){
-    App.ASSERT(width <= SCREENWIDTH);
+    assert width <= SCREENWIDTH;
     
     popup(text, 30, width, 6, (SCREENWIDTH-width)/2);
   }
@@ -660,8 +660,8 @@ public class Run {
    * @Precondition height <= SCREENHEIGHT;
    */
   public void popup(String text, int height, int width){
-    App.ASSERT(width <= SCREENWIDTH);
-    App.ASSERT(height <= SCREENHEIGHT);
+    assert width <= SCREENWIDTH;
+    assert height <= SCREENHEIGHT;
 
     popup(text, height, width, (SCREENHEIGHT-height)/2, (SCREENWIDTH-width)/2);
   }
@@ -715,12 +715,12 @@ public class Run {
    * (Not 100% sure it works for 0; Not sure the exact minimim height/width.)
    */
   public String popupInput(String text, String popupPrompt, int height, int width, int startRow, int startCol, String[] prevScreen){
-    App.ASSERT(5 <= startRow);
-    App.ASSERT(5 <= startCol);
-    App.ASSERT(0 <= startRow);
-    App.ASSERT(0 <= startCol);
-    App.ASSERT(startCol + width <= SCREENWIDTH);
-    App.ASSERT(startRow + height <= SCREENHEIGHT);
+    assert 5 <= startRow;
+    assert 5 <= startCol;
+    assert 0 <= startRow;
+    assert 0 <= startCol;
+    assert startCol + width <= SCREENWIDTH;
+    assert startRow + height <= SCREENHEIGHT;
 
     ArrayList<String> extra = new ArrayList<String>();
     String[] box = Str.makeTextBox(text, height, width, extra);

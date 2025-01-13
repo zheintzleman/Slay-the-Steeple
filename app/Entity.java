@@ -249,7 +249,7 @@ public abstract class Entity {
     }
     statusHolds++;
     
-    App.ASSERT(statusesHeld());
+    assert statusesHeld();
   }
   private void resumeThisStatuses(){
     if(statusesHeld()){
@@ -263,7 +263,7 @@ public abstract class Entity {
   }
   private void holdThisBlock(){
     blockHolds++;
-    App.ASSERT(blockHeld());
+    assert blockHeld();
   }
   private void resumeThisBlock(){
     if(blockHeld()){
@@ -469,7 +469,7 @@ public abstract class Entity {
    * @Precondition Not being called from or to the player.
    */
   public void giveBlock(Entity receiver, int blockPreCalculations){
-    App.ASSERT(receiver instanceof Enemy);
+    assert (receiver instanceof Enemy);
 
     int blk = calcBlockAmount(blockPreCalculations, false);
     if(receiver.blockHeld()){
@@ -606,7 +606,7 @@ public abstract class Entity {
     for(int i=0; i<copy.statuses.size(); i++){
       Status s = copy.statuses.get(i);
       if(s.isDecreasing() && this.hasStatus(s.getName())){
-        App.ASSERT(s.getStrength() != 0); //Used to be a condition above. Implied by existence in the statuses list.
+        assert s.getStrength() != 0; //Used to be a condition above. Implied by existence in the statuses list.
         s.subtractStrength(1);
         if(s.getStrength() == 0){
           copy.statuses.remove(i);
@@ -724,7 +724,7 @@ public abstract class Entity {
 
   /** Performs a deep copy of the status list. */
   public static ArrayList<Status> copyStatusList(Collection<Status> ogList){
-    App.ASSERT(ogList != null);
+    assert ogList != null;
     ArrayList<Status> newList = new ArrayList<Status>(ogList.size());
 
     for(Status s : ogList){

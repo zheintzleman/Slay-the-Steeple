@@ -9,69 +9,8 @@
             "name": "Main",
             "request": "launch",
             "mainClass": "app.Main",
-            "projectName": "Slay-the-Steeple_61a96b7f"
-        },
-        {
-            "type": "java",
-            "name": "Saluton",
-            "request": "launch",
-            "mainClass": "claire.andrea.Saluton",
-            "projectName": "Slay-the-Steeple_897354f4"
-        },
-        {
-            "type": "java",
-            "name": "Main",
-            "request": "launch",
-            "mainClass": "app.Main",
-            "projectName": "Slay-the-Steeple_897354f4"
-        },
-        {
-            "type": "java",
-            "name": "Main",
-            "request": "launch",
-            "mainClass": "app.Main",
-            "projectName": "Slay-the-Steeple_e042d204"
-        },
-        {
-            "type": "java",
-            "name": "Main",
-            "request": "launch",
-            "mainClass": "app.Main",
-            "projectName": "Slay-the-Steeple_374eee4e"
-        },
-        {
-            "type": "java",
-            "name": "Main",
-            "request": "launch",
-            "mainClass": "app.Main",
-            "projectName": "Still-the-Steeple_c8b60d69"
-        },
-        {
-            "type": "java",
-            "name": "Launch Main",
-            "request": "launch",
-            "mainClass": "app.Main",
-            "projectName": "STS 2.0+_530125d3"
-        },
-        {
-            "type": "java",
-            "name": "Launch Main",
-            "request": "launch",
-            "mainClass": "Main",
-            "projectName": "STS - Test1_c0a1d16b"
-        },
-        {
-            "type": "java",
-            "name": "Launch Current File",
-            "request": "launch",
-            "mainClass": "${file}"
-        },
-        {
-            "type": "java",
-            "name": "Launch Main",
-            "request": "launch",
-            "mainClass": "Main",
-            "projectName": "STS - Test1_1d6d99d2"
+            "projectName": "Slay-the-Steeple_61a96b7f",
+            "vmArgs": "-enableassertions"
         }
     ]
 }
