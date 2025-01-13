@@ -1,6 +1,5 @@
 package app;
 import java.util.*;
-import java.util.function.Predicate;
 
 import util.CardList;
 import util.Colors;
@@ -241,10 +240,6 @@ public class Card {
         }
         App.ASSERT(codedDescription.endsWith(".\n") || codedDescription.isEmpty());
       }
-    }
-
-    public String getCodedDescription(){
-      return codedDescription;
     }
     public String getBaseDescription(){
       String res = codedDescription;

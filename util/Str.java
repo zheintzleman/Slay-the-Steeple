@@ -75,13 +75,17 @@ public abstract class Str {
 
   }
 
-  /** Constructs and returns a String[] of a box with the (now wrapped and centered) text within. Uses default sizes.
+  /** Constructs and returns a String[] of a box with the (now wrapped and centered) text within.
+   * Uses default sizes.
   */
   public static String[] makeCenteredTextBox(String text){
     return makeCenteredTextBox(text, Run.SCREENHEIGHT*3/4, 43); 
   }
-  /** Constructs and returns a String[] of a box with the (now wrapped and centered) text within. Uses entered height and width.
-  */
+  /** Constructs and returns a String[] of a box with the (now wrapped and centered) text within.
+   * Uses entered height and width.
+   * For lines of length <= 8, adds spaces on the right (usually). Otherwise the left.
+   * @see centerText.
+   */
   public static String[] makeCenteredTextBox(String text, int height, int width){
     String[] box = new String[height];
     Arrays.fill(box, Colors.reset);
@@ -93,9 +97,8 @@ public abstract class Str {
     for(int i=0; i<height-2; i++){
       if(i < wrappedText.size()){     //If Still more lines in wrappedText
         String line = wrappedText.get(i); //Get next line
-        while(lengthIgnoringEscSeqs(line) < width-4){ //Fill empty space so all rows are the same width
-          line += " ";
-        }
+        //Fill empty space so all rows are the same width:
+        line += Str.repeatChar(' ', (width - 4) - lengthIgnoringEscSeqs(line));
         line = centerText(line);
         box[i+1] += "║ " + line;
       }else{
@@ -382,7 +385,7 @@ public abstract class Str {
   
   /** Evens spaces on either side of the text. If uneven, puts the extra space on the right side iff the
    * text is <=8 letters long & doesn't end with a comma, period or plus (then the space is added to the left)
-  */
+   */
   public static String centerText(String string){
     String line = string;
     String text = line.trim();

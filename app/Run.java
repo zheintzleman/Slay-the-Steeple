@@ -126,12 +126,12 @@ public class Run {
 
   private abstract class CombatReward {
     public String img;
-    private String grayBar37 = Colors.fillColor(Str.repeatChar('█', 37), Colors.gray);
+    private final String grayBar37 = Colors.fillColor(Str.repeatChar('█', 37), Colors.gray);
 
     private CombatReward(String text){
       String endOfMiddleRow = Colors.fillColor(Str.repeatChar('█', 37 - (Str.lengthIgnoringEscSeqs(text)+1)), Colors.gray);
       String middleRow = Colors.gray + "█" + Colors.whiteOnGray + text + Colors.reset + endOfMiddleRow;
-      img = grayBar37 + "\n" + middleRow + "\n" + grayBar37 + "\n";
+      img = " " + grayBar37 + "\n " + middleRow + "\n " + grayBar37 + "\n";
     }
 
     /** Executes the reward's effect
@@ -168,7 +168,6 @@ public class Run {
     //Constants:
     final int popupHeight = App.POPUP_HEIGHT;
     final int popupWidth = App.POPUP_WIDTH; //Included for ease of editing later.
-    final String header = Str.header("Rewards!", popupWidth, "") + '\n';
     final ArrayList<CombatReward> rewards = new ArrayList<CombatReward>();
 
     //Gold stolen back
@@ -197,44 +196,24 @@ public class Run {
     int selectedIndex = 0;
 
     while(rewards.size() > 0){
-      String textToPopup = header; //Used to say '+ Str.concatArrayListWNL(rewards)'
       //Construct the popup text:
-      for(int i=0; i < rewards.size(); i++){
-        CombatReward r = rewards.get(i);
-        //Change the selected reward's color
-        String img = r.img;
-        if(i == selectedIndex){
-          //Changing gray to blue
-          while(img.contains(Colors.gray)) {
-            int nextIndex = img.indexOf(Colors.gray);
-            img = img.substring(0, nextIndex) + Colors.blockBlue + img.substring(nextIndex + Colors.gray.length());
-          }
-          //Changing white on gray to white on blue
-          while(img.indexOf(Colors.whiteOnGray) != -1) {
-            int nextIndex = img.indexOf(Colors.whiteOnGray);
-            img = img.substring(0, nextIndex) + Colors.maxWhiteOnBlockBlue + img.substring(nextIndex + Colors.whiteOnGray.length());
-          }
-        }
-        //Concatenate its image to the popup text
-        textToPopup += img + "\n";
-      }
+      String textToPopup = rewardsText(rewards, selectedIndex, popupWidth);
       
       reloadScreenHeader();
       //Display the popup:
       //Effectively 'popup(textToPopup);', except I can actually look at what the input is:
       int startCol = SettingsManager.sm.screenWidth/2 - popupWidth/2; // == 78
-      String[] screenWithAddition = Str.addStringArraysSkipEscSequences(screen, 6, startCol, Str.makeTextBox(textToPopup, popupHeight , popupWidth));
+      String[] box = Str.makeTextBox(textToPopup, popupHeight, popupWidth);
+      String[] screenWithAddition = Str.addStringArraysSkipEscSequences(screen, 6, startCol, box);
       display(screenWithAddition); //Same as calling displayScreenWithAddition with the above params, but can pass this screen into input below (v)
       Str.println("<Just press enter to collect reward; navigate with q (up) and z (down)>");
 
       //Take in commands:
       String input = input(screenWithAddition);
       switch(input.toLowerCase()){
-        case "0":
         case "q":
           if(selectedIndex > 0) selectedIndex--;
           break;
-        case "1":
         case "z":
           if(selectedIndex < rewards.size()-1) selectedIndex++;
           break;
@@ -245,11 +224,37 @@ public class Run {
           }
           if(selectedIndex >= rewards.size()){ selectedIndex = rewards.size()-1; }
           break;
+        case "0":
+          return;
         default:
           break;
       }
       // displayScreenWithAddition(Str.makeTextBox(textToPopup, 30 , 43), 6, 78);
     }
+    // Note: This region only reached if user accepts all rewards (e.g. doesn't skip the cards.)
+  }
+
+  private String rewardsText(List<CombatReward> rewards, int selectedIndex, final int popupWidth){
+    final String header = Str.header("Rewards!", popupWidth, "") + '\n';
+    String textToPopup = header; //Used to say '+ Str.concatArrayListWNL(rewards)'
+    for(int i=0; i < rewards.size(); i++){
+      CombatReward r = rewards.get(i);
+      String img = r.img;
+      //Change the selected reward's color
+      if(i == selectedIndex){
+        img = img.replace(Colors.gray, Colors.blockBlue);
+        img = img.replace(Colors.whiteOnGray, Colors.maxWhiteOnBlockBlue);
+      }
+      //Concatenate its image to the popup text
+      textToPopup += img + "\n";
+    }
+
+    String skipTxt = (Colors.magenta + "0" + Colors.reset + " - Skip");
+    skipTxt += Str.repeatChar(' ', popupWidth - 4 - "0 - Skip".length());
+    skipTxt = Str.centerText(skipTxt);
+    textToPopup += skipTxt;
+
+    return textToPopup;
   }
 
   /** Runs the card reward process with the given three cards.
