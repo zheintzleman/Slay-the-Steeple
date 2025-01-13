@@ -15,7 +15,7 @@ public class SpikeSlimeLarge extends Enemy{
   public static final Intent SPLIT = new Intent("Split", IntentType.UNKNOWN);
   private int FTsInARow = 0;
   private int licksInARow = 0;
-  public static final String[] art = Colors.fillColor(new String[] {"             ▄▄▄▄▄▄▄▄▄▄                  ", "          ▄██████████████▄               ", "       ██████████████████████            ", "     ▄▄███████████████████████▄▄         ", "   ▄█████████████████████████████▄▄      ", "▄████████████████████████████████████▄   ", "█████████████████████████████████████▀   ", "▀█████████████████████████████████▀  ▄██▄", "   ▀▀▀██████▀▀▀▀▀▀█████████████▀▀         ", "                   ▀▀▀███▀▀              "}, Colors.spikeSlimeColor);
+  public static final String[] art = Colors.fillColor(new String[] {"             ▄▄▄▄▄▄▄▄▄▄                  ", "          ▄██████████████▄               ", "       ██████████████████████            ", "     ▄▄███████████████████████▄▄         ", "   ▄█████████████████████████████▄▄      ", "▄████████████████████████████████████▄   ", "█████████████████████████████████████▀   ", "▀█████████████████████████████████▀  ▄██▄", "   ▀▀▀██████▀▀▀▀▀▀█████████████▀▀        ", "                   ▀▀▀███▀▀              "}, Colors.spikeSlimeColor);
 
 
   public SpikeSlimeLarge(int middleX){

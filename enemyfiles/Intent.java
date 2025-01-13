@@ -10,7 +10,7 @@ import util.Str;
  */
 public class Intent {
   public static final String[] defIntArt = Colors.fillColor(new String[] {"▄ ▄ ▄ ▄", "███████", "▀█████▀", "  ▀█▀  "}, Colors.blockBlue); // "▄▂▄▆▄▂▄"
-  public static final String[] atkIntArt = Colors.fillColor(new String[] { "▄▄     ", "▀██▄ ▄ ", "  ▀██▀ ", "  ▀▀ ▀▄"}, Colors.atkIntArtRed);
+  public static final String[] atkIntArt = Colors.fillColor(new String[] {"▄▄     ", "▀██▄ ▄ ", "  ▀██▀ ", "  ▀▀ ▀▄"}, Colors.atkIntArtRed);
   public static final String[] dbfIntArt = Colors.fillColor(new String[] {" ▄▄▄▄▄ ", "█ ▄▄ ▀█", "█ ▀ █ █", " ▀▀▀ ▄▀"}, Colors.dbfIntArtGrn);
   public static final String[] bufIntArt = new String[] {"       ", Colors.fillColor(" ▄ █▄ ▄", Colors.bufIntArtTop), Colors.bufIntArtTop + " ▀" + Colors.fillColor("████ ", Colors.bufIntArtMid), "  " + Colors.bufIntArtMid + "▀" + Colors.fillColor("█▀  ", Colors.bufIntArtBtm)};
   public static final String[] unkIntArt = Colors.fillColor(new String[] {"       ", "▄▀▄ ▄▀▄", " ▄▀  ▄▀", " ▄   ▄ "}, Colors.lightYellow);

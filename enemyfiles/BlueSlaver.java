@@ -9,7 +9,7 @@ public class BlueSlaver extends Enemy{
   public static final Intent RAKE = new Intent("Rake", IntentType.ATTACK, IntentType.DEBUFF, 7);
   private int numStabsInARow = 0;
   private int numRakesInARow = 0;
-  public static final String[] art = Colors.fillColor(new String[] {"        ▄▄▄        ", "        ██████▄    ", "         ▀█████▄   ", "          ██████   ", "          █▀█████  ", "▄▀▀▀▀█▄▄▄▄██▄█████▄▄", " ▀          ████▀  ", "            ▀█▀█   ", "            ▄█▀▀   "}, Colors.slaverBlue);
+  public static final String[] art = Colors.fillColor(new String[] {"        ▄▄▄         ", "        ██████▄     ", "         ▀█████▄    ", "          ██████    ", "          █▀█████   ", "▄▀▀▀▀█▄▄▄▄██▄█████▄▄", " ▀          ████▀   ", "            ▀█▀█    ", "            ▄█▀▀    "}, Colors.slaverBlue);
   
 
   public BlueSlaver(int middleX){

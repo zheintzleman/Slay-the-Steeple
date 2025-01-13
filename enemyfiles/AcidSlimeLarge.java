@@ -15,7 +15,7 @@ public class AcidSlimeLarge extends Enemy{
   public static final Intent LICK = new Intent("Lick", IntentType.DEBUFF);
   public static final Intent SPLIT = new Intent("Split", IntentType.UNKNOWN);
   private int spitsInARow = 0;
-  public static final String[] art = Colors.fillColor(new String[] {"             ▄▄▄▄▄▄▄▄▄▄                  ", "          ▄██████████████▄               ", "        ▄██████████████████▄             ", "     ▄▄███████████████████████▄▄         ", "   ▄█████████████████████████████▄▄      ", "▄████████████████████████████████████▄   ", "█████████████████████████████████████▀   ", "▀█████████████████████████████████▀  ▄██▄", "   ▀▀▀██████▀▀▀▀▀▀█████████████▀▀         ", "                   ▀▀▀███▀▀              "}, Colors.lightGreen);
+  public static final String[] art = Colors.fillColor(new String[] {"             ▄▄▄▄▄▄▄▄▄▄                  ", "          ▄██████████████▄               ", "        ▄██████████████████▄             ", "     ▄▄███████████████████████▄▄         ", "   ▄█████████████████████████████▄▄      ", "▄████████████████████████████████████▄   ", "█████████████████████████████████████▀   ", "▀█████████████████████████████████▀  ▄██▄", "   ▀▀▀██████▀▀▀▀▀▀█████████████▀▀        ", "                   ▀▀▀███▀▀              "}, Colors.lightGreen);
     
 
 

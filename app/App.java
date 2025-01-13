@@ -90,15 +90,15 @@ public abstract class App {
     // or "Lorem Ipsum 4 Dolor" as: P = "Lorem", S = "Ipsum 4 Dolor", p = 1.
     // or "(OnExhaust) Lorem Ipsum 4 Dolor" as: P = "Lorem", S = "Ipsum 4 Dolor", p = 1, WP = ONEXHAUST
     cards.put("Burn", new Card("Burn", "Unplayable.\nAt the end of your turn, take 2 damage.\n", CardType.STATUS, -1, false, List.of("Unplayable", "(OnTurnEnd) DmgPlayerC 2"),
-                      "Unplayable.\nAt the end of your turn, take 4 damage.\n", -1, false, List.of("Unplayable", "(OnTurnEnd) DmgPlayerC 4"), Rarity.COMMON, Color.NEUTRAL)); //TODO: Something that makes burn discard even w/ retain? Or just hard-code that in?
+                      "Unplayable.\nAt the end of your turn, take 4 damage.\n", -1, false, List.of("Unplayable", "(OnTurnEnd) DmgPlayerC 4"), Rarity.BASIC, Color.NEUTRAL)); //TODO: Something that makes burn discard even w/ retain? Or just hard-code that in?
     // Statuses can't be upgraded by default (incl. by apotheosis, etc.) So Burn+ is effectively its own card.
     cards.put("Burn+", new Card(Colors.upgradeGreen + "Burn+", "Unplayable.\nAt the end of your turn, take 4 damage.\n", CardType.STATUS, -1, false, List.of("Unplayable", "(OnTurnEnd) DmgPlayerC 4"),
-                      "", -1, false, List.of(), Rarity.COMMON, Color.NEUTRAL));
-    cards.put("Dazed", new Card("Dazed", CardType.STATUS, -1, false, List.of("Unplayable", "Ethereal"), List.of(), Rarity.COMMON, Color.NEUTRAL));
-    cards.put("Slimed", new Card("Slimed", CardType.STATUS, 1, false, List.of("Exhaust"), List.of(), Rarity.COMMON, Color.NEUTRAL));
+                      "", -1, false, List.of(), Rarity.BASIC, Color.NEUTRAL));
+    cards.put("Dazed", new Card("Dazed", CardType.STATUS, -1, false, List.of("Unplayable", "Ethereal"), List.of(), Rarity.BASIC, Color.NEUTRAL));
+    cards.put("Slimed", new Card("Slimed", CardType.STATUS, 1, false, List.of("Exhaust"), List.of(), Rarity.BASIC, Color.NEUTRAL));
     cards.put("Void", new Card("Void", "Unplayable.\nEthereal.\nWhenever this card is drawn, lose 1 Energy.\n", CardType.STATUS, -1, false, List.of("Unplayable", "Ethereal", "(OnDrawn) GainEnergy -1"),
-                      "", -1, false, List.of(), Rarity.COMMON, Color.NEUTRAL));
-    cards.put("Wound", new Card("Wound", CardType.STATUS, -1, false, List.of("Unplayable"), List.of(), Rarity.COMMON, Color.NEUTRAL));
+                      "", -1, false, List.of(), Rarity.BASIC, Color.NEUTRAL));
+    cards.put("Wound", new Card("Wound", CardType.STATUS, -1, false, List.of("Unplayable"), List.of(), Rarity.BASIC, Color.NEUTRAL));
 
     cards.put("Strike", new Card("Strike", CardType.ATTACK, 1, true, List.of("Attack 6"), //TODO: Should these arraylists really just be arrays?
                       List.of("Attack 9"), Rarity.BASIC, Color.IRONCLAD));

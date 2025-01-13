@@ -8,7 +8,8 @@ public class FungiBeast extends Enemy{
   public static final Intent BITE = new Intent("Bite", 6); 
   public static final Intent GROW = new Intent("Grow", IntentType.BUFF);
   private int bitesInARow = 0;
-  public static final String[] art = Colors.fillColor(new String[] {"     ▄▄▄▄        ", "    ██████       ", "▄█▄ ▄ █   ▄▄  ▄▄▄", "███████▄▄███▄▄█ █", " █▀▀█████████ ▀  █", "  ▀  ▀▀▀▀▀  ▀▄   "}, Colors.gray);
+  // Extra space on the left for nicer alignment:
+  public static final String[] art = Colors.fillColor(new String[] {"      ▄▄▄▄         ", "     ██████        ", " ▄█▄ ▄ █   ▄▄  ▄▄▄ ", " ███████▄▄███▄▄█ █ ", "  █▀▀█████████ ▀  █", "   ▀  ▀▀▀▀▀  ▀▄    "}, Colors.gray);
   
 
   public FungiBeast(int middleX){

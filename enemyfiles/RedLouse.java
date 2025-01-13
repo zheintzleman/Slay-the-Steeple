@@ -11,7 +11,7 @@ public class RedLouse extends Enemy{
   private int bitesInARow = 0;
   private int growsInARow = 0;
   private int biteDamage;
-  public static final String[] art = Colors.fillColor(new String[] {" ▄▀▀▀     ", " █████▄▄ ", "█████████"}, Colors.louseRed);
+  public static final String[] art = Colors.fillColor(new String[] {" ▄▀▀▀    ", " █████▄▄ ", "█████████"}, Colors.louseRed);
   
 
   public RedLouse(int middleX){

@@ -12,7 +12,7 @@ public class RedSlaver extends Enemy{
   private int numScrapesInARow = 0;
   boolean hasPlayedEntangled = false;
   private int patternNum = 0; 
-  public static final String[] art = Colors.fillColor(new String[] {"        ▄▄▄        ", "        ██████▄    ", "         ▀█████▄   ", "          ██████   ", "          █▀█████  ", "▄█▄█▄█▄▄▄▄██▄█████▄▄", " ▀ ▀ ▀      ████▀  ", "            ▀█▀█   ", "            ▄█▀▀   "}, Colors.slaverRed);
+  public static final String[] art = Colors.fillColor(new String[] {"        ▄▄▄         ", "        ██████▄     ", "         ▀█████▄    ", "          ██████    ", "          █▀█████   ", "▄█▄█▄█▄▄▄▄██▄█████▄▄", " ▀ ▀ ▀      ████▀   ", "            ▀█▀█    ", "            ▄█▀▀    "}, Colors.slaverRed);
   
 
   public RedSlaver(int middleX){

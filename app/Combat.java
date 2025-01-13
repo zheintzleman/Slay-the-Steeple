@@ -129,6 +129,13 @@ public class Combat {
         constructWildlife();
         break;
     }
+    
+    // TODO: REMOVE!:
+    for(Entity e : getEntities()){
+      for(int i=1; i < e.getArt().length; i++){
+        App.ASSERT(Str.lengthIgnoringEscSeqs(e.getArt()[i]) == Str.lengthIgnoringEscSeqs(e.getArt()[i-1]));
+      }
+    }
   }
 
   //Getters and Setters
@@ -681,6 +688,10 @@ public class Combat {
             }
           }
           break;
+        // Appears here and in playEff to differentiate if it should give dex/frail/etc. or not.
+        case Eff.Block:
+          player.block(power, true);
+          break;
         default:
           // Other effects that are included in the playEffect function
           playEffect(eff);
@@ -740,7 +751,7 @@ public class Combat {
 
     switch(primary){
       case Eff.Block:
-        player.block(power, eff instanceof CardEffect);
+        player.block(power, false);
         break;
       case Eff.Entrench:
         player.setBlock(2 * player.getBlock());

@@ -449,10 +449,11 @@ public abstract class Entity {
   }
   /** Gives the entity the appropriate amount of block, taking into account relevent status effects.
    * @param blockPreCalculations - The amount of defence the card/intent does (ie. 5 for an unupgraded Defend)
-   * @param fromCard - Whether or not a card is causing the block. Used to determine, e.g., whether to account for frail.
+   * @param fromPlayingACard - Whether or not a card is causing the block (from directly playing it). Used to
+   * determine, e.g., whether to account for frail.
    */
-  public void block(int blockPreCalculations, boolean fromCard){
-    int blk = calcBlockAmount(blockPreCalculations, fromCard);
+  public void block(int blockPreCalculations, boolean fromPlayingACard){
+    int blk = calcBlockAmount(blockPreCalculations, fromPlayingACard);
     if(blockHeld()){
       heldBlock.add(blk);
     } else {
@@ -483,9 +484,12 @@ public abstract class Entity {
    * @return int - The amount of block that would be gained by playing such a card, taking into account dexterity and frail.
    */
   public int calcBlockAmount(int blockPreCalculations, boolean fromCard){
-    double blk = blockPreCalculations + this.getStatusStrength("Dexterity");
-    if(fromCard && this.getStatusStrength("Frail") > 0){
-      blk *= 0.75;
+    double blk = blockPreCalculations;
+    if(fromCard){
+      blk += this.getStatusStrength("Dexterity");
+      if(this.getStatusStrength("Frail") > 0){
+        blk *= 0.75;
+      }
     }
     return (int)(blk + 0.00000001); //In case of floating point errors
   }
