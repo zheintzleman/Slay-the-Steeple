@@ -941,9 +941,7 @@ public class Combat {
       case "TopFromDeck":
         return new Card[] {drawPile.get(0)};
       case "RandAtk":
-        ArrayList<Card> attacks = new ArrayList<>(App.CARDS);
-        attacks.removeIf(Predicate.not(Card::isAttack));
-        return new Card[]{Util.randElt(attacks)};
+        return new Card[]{Util.randElt(Util.filter(App.CARDS, Card::isAttack))};
       case "Hand":
         return hand.toArray(new Card[0]);
       case "RandHand":

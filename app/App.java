@@ -7,6 +7,7 @@ import app.Card.Color;
 import app.Card.Rarity;
 import util.Colors;
 import util.Str;
+import util.Util;
 
 
 /** Statically contains and initializes various program-wide constants and data structures.
@@ -61,6 +62,10 @@ public abstract class App {
   // Can use Card.getCard(String) and Status.getStatus(String) to easily access w/ null-checking:
   public static final HashMap<String, Card> CARDSET = loadCards();
   public static final ArrayList<Card> CARDS = new ArrayList<>(CARDSET.values());
+  public static final ArrayList<Card> COMMON_CARDS = Util.filter(CARDS, Card::isCommon);
+  public static final ArrayList<Card> UNCOMMON_CARDS = Util.filter(CARDS, Card::isUncommon);
+  public static final ArrayList<Card> RARE_CARDS = Util.filter(CARDS, Card::isRare);
+  
   public static final HashMap<String, Status> STATUSSET = loadStatuses();
 
   /** Generates the final hashmap containing all cards in the game.

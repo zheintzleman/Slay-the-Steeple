@@ -19,7 +19,8 @@ import util.Str;
  * @see Card.Description
  */
 public class Card {
-  public static final int CARDWIDTH = 21; //Odd
+  /// Odd
+  public static final int CARDWIDTH = 21;
   public static final int CARDHEIGHT = 14;
   
   /** Card rarity; determines frequency a card shows up */
@@ -504,6 +505,15 @@ public class Card {
   }
   public boolean isCurse(){
     return type == CardType.CURSE;
+  }
+  public boolean isCommon(){
+    return rarity == Rarity.COMMON;
+  }
+  public boolean isUncommon(){
+    return rarity == Rarity.UNCOMMON;
+  }
+  public boolean isRare(){
+    return rarity == Rarity.RARE;
   }
 
   /** Returns whether or not this Card has the entered effect (with no secondary)

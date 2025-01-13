@@ -19,13 +19,15 @@ public abstract class Str {
   public static String[] makeTextBox(String text){
     return makeTextBox(text, Run.SCREENHEIGHT*3/4, 43, null);
   }
-  /** Constructs and returns a String[] of a box with the (now wrapped) text within. Uses default height and the entered width. Text wrapped with box of width-4.
+  /** Constructs and returns a String[] of a box with the (now wrapped) text within. Uses default
+   * height and the entered width. Text wrapped with box of width-4.
    * @Precondition No spaces adjacent to new lines in text; 
   */
   public static String[] makeTextBox(String text, int width){
     return makeTextBox(text, Run.SCREENHEIGHT*3/4, width, null);
   }
-  /** Constructs and returns a String[] of a box with the (now wrapped) text within. Uses default height and the entered width. Text wrapped with box of width-4.
+  /** Constructs and returns a String[] of a box with the (now wrapped) text within. Uses the
+   * entered height & width. Text wrapped with box of width-4.
    * @Precondition No spaces adjacent to new lines in text; 
   */
   public static String[] makeTextBox(String text, int height, int width){
@@ -409,27 +411,29 @@ public abstract class Str {
     return centeredText;
   }
 
-  /** Short for Concatenate ArrayList
+  /** Short for Concatenate ArrayList. Effectively a flatten.
    * @return The Strings in list concatenated (index 0 first)
    */
   public static String concatArrayList(ArrayList<String> list){
-    String res = "";
+    StringBuilder res = new StringBuilder();
     for(String s : list){
-      res += s;
+      res.append(s);
     }
-    return res;
+    return res.toString();
   }
 
-  /** Short for Concatenate ArrayList with New Line(s)
+  /** Short for Concatenate ArrayList with New Line(s). Flattens the Strings into one big string,
+   * with '\n' characters between them.
    * @return The Strings in list concatenated (index 0 first) with a '\n' character between them
    * (includes a '\n' after the final element)
    */
   public static String concatArrayListWNL(ArrayList<String> list){
-    String res = "";
+    StringBuilder res = new StringBuilder();
     for(String s : list){
-      res += s + '\n';
+      res.append(s);
+      res.append('\n');
     }
-    return res;
+    return res.toString();
   }
 
   /** Calls System.out.print() on the string, removing all special O and A characters

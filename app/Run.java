@@ -5,6 +5,7 @@ import java.util.function.Predicate;
 import util.CardList;
 import util.Colors;
 import util.Str;
+import util.Util;
 
 /** Singleton class representing the current run, along with most/all screen-related methods
  * and Settings Screen implementation.
@@ -20,6 +21,10 @@ public class Run {
   public static final int SCREENHEIGHT = SettingsManager.sm.screenHeight;
   private EntityHealth health;
   private int gold, goldStolenBack;
+  /// Starts at 5% & decreases by 1% per non-rare. Decreases the chance of
+  /// seeing a rare card by this amount (rolling over into decreasing uncommon
+  /// chance if greater than rare percentage.)
+  private double rareCardOffset = 0.05;
   private CardList deck;
   /** Singleton run instance */
   public static final Run r = new Run();
@@ -54,12 +59,17 @@ public class Run {
   /** Initialize & populate the deck
   */
   private void generateStartingDeck(){
-    final Collection<Card> CARDS = App.CARDS;
-
-    deck = new CardList(CARDS.size());
-    for(Card c : CARDS){
-      deck.add(new Card(c));
-    }
+    deck = new CardList();
+    deck.add(new Card("Strike"));
+    deck.add(new Card("Strike"));
+    deck.add(new Card("Strike"));
+    deck.add(new Card("Strike"));
+    deck.add(new Card("Strike"));
+    deck.add(new Card("Defend"));
+    deck.add(new Card("Defend"));
+    deck.add(new Card("Defend"));
+    deck.add(new Card("Defend"));
+    deck.add(new Card("Bash"));
   }
 
   /** Plays the run.
@@ -77,8 +87,6 @@ public class Run {
       }
       combatRewards();
       goldStolenBack = 0;
-      
-      Main.scan.nextLine();
     }
 
     if(!SettingsManager.sm.debug)
@@ -87,55 +95,47 @@ public class Run {
     Str.println("You got " + Colors.gold + gold + Colors.reset + " gold");
   }
 
-  private enum RewardType {
-    GOLD,
-    CARD,
-    POTION
-  }
-
-  private class CombatReward {
-    String img;
-    RewardType type;
-    int data; //Stores data relevant to the reward; e.g. Gold amount, etc.
+  private abstract class CombatReward {
+    public String img;
     private String grayBar37 = Colors.fillColor(Str.repeatChar('█', 37), Colors.gray);
 
-    private CombatReward(String text, RewardType type){
-      this.type = type;
-
-      String endOfMiddleRow = Colors.fillColor(Str.repeatChar('█', 37 - (Str.lengthIgnoringEscSeqs(text)+1)), Colors.gray);
-      String middleRow = Colors.gray + "█" + Colors.whiteOnGray + text + Colors.reset + endOfMiddleRow;
-      img = grayBar37 + "\n" + middleRow + "\n" + grayBar37 + "\n";
-    }
-    private CombatReward(String text, RewardType type, int data){
-      this.type = type;
-      this.data = data;
-
+    private CombatReward(String text){
       String endOfMiddleRow = Colors.fillColor(Str.repeatChar('█', 37 - (Str.lengthIgnoringEscSeqs(text)+1)), Colors.gray);
       String middleRow = Colors.gray + "█" + Colors.whiteOnGray + text + Colors.reset + endOfMiddleRow;
       img = grayBar37 + "\n" + middleRow + "\n" + grayBar37 + "\n";
     }
 
-    private String getImg(){ return img; }
-
-    private void execute(){
-      switch(type){
-        case GOLD:
-          addGold(data);
-          break;
-        case CARD:
-          //Make a whole card reward method and popup and stuff.
-          //(And impl. cards and everything)(Big Task!)
-          break;
-        //Add potions here obv.
-        default:
-          break;
-      }
+    /** Executes the reward's effect
+     * @return Whether the reward was executed (false if card reward skipped.)
+     */
+    abstract boolean execute();
+  }
+  private class GoldReward extends CombatReward {
+    int goldAmt;
+    private GoldReward(String text, int goldAmt){
+      super(text);
+      this.goldAmt = goldAmt;
+    }
+    boolean execute(){
+      addGold(goldAmt);
+      return true;
+    }
+  }
+  private class CardReward extends CombatReward {
+    private Card[] options;
+    private CardReward(String text){
+      super(text);
+      this.options = new Card[]
+      {generateRewardCard(), generateRewardCard(), generateRewardCard()};
+    }
+    boolean execute(){
+      return cardReward(options);
     }
   }
 
   /** Displays the (interactable) popup with rewards for a normal combat
   */
-  void combatRewards(){
+  private void combatRewards(){
     //Constants:
     final int popupHeight = App.POPUP_HEIGHT;
     final int popupWidth = App.POPUP_WIDTH; //Included for ease of editing later.
@@ -145,18 +145,18 @@ public class Run {
     //Gold stolen back
     if(goldStolenBack > 0){
       String goldBackText = "$ " + goldStolenBack + " Gold (Stolen Back)";
-      CombatReward goldBackReward = new CombatReward(goldBackText, RewardType.GOLD, goldStolenBack);
+      CombatReward goldBackReward = new GoldReward(goldBackText, goldStolenBack);
       rewards.add(goldBackReward);
     }
 
     //Gold Reward
     int goldAmt = (int)(Math.random()*11) + 10; //Will have to change this for later w/ elites probably.
     String goldText = "$ " + goldAmt + " Gold";
-    CombatReward goldReward = new CombatReward(goldText, RewardType.GOLD, goldAmt);
+    CombatReward goldReward = new GoldReward(goldText, goldAmt);
     rewards.add(goldReward);
 
     //Card Reward
-    CombatReward cardReward = new CombatReward(Colors.whiteOnGray + "▓ Add a card to your deck", RewardType.CARD);
+    CombatReward cardReward = new CardReward(Colors.whiteOnGray + "▓ Add a card to your deck");
     rewards.add(cardReward);
 
     //TODO: Potions:
@@ -173,7 +173,7 @@ public class Run {
       for(int i=0; i < rewards.size(); i++){
         CombatReward r = rewards.get(i);
         //Change the selected reward's color
-        String img = r.getImg();
+        String img = r.img;
         if(i == selectedIndex){
           //Changing gray to blue
           while(img.contains(Colors.gray)) {
@@ -210,8 +210,10 @@ public class Run {
           if(selectedIndex < rewards.size()-1) selectedIndex++;
           break;
         case "":
-          rewards.get(selectedIndex).execute();
-          rewards.remove(selectedIndex);
+          boolean executed = rewards.get(selectedIndex).execute();
+          if(executed){
+            rewards.remove(selectedIndex);
+          }
           if(selectedIndex >= rewards.size()){ selectedIndex = rewards.size()-1; }
           break;
         default:
@@ -220,6 +222,72 @@ public class Run {
       // displayScreenWithAddition(Str.makeTextBox(textToPopup, 30 , 43), 6, 78);
     }
   }
+
+  /** Runs the card reward process with the given three cards.
+   * 
+   * @return Whether a card was selected (false if skipped).
+   * @Precondition opts.length == 3
+   */
+  private boolean cardReward(Card[] opts){
+    final int BOXWIDTH = Card.CARDWIDTH * 3 + 12;
+    final int BOXHEIGHT = Card.CARDHEIGHT + 8;
+    String boxText = "Choose a Card:\n\n"
+        + Colors.magenta + "1" + Str.repeatChar(' ', Card.CARDWIDTH + 1)
+        + Colors.magenta + "2" + Str.repeatChar(' ', Card.CARDWIDTH + 1)
+        + Colors.magenta + "3"
+        + Str.repeatChar('\n', Card.CARDHEIGHT + 2)
+        + Colors.magenta + "0" + Colors.reset + " - Skip";
+
+    // Display popup box:
+    String[] box = Str.makeCenteredTextBox(boxText, BOXHEIGHT, BOXWIDTH);
+    box = Str.addStringArraysSkipEscSequences(box, 4, 4, opts[0].getImage());
+    box = Str.addStringArraysSkipEscSequences(box, 4, 6 + Card.CARDWIDTH, opts[1].getImage());
+    box = Str.addStringArraysSkipEscSequences(box, 4, 8 + 2*Card.CARDWIDTH, opts[2].getImage());
+    displayScreenWithAddition(box, (SCREENHEIGHT - BOXHEIGHT) / 2, (SCREENWIDTH - BOXWIDTH) / 2);
+
+    // Get user input:
+    int input = getIntWPred((Integer i) -> { return i >= 0 && i < 4; },
+        "Please enter a number from 0-4.");
+    switch(input){
+      case 0:
+        return false;
+      default:
+        deck.add(opts[input - 1]);
+        return true;
+    }
+  }
+
+  /** Selects a random card from the available cards, based off of the current
+   * rare probability. Updates this probability (rareCardOffset) accordingly.
+   * @return A newly-instantiated clone of the card selected.
+   */
+  private Card generateRewardCard(){
+    final double rareProb = 0.03;
+    /// Not uncommon cutoff, but the probability itself.
+    final double uncommonProb = 0.37;
+    final double rng = Math.random() + rareCardOffset;
+    ArrayList<Card> cardPool;
+
+    if(rng < rareProb){
+      // Generate Rare
+      cardPool = App.RARE_CARDS;
+      rareCardOffset = 0.05;
+    } else if(rng < rareProb + uncommonProb){
+      // Generate Uncommon
+      cardPool = App.UNCOMMON_CARDS;
+      rareCardOffset -= 0.01;
+    } else {
+      // Generate Common
+      cardPool = App.COMMON_CARDS;
+      rareCardOffset -= 0.01;
+    }
+
+    // Max of +40% (i.e. minus -40%).
+    rareCardOffset = Math.max(rareCardOffset, -0.40);
+    
+    return new Card(Util.randElt(cardPool));
+  }
+
 
   /** Reduces the player's gold value by the entered amount.
    * @return int - the amount of gold actually taken away.
@@ -499,7 +567,7 @@ public class Run {
       try {
         inputInt = Integer.parseInt(Main.scan.nextLine());
       } catch(NumberFormatException E) {
-        System.out.println("Please enter an integer");
+        System.out.println("Please enter a number");
         continue;
       }
       if(p.test(inputInt)){
