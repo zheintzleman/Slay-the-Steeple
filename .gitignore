@@ -1,5 +1,4 @@
 
 todo.txt
-*.class
-data/settings.dat
 data/todo_archive.txt
+.VSCodeCounter
