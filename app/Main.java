@@ -65,6 +65,12 @@ class Main {
       Str.println(Colors.sneakyGPurple + "Sneaky G Purple ");
       Str.println(Colors.darkEmbracePurple + "Dark Embrace Purple ");
       Str.println(Colors.purple + "Purple ");
+      
+      Str.println(Colors.descNumBlue + "descNumBlue ");
+      Str.println(Colors.doubleTapBlue + "doubleTapBlue ");
+      Str.println(Colors.lightBlue + "lightBlue ");
+      Str.println(Colors.blockBlue + "blockBlue ");
+      // Exists more blues
     } else {
       Str.println(Colors.clearScreen);
     }

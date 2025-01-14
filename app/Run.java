@@ -229,7 +229,7 @@ public class Run {
         default:
           break;
       }
-      // displayScreenWithAddition(Str.makeTextBox(textToPopup, 30 , 43), 6, 78);
+      // displayScreenWithAddition(Str.makeTextBox(textToPopup, App.POPUP_HEIGHT, App.POPUP_WIDTH), 6, 78);
     }
     // Note: This region only reached if user accepts all rewards (e.g. doesn't skip the cards.)
   }
@@ -459,14 +459,14 @@ public class Run {
           for(Card c : deck){
             str += c.toString() + "\n";
           }
-          popup("Your whole deck:\n" + str, prevScreen);
+          popup(Colors.blue + "Your whole deck:\n" + str, prevScreen);
           break;
         case "i":
         case "h":
         case "inst":
         case "help":
         case "instructions":
-          popup(App.INSTRUCTIONS, prevScreen);
+          popup(Colors.blue + App.INSTRUCTIONS, prevScreen);
           break;
         case "set":
         case "settings":
@@ -630,97 +630,80 @@ public class Run {
   }
 
   /** Displays the screen with a text box of the entered text.
-   * Player presses enter to close it. Text wrapped with box of h=30, w=43.
+   * Player presses enter to close it. Uses the default sizes in App.
    * @Precondition No spaces adjacent to new lines in text; 
    */
   public void popup(String text){
-    popup(text, 30, 43, 6, 78);
+    popup(text, App.POPUP_HEIGHT, App.POPUP_WIDTH);
   }
   /** Displays the screen with a text box of the entered text.
-   * Player presses enter to close it. Text wrapped with box of h=30, w=43.
+   * Player presses enter to close it. Uses the default sizes in App.
    * @Precondition No spaces adjacent to new lines in text; 
    */
   public void popup(String text, String[] prevScreen){
-    popup(text, 30, 43, 6, 78, prevScreen);
+    popup(text, App.POPUP_HEIGHT, App.POPUP_WIDTH, prevScreen);
   }
   /** Displays the screen with a text box of the entered text, with the specific width.
    * Player presses enter to close it. Text wrapped with box of width-4.
-   * @Precondition No spaces adjacent to new lines in theText; 
+   * @Precondition No spaces adjacent to new lines in text; 
    * @Precondition width <= SCREENWIDTH;
    */
   public void popup(String text, int width){
     assert width <= SCREENWIDTH;
     
-    popup(text, 30, width, 6, (SCREENWIDTH-width)/2);
+    popup(text, App.POPUP_HEIGHT, width);
   }
   /** Displays the screen with a text box of the entered text, with the specific width.
    * Player presses enter to close it. Text wrapped with box of width-4.
-   * @Precondition No spaces adjacent to new lines in theText; 
-   * @Precondition width <= SCREENWIDTH;
-   * @Precondition height <= SCREENHEIGHT;
-   */
-  public void popup(String text, int height, int width){
-    assert width <= SCREENWIDTH;
-    assert height <= SCREENHEIGHT;
-
-    popup(text, height, width, (SCREENHEIGHT-height)/2, (SCREENWIDTH-width)/2);
-  }
-  /** Displays the screen with a text box of the entered text, with the specific width.
-   * Player presses enter to close it. Text wrapped with box of width-4.
-   * @Precondition No spaces adjacent to new lines in theText; 
+   * @Precondition No spaces adjacent to new lines in text; 
    * @Precondition 5 <= height;
    * @Precondition 5 <= width;
-   * @Precondition 0 <= startRow;
-   * @Precondition 0 <= startCol;
-   * @Precondition startRow + width <= SCREENWIDTH;
-   * @Precondition startCol + height <= SCREENHEIGHT;
+   * @Precondition width <= SCREENWIDTH;
+   * @Precondition height <= SCREENHEIGHT;
    * (Not 100% sure it works for 0; Not sure the exact minimim height/width.)
    */
-  public void popup(String text, int height, int width, int startRow, int startCol){
-    popup(text, height, width, startRow, startCol, screen);
+  public void popup(String text, int height, int width){
+    popup(text, height, width, screen);
   }
   /** Displays the screen with a text box of the entered text, with the specific width.
    * Player presses enter to close it and call display(prevScreen), returning their input
    * if it wasn't a q or z. Text wrapped with box of width-4.
-   * @Precondition No spaces adjacent to new lines in theText; 
+   * @Precondition No spaces adjacent to new lines in text; 
    * @Precondition 5 <= height;
    * @Precondition 5 <= width;
-   * @Precondition 0 <= startRow;
-   * @Precondition 0 <= startCol;
-   * @Precondition startRow + width <= SCREENWIDTH;
-   * @Precondition startCol + height <= SCREENHEIGHT;
+   * @Precondition width <= SCREENWIDTH;
+   * @Precondition height <= SCREENHEIGHT;
    * (Not 100% sure it works for 0; Not sure the exact minimim height/width.)
    */
-  public void popup(String text, int height, int width, int startRow, int startCol, String[] prevScreen){
+  public void popup(String text, int height, int width, String[] prevScreen){
     popupInput(text, "Press enter to exit this popup",
-               height, width, startRow, startCol, prevScreen);
+               height, width, prevScreen);
   }
   /** Displays the screen with a text box of the entered text.
    * Player presses gives input other than q/z to close it. Text wrapped with box of h=30, w=43.
    * @Precondition No spaces adjacent to new lines in text; 
    */
   public String popupInput(String text, String popupPrompt){
-    return popupInput(text, popupPrompt, 30, 43, 6, 78, screen);
+    return popupInput(text, popupPrompt, 30, 43, screen);
   }
   /** Displays the screen with a text box of the entered text, with the specific width.
    * Player presses enter to close it and call display(prevScreen), returning their input
    * if it wasn't a q or z. Text wrapped with box of width-4.
-   * @Precondition No spaces adjacent to new lines in theText; 
+   * @Precondition No spaces adjacent to new lines in text; 
    * @Precondition 5 <= height;
    * @Precondition 5 <= width;
-   * @Precondition 0 <= startRow;
-   * @Precondition 0 <= startCol;
-   * @Precondition startRow + width <= SCREENWIDTH;
-   * @Precondition startCol + height <= SCREENHEIGHT;
-   * (Not 100% sure it works for 0; Not sure the exact minimim height/width.)
+   * @Precondition width <= SCREENWIDTH;
+   * @Precondition height <= SCREENHEIGHT;
    */
-  public String popupInput(String text, String popupPrompt, int height, int width, int startRow, int startCol, String[] prevScreen){
-    assert 5 <= startRow;
-    assert 5 <= startCol;
-    assert 0 <= startRow;
-    assert 0 <= startCol;
-    assert startCol + width <= SCREENWIDTH;
-    assert startRow + height <= SCREENHEIGHT;
+  public String popupInput(String text, String popupPrompt, int height, int width, String[] prevScreen){
+    assert 5 <= height;
+    assert 5 <= width;
+    assert width <= SCREENWIDTH;
+    assert height <= SCREENHEIGHT;
+
+    // 6, unless 6 is too big.
+    final int startRow = (6 + height > SCREENHEIGHT) ? SCREENHEIGHT - height : 6;
+    final int startCol = (SCREENWIDTH - width) / 2;
 
     ArrayList<String> extra = new ArrayList<String>();
     String[] box = Str.makeTextBox(text, height, width, extra);

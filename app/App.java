@@ -316,10 +316,4 @@ public abstract class App {
     // - Entity.calcAttackDamage / Entity.calcAtkDmgFromThisStats
     // - Card.Description constructor
   }
-
-  public static void ASSERT(boolean condition){
-    if(/*settingsManager.debug == true && */!condition){ //TODO: Optimize if having performace issues.
-      throw new AssertionError();
-    }
-  }
 }

@@ -129,8 +129,7 @@ public class Combat {
         constructWildlife();
         break;
     }
-    
-    // TODO: REMOVE!:
+
     for(Entity e : getEntities()){
       for(int i=1; i < e.getArt().length; i++){
         assert Str.lengthIgnoringEscSeqs(e.getArt()[i]) == Str.lengthIgnoringEscSeqs(e.getArt()[i-1]);
@@ -1049,7 +1048,7 @@ public class Combat {
         case "draw":
         case "a":
           ArrayList<Card> sortedDrawPile = sortedList(drawPile);
-          str = "Draw pile, sorted alphabetically:\n";
+          str = Colors.blue + "Draw pile, sorted alphabetically:\n";
           for(Card c : sortedDrawPile){
             str += c.toString() + "\n";
           }
@@ -1058,7 +1057,7 @@ public class Combat {
         case "disc":
         case "discard":
         case "s":
-          str = "Discard pile:\n";
+          str = Colors.blue + "Discard pile:\n";
           for(Card c : discardPile){
             str += c.toString() + "\n";
           }
@@ -1067,7 +1066,7 @@ public class Combat {
         case "exh":
         case "exhaust":
         case "x":
-          str = "Exhausted Cards:\n";
+          str = Colors.blue + "Exhausted Cards:\n";
           for(Card c : exhaustPile){
             str += c.toString() + "\n";
           }
@@ -1077,13 +1076,13 @@ public class Combat {
         case "stats":
         case "status":
         case "t":
-          String statuses = "Player Statuses:\n";
+          String statuses = Colors.blue + "Player Statuses:\n";
           for(Status s : player.getStatuses()){
             statuses += s.toString() + "\n";
           }
           int i=0;
           for(Enemy enemy : enemies){
-            statuses += Colors.reset + "\nEnemy " + (++i) + " Statuses:\n";
+            statuses += "\n" + Colors.blue + "Enemy " + (++i) + " Statuses:\n";
             for(Status s : enemy.getStatuses()){
               statuses += s.toString() + "\n";
             }
