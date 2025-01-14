@@ -460,14 +460,14 @@ public class Run {
           for(Card c : deck){
             str += c.toString() + "\n";
           }
-          popup(Colors.blue + "Your whole deck:\n" + str, prevScreen);
+          popup("Your whole " + Colors.magenta + "deck" + Colors.reset + ":\n\n" + str, prevScreen);
           break;
         case "i":
         case "h":
         case "inst":
         case "help":
         case "instructions":
-          popup(Colors.blue + App.INSTRUCTIONS, prevScreen);
+          popup(Colors.magenta + App.INSTRUCTIONS, prevScreen);
           break;
         case "set":
         case "settings":
@@ -573,8 +573,9 @@ public class Run {
     final String settingsText = Colors.magenta + Str.header("Settings:", popupWidth, "") + 
                                 "Settings saved between runs.\n" + 
                                 "To change a setting, type the name of the setting and follow the given prompts.\n" + 
-                                "Type " + Colors.magenta + "reset" + Colors.reset + " to reset all settings to" +
+                                "Type " + Colors.magenta + "reset" + Colors.reset + " to reset all settings to" + 
                                 " their default values.\n" + 
+                                "(VSCode:) You can also change the font size in .vscode/settings.json to make the text bigger.\n" + 
                                 "Restart the program for some settings to take effect.\n\n" + 
                Colors.magenta + "Name: " + Colors.reset + SettingsManager.sm.name + "\n" + 
                Colors.magenta + "Screen Width: " + Colors.reset + SettingsManager.sm.screenWidth + "\n" + 

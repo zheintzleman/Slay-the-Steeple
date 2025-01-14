@@ -1052,7 +1052,7 @@ public class Combat {
         case "draw":
         case "a":
           ArrayList<Card> sortedDrawPile = sortedList(drawPile);
-          str = Colors.blue + "Draw pile, sorted alphabetically:\n";
+          str = Colors.magenta + "Draw pile" + Colors.reset + " (sorted alphabetically:)\n\n";
           for(Card c : sortedDrawPile){
             str += c.toString() + "\n";
           }
@@ -1061,7 +1061,7 @@ public class Combat {
         case "disc":
         case "discard":
         case "s":
-          str = Colors.blue + "Discard pile:\n";
+          str = Colors.magenta + "Discard pile" + Colors.reset + ":\n\n";
           for(Card c : discardPile){
             str += c.toString() + "\n";
           }
@@ -1070,7 +1070,7 @@ public class Combat {
         case "exh":
         case "exhaust":
         case "x":
-          str = Colors.blue + "Exhausted Cards:\n";
+          str = Colors.magenta + "Exhausted cards" + Colors.reset + ":\n\n";
           for(Card c : exhaustPile){
             str += c.toString() + "\n";
           }
@@ -1079,14 +1079,15 @@ public class Combat {
         case "stat":
         case "stats":
         case "status":
+        case "statuses":
         case "t":
-          String statuses = Colors.blue + "Player Statuses:\n";
+          String statuses = "Player " + Colors.magenta + "Statuses" + Colors.reset + ":\n\n";
           for(Status s : player.getStatuses()){
             statuses += s.toString() + "\n";
           }
           int i=0;
           for(Enemy enemy : enemies){
-            statuses += "\n" + Colors.blue + "Enemy " + (++i) + " Statuses:\n";
+            statuses += "\nEnemy " + (++i) + Colors.magenta + " Statuses" + Colors.reset + ":\n\n";
             for(Status s : enemy.getStatuses()){
               statuses += s.toString() + "\n";
             }

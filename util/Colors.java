@@ -105,7 +105,8 @@ public abstract class Colors {
   public static final String purple = "Ø\033[38;2;200;35;186mÁ";
   public static final String demonFormRed = "Ø\033[38;2;252;72;58mÁ";
   public static final String doubleTapBlue = "Ø\033[38;2;31;67;116mÁ";
-  public static final String blue = "Ø\033[38;2;100;90;220mÁ";
+  // Previously used for some popup headers:
+  // public static final String blue = "Ø\033[38;2;117;108;217mÁ";
   public static final String rareYellow = "Ø\033[38;2;204;176;65mÁ";
   public static final String uncommonBlue = "Ø\033[38;2;56;167;186mÁ";
 

@@ -22,7 +22,7 @@ class Main {
   public static Scanner scan = new Scanner(System.in);
 
   public static void main(String[] args){
-    Str.println(Colors.clearScreen + "Loading...");
+    Str.println("\nLoading...");
 
     System.out.print("If blank, assertions disabled: ");
     assert testAssert();

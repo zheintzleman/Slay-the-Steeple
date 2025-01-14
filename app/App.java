@@ -24,7 +24,7 @@ public abstract class App {
                                                + "You can see these instructions mid-game by typing \"help\" or \"instructions\". "
                                                + "Specific actions have their respective commands written near them in " + Colors.magenta + "magenta" + Colors.reset + ". "
                                                + "Along with the commands shown on screen, you can type the following:\n\n\"E\", \"end\", or \"end turn\" to end your turn,\n"
-                                               + "\"Stat\" or \"status\" to see all entities' status effects, and\n"
+                                               + "\"T\", \"stat\" or \"status\" to see all entities' status effects, and\n"
                                                + "For convenience, you can refer to draw, discard, and exhaust piles as \"draw\"/\"a\", \"disc\"/\"s\", and \"exh\"/\"x\" respectively.\n\n"
                                                + "Some screens have additional information written below the screen, so check there if you're confused. See the README for further details & help regarding visual bugs.\n\n"
                                                + "Each combat drops 10-20 " + Colors.gold + "gold" + Colors.reset + ". Try to get as much as possible before dying!\n\n";
