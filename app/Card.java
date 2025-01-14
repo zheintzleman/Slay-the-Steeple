@@ -306,6 +306,7 @@ public class Card {
   private boolean costs0ThisTurn = false;
   private CardData data = new CardData();
   private CardData upData = new CardData(); //Data for the upgraded version of the card
+  private final String flair;
   // Assuming card has Unplayable iff upgrade has unplayable, and that whether
   // a card is Unplayable never changes. Only for whether the card has the
   // effect "Unplayable", not other effects like Clash or Entangled.
@@ -331,6 +332,7 @@ public class Card {
     ISXCOST = false;
     ISUNPLAYABLE = this.hasEffect("Unplayable");
     CANENTERPILES = true;
+    flair = constructFlair();
   }
   public Card(Card old){
     this(old, old.CANENTERPILES);
@@ -346,6 +348,7 @@ public class Card {
     ISXCOST = data.baseEnergyCost == -2;
     ISUNPLAYABLE = this.hasEffect("Unplayable");
     CANENTERPILES = canEnterPiles;
+    flair = constructFlair();
   }
   public Card(String name){
     this(getCard(name));
@@ -366,6 +369,7 @@ public class Card {
     ISXCOST = data.baseEnergyCost == -2;
     ISUNPLAYABLE = this.hasEffect("Unplayable");
     CANENTERPILES = true;
+    flair = constructFlair();
   }
   public Card(String name, CardType type, int energyCost, boolean targeted, List<String> effects,
               List<String> upEffects, Rarity rarity, Color color){
@@ -399,9 +403,8 @@ public class Card {
     if(!List.of("Twin Strike", "Sword Boomerang", "Blood for Blood", "Dropkick", "Pummel",
       "True Grit", "Flame Barrier", "Power Through", "Sentinel").contains(name)){ //<-Whitelist
       // To get your attention. Read the above Javadoc comment.
-      for(CardEffect eff : data.effects){
-        assert !eff.isAttack() && !eff.isDefense();
-      }
+      assert data.effects.stream().allMatch(
+        (CardEffect eff) -> { return !eff.isAttack() && !eff.isDefense(); });
     }
 
     upData.baseEnergyCost = upCost;
@@ -484,6 +487,28 @@ public class Card {
       }
     }
     return data.description.getDescriptionWStatuses(strMultiplier);
+  }
+  /** Makes the design that appears at the bottom of the card's image.
+   * Changes based on rarity and card type.
+   */
+  private String constructFlair(){
+    char symbol;
+    switch(type){
+      case ATTACK: symbol = '^'; break;
+      case SKILL:  symbol = '~'; break;
+      case POWER:  symbol = '·'; break;
+      default:     return Colors.blueGray + Str.repeatStr("- ", CARDWIDTH/2 - 2) + '-';
+      // ^"- - - - - - - - -"
+    }
+    String color;
+    switch(rarity){
+      case BASIC:
+      case COMMON:   color = Colors.blueGray; break;
+      case UNCOMMON: color = Colors.uncommonBlue; break;
+      case RARE:     color = Colors.rareYellow; break;
+      default:       color = Colors.reset; break;
+    }
+    return color + Str.repeatChar(symbol, CARDWIDTH - 4);
   }
 
   public boolean isAttack(){
@@ -580,10 +605,11 @@ public class Card {
   }
   /** Returns the image of the card that will be displayed on the screen.
    * Uses base descriptions if inclStatuses is false, otherwise accounts for player statuses.
-  */
+   */
   public String[] getImage(boolean inclStatuses){
     String text = "";
     text += Str.concatArrayListWNL(Str.wrapText(name, CARDWIDTH-7));
+    text += flair;
     text += "\n " + (inclStatuses ? getDescription() : getDescriptionWStatuses()) + "\n";
     
     //Can make them up to 18 wide with width = 200; Up to 12 wide iirc with width = 150. 12 can work to fit long texts but the cards are really vertical.

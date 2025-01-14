@@ -247,9 +247,8 @@ public abstract class App {
                       List.of("Reap 5", "Exhaust"), Rarity.RARE, Color.IRONCLAD));
     
     // Assert that all entries in `cards` are named correctly:
-    assert cards.entrySet().stream()
-      .map((Map.Entry<String, Card> e) -> Str.equalsSkipEscSeqs(e.getKey(), e.getValue().getName()))
-      .reduce(true, Boolean::logicalAnd);
+    assert cards.entrySet().stream().allMatch(
+      (Map.Entry<String, Card> e) -> Str.equalsSkipEscSeqs(e.getKey(), e.getValue().getName()));
 
     return cards;
   }
@@ -304,9 +303,8 @@ public abstract class App {
 
     
     // Assert that all entries in `cards` are named correctly:
-    assert statuses.entrySet().stream()
-      .map((Map.Entry<String, Status> e) -> Str.equalsSkipEscSeqs(e.getKey(), e.getValue().getName()))
-      .reduce(true, Boolean::logicalAnd);
+    assert statuses.entrySet().stream().allMatch(
+      (Map.Entry<String, Status> e) -> Str.equalsSkipEscSeqs(e.getKey(), e.getValue().getName()));
 
     return statuses;
   

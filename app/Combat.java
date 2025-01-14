@@ -130,11 +130,15 @@ public class Combat {
         break;
     }
 
-    for(Entity e : getEntities()){
+    // Asserts that every involved entity's image is constant-width:
+    assert getEntities().stream().allMatch((Entity e) -> {
       for(int i=1; i < e.getArt().length; i++){
-        assert Str.lengthIgnoringEscSeqs(e.getArt()[i]) == Str.lengthIgnoringEscSeqs(e.getArt()[i-1]);
+        if (Str.lengthIgnoringEscSeqs(e.getArt()[i]) != Str.lengthIgnoringEscSeqs(e.getArt()[i-1])){
+          return false;
+        }
       }
-    }
+      return true;
+    });
   }
 
   //Getters and Setters
@@ -887,7 +891,7 @@ public class Combat {
           int startRow = SettingsManager.sm.screenHeight/2 - c.getImage().length/2;
           int startCol = SettingsManager.sm.screenWidth/2
                        - Str.lengthIgnoringEscSeqs(c.getImage()[0])/2;
-          // setUpCombatDisplay();
+          setUpCombatDisplay();
           Run.r.displayScreenWithAddition(c.getImage(), startRow, startCol);
           Str.print("Playing and Exhausting " + c.getName() + ". (Press enter)");
           Main.scan.nextLine();

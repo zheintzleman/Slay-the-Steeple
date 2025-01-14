@@ -108,6 +108,7 @@ public class Run {
       try {
         c.runCombat();
       } catch (CombatOverException e) {}
+      c.getPlayer().getStatuses().clear();
 
       if(health.hp <= 0){
         break; //Current death mechanic //global bool var for death?
@@ -277,7 +278,7 @@ public class Run {
     box = Str.addStringArraysSkipEscSequences(box, 4, 4, opts[0].getImage());
     box = Str.addStringArraysSkipEscSequences(box, 4, 6 + Card.CARDWIDTH, opts[1].getImage());
     box = Str.addStringArraysSkipEscSequences(box, 4, 8 + 2*Card.CARDWIDTH, opts[2].getImage());
-    displayScreenWithAddition(box, (SCREENHEIGHT - BOXHEIGHT) / 2, (SCREENWIDTH - BOXWIDTH) / 2);
+    displayScreenWithAddition(box, (SCREENHEIGHT - BOXHEIGHT) / 2 - 5, (SCREENWIDTH - BOXWIDTH) / 2);
 
     // Get user input:
     int input = getIntWPred((Integer i) -> { return i >= 0 && i < 4; },
@@ -680,11 +681,11 @@ public class Run {
                height, width, prevScreen);
   }
   /** Displays the screen with a text box of the entered text.
-   * Player presses gives input other than q/z to close it. Text wrapped with box of h=30, w=43.
+   * Player presses gives input other than q/z to close it. Uses the default sizes in App.
    * @Precondition No spaces adjacent to new lines in text; 
    */
   public String popupInput(String text, String popupPrompt){
-    return popupInput(text, popupPrompt, 30, 43, screen);
+    return popupInput(text, popupPrompt, App.POPUP_HEIGHT, App.POPUP_WIDTH, screen);
   }
   /** Displays the screen with a text box of the entered text, with the specific width.
    * Player presses enter to close it and call display(prevScreen), returning their input

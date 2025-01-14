@@ -17,7 +17,7 @@ public abstract class Str {
    * @Precondition No spaces adjacent to new lines in text; 
   */
   public static String[] makeTextBox(String text){
-    return makeTextBox(text, Run.SCREENHEIGHT*3/4, 43, null);
+    return makeTextBox(text, Run.SCREENHEIGHT*3/4, App.POPUP_WIDTH, null);
   }
   /** Constructs and returns a String[] of a box with the (now wrapped) text within. Uses default
    * height and the entered width. Text wrapped with box of width-4.
@@ -78,15 +78,15 @@ public abstract class Str {
   /** Constructs and returns a String[] of a box with the (now wrapped and centered) text within.
    * Uses default sizes.
   */
-  public static String[] makeCenteredTextBox(String text){
-    return makeCenteredTextBox(text, Run.SCREENHEIGHT*3/4, 43); 
+  public static String[] makeCenteredTextBox(String text, int height, int width){
+    return makeCenteredTextBox(text, height, width, ""); 
   }
   /** Constructs and returns a String[] of a box with the (now wrapped and centered) text within.
    * Uses entered height and width.
    * For lines of length <= 8, adds spaces on the right (usually). Otherwise the left.
    * @see centerText.
    */
-  public static String[] makeCenteredTextBox(String text, int height, int width){
+  public static String[] makeCenteredTextBox(String text, int height, int width, String bottomText){
     String[] box = new String[height];
     Arrays.fill(box, Colors.reset);
     String horizontalBorder = new String(new char[width-2]).replace("\0", "═"); //String of [width-2] '═' characters
@@ -94,7 +94,7 @@ public abstract class Str {
     box[height-1] += "╚" + horizontalBorder + "╝";
 
     ArrayList<String> wrappedText = wrapText(text, width-4);
-    for(int i=0; i<height-2; i++){
+    for(int i=0; i<height-3; i++){
       if(i < wrappedText.size()){     //If Still more lines in wrappedText
         String line = wrappedText.get(i); //Get next line
         //Fill empty space so all rows are the same width:
@@ -109,6 +109,10 @@ public abstract class Str {
       }
       box[i+1] += Colors.reset + " ║";
     }
+
+    String lastLine = bottomText + Str.repeatChar(' ', (width - 4) - lengthIgnoringEscSeqs(bottomText));
+    lastLine = centerText(lastLine);
+    box[height-2] = "║ " + lastLine + Colors.reset + " ║";
 
     return box;
   }

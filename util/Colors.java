@@ -29,6 +29,7 @@ public abstract class Colors {
   public static final String backgroundHPBarRed = "Ø\033[48;2;175;0;0mÁ";
   // public static final String lightRed = "Ø\033[31mÁ";
   public static final String lightGray = "Ø\033[38;2;145;145;145mÁ";
+  public static final String blueGray = "Ø\033[38;2;140;145;160mÁ";
   public static final String gray = "Ø\033[1;90mÁ";
   // public static final String backgroundGray = "Ø\033[1;100mÁ";
   public static final String energyCostRed = "Ø\033[38;2;210;106;106mÁ";
@@ -105,6 +106,8 @@ public abstract class Colors {
   public static final String demonFormRed = "Ø\033[38;2;252;72;58mÁ";
   public static final String doubleTapBlue = "Ø\033[38;2;31;67;116mÁ";
   public static final String blue = "Ø\033[38;2;100;90;220mÁ";
+  public static final String rareYellow = "Ø\033[38;2;204;176;65mÁ";
+  public static final String uncommonBlue = "Ø\033[38;2;56;167;186mÁ";
 
 
   public static final String[] IRONCLADIMG0 = Colors.fillColor(new String[] {"        ▄▄▄   ",
