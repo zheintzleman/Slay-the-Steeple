@@ -60,7 +60,7 @@ public class EventManager {
 
     // Calls ONTURNEND card effects from cards in hand; discards them if appropriate.
     // Each card discarded immediately after "play", for canon continuity.
-    ArrayList<Card> hand = new ArrayList<>(Combat.c.getHand());
+    List<Card> hand = List.copyOf(Combat.c.getHand());
     for(Card card : hand){
       //Plays any ONTURNEND card effects
       for(CardEffect eff : card.getEffects()){
@@ -149,7 +149,7 @@ public class EventManager {
     }
     if(c.isStatus() || c.isCurse()){
       int fireBreathing = player.getStatusStrength("Fire Breathing");
-      for(Entity enemy : Combat.c.getEnemies()){
+      for(Entity enemy : List.copyOf(Combat.c.getEnemies())){
         enemy.damage(fireBreathing, true);
       }
     }
@@ -172,9 +172,9 @@ public class EventManager {
    * @param entities The list of entities to call on
    */
   private void playStatusEffects(Event event, List<? extends Entity> entities){
-    for(Entity entity : entities){
+    for(Entity entity : List.copyOf(entities)){
       if(entity.isDead()) continue;
-      for(Status stat : entity.getStatuses()){
+      for(Status stat : List.copyOf(entity.getStatuses())){
         for(Effect eff : stat.getEffects()){
           if(eff.whenPlayed() == event){
             Combat.c.playEffect(eff);
@@ -196,7 +196,7 @@ public class EventManager {
    * @param cards The list of cards to call on
    */
   private void playCardEffects(Event event, List<? extends Card> cards){
-    for(Card card : cards){
+    for(Card card : List.copyOf(cards)){
       for(CardEffect eff : card.getEffects()){
         if(eff.whenPlayed() == event){
           Combat.c.playEffect(eff);

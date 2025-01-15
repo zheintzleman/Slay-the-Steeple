@@ -310,8 +310,10 @@ public class Combat {
     enemiesToUpdate = new ArrayList<Enemy>(enemies);
     Entity.hold();
     
-    for(Enemy e : enemies){
-      e.endTurn(player);
+    for(Enemy e : List.copyOf(enemies)){
+      if(!e.isDead()){
+        e.endTurn(player);
+      }
     }
     enemies = enemiesToUpdate;
 
