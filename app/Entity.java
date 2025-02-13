@@ -730,6 +730,7 @@ public abstract class Entity {
     for(Status s : ogList){
       newList.add(new Status(s));
     }
+
     return newList;
   }
 }

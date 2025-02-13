@@ -15,7 +15,8 @@ Alternatively, open the integrated terminal using Ctrl+`, make it full-screen, a
 
 To run in a terminal: <br>
 From the Slay-the-Steeple directory, run: <br>
-java -cp class app/Main <br>
+java -cp class app/Main
+<br>
 To re-compile the source code (shouldn't be necessary), run: <br>
 javac -d class app/Main.java
 

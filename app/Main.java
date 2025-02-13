@@ -28,6 +28,8 @@ class Main {
     assert testAssert();
     System.out.println();
 
+    Str.println(Colors.goTo(8, 30) + "amogus\n");
+
     printTitleScreen();
     scan.nextLine();
     Run.r.play();

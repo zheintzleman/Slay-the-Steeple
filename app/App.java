@@ -21,13 +21,13 @@ public abstract class App {
   public static final String SETTINGS_PATH = "data\\settings.dat";
   public static final String CARD_LIST_PATH = "data\\cardList1.dat";
   public static final String INSTRUCTIONS_TEXT = "Interact with the game by typing commands in the terminal. "
-                                               + "You can see these instructions mid-game by typing \"help\" or \"instructions\". "
+                                               + "You can see these instructions mid-game by typing \"help\", or in the \"esc\" menu. "
                                                + "Specific actions have their respective commands written near them in " + Colors.magenta + "magenta" + Colors.reset + ". "
                                                + "Along with the commands shown on screen, you can type the following:\n\n\"E\", \"end\", or \"end turn\" to end your turn,\n"
                                                + "\"T\", \"stat\" or \"status\" to see all entities' status effects, and\n"
                                                + "For convenience, you can refer to draw, discard, and exhaust piles as \"draw\"/\"a\", \"disc\"/\"s\", and \"exh\"/\"x\" respectively.\n\n"
                                                + "Some screens have additional information written below the screen, so check there if you're confused. See the README for further details & help regarding visual bugs.\n\n"
-                                               + "Each combat drops 10-20 " + Colors.gold + "gold" + Colors.reset + ". Try to get as much as possible before dying!\n\n";
+                                               + "Each card costs energy to play (shown by the red number in the corner) -- you get 3 energy a turn. Each combat drops 10-20 " + Colors.gold + "gold" + Colors.reset + "; Try to get as much as possible before dying!\n\n";
   public static final String INSTRUCTIONS = "Instructions:\n\n" + INSTRUCTIONS_TEXT;
   // Big texts generated using https://patorjk.com/software/taag/
   public static final String TITLE = Colors.headerBrown + "\n   ▄▄▄▄▄   █    ██  ▀▄    ▄        ▄▄▄▄▀ ▄  █ ▄███▄          ▄▄▄▄▄   █ ▄▄  ▄█ █▄▄▄▄ ▄███▄   \n"

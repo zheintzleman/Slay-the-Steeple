@@ -10,7 +10,8 @@ import app.App;
  */
 public abstract class Colors {
   public static final String reset = "Ø\u001B[0mÁ";
-  public static final String clearScreen = "Ø\033[H\033[2JÁ";
+  // public static final String clearScreen = "Ø\033[H\033[2JÁ";
+  public static final String clearScreen = goTo(0, 0) + "Ø\033[0JÁ";
   public static final String deckBrown = "Ø\033[38;2;81;54;26mÁ";
   // public static final String blackOnDeckBrown = "Ø\033[48;2;81;54;26m\033[30mÁ";
   public static final String whiteOnDeckBrown = "Ø\033[48;2;81;54;26m\033[37mÁ";
@@ -109,6 +110,9 @@ public abstract class Colors {
   // public static final String blue = "Ø\033[38;2;117;108;217mÁ";
   public static final String rareYellow = "Ø\033[38;2;204;176;65mÁ";
   public static final String uncommonBlue = "Ø\033[38;2;56;167;186mÁ";
+  public static final String goTo(int row, int col){
+    return "Ø\033[" + row + ";" + col + "HÁ";
+  }
 
 
   public static final String[] IRONCLADIMG0 = Colors.fillColor(new String[] {"        ▄▄▄   ",
