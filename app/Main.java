@@ -41,9 +41,14 @@ class Main {
     Str.println(Colors.clearScreen);
     */
 
-    scan.nextLine();
-    scan.close();
     Str.println(Colors.clearScreen);
+    Str.println("Press the " + Colors.magenta + "reload"
+      + Colors.reset + " button at the top of the screen to replay.\n");
+    while(true){
+      scan.nextLine();
+    }
+    
+    // scan.close();
   }
 
   private static void printTitleScreen(){
