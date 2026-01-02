@@ -1032,7 +1032,7 @@ public class Combat {
         //No break since returns above
       default:
         try{
-          return new Card[] {new Card(Card.getCard(secondary))};
+          return new Card[] {Card.getCard(secondary)};
         } catch (NoSuchElementException e) {
           throw new UnsupportedOperationException(secondary + " not a valid card Target.");
         }

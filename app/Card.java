@@ -351,7 +351,7 @@ public class Card {
     flair = constructFlair();
   }
   public Card(String name){
-    this(getCard(name));
+    this(getCardReference(name));
   }
   private Card(String name, CardType type, int energyCost, boolean targeted, List<String> effects, Rarity rarity, Color color) {
     this.name = name;
@@ -698,11 +698,11 @@ public class Card {
   }
 
 
-
   /** Returns the card with the entered name from the set of available cards.
+   * Returns a reference to a pre-existing card! Return value is not unique.
    * @Postcondition - Returns a card in App.CARDS -- doesn't return null
   */
-  public static Card getCard(String name){
+  public static Card getCardReference(String name){
     Card card = App.CARDSET.get(name);
 
     if(card == null){
@@ -714,6 +714,13 @@ public class Card {
     }
 
     return card;
+  }
+
+  /** Returns a copy of the card with the entered name from the set of available cards.
+   * @Postcondition - Returns newly instantiated card. Doesn't return null
+  */
+  public static Card getCard(String name){
+    return new Card(getCardReference(name));
   }
   
   
