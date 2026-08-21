@@ -78,9 +78,9 @@ public class EventManager {
     Player player = Combat.c.getPlayer();
     if(victim == player){
       OnPlayerLoseHP(hpLoss);
-    }
-    if(fromCard){
-      player.addStatusStrength("Strength", player.getStatusStrength("Rupture"));
+      if(fromCard){
+        player.addStatusStrength("Strength", player.getStatusStrength("Rupture"));
+      }
     }
     playStatusEffects(Event.ONLOSEHP, Collections.singletonList(victim));
   }
